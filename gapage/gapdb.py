@@ -175,7 +175,7 @@
 #######################################
 ##### Importing other modules and setting global variables
 
-import pyodbc, gappackconfig
+import pyodbc, gapageconfig
 from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict
 
 
@@ -216,8 +216,8 @@ def ConnectToDB(connectionStr):
 
 #######################################
 ##### Connect to the Species Database
-def ConnectSppDB(uid=gappackconfig.uid, pwd=gappackconfig.password,
-                    server=gappackconfig.server):
+def ConnectSppDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
+                    server=gapageconfig.server):
     '''
     Returns a cursor and connection within the GAP species database.
     '''
@@ -234,8 +234,8 @@ def ConnectSppDB(uid=gappackconfig.uid, pwd=gappackconfig.password,
 
 #######################################
 ##### Function to connect to the WHRDB
-def ConnectWHR(uid=gappackconfig.uid, pwd=gappackconfig.password,
-                    server=gappackconfig.server):
+def ConnectWHR(uid=gapageconfig.uid, pwd=gapageconfig.password,
+                    server=gapageconfig.server):
     '''
     Returns a cursor and connection within the GAP WHRdb.
     '''

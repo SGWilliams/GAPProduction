@@ -96,8 +96,8 @@ def GetSnapGrid():
 
     Returns the path to a valid GAP snap raster.
     '''
-    import gappackconfig
-    return gappackconfig.snap_raster
+    import gapageconfig
+    return gapageconfig.snap_raster
 
 
 def SpModel(sp):
@@ -117,11 +117,11 @@ def SpModel(sp):
     False
     '''
     try:
-        import arcpy, gappackconfig
+        import arcpy, gapageconfig
         sp = sp.lower()
         try:
             # Root directory to search
-            outputDir = gappackconfig.output_location
+            outputDir = gapageconfig.output_location
             rast = outputDir + "/" + sp
             if arcpy.Exists(rast):
                 return rast

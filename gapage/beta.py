@@ -2,7 +2,7 @@
 '''
 Functions that are in development.
 '''
-import pickle, gappackconfig
+import pickle, gapageconfig
 
 def LoadMUSets():
     '''
@@ -12,7 +12,7 @@ def LoadMUSets():
     and their descriptions, along with an entry that lists all of the map unit
     sets included in the dictionary.
     '''
-    filename = open(gappackconfig.wildclass, "rb")
+    filename = open(gapageconfig.wildclass, "rb")
     MUSets = pickle.load(filename)
     filename.close()
     return MUSets
