@@ -1,0 +1,3161 @@
+(dp0
+S'hasSaturatedSoil'
+p1
+(c__builtin__
+set
+p2
+((lp3
+I9216
+aI9218
+aI4211
+aI9220
+aI9221
+aI9222
+aI9223
+aI9224
+aI9225
+aI9226
+aI9303
+aI9228
+aI9229
+aI9230
+aI9231
+aI9232
+aI9233
+aI9234
+aI9235
+aI9236
+aI9237
+aI9238
+aI9305
+aI9240
+aI9241
+aI9242
+aI9243
+aI9306
+aI4613
+aI4131
+aI7205
+aI9905
+aI9820
+aI4138
+aI9906
+aI4142
+aI9907
+aI4150
+aI4151
+aI9908
+aI9227
+aI5701
+aI9801
+aI9802
+aI9804
+aI9805
+aI9806
+aI9807
+aI9808
+aI9809
+aI9827
+aI9812
+aI9301
+aI9302
+aI9815
+aI9304
+aI9817
+aI9818
+aI9308
+aI9914
+aI9823
+aI9824
+aI9825
+aI9826
+aI9915
+aI9831
+aI9836
+aI9837
+aI4206
+aI9839
+aI8304
+aI9842
+aI9843
+aI4212
+aI9845
+aI9846
+aI9847
+aI9848
+aI9849
+aI9850
+aI9851
+aI9852
+aI9853
+aI9854
+aI9855
+aI9857
+aI9239
+aI7320
+aI9840
+aI4210
+aI9902
+aI9903
+aI9904
+aI1201
+aI1202
+aI1203
+aI1204
+aI9909
+aI9910
+aI9911
+aI9912
+aI9401
+aI9402
+aI9403
+aI9916
+aI9503
+aI9844
+aI8406
+aI5105
+aI9913
+aI7402
+aI4141
+aI1301
+aI9501
+aI9502
+aI5509
+aI9504
+aI9505
+aI9506
+aI9813
+aI8504
+aI5514
+aI3401
+aI3402
+aI9814
+aI7503
+aI7505
+aI7506
+aI7507
+aI7508
+aI7510
+aI9201
+aI5606
+aI9703
+aI1401
+aI1402
+aI1403
+aI9219
+aI9601
+aI9602
+aI9603
+aI9604
+aI9605
+aI9606
+aI9607
+aI9608
+aI9609
+aI9610
+aI9101
+aI9103
+aI9104
+aI9105
+aI9106
+aI9108
+aI9109
+aI9110
+aI4504
+aI4505
+aI4506
+aI9711
+aI4517
+aI8102
+aI8103
+aI8104
+aI8105
+aI8106
+aI8107
+aI8108
+aI9202
+aI9715
+aI7602
+aI9203
+aI9204
+aI9205
+aI9718
+aI4550
+aI4553
+aI8101
+aI9701
+aI9702
+aI5607
+aI9704
+aI9705
+aI9706
+aI9707
+aI9708
+aI9709
+aI9710
+aI5103
+aI9712
+aI9713
+aI9714
+aI9811
+aI9716
+aI9717
+aI9206
+aI9207
+aI9208
+aI9209
+aI9210
+aI9211
+aI9212
+aI9213
+aI9214
+aI9215
+atp4
+Rp5
+S"Systems with soils that are constantly or very frequently saturated.  Must have soils capable of holding water for the length of time between flood events for at least one season.  This is meant to be useful for species that need wet, saturated soils found in places like swamps and marshes.  Includes tidal marshes and swamps, but not sandy beaches because the sands drain between floods or heavy rains. Rocky or cobble substrate not considered a 'soil' for this set.  Systems with soils that are flooded for an entire season are included.  Mesic forests that could contain small seeps are not included, the systems included have larger wetlands within them as specified by the description.  Consider creating a companion list of systems that could contain small seeps and fens. Wet meadows are included."
+p6
+tp7
+sS'fllod'
+p8
+((lp9
+I9801
+aI9845
+aI9843
+aI9842
+aI9804
+aI9807
+aI9851
+aI4142
+aI9844
+aI9852
+aI9806
+aI9840
+aS"Map units have 'Floodplain Forest' in the names"
+p10
+tp11
+sS'keys'
+p12
+(lp13
+g1
+ag8
+aS'hasNeedle'
+p14
+aS'isSaturatedSoil'
+p15
+aS'isPlaya'
+p16
+aS'hasForest'
+p17
+aS'hasOpen'
+p18
+aS'hasWoodland'
+p19
+aS'alpine'
+p20
+aS'isOrchard'
+p21
+aS'isCrop'
+p22
+aS'swamp'
+p23
+aS'hasSagebrush'
+p24
+aS'hasBroad'
+p25
+aS'bad'
+p26
+aS'hasShrub'
+p27
+aS'mud'
+p28
+aS'mont'
+p29
+aS'isDeveloped'
+p30
+aS'marsh'
+p31
+aS'isAqua'
+p32
+aS'allNames'
+p33
+aS'beach'
+p34
+aS'isMud'
+p35
+asg14
+(g2
+((lp36
+I4608
+aI4609
+aI9218
+aI4211
+aI4612
+aI4101
+aI4102
+aI4103
+aI4104
+aI4105
+aI8202
+aI8203
+aI4610
+aI4110
+aI4113
+aI4114
+aI9235
+aI5806
+aI9238
+aI9305
+aI9240
+aI4126
+aI4613
+aI4128
+aI7202
+aI9203
+aI7206
+aI9906
+aI4143
+aI4145
+aI4146
+aI9907
+aI3124
+aI4150
+aI4153
+aI4106
+aI5302
+aI9801
+aI9804
+aI9806
+aI9812
+aI9301
+aI9302
+aI9303
+aI9304
+aI4606
+aI9306
+aI9307
+aI9308
+aI5214
+aI9824
+aI9825
+aI9827
+aI9829
+aI9830
+aI9831
+aI9832
+aI4201
+aI4202
+aI9836
+aI4205
+aI9237
+aI9840
+aI4209
+aI9842
+aI9843
+aI4212
+aI9845
+aI4607
+aI9849
+aI9852
+aI9854
+aI9855
+aI4522
+aI3202
+aI3205
+aI3208
+aI3209
+aI9239
+aI3213
+aI3214
+aI3215
+aI3216
+aI3218
+aI9913
+aI7321
+aI9901
+aI9902
+aI9903
+aI9904
+aI9905
+aI1202
+aI1203
+aI9908
+aI9909
+aI9910
+aI9911
+aI9844
+aI9402
+aI9916
+aI4301
+aI4303
+aI4304
+aI4305
+aI4306
+aI4307
+aI4308
+aI4309
+aI4310
+aI4311
+aI4314
+aI4315
+aI4316
+aI4317
+aI4318
+aI4319
+aI4320
+aI4321
+aI4322
+aI4323
+aI4324
+aI4325
+aI4326
+aI4327
+aI4328
+aI4329
+aI4330
+aI4331
+aI4332
+aI4333
+aI4334
+aI4335
+aI4611
+aI4337
+aI4338
+aI5505
+aI5403
+aI5404
+aI9502
+aI9506
+aI4401
+aI4402
+aI4403
+aI4404
+aI3404
+aI7507
+aI5605
+aI7312
+aI4336
+aI4204
+aI5503
+aI9601
+aI9603
+aI5508
+aI5511
+aI5512
+aI5513
+aI5515
+aI5516
+aI5517
+aI4501
+aI4502
+aI4503
+aI4504
+aI4505
+aI4506
+aI4507
+aI4508
+aI4509
+aI4510
+aI4511
+aI4512
+aI4513
+aI4514
+aI4515
+aI4516
+aI4517
+aI4518
+aI4519
+aI4520
+aI4521
+aI8106
+aI4523
+aI4524
+aI4525
+aI4526
+aI4527
+aI4528
+aI4529
+aI4530
+aI4531
+aI7604
+aI4533
+aI4534
+aI4535
+aI4536
+aI4537
+aI4538
+aI4539
+aI4540
+aI4541
+aI4542
+aI4543
+aI4544
+aI4545
+aI4546
+aI4547
+aI4548
+aI4549
+aI4550
+aI4551
+aI4552
+aI4553
+aI4532
+aI4602
+aI5601
+aI5602
+aI5603
+aI9701
+aI9702
+aI9703
+aI9704
+aI4604
+aI4605
+aI9201
+aI5107
+aI9716
+aI9717
+aI9207
+aI4601
+aI9210
+aI9211
+aI9212
+aI9213
+aI9214
+aI4603
+atp37
+Rp38
+S"Returns a tuple of MU's that potentially have some coniferous tree component, which could be very little.  Could be forest or woodland. Includes Taxodium (cypress)but not Juniper."
+p39
+tp40
+sg15
+(g2
+((lp41
+I9216
+aI9218
+aI9220
+aI9605
+aI9222
+aI9607
+aI9224
+aI9225
+aI9226
+aI9227
+aI9228
+aI9101
+aI9230
+aI9103
+aI9232
+aI9233
+aI9106
+aI9235
+aI9236
+aI9109
+aI9110
+aI9239
+aI9242
+aI9243
+aI9237
+aI9501
+aI9502
+aI9503
+aI9504
+aI9505
+aI9506
+aI9606
+aI3401
+aI8504
+aI9401
+aI9238
+aI9403
+aI5701
+aI4550
+aI9703
+aI4553
+aI3402
+aI9229
+aI9301
+aI9304
+aI9306
+aI9308
+aI9104
+aI9702
+aI9105
+aI5607
+aI9234
+aI9853
+aI9201
+aI9204
+aI9718
+aI9108
+aI9210
+aI9212
+aI9213
+aI9214
+aI9215
+atp42
+Rp43
+S'Systems that are always (rare droughts aside) wet or saturated with water throughout. Seasonally flooded systems are not included here.'
+p44
+tp45
+sg16
+(g2
+((lp46
+I3405
+aI3407
+atp47
+Rp48
+S"Returns a tuple of playa MU's."
+p49
+tp50
+sg17
+(g2
+((lp51
+I4609
+aI9218
+aI4611
+aI4612
+aI4101
+aI4102
+aI4103
+aI4104
+aI4105
+aI8202
+aI8203
+aI4610
+aI4110
+aI4111
+aI4113
+aI4114
+aI9235
+aI4116
+aI4117
+aI4118
+aI4119
+aI4120
+aI4121
+aI4122
+aI4123
+aI4124
+aI9306
+aI4126
+aI4127
+aI4128
+aI4129
+aI4130
+aI4132
+aI4133
+aI4134
+aI4135
+aI4136
+aI9820
+aI4138
+aI4139
+aI4140
+aI4141
+aI4142
+aI4146
+aI4148
+aI4149
+aI4150
+aI8201
+aI4152
+aI4153
+aI4154
+aI4155
+aI4106
+aI9801
+aI9802
+aI9803
+aI9804
+aI9805
+aI9806
+aI4109
+aI9811
+aI9812
+aI9301
+aI9302
+aI9815
+aI4607
+aI9817
+aI9818
+aI9819
+aI9308
+aI9914
+aI9823
+aI9824
+aI9826
+aI9827
+aI9830
+aI9831
+aI9832
+aI4201
+aI4202
+aI4203
+aI9836
+aI4205
+aI9838
+aI4207
+aI4208
+aI4209
+aI4210
+aI9843
+aI4212
+aI9845
+aI9833
+aI9849
+aI9850
+aI9851
+aI9852
+aI9854
+aI9855
+aI9856
+aI4522
+aI9858
+aI9238
+aI9814
+aI3207
+aI4204
+aI9239
+aI9240
+aI9913
+aI9839
+aI9840
+aI9841
+aI9842
+aI9902
+aI4125
+aI9904
+aI4211
+aI9910
+aI9911
+aI9844
+aI9402
+aI9916
+aI4115
+aI4301
+aI4302
+aI4304
+aI8401
+aI4306
+aI4307
+aI4308
+aI4309
+aI4310
+aI4311
+aI4312
+aI4313
+aI4315
+aI4316
+aI4317
+aI4318
+aI4319
+aI4320
+aI4321
+aI4322
+aI4323
+aI4324
+aI4326
+aI4327
+aI4328
+aI4329
+aI4330
+aI4331
+aI4332
+aI4333
+aI4334
+aI4336
+aI4337
+aI4338
+aI4137
+aI9857
+aI4305
+aI9501
+aI9502
+aI9506
+aI4613
+aI9813
+aI4401
+aI4402
+aI4403
+aI3124
+aI4151
+aI3404
+aI9715
+aI9304
+aI1401
+aI5502
+aI9601
+aI5511
+aI4501
+aI4504
+aI4505
+aI4506
+aI4507
+aI9237
+aI4509
+aI4519
+aI8106
+aI4523
+aI4524
+aI4527
+aI4528
+aI7602
+aI4531
+aI7604
+aI4533
+aI4535
+aI4537
+aI4538
+aI4539
+aI4541
+aI4542
+aI4543
+aI4544
+aI4545
+aI4606
+aI4547
+aI4548
+aI4550
+aI4551
+aI4552
+aI4553
+aI9209
+aI4602
+aI4603
+aI9701
+aI9702
+aI9703
+aI9704
+aI4604
+aI4605
+aI9201
+aI9202
+aI9203
+aI9717
+aI9208
+aI4601
+aI9210
+aI9211
+aI9212
+aI9213
+aI9214
+aI9215
+atp52
+Rp53
+S"Returns a tuple of MU's that have some forest component, which could be very little. MU's were included if the description or name of the MU explicititly stated 'forest'or if I interpreted it to include dense canopy cover. Swamps included in this list."
+p54
+tp55
+sg18
+(g2
+((lp56
+I9219
+aI9220
+aI9221
+aI9222
+aI9223
+aI9224
+aI9225
+aI9226
+aI9227
+aI4108
+aI9229
+aI9230
+aI9231
+aI9232
+aI3601
+aI9234
+aI3603
+aI3604
+aI3605
+aI3606
+aI3607
+aI9241
+aI9242
+aI9243
+aI5101
+aI3105
+aI3106
+aI3107
+aI7204
+aI7205
+aI7206
+aI3111
+aI3112
+aI3113
+aI3114
+aI3115
+aI3116
+aI3117
+aI3118
+aI3119
+aI3120
+aI3121
+aI3122
+aI3123
+aI3124
+aI3125
+aI2102
+aI2103
+aI2104
+aI4107
+aI5702
+aI5704
+aI9228
+aI9807
+aI9808
+aI9810
+aI3301
+aI9814
+aI9303
+aI9817
+aI9818
+aI9819
+aI9820
+aI9402
+aI9822
+aI9823
+aI9826
+aI5307
+aI9828
+aI9829
+aI5510
+aI9233
+aI9831
+aI8301
+aI9713
+aI8303
+aI9846
+aI9847
+aI9850
+aI9853
+aI3201
+aI3202
+aI3203
+aI3204
+aI7301
+aI3206
+aI7303
+aI7304
+aI7305
+aI7306
+aI7307
+aI3212
+aI3213
+aI3214
+aI3215
+aI3216
+aI7313
+aI3218
+aI7315
+aI3220
+aI7317
+aI7318
+aI7320
+aI7321
+aI7322
+aI7323
+aI7324
+aI7326
+aI5512
+aI5802
+aI5807
+aI1201
+aI5102
+aI8104
+aI5303
+aI5304
+aI9401
+aI5306
+aI9403
+aI5308
+aI5309
+aI7201
+aI9605
+aI7202
+aI4131
+aI8404
+aI8405
+aI8406
+aI8407
+aI8408
+aI3108
+aI4314
+aI3602
+aI3109
+aI3110
+aI3302
+aI3303
+aI3304
+aI7401
+aI3306
+aI8403
+aI7203
+aI5511
+aI9857
+aI1301
+aI9502
+aI9503
+aI9504
+aI9505
+aI9506
+aI7302
+aI3207
+aI3208
+aI8501
+aI8502
+aI3209
+aI8504
+aI3210
+aI9609
+aI3211
+aI7308
+aI3402
+aI3403
+aI7501
+aI7502
+aI7503
+aI7504
+aI7505
+aI7506
+aI7507
+aI7508
+aI7310
+aI7510
+aI7311
+aI4325
+aI7312
+aI3217
+aI9815
+aI7314
+aI7309
+aI3219
+aI3305
+aI7316
+aI1402
+aI1403
+aI7402
+aI3221
+aI5505
+aI9602
+aI9603
+aI9604
+aI5509
+aI9606
+aI9607
+aI9608
+aI5513
+aI9610
+aI5515
+aI5516
+aI5517
+aI9102
+aI9103
+aI9104
+aI9105
+aI9106
+aI9107
+aI9108
+aI9109
+aI9110
+aI9601
+aI8101
+aI8103
+aI9101
+aI8108
+aI3501
+aI3502
+aI3503
+aI3504
+aI7601
+aI3506
+aI7603
+aI7604
+aI3401
+aI9716
+aI7101
+aI7102
+aI7103
+aI7104
+aI5305
+aI9206
+aI8503
+aI5514
+aI3405
+aI3406
+aI3407
+aI5607
+aI9705
+aI9706
+aI9707
+aI9708
+aI9709
+aI9710
+aI9711
+aI9712
+aI5105
+aI9714
+aI5107
+aI9204
+aI9718
+aI9215
+atp57
+Rp58
+S"Returns a tuple of MU's with the possibility of sizable areas without trees. Includes marsh, some glades (revise?), rock outcrops, steppe, and others but doesnot include woodlands, flatwoods, savannahs, or shrub-dominatedareas (could be added via union with MUShrubDom)."
+p59
+tp60
+sg19
+(g2
+((lp61
+I4608
+aI4610
+aI4611
+aI4102
+aI4104
+aI4106
+aI4107
+aI4110
+aI4111
+aI4112
+aI4115
+aI4118
+aI4120
+aI4121
+aI4122
+aI4126
+aI4131
+aI4136
+aI4137
+aI4138
+aI4140
+aI9906
+aI4143
+aI4144
+aI4145
+aI9907
+aI4149
+aI4151
+aI4152
+aI4154
+aI4155
+aI5302
+aI9809
+aI9811
+aI9812
+aI9813
+aI9303
+aI9816
+aI9305
+aI9819
+aI9914
+aI9824
+aI9825
+aI9828
+aI9829
+aI9830
+aI9831
+aI9832
+aI9833
+aI4202
+aI9835
+aI4206
+aI9846
+aI9847
+aI9849
+aI9850
+aI9855
+aI7301
+aI7302
+aI3207
+aI7313
+aI3218
+aI7321
+aI7322
+aI9901
+aI9903
+aI9905
+aI1202
+aI1203
+aI9908
+aI9909
+aI9910
+aI9911
+aI9912
+aI9913
+aI9402
+aI9915
+aI9916
+aI4301
+aI4303
+aI4304
+aI4305
+aI4307
+aI4309
+aI4312
+aI4314
+aI4315
+aI4316
+aI4317
+aI4318
+aI4319
+aI4321
+aI4322
+aI4324
+aI4325
+aI4328
+aI4330
+aI4332
+aI4335
+aI4336
+aI4338
+aI5505
+aI5507
+aI5403
+aI3205
+aI4404
+aI3404
+aI7507
+aI4530
+aI1401
+aI5501
+aI5502
+aI5503
+aI5504
+aI9601
+aI5506
+aI9603
+aI5508
+aI5509
+aI5511
+aI5512
+aI5513
+aI5515
+aI5516
+aI5517
+aI4502
+aI4503
+aI4504
+aI4505
+aI4506
+aI4508
+aI4509
+aI4510
+aI4511
+aI4512
+aI4513
+aI4514
+aI4515
+aI4516
+aI4517
+aI4518
+aI4519
+aI4520
+aI4521
+aI4523
+aI4524
+aI4525
+aI4526
+aI4527
+aI4528
+aI4529
+aI7602
+aI4531
+aI4532
+aI4533
+aI4534
+aI4536
+aI4537
+aI4539
+aI4540
+aI4541
+aI4543
+aI4545
+aI4546
+aI4548
+aI4549
+aI4550
+aI4552
+aI4553
+aI9307
+aI5603
+aI5604
+aI5605
+aI5606
+aI5607
+aI5107
+aI9716
+aI9207
+aI4602
+aI4603
+aI4605
+atp62
+Rp63
+S"Returns a tuple of MU's that have some woodland, savanna, flatwoods, or very open tree canopy.  MU's were included if the description or name of the MU explicititly stated 'woodland', 'savanna', or 'flatwoods' or if I interpreted it to include open canopy. The list doesn't include systems that have at most a sparse occurrence of trees. Pinyon-juniper woodlands included but not if they were stunted and shrubland like.    I considered Curl-leaf Mountain Mahogany a shrub, so woodland of it was not inluded in this list.  I did include dwarf cypress savanna."
+p64
+tp65
+sg20
+(g2
+((lp66
+I7104
+aI5104
+aI9606
+aI5103
+aI3501
+aI3502
+aI5101
+aI3504
+aI5105
+aI5102
+aI3503
+aI7101
+aI7102
+atp67
+Rp68
+S"Map units have 'Alpine' in the names"
+p69
+tp70
+sg21
+(g2
+((lp71
+I1401
+atp72
+Rp73
+S"Returns a tuple of orchard and 'high structure agriculture' MU's."
+p74
+tp75
+sg22
+(g2
+((lp76
+I1402
+atp77
+Rp78
+S"Returns a tuple of row crop MU's."
+p79
+tp80
+sg23
+(g2
+((lp81
+I9216
+aI9218
+aI9235
+aI9236
+aI9237
+aI9238
+aI9239
+aI9240
+aI9715
+aI9301
+aI9302
+aI9304
+aI9306
+aI9308
+aI9201
+aI9202
+aI9203
+aI9204
+aI9205
+aI9208
+aI9209
+aI9210
+aI9211
+aI9212
+aI9213
+aI9214
+atp82
+Rp83
+S"Map unit has 'Swamp' in the names"
+p84
+tp85
+sg24
+(g2
+((lp86
+I7303
+aI7305
+aI3216
+aI5701
+aI4512
+aI4513
+aI4514
+aI5702
+aI3111
+aI4520
+aI5803
+aI4526
+aI3121
+aI4530
+aI4147
+aI5301
+aI4534
+aI9609
+aI5305
+aI5306
+aI5307
+aI5308
+aI5309
+aI5707
+aI5302
+aI4550
+aI5703
+aI5704
+aI5705
+aI5706
+aI3403
+aI3407
+aI4529
+aI9810
+aI5203
+aI5210
+aI5601
+aI9830
+aI3304
+aI9708
+aI5104
+aI9848
+aI5809
+atp87
+Rp88
+S"Returns a tuple of sagebrush MU's."
+p89
+tp90
+sg25
+(g2
+((lp91
+I9218
+aI4211
+aI4101
+aI4102
+aI4103
+aI4104
+aI4105
+aI8202
+aI9815
+aI4610
+aI4110
+aI4111
+aI4112
+aI4113
+aI4114
+aI9235
+aI4116
+aI4117
+aI4118
+aI4119
+aI4120
+aI4121
+aI4122
+aI4123
+aI4124
+aI9306
+aI4126
+aI4127
+aI4128
+aI4129
+aI4130
+aI4131
+aI4132
+aI4133
+aI7206
+aI4135
+aI4136
+aI9820
+aI4138
+aI4139
+aI4140
+aI4141
+aI4142
+aI4143
+aI4144
+aI4146
+aI5811
+aI4148
+aI4149
+aI4150
+aI8201
+aI4152
+aI4154
+aI4155
+aI4106
+aI8203
+aI9801
+aI9802
+aI9803
+aI9804
+aI9805
+aI9806
+aI4109
+aI9809
+aI9811
+aI9812
+aI9301
+aI9302
+aI9303
+aI9816
+aI9817
+aI9818
+aI9819
+aI9308
+aI9402
+aI5214
+aI9823
+aI9824
+aI9825
+aI9826
+aI9827
+aI9828
+aI9829
+aI9830
+aI9831
+aI9832
+aI4201
+aI4202
+aI9835
+aI9836
+aI4205
+aI4206
+aI4207
+aI4208
+aI4209
+aI9842
+aI9843
+aI4212
+aI9845
+aI9846
+aI9833
+aI9849
+aI9850
+aI9851
+aI9852
+aI9854
+aI9855
+aI9856
+aI9857
+aI9858
+aI4203
+aI7301
+aI7302
+aI3207
+aI4204
+aI9239
+aI7312
+aI7313
+aI9838
+aI9913
+aI7321
+aI7322
+aI9839
+aI7319
+aI9840
+aI9841
+aI9901
+aI9902
+aI4125
+aI9904
+aI1202
+aI1203
+aI9911
+aI9912
+aI9844
+aI9914
+aI9915
+aI9916
+aI4115
+aI9847
+aI4301
+aI4302
+aI4303
+aI4304
+aI8401
+aI4306
+aI4307
+aI4309
+aI4310
+aI4311
+aI4312
+aI4313
+aI4314
+aI4315
+aI4316
+aI4317
+aI4319
+aI4320
+aI4323
+aI4324
+aI4325
+aI4326
+aI4327
+aI4328
+aI4329
+aI4330
+aI4331
+aI4332
+aI4333
+aI4334
+aI4335
+aI4336
+aI4337
+aI4338
+aI4137
+aI4134
+aI5403
+aI5404
+aI9501
+aI9506
+aI9813
+aI4401
+aI4402
+aI4403
+aI4404
+aI4151
+aI9814
+aI9701
+aI1401
+aI5501
+aI5502
+aI5503
+aI5504
+aI5505
+aI5506
+aI5507
+aI5508
+aI5509
+aI5511
+aI5512
+aI5513
+aI5514
+aI5515
+aI5517
+aI4501
+aI4504
+aI4505
+aI4506
+aI4507
+aI9237
+aI4509
+aI4511
+aI4513
+aI4516
+aI4517
+aI7602
+aI7604
+aI4535
+aI9238
+aI4539
+aI4540
+aI4549
+aI4550
+aI4553
+aI4107
+aI5602
+aI4210
+aI9703
+aI9704
+aI9202
+aI9715
+aI9716
+aI9717
+aI9240
+aI9208
+aI9209
+aI9210
+aI9211
+aI9212
+aI9213
+aI9214
+aI9215
+atp92
+Rp93
+S"Returns a tuple of MU's with potentially some broad-leaved tree component, which could be very little.  Could be forest or woodland.  Does not include Mountain Curl-leaf Mahogany as a tree."
+p94
+tp95
+sg26
+(g2
+((lp96
+I3304
+aI3306
+aI3301
+aI3303
+atp97
+Rp98
+S"Map units have 'Badland' in the names"
+p99
+tp100
+sg27
+(g2
+((lp101
+I9216
+aI9222
+aI9224
+aI5207
+aI9231
+aI9234
+aI5209
+aI9242
+aI9243
+aI5210
+aI5211
+aI4136
+aI5212
+aI3116
+aI9821
+aI3121
+aI4147
+aI4148
+aI5214
+aI4154
+aI5216
+aI5701
+aI5702
+aI5703
+aI5704
+aI5705
+aI5706
+aI5707
+aI9807
+aI9808
+aI5201
+aI5202
+aI5203
+aI5204
+aI5205
+aI5206
+aI9815
+aI5208
+aI9817
+aI9818
+aI9819
+aI9820
+aI5213
+aI9822
+aI5215
+aI9824
+aI5217
+aI5218
+aI9828
+aI9830
+aI9831
+aI9833
+aI9834
+aI9835
+aI9837
+aI8304
+aI4210
+aI4211
+aI4212
+aI9846
+aI9847
+aI9848
+aI9850
+aI9856
+aI9857
+aI7303
+aI3217
+aI3218
+aI7318
+aI9825
+aI5801
+aI9604
+aI5803
+aI5804
+aI5805
+aI5806
+aI9501
+aI5808
+aI5809
+aI5810
+aI5811
+aI5812
+aI5301
+aI5303
+aI5304
+aI5305
+aI5306
+aI5307
+aI5308
+aI5309
+aI9504
+aI5410
+aI8402
+aI8406
+aI3602
+aI5401
+aI5402
+aI5403
+aI5404
+aI5405
+aI5406
+aI5407
+aI5408
+aI5409
+aI9506
+aI5411
+aI4404
+aI8504
+aI5807
+aI7509
+aI5607
+aI5507
+aI9502
+aI9609
+aI5516
+aI5107
+aI9712
+aI8102
+aI9713
+aI8104
+aI8105
+aI8107
+aI7601
+aI7603
+aI9716
+aI5601
+aI5602
+aI9809
+aI9708
+aI9810
+aI5102
+aI5103
+aI5104
+aI5105
+aI5106
+aI9811
+aI5108
+aI9205
+aI9207
+aI9812
+atp102
+Rp103
+S"Returns a tuple of MU's that include any amount of shrub dominated areas. Steppe is included but other systems with only intermittent shrub cover arenot (such as badlands or cliffs).  Woodlands and savannahs with shrub understory but sparse tree cover are not included.  Cultivated Cropland is not included."
+p104
+tp105
+sg28
+(g2
+((lp106
+I3401
+aI3402
+atp107
+Rp108
+S"Map units have 'Mudflat' in the names"
+p109
+tp110
+sg29
+(g2
+((lp111
+I4609
+aI4610
+aI9606
+aI9608
+aI3209
+aI3220
+aI4122
+aI5403
+aI4127
+aI9504
+aI4528
+aI7202
+aI7203
+aI4516
+aI4517
+aI7206
+aI4520
+aI5804
+aI5806
+aI5808
+aI5809
+aI4532
+aI4537
+aI4524
+aI5308
+aI4543
+aI4551
+aI9503
+aI9812
+aI9813
+aI7204
+aI4316
+aI4317
+aI7205
+aI9824
+aI9825
+aI9830
+aI9832
+aI9833
+aI9837
+aI9846
+aI9849
+aI4602
+aI5503
+aI9855
+atp112
+Rp113
+S"Map units have 'Montane' in the names"
+p114
+tp115
+sg30
+(g2
+((lp116
+I1202
+aI1203
+aI1204
+atp117
+Rp118
+S"Returns a tuple of developed MU's."
+p119
+tp120
+sg31
+(g2
+((lp121
+I9232
+aI9234
+aI9227
+aI9220
+aI9605
+aI9233
+aI9223
+aI9228
+aI9101
+aI9230
+aI9103
+aI9104
+aI9105
+aI9106
+aI9219
+aI9108
+aI9109
+aI9110
+aI9242
+aI9243
+aI9221
+atp122
+Rp123
+S"Map units have 'Marsh' in the names"
+p124
+tp125
+sg32
+(g2
+((lp126
+I2104
+aI9107
+aI2102
+aI9102
+aI2103
+atp127
+Rp128
+S'Aquatic map units.'
+p129
+tp130
+sg33
+((lp131
+VAcadian Low-Elevation Spruce-Fir-Hardwood Forest
+p132
+aVAcadian Salt Marsh and Estuary Systems
+p133
+aVAcadian-Appalachian Alpine Tundra
+p134
+aVAcadian-Appalachian Montane Spruce-Fir Forest
+p135
+aVAcadian-Appalachian Subalpine Woodland and Heath-Krummholz
+p136
+aVAllegheny-Cumberland Dry Oak Forest and Woodland - Hardwood
+p137
+aVAllegheny-Cumberland Dry Oak Forest and Woodland - Pine Modifier
+p138
+aVApacherian-Chihuahuan Mesquite Upland Scrub
+p139
+aVApacherian-Chihuahuan Semi-Desert Grassland and Steppe
+p140
+aVAppalachian Hemlock-Hardwood Forest
+p141
+aVAppalachian Shale Barrens
+p142
+aVArkansas Valley Prairie and Woodland
+p143
+aVAtlantic Coastal Plain Blackwater Stream Floodplain Forest - Forest Modifier
+p144
+aVAtlantic Coastal Plain Brownwater Stream Floodplain Forest
+p145
+aVAtlantic Coastal Plain Central Fresh-Oligohaline Tidal Marsh
+p146
+aVAtlantic Coastal Plain Central Maritime Forest
+p147
+aVAtlantic Coastal Plain Central Salt and Brackish Tidal Marsh
+p148
+aVAtlantic Coastal Plain Clay-Based Carolina Bay Forested Wetland
+p149
+aVAtlantic Coastal Plain Clay-Based Carolina Bay Herbaceous Wetland
+p150
+aVAtlantic Coastal Plain Depression Pondshore
+p151
+aVAtlantic Coastal Plain Dry and Dry-Mesic Oak Forest
+p152
+aVAtlantic Coastal Plain Embayed Region Tidal Freshwater Marsh
+p153
+aVAtlantic Coastal Plain Embayed Region Tidal Salt and Brackish Marsh
+p154
+aVAtlantic Coastal Plain Fall-Line Sandhills Longleaf Pine Woodland - Loblolly Modifier
+p155
+aVAtlantic Coastal Plain Fall-line Sandhills Longleaf Pine Woodland - Offsite Hardwood Modifier
+p156
+aVAtlantic Coastal Plain Fall-line Sandhills Longleaf Pine Woodland - Open Understory Modifier
+p157
+aVAtlantic Coastal Plain Fall-line Sandhills Longleaf Pine Woodland - Scrub/Shrub Understory Modifier
+p158
+aVAtlantic Coastal Plain Indian River Lagoon Tidal Marsh
+p159
+aVAtlantic Coastal Plain Large Natural Lakeshore
+p160
+aVAtlantic Coastal Plain Mesic Hardwood and Mixed Forest
+p161
+aVAtlantic Coastal Plain Nonriverine Swamp and Wet Hardwood Forest  - Taxodium/Nyssa Modifier
+p162
+aVAtlantic Coastal Plain Nonriverine Swamp and Wet Hardwood Forest - Oak Dominated Modifier
+p163
+aVAtlantic Coastal Plain Northern Fresh and Oligohaline Tidal Marsh
+p164
+aVAtlantic Coastal Plain Northern Maritime Forest
+p165
+aVAtlantic Coastal Plain Northern Sandy Beach
+p166
+aVAtlantic Coastal Plain Northern Tidal Salt Marsh
+p167
+aVAtlantic Coastal Plain Northern Tidal Wooded Swamp
+p168
+aVAtlantic Coastal Plain Peatland Pocosin
+p169
+aVAtlantic Coastal Plain Sea Island Beach
+p170
+aVAtlantic Coastal Plain Small Blackwater River Floodplain Forest
+p171
+aVAtlantic Coastal Plain Small Brownwater River Floodplain Forest
+p172
+aVAtlantic Coastal Plain Southern Beach
+p173
+aVAtlantic Coastal Plain Southern Dune and Maritime Grassland
+p174
+aVAtlantic Coastal Plain Southern Maritime Forest
+p175
+aVAtlantic Coastal Plain Southern Tidal Wooded Swamp
+p176
+aVAtlantic Coastal Plain Southern Wet Pine Savanna and Flatwoods
+p177
+aVAtlantic Coastal Plain Streamhead Seepage Swamp -  Pocosin -  and Baygall
+p178
+aVAtlantic Coastal Plain Upland Longleaf Pine Woodland
+p179
+aVAtlantic Coastal Plain Xeric River Dune
+p180
+aVAtlantic and Gulf Coastal Plain Interdunal Wetland
+p181
+aVBarren Land
+p182
+aVBoreal Acidic Peatland Systems
+p183
+aVBoreal Aspen-Birch Forest
+p184
+aVBoreal Jack Pine-Black Spruce Forest
+p185
+aVBoreal White Spruce-Fir-Hardwood Forest
+p186
+aVCalifornia Central Valley Mixed Oak Savanna
+p187
+aVCalifornia Central Valley Riparian Woodland and Shrubland
+p188
+aVCalifornia Central Valley and Southern Coastal Grassland
+p189
+aVCalifornia Coastal Closed-Cone Conifer Forest and Woodland
+p190
+aVCalifornia Coastal Live Oak Woodland and Savanna
+p191
+aVCalifornia Coastal Redwood Forest
+p192
+aVCalifornia Lower Montane Blue Oak-Foothill Pine Woodland and Savanna
+p193
+aVCalifornia Maritime Chaparral
+p194
+aVCalifornia Mesic Chaparral
+p195
+aVCalifornia Mesic Serpentine Grassland
+p196
+aVCalifornia Montane Jeffrey Pine-(Ponderosa Pine) Woodland
+p197
+aVCalifornia Montane Woodland and Chaparral
+p198
+aVCalifornia Northern Coastal Grassland
+p199
+aVCalifornia Xeric Serpentine Chaparral
+p200
+aVCentral Appalachian Alkaline Glade and Woodland
+p201
+aVCentral Appalachian Floodplain - Forest Modifier
+p202
+aVCentral Appalachian Oak and Pine Forest
+p203
+aVCentral Appalachian Pine-Oak Rocky Woodland
+p204
+aVCentral Appalachian Riparian - Forest Modifier
+p205
+aVCentral Atlantic Coastal Plain Wet Longleaf Pine Savanna and Flatwoods
+p206
+aVCentral California Coast Ranges Cliff and Canyon
+p207
+aVCentral Florida Herbaceous Pondshore
+p208
+aVCentral Florida Herbaceous Seep
+p209
+aVCentral Florida Pine Flatwoods
+p210
+aVCentral Interior Acidic Cliff and Talus
+p211
+aVCentral Interior Calcareous Cliff and Talus
+p212
+aVCentral Interior Highlands Calcareous Glade and Barrens
+p213
+aVCentral Interior Highlands Dry Acidic Glade and Barrens
+p214
+aVCentral Interior and Appalachian Floodplain Systems
+p215
+aVCentral Interior and Appalachian Riparian Systems
+p216
+aVCentral Interior and Appalachian Shrub-Herbaceous Wetland Systems
+p217
+aVCentral Interior and Appalachian Swamp Systems
+p218
+aVCentral Mixedgrass Prairie
+p219
+aVCentral Tallgrass Prairie
+p220
+aVCentral and South Texas Coastal Fringe Forest and Woodland
+p221
+aVCentral and Southern Appalachian Montane Oak Forest
+p222
+aVCentral and Southern Appalachian Northern Hardwood Forest
+p223
+aVCentral and Southern Appalachian Spruce-Fir Forest
+p224
+aVCentral and Southern California Mixed Evergreen Woodland
+p225
+aVCentral and Upper Texas Coast Dune and Coastal Grassland
+p226
+aVChihuahuan Creosotebush, Mixed Desert and Thorn Scrub
+p227
+aVChihuahuan Gypsophilous Grassland and Steppe
+p228
+aVChihuahuan Loamy Plains Desert Grassland
+p229
+aVChihuahuan Mixed Desert and Thorn Scrub
+p230
+aVChihuahuan Mixed Salt Desert Scrub
+p231
+aVChihuahuan Sandy Plains Semi-Desert Grassland
+p232
+aVChihuahuan Stabilized Coppice Dune and Sand Flat Scrub
+p233
+aVChihuahuan Succulent Desert Scrub
+p234
+aVChihuahuan-Sonoran Desert Bottomland and Swale Grassland
+p235
+aVCoahuilan Chaparral
+p236
+aVColorado Plateau Blackbrush-Mormon-tea Shrubland
+p237
+aVColorado Plateau Mixed Bedrock Canyon and Tableland
+p238
+aVColorado Plateau Mixed Low Sagebrush Shrubland
+p239
+aVColorado Plateau Pinyon-Juniper Shrubland
+p240
+aVColorado Plateau Pinyon-Juniper Woodland
+p241
+aVColumbia Basin Foothill Riparian Woodland and Shrubland
+p242
+aVColumbia Basin Foothill and Canyon Dry Grassland
+p243
+aVColumbia Basin Palouse Prairie
+p244
+aVColumbia Plateau Ash and Tuff Badland
+p245
+aVColumbia Plateau Low Sagebrush Steppe
+p246
+aVColumbia Plateau Scabland Shrubland
+p247
+aVColumbia Plateau Silver Sagebrush Seasonally Flooded Shrub-Steppe
+p248
+aVColumbia Plateau Steppe and Grassland
+p249
+aVColumbia Plateau Vernal Pool
+p250
+aVColumbia Plateau Western Juniper Woodland and Savanna
+p251
+aVCrosstimbers Oak Forest and Woodland
+p252
+aVCultivated Cropland
+p253
+aVCumberland Riverscour
+p254
+aVCumberland Sandstone Glade and Barrens
+p255
+aVDeciduous Plantation
+p256
+aVDeveloped, High Intensity
+p257
+aVDeveloped, Low Intensity
+p258
+aVDeveloped, Medium Intensity
+p259
+aVDeveloped, Open Space
+p260
+aVDisturbed, Non-specific
+p261
+aVDisturbed/Successional - Grass/Forb Regeneration
+p262
+aVDisturbed/Successional - Shrub Regeneration
+p263
+aVEast Cascades Mesic Montane Mixed-Conifer Forest and Woodland
+p264
+aVEast Cascades Oak-Ponderosa Pine Forest and Woodland
+p265
+aVEast Gulf Coastal Plain Black Belt Calcareous Prairie and Woodland - Herbaceous Modifier
+p266
+aVEast Gulf Coastal Plain Black Belt Calcareous Prairie and Woodland - Woodland Modifier
+p267
+aVEast Gulf Coastal Plain Dry Chalk Bluff
+p268
+aVEast Gulf Coastal Plain Dune and Coastal Grassland
+p269
+aVEast Gulf Coastal Plain Interior Shortleaf Pine-Oak Forest - Hardwood Modifier
+p270
+aVEast Gulf Coastal Plain Interior Shortleaf Pine-Oak Forest - Mixed Modifier
+p271
+aVEast Gulf Coastal Plain Interior Upland Longleaf Pine Woodland - Loblolly Modifier
+p272
+aVEast Gulf Coastal Plain Interior Upland Longleaf Pine Woodland - Offsite Hardwood Modifier
+p273
+aVEast Gulf Coastal Plain Interior Upland Longleaf Pine Woodland - Open Understory Modifier
+p274
+aVEast Gulf Coastal Plain Interior Upland Longleaf Pine Woodland - Scrub/Shrub Modifier
+p275
+aVEast Gulf Coastal Plain Jackson Plain Dry Flatwoods - Open Understory Modifier
+p276
+aVEast Gulf Coastal Plain Jackson Prairie and Woodland
+p277
+aVEast Gulf Coastal Plain Large River Floodplain Forest - Forest Modifier
+p278
+aVEast Gulf Coastal Plain Large River Floodplain Forest - Herbaceous Modifier
+p279
+aVEast Gulf Coastal Plain Limestone Forest
+p280
+aVEast Gulf Coastal Plain Maritime Forest
+p281
+aVEast Gulf Coastal Plain Near-Coast Pine Flatwoods
+p282
+aVEast Gulf Coastal Plain Near-Coast Pine Flatwoods - Offsite Hardwood Modifier
+p283
+aVEast Gulf Coastal Plain Near-Coast Pine Flatwoods - Open Understory Modifier
+p284
+aVEast Gulf Coastal Plain Near-Coast Pine Flatwoods - Scrub/Shrub Understory Modifier
+p285
+aVEast Gulf Coastal Plain Northern Dry Upland Hardwood Forest
+p286
+aVEast Gulf Coastal Plain Northern Dry Upland Hardwood Forest - Offsite Pine Modifier
+p287
+aVEast Gulf Coastal Plain Northern Loess Bluff Forest
+p288
+aVEast Gulf Coastal Plain Northern Loess Plain Oak-Hickory Upland - Hardwood Modifier
+p289
+aVEast Gulf Coastal Plain Northern Loess Plain Oak-Hickory Upland - Juniper Modifier
+p290
+aVEast Gulf Coastal Plain Northern Mesic Hardwood Forest
+p291
+aVEast Gulf Coastal Plain Savanna and Wet Prairie
+p292
+aVEast Gulf Coastal Plain Small Stream and River Floodplain Forest
+p293
+aVEast Gulf Coastal Plain Southern Depression Pondshore
+p294
+aVEast Gulf Coastal Plain Southern Loblolly-Hardwood Flatwoods
+p295
+aVEast Gulf Coastal Plain Southern Loess Bluff Forest
+p296
+aVEast Gulf Coastal Plain Southern Mesic Slope Forest
+p297
+aVEast Gulf Coastal Plain Tidal Wooded Swamp
+p298
+aVEast-Central Texas Plains Floodplain Forest
+p299
+aVEast-Central Texas Plains Pine Forest and Woodland
+p300
+aVEast-Central Texas Plains Post Oak Savanna and Woodland
+p301
+aVEast-Central Texas Plains Riparian Forest
+p302
+aVEastern Boreal Floodplain
+p303
+aVEastern Great Plains Floodplain Systems
+p304
+aVEastern Great Plains Tallgrass Aspen Parkland
+p305
+aVEastern Great Plains Wet Meadow, Prairie, and Marsh
+p306
+aVEastern Highland Rim Prairie and Barrens - Dry Modifier
+p307
+aVEdwards Plateau Dry-Mesic Slope Forest and Woodland
+p308
+aVEdwards Plateau Limestone Savanna and Woodland
+p309
+aVEdwards Plateau Limestone Shrubland
+p310
+aVEdwards Plateau Mesic Canyon
+p311
+aVEdwards Plateau Riparian
+p312
+aVEvergreen Plantation or Managed Pine
+p313
+aVFlorida Big Bend Fresh-Oligohaline Tidal Marsh
+p314
+aVFlorida Big Bend Salt-Brackish Tidal Marsh
+p315
+aVFlorida Dry Prairie
+p316
+aVFlorida Longleaf Pine Sandhill - Open Understory Modifier
+p317
+aVFlorida Longleaf Pine Sandhill - Scrub/Shrub Understory Modifier
+p318
+aVFlorida Panhandle Beach Vegetation
+p319
+aVFlorida Peninsula Inland Scrub
+p320
+aVFloridian Highlands Freshwater Marsh
+p321
+aVGeysers and Hot Springs
+p322
+aVGreat Basin Foothill and Lower Montane Riparian Woodland and Shrubland
+p323
+aVGreat Basin Pinyon-Juniper Woodland
+p324
+aVGreat Basin Semi-Desert Chaparral
+p325
+aVGreat Basin Xeric Mixed Sagebrush Shrubland
+p326
+aVGreat Lakes Acidic Rocky Shore and Cliff
+p327
+aVGreat Lakes Alvar
+p328
+aVGreat Lakes Coastal Marsh Systems
+p329
+aVGreat Lakes Dune
+p330
+aVGreat Lakes Freshwater Estuary and Delta
+p331
+aVGreat Lakes Wet-Mesic Lakeplain Prairie
+p332
+aVGreat Lakes Wooded Dune and Swale
+p333
+aVGreat Plains Prairie Pothole
+p334
+aVGulf and Atlantic Coastal Plain Swamp Systems
+p335
+aVGulf and Atlantic Coastal Plain Tidal Marsh Systems
+p336
+aVHarvested Forest - Grass/Forb Regeneration
+p337
+aVHarvested Forest - Northwestern Conifer Regeneration
+p338
+aVHarvested Forest - Shrub Regeneration
+p339
+aVInter-Mountain Basins Active and Stabilized Dune
+p340
+aVInter-Mountain Basins Alkaline Closed Depression
+p341
+aVInter-Mountain Basins Aspen-Mixed Conifer Forest and Woodland
+p342
+aVInter-Mountain Basins Big Sagebrush Shrubland
+p343
+aVInter-Mountain Basins Big Sagebrush Steppe
+p344
+aVInter-Mountain Basins Cliff and Canyon
+p345
+aVInter-Mountain Basins Curl-leaf Mountain Mahogany Woodland and Shrubland
+p346
+aVInter-Mountain Basins Greasewood Flat
+p347
+aVInter-Mountain Basins Interdunal Swale Wetland
+p348
+aVInter-Mountain Basins Juniper Savanna
+p349
+aVInter-Mountain Basins Mat Saltbush Shrubland
+p350
+aVInter-Mountain Basins Mixed Salt Desert Scrub
+p351
+aVInter-Mountain Basins Montane Riparian Systems
+p352
+aVInter-Mountain Basins Montane Sagebrush Steppe
+p353
+aVInter-Mountain Basins Playa
+p354
+aVInter-Mountain Basins Semi-Desert Grassland
+p355
+aVInter-Mountain Basins Semi-Desert Shrub Steppe
+p356
+aVInter-Mountain Basins Shale Badland
+p357
+aVInter-Mountain Basins Subalpine Limber-Bristlecone Pine Woodland
+p358
+aVInter-Mountain Basins Volcanic Rock and Cinder Land
+p359
+aVInter-Mountain Basins Wash
+p360
+aVIntroduced Riparian and Wetland Vegetation
+p361
+aVIntroduced Upland Vegetation - Annual Grassland
+p362
+aVIntroduced Upland Vegetation - Forbland
+p363
+aVIntroduced Upland Vegetation - Perennial Grassland
+p364
+aVIntroduced Upland Vegetation - Perennial Grassland and Forbland
+p365
+aVIntroduced Upland Vegetation - Shrub
+p366
+aVIntroduced Upland Vegetation - Treed
+p367
+aVKlamath-Siskiyou Cliff and Outcrop
+p368
+aVKlamath-Siskiyou Lower Montane Serpentine Mixed Conifer Woodland
+p369
+aVKlamath-Siskiyou Upper Montane Serpentine Mixed Conifer Woodland
+p370
+aVKlamath-Siskiyou Xeromorphic Serpentine Savanna and Chaparral
+p371
+aVLaurentian Jack Pine-Red Pine Forest
+p372
+aVLaurentian Pine-Oak Barrens
+p373
+aVLaurentian-Acadian Alkaline Conifer-Hardwood Swamp
+p374
+aVLaurentian-Acadian Floodplain Systems
+p375
+aVLaurentian-Acadian Freshwater Marsh
+p376
+aVLaurentian-Acadian Northern Hardwoods Forest
+p377
+aVLaurentian-Acadian Northern Pine-(Oak) Forest
+p378
+aVLaurentian-Acadian Pine-Hemlock-Hardwood Forest
+p379
+aVLaurentian-Acadian Shrub-Herbaceous Wetland Systems
+p380
+aVLaurentian-Acadian Swamp Systems
+p381
+aVLlano Uplift Acidic Forest, Woodland and Glade
+p382
+aVLouisiana Beach
+p383
+aVLower Mississippi River Bottomland Depressions - Forest Modifier
+p384
+aVLower Mississippi River Dune Woodland and Forest
+p385
+aVLower Mississippi River Flatwoods
+p386
+aVMadrean Encinal
+p387
+aVMadrean Juniper Savanna
+p388
+aVMadrean Oriental Chaparral
+p389
+aVMadrean Pine-Oak Forest and Woodland
+p390
+aVMadrean Pinyon-Juniper Woodland
+p391
+aVMadrean Upper Montane Conifer-Oak Forest and Woodland
+p392
+aVManaged Tree Plantation
+p393
+aVMediterranean California Alpine Bedrock and Scree
+p394
+aVMediterranean California Alpine Dry Tundra
+p395
+aVMediterranean California Alpine Fell-Field
+p396
+aVMediterranean California Coastal Bluff
+p397
+aVMediterranean California Dry-Mesic Mixed Conifer Forest and Woodland
+p398
+aVMediterranean California Eelgrass Bed
+p399
+aVMediterranean California Foothill and Lower Montane Riparian Woodland
+p400
+aVMediterranean California Lower Montane Black Oak-Conifer Forest and Woodland
+p401
+aVMediterranean California Mesic Mixed Conifer Forest and Woodland
+p402
+aVMediterranean California Mesic Serpentine Woodland and Chaparral
+p403
+aVMediterranean California Mixed Evergreen Forest
+p404
+aVMediterranean California Mixed Oak Woodland
+p405
+aVMediterranean California Northern Coastal Dune
+p406
+aVMediterranean California Red Fir Forest
+p407
+aVMediterranean California Serpentine Barrens
+p408
+aVMediterranean California Serpentine Fen
+p409
+aVMediterranean California Serpentine Foothill and Lower Montane Riparian Woodland and Seep
+p410
+aVMediterranean California Southern Coastal Dune
+p411
+aVMediterranean California Subalpine Meadow
+p412
+aVMediterranean California Subalpine Woodland
+p413
+aVMediterranean California Subalpine-Montane Fen
+p414
+aVMiddle Rocky Mountain Montane Douglas-fir Forest and Woodland
+p415
+aVMississippi Delta Maritime Forest
+p416
+aVMississippi River Alluvial Plain Dry-Mesic Loess Slope Forest
+p417
+aVMississippi River Bottomland Depression
+p418
+aVMississippi River Floodplain and Riparian Forest
+p419
+aVMississippi River Low Floodplain (Bottomland) Forest
+p420
+aVMississippi River Riparian Forest
+p421
+aVMississippi Sound Salt and Brackish Tidal Marsh
+p422
+aVModified/Managed Southern Tall Grassland
+p423
+aVMogollon Chaparral
+p424
+aVMojave Mid-Elevation Mixed Desert Scrub
+p425
+aVNashville Basin Limestone Glade
+p426
+aVNorth American Alpine Ice Field
+p427
+aVNorth American Arid West Emergent Marsh
+p428
+aVNorth American Warm Desert Active and Stabilized Dune
+p429
+aVNorth American Warm Desert Badland
+p430
+aVNorth American Warm Desert Bedrock Cliff and Outcrop
+p431
+aVNorth American Warm Desert Lower Montane Riparian Woodland and Shrubland
+p432
+aVNorth American Warm Desert Pavement
+p433
+aVNorth American Warm Desert Playa
+p434
+aVNorth American Warm Desert Riparian Mesquite Bosque
+p435
+aVNorth American Warm Desert Riparian Systems
+p436
+aVNorth American Warm Desert Riparian Woodland and Shrubland
+p437
+aVNorth American Warm Desert Volcanic Rockland
+p438
+aVNorth American Warm Desert Wash
+p439
+aVNorth Pacific Alpine and Subalpine Bedrock and Scree
+p440
+aVNorth Pacific Alpine and Subalpine Dry Grassland
+p441
+aVNorth Pacific Avalanche Chute Shrubland
+p442
+aVNorth Pacific Bog and Fen
+p443
+aVNorth Pacific Broadleaf Landslide Forest and Shrubland
+p444
+aVNorth Pacific Coastal Cliff and Bluff
+p445
+aVNorth Pacific Dry Douglas-fir-(Madrone) Forest and Woodland
+p446
+aVNorth Pacific Dry and Mesic Alpine Dwarf-Shrubland, Fell-field and Meadow
+p447
+aVNorth Pacific Dry-Mesic Silver Fir-Western Hemlock-Douglas-fir Forest
+p448
+aVNorth Pacific Hardwood-Conifer Swamp
+p449
+aVNorth Pacific Herbaceous Bald and Bluff
+p450
+aVNorth Pacific Hypermaritime Shrub and Herbaceous Headland
+p451
+aVNorth Pacific Hypermaritime Sitka Spruce Forest
+p452
+aVNorth Pacific Hypermaritime Western Red-cedar-Western Hemlock Forest
+p453
+aVNorth Pacific Intertidal Freshwater Wetland
+p454
+aVNorth Pacific Lowland Mixed Hardwood-Conifer Forest and Woodland
+p455
+aVNorth Pacific Lowland Riparian Forest and Shrubland
+p456
+aVNorth Pacific Maritime Coastal Sand Dune and Strand
+p457
+aVNorth Pacific Maritime Dry-Mesic Douglas-fir-Western Hemlock Forest
+p458
+aVNorth Pacific Maritime Eelgrass Bed
+p459
+aVNorth Pacific Maritime Mesic Subalpine Parkland
+p460
+aVNorth Pacific Maritime Mesic-Wet Douglas-fir-Western Hemlock Forest
+p461
+aVNorth Pacific Mesic Western Hemlock-Silver Fir Forest
+p462
+aVNorth Pacific Montane Grassland
+p463
+aVNorth Pacific Montane Massive Bedrock, Cliff and Talus
+p464
+aVNorth Pacific Montane Riparian Woodland and Shrubland
+p465
+aVNorth Pacific Montane Shrubland
+p466
+aVNorth Pacific Mountain Hemlock Forest
+p467
+aVNorth Pacific Oak Woodland
+p468
+aVNorth Pacific Serpentine Barren
+p469
+aVNorth Pacific Shrub Swamp
+p470
+aVNorth Pacific Volcanic Rock and Cinder Land
+p471
+aVNorth Pacific Wooded Volcanic Flowage
+p472
+aVNorth-Central Appalachian Acidic Cliff and Talus
+p473
+aVNorth-Central Appalachian Circumneutral Cliff and Talus
+p474
+aVNorth-Central Interior Beech-Maple Forest
+p475
+aVNorth-Central Interior Dry Oak Forest and Woodland
+p476
+aVNorth-Central Interior Dry-Mesic Oak Forest and Woodland
+p477
+aVNorth-Central Interior Maple-Basswood Forest
+p478
+aVNorth-Central Interior Oak Savanna
+p479
+aVNorth-Central Interior Sand and Gravel Tallgrass Prairie
+p480
+aVNorth-Central Interior Wet Flatwoods
+p481
+aVNorth-Central Oak Barrens
+p482
+aVNortheastern Interior Dry Oak Forest - Mixed Modifier
+p483
+aVNortheastern Interior Dry Oak Forest - Virginia/Pitch Pine Modifier
+p484
+aVNortheastern Interior Dry Oak Forest-Hardwood Modifier
+p485
+aVNortheastern Interior Dry-Mesic Oak Forest
+p486
+aVNortheastern Interior Pine Barrens
+p487
+aVNorthern Atlantic Coastal Plain Basin Swamp and Wet Hardwood Forest
+p488
+aVNorthern Atlantic Coastal Plain Dry Hardwood Forest
+p489
+aVNorthern Atlantic Coastal Plain Dune and Swale
+p490
+aVNorthern Atlantic Coastal Plain Heathland and Grassland
+p491
+aVNorthern Atlantic Coastal Plain Pitch Pine Barrens
+p492
+aVNorthern Atlantic Coastal Plain Pitch Pine Lowland
+p493
+aVNorthern Atlantic Coastal Plain Sandy Beach
+p494
+aVNorthern California Claypan Vernal Pool
+p495
+aVNorthern California Coastal Scrub
+p496
+aVNorthern California Mesic Subalpine Woodland
+p497
+aVNorthern Crowley's Ridge Sand Forest
+p498
+aVNorthern Great Lakes Coastal Marsh
+p499
+aVNorthern Pacific Mesic Subalpine Woodland
+p500
+aVNorthern Rocky Mountain Avalanche Chute Shrubland
+p501
+aVNorthern Rocky Mountain Conifer Swamp
+p502
+aVNorthern Rocky Mountain Dry-Mesic Montane Mixed Conifer Forest
+p503
+aVNorthern Rocky Mountain Foothill Conifer Wooded Steppe
+p504
+aVNorthern Rocky Mountain Lower Montane Riparian Woodland and Shrubland
+p505
+aVNorthern Rocky Mountain Lower Montane, Foothill and Valley Grassland
+p506
+aVNorthern Rocky Mountain Mesic Montane Mixed Conifer Forest
+p507
+aVNorthern Rocky Mountain Montane-Foothill Deciduous Shrubland
+p508
+aVNorthern Rocky Mountain Ponderosa Pine Woodland and Savanna
+p509
+aVNorthern Rocky Mountain Subalpine Deciduous Shrubland
+p510
+aVNorthern Rocky Mountain Subalpine Woodland and Parkland
+p511
+aVNorthern Rocky Mountain Subalpine-Upper Montane Grassland
+p512
+aVNorthern Rocky Mountain Western Larch Savanna
+p513
+aVNorthern Rocky Mountain Wooded Vernal Pool
+p514
+aVNorthern Tallgrass Prairie
+p515
+aVNorthern and Central California Dry-Mesic Chaparral
+p516
+aVNorthwestern Great Plains - Black Hills Ponderosa Pine Woodland and Savanna
+p517
+aVNorthwestern Great Plains Aspen Forest and Parkland
+p518
+aVNorthwestern Great Plains Floodplain
+p519
+aVNorthwestern Great Plains Mixedgrass Prairie
+p520
+aVNorthwestern Great Plains Riparian
+p521
+aVNorthwestern Great Plains Shrubland
+p522
+aVOpen Water (Aquaculture)
+p523
+aVOpen Water (Brackish/Salt)
+p524
+aVOpen Water (Fresh)
+p525
+aVOrchards Vineyards and Other High Structure Agriculture
+p526
+aVOuachita Montane Oak Forest
+p527
+aVOzark-Ouachita Dry Oak Woodland
+p528
+aVOzark-Ouachita Dry-Mesic Oak Forest
+p529
+aVOzark-Ouachita Mesic Hardwood Forest
+p530
+aVOzark-Ouachita Riparian
+p531
+aVOzark-Ouachita Shortleaf Pine-Bluestem Woodland
+p532
+aVOzark-Ouachita Shortleaf Pine-Oak Forest and Woodland
+p533
+aVPaleozoic Plateau Bluff and Talus
+p534
+aVPasture/Hay
+p535
+aVQuarries, Mines, Gravel Pits and Oil Wells
+p536
+aVRecently Burned
+p537
+aVRecently Burned Forest
+p538
+aVRecently Burned Grassland
+p539
+aVRecently Burned Shrubland
+p540
+aVRecently Chained Pinyon-Juniper Areas
+p541
+aVRecently Logged Areas
+p542
+aVRed River Large Floodplain Forest
+p543
+aVRidge and Valley Calcareous Valley Bottom Glade and Woodland
+p544
+aVRocky Mountain Alpine Bedrock and Scree
+p545
+aVRocky Mountain Alpine Dwarf-Shrubland
+p546
+aVRocky Mountain Alpine Fell-Field
+p547
+aVRocky Mountain Alpine Tundra/Fell-field/Dwarf-shrub
+p548
+aVRocky Mountain Alpine-Montane Wet Meadow
+p549
+aVRocky Mountain Aspen Forest and Woodland
+p550
+aVRocky Mountain Bigtooth Maple Ravine Woodland
+p551
+aVRocky Mountain Cliff, Canyon and Massive Bedrock
+p552
+aVRocky Mountain Dry Tundra
+p553
+aVRocky Mountain Foothill Limber Pine-Juniper Woodland
+p554
+aVRocky Mountain Gambel Oak-Mixed Montane Shrubland
+p555
+aVRocky Mountain Lodgepole Pine Forest
+p556
+aVRocky Mountain Lower Montane Riparian Woodland and Shrubland
+p557
+aVRocky Mountain Lower Montane-Foothill Shrubland
+p558
+aVRocky Mountain Montane Riparian Systems
+p559
+aVRocky Mountain Poor-Site Lodgepole Pine Forest
+p560
+aVRocky Mountain Subalpine Dry-Mesic Spruce-Fir Forest and Woodland
+p561
+aVRocky Mountain Subalpine Mesic Spruce-Fir Forest and Woodland
+p562
+aVRocky Mountain Subalpine-Montane Fen
+p563
+aVRocky Mountain Subalpine-Montane Limber-Bristlecone Pine Woodland
+p564
+aVRocky Mountain Subalpine-Montane Mesic Meadow
+p565
+aVRocky Mountain Subalpine-Montane Riparian Shrubland
+p566
+aVRocky Mountain Subalpine-Montane Riparian Woodland
+p567
+aVRuderal Upland - Old Field
+p568
+aVRuderal Wetland
+p569
+aVSierra Nevada Cliff and Canyon
+p570
+aVSierra Nevada Subalpine Lodgepole Pine Forest and Woodland
+p571
+aVSierran-Intermontane Desert Western White Pine-White Fir Woodland
+p572
+aVSonora-Mojave Creosotebush-White Bursage Desert Scrub
+p573
+aVSonora-Mojave Mixed Salt Desert Scrub
+p574
+aVSonora-Mojave Semi-Desert Chaparral
+p575
+aVSonoran Mid-Elevation Desert Scrub
+p576
+aVSonoran Paloverde-Mixed Cacti Desert Scrub
+p577
+aVSouth Florida Bayhead Swamp
+p578
+aVSouth Florida Cypress Dome
+p579
+aVSouth Florida Dwarf Cypress Savanna
+p580
+aVSouth Florida Everglades Sawgrass Marsh
+p581
+aVSouth Florida Freshwater Slough and Gator Hole
+p582
+aVSouth Florida Hardwood Hammock
+p583
+aVSouth Florida Mangrove Swamp
+p584
+aVSouth Florida Pine Flatwoods
+p585
+aVSouth Florida Pine Rockland
+p586
+aVSouth Florida Shell Hash Beach
+p587
+aVSouth Florida Wet Marl Prairie
+p588
+aVSouth Texas Dune and Coastal Grassland
+p589
+aVSouth Texas Lomas
+p590
+aVSouth Texas Sand Sheet Grassland
+p591
+aVSouth-Central Interior / Upper Coastal Plain Flatwoods
+p592
+aVSouth-Central Interior / Upper Coastal Plain Wet Flatwoods
+p593
+aVSouth-Central Interior Large Floodplain
+p594
+aVSouth-Central Interior Large Floodplain - Forest Modifier
+p595
+aVSouth-Central Interior Large Floodplain - Herbaceous Modifier
+p596
+aVSouth-Central Interior Mesophytic Forest
+p597
+aVSouth-Central Interior Small Stream and Riparian
+p598
+aVSoutheast Florida Beach
+p599
+aVSoutheast Florida Coastal Strand and Maritime Hammock
+p600
+aVSoutheastern Great Plains Tallgrass Prairie
+p601
+aVSoutheastern Interior Longleaf Pine Woodland
+p602
+aVSouthern Appalachian Granitic Dome
+p603
+aVSouthern Appalachian Grass and Shrub Bald
+p604
+aVSouthern Appalachian Grass and Shrub Bald - Herbaceous Modifier
+p605
+aVSouthern Appalachian Grass and Shrub Bald - Shrub Modifier
+p606
+aVSouthern Appalachian Low Mountain Pine Forest
+p607
+aVSouthern Appalachian Montane Cliff
+p608
+aVSouthern Appalachian Montane Pine Forest and Woodland
+p609
+aVSouthern Appalachian Northern Hardwood Forest
+p610
+aVSouthern Appalachian Rocky Summit
+p611
+aVSouthern Blackland Tallgrass Prairie
+p612
+aVSouthern California Coast Ranges Cliff and Canyon
+p613
+aVSouthern California Coastal Scrub
+p614
+aVSouthern California Dry-Mesic Chaparral
+p615
+aVSouthern California Oak Woodland and Savanna
+p616
+aVSouthern Coastal Plain Blackwater River Floodplain Forest
+p617
+aVSouthern Coastal Plain Dry Upland Hardwood Forest
+p618
+aVSouthern Coastal Plain Herbaceous Seepage Bog
+p619
+aVSouthern Coastal Plain Hydric Hammock
+p620
+aVSouthern Coastal Plain Nonriverine Basin Swamp
+p621
+aVSouthern Coastal Plain Nonriverine Basin Swamp - Okefenokee Bay/Gum Modifier
+p622
+aVSouthern Coastal Plain Nonriverine Basin Swamp - Okefenokee Clethra Modifier
+p623
+aVSouthern Coastal Plain Nonriverine Basin Swamp - Okefenokee Nupea Modifier
+p624
+aVSouthern Coastal Plain Nonriverine Basin Swamp - Okefenokee Pine Modifier
+p625
+aVSouthern Coastal Plain Nonriverine Basin Swamp - Okefenokee Taxodium Modifier
+p626
+aVSouthern Coastal Plain Nonriverine Cypress Dome
+p627
+aVSouthern Coastal Plain Oak Dome and Hammock
+p628
+aVSouthern Coastal Plain Seepage Swamp and Baygall
+p629
+aVSouthern Colorado Plateau Sand Shrubland
+p630
+aVSouthern Crowley's Ridge Mesic Loess Slope Forest
+p631
+aVSouthern Interior Acid Cliff
+p632
+aVSouthern Interior Calcareous Cliff
+p633
+aVSouthern Interior Low Plateau Dry-Mesic Oak Forest
+p634
+aVSouthern Piedmont Cliff
+p635
+aVSouthern Piedmont Dry Oak-(Pine) Forest
+p636
+aVSouthern Piedmont Dry Oak-(Pine) Forest - Hardwood Modifier
+p637
+aVSouthern Piedmont Dry Oak-(Pine) Forest - Loblolly Pine Modifier
+p638
+aVSouthern Piedmont Dry Oak-(Pine) Forest - Mixed Modifier
+p639
+aVSouthern Piedmont Dry Oak-Heath Forest - Mixed Modifier
+p640
+aVSouthern Piedmont Glade and Barrens
+p641
+aVSouthern Piedmont Granite Flatrock
+p642
+aVSouthern Piedmont Large Floodplain Forest - Forest Modifier
+p643
+aVSouthern Piedmont Mesic Forest
+p644
+aVSouthern Piedmont Small Floodplain and Riparian Forest
+p645
+aVSouthern Piedmont/Ridge and Valley Upland Depression Swamp
+p646
+aVSouthern Ridge and Valley Dry Calcareous Forest
+p647
+aVSouthern Ridge and Valley Dry Calcareous Forest - Pine modifier
+p648
+aVSouthern Rocky Mountain Dry-Mesic Montane Mixed Conifer Forest and Woodland
+p649
+aVSouthern Rocky Mountain Juniper Woodland and Savanna
+p650
+aVSouthern Rocky Mountain Mesic Montane Mixed Conifer Forest and Woodland
+p651
+aVSouthern Rocky Mountain Montane-Subalpine Grassland
+p652
+aVSouthern Rocky Mountain Pinyon-Juniper Woodland
+p653
+aVSouthern Rocky Mountain Ponderosa Pine Savanna
+p654
+aVSouthern Rocky Mountain Ponderosa Pine Woodland
+p655
+aVSouthern and Central Appalachian Bog and Fen
+p656
+aVSouthern and Central Appalachian Cove Forest
+p657
+aVSouthern and Central Appalachian Oak Forest
+p658
+aVSouthern and Central Appalachian Oak Forest - Xeric
+p659
+aVSouthwest Florida Beach
+p660
+aVSouthwest Florida Coastal Strand and Maritime Hammock
+p661
+aVSouthwest Florida Dune and Coastal Grassland
+p662
+aVSouthwestern Great Plains Canyon
+p663
+aVSuccessional Shrub/Scrub (Other)
+p664
+aVTamaulipan Calcareous Thornscrub
+p665
+aVTamaulipan Clay Grassland
+p666
+aVTamaulipan Floodplain
+p667
+aVTamaulipan Mesquite Upland Scrub
+p668
+aVTamaulipan Mixed Deciduous Thornscrub
+p669
+aVTamaulipan Riparian Systems
+p670
+aVTamaulipan Savanna Grassland
+p671
+aVTemperate Pacific Freshwater Aquatic Bed
+p672
+aVTemperate Pacific Freshwater Emergent Marsh
+p673
+aVTemperate Pacific Freshwater Mudflat
+p674
+aVTemperate Pacific Intertidal Mudflat
+p675
+aVTemperate Pacific Montane Wet Meadow
+p676
+aVTemperate Pacific Tidal Salt and Brackish Marsh
+p677
+aVTexas Coastal Bend Beach
+p678
+aVTexas Saline Coastal Prairie
+p679
+aVTexas-Louisiana Coastal Prairie
+p680
+aVTexas-Louisiana Coastal Prairie Slough
+p681
+aVUnconsolidated Shore
+p682
+aVUnconsolidated Shore (Beach/Dune)
+p683
+aVUnconsolidated Shore (Lake/River/Pond)
+p684
+aVUpper Texas Coast Beach
+p685
+aVUtility Swath - Herbaceous
+p686
+aVWest Gulf Coastal Plain Catahoula Barrens
+p687
+aVWest Gulf Coastal Plain Chenier and Upper Texas Coastal Fringe Forest and Woodland
+p688
+aVWest Gulf Coastal Plain Large River Floodplain Forest
+p689
+aVWest Gulf Coastal Plain Mesic Hardwood Forest
+p690
+aVWest Gulf Coastal Plain Near-Coast Large River Swamp
+p691
+aVWest Gulf Coastal Plain Nepheline Syenite Glade
+p692
+aVWest Gulf Coastal Plain Nonriverine Wet Hardwood Flatwoods
+p693
+aVWest Gulf Coastal Plain Northern Calcareous Prairie
+p694
+aVWest Gulf Coastal Plain Pine-Hardwood Flatwoods
+p695
+aVWest Gulf Coastal Plain Pine-Hardwood Forest
+p696
+aVWest Gulf Coastal Plain Sandhill Oak and Shortleaf Pine Forest and Woodland
+p697
+aVWest Gulf Coastal Plain Seepage Swamp and Baygall
+p698
+aVWest Gulf Coastal Plain Small Stream and River Forest
+p699
+aVWest Gulf Coastal Plain Southern Calcareous Prairie
+p700
+aVWest Gulf Coastal Plain Upland Longleaf Pine Forest and Woodland
+p701
+aVWest Gulf Coastal Plain Wet Longleaf Pine Savanna and Flatwoods
+p702
+aVWestern Great Plains Badland
+p703
+aVWestern Great Plains Cliff and Outcrop
+p704
+aVWestern Great Plains Closed Depression Wetland
+p705
+aVWestern Great Plains Depressional Wetland Systems
+p706
+aVWestern Great Plains Dry Bur Oak Forest and Woodland
+p707
+aVWestern Great Plains Floodplain
+p708
+aVWestern Great Plains Floodplain Systems
+p709
+aVWestern Great Plains Foothill and Piedmont Grassland
+p710
+aVWestern Great Plains Mesquite Woodland and Shrubland
+p711
+aVWestern Great Plains Open Freshwater Depression Wetland
+p712
+aVWestern Great Plains Riparian Woodland and Shrubland
+p713
+aVWestern Great Plains Saline Depression Wetland
+p714
+aVWestern Great Plains Sand Prairie
+p715
+aVWestern Great Plains Sandhill Steppe
+p716
+aVWestern Great Plains Shortgrass Prairie
+p717
+aVWestern Great Plains Tallgrass Prairie
+p718
+aVWestern Great Plains Wooded Draw and Ravine
+p719
+aVWillamette Valley Upland Prairie and Savanna
+p720
+aVWillamette Valley Wet Prairie
+p721
+aVWyoming Basins Dwarf Sagebrush Shrubland and Steppe
+p722
+aS'All map units (codes)'
+p723
+tp724
+sg34
+(g2
+((lp725
+I3106
+aI3107
+aI3109
+aI3112
+aI3113
+aI3114
+aI3115
+aI3117
+aI3118
+aI3119
+aI3120
+aI3125
+atp726
+Rp727
+S"Map unit has 'Beach' in the names"
+p728
+tp729
+sg35
+(g2
+((lp730
+I3401
+aI3402
+atp731
+Rp732
+S"Returns a tuple of mudflat MU's."
+p733
+tp734
+s.
