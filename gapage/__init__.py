@@ -1,3 +1,3 @@
-import gapdb, gapmodeling, dictionaries, conversions, beta, arcmap, gaprasters, match_and_filter
+import gapdb, gapmodeling, dictionaries, conversions, beta, gaprasters, match_and_filter
 __all__ = ['gapdb', 'gapmodeling', 'dictionaries', 'conversions', 'beta',
-            'arcmap' 'gaprasters', 'match_and_filter']
+            'gaprasters', 'match_and_filter']
