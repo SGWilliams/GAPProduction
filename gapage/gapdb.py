@@ -169,13 +169,16 @@
 ##            function is called. Also returns the number of records to be deleted and
 ##            the initial/total number of records in the table.
 ##
+## ADD SPECIES:
+##      AddSpecies(inTable, username, pwd)
+##          Code for adding a new species to the databases.
 ##
 
 
 #######################################
 ##### Importing other modules and setting global variables
 
-import pyodbc, gapageconfig
+import pyodbc, gapageconfig, tables, sys
 from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict
 
 
@@ -1821,3 +1824,276 @@ def __main():
 
 if __name__ == "__main__":
     __main()
+
+
+
+#########################################################################
+########################################################
+#################################
+## Add a new species to the databases
+# Class to store the species' taxonomic info, codes, etc.
+
+class __Species():
+    def __init__(self, row, curSp, curWHR, connSp, connWHR):
+        self.gapID, self.nameCommon, self.nameClass, self.nameOrder, self.nameFamily, \
+            self.nameGenus, self.nameSpecies, self.nameSubSpecies, self.elCode, \
+            self.DownloadFileName, self.Sensitive = row
+
+        self.gapID = gap.gapdb.GapCase(self.gapID)
+        self.nameGenus = self.nameGenus.title()
+        self.nameClass = self.nameClass.title()
+        self.nameOrder = self.nameOrder.title()
+        self.nameFamily = self.nameFamily.title()
+        self.nameSpecies = self.nameSpecies.lower()
+        self.nameSubSpecies = self.nameSubSpecies.lower()
+
+        self.nameBinom = '{0} {1}'.format(self.nameGenus, self.nameSpecies)
+        self.nameSci = '{0} {1}'.format(self.nameBinom, self.nameSubSpecies)
+
+        self.modelCode = '{0}-y0'.format(self.gapID)
+        self.fourCode = self.gapID[1:-1]
+
+        self.ServiceCode = '{0}_{1}'.format(gap.match_and_filter.LegalChars(self.nameCommon), self.gapID)
+
+        self.curSp = curSp
+        self.curWHR = curWHR
+        self.connSp = connSp
+        self.connWHR = connWHR
+
+
+# Public function for adding a species to the GAP databases
+def AddSpecies(inTable, userName, pwd):
+    '''
+    (str, str, str) ->
+
+    Adds a species to the GAP databases.
+
+    Arguments:
+    inTable -- The path of the table containing the relevant species information.
+        a template table can be found at: ...\GAPage\data\SppToAdd_template\SppToAdd.csv.
+        Please copy the table and fill in the appropriate fields as in the example
+        species.
+    userName -- A write-permission-granted user name for the Species Database
+        and for the WHRDB.
+    pwd -- The password matching the given user name.
+    '''
+    # Connect to the databases
+    curSp, connSp = ConnectSppDB(userName, pwd)
+    curWHR, connWHR = ConnectWHR(userName, pwd)
+
+    # Read the species' info from the passed table
+    rows = tables.ListFromTable(inTable)[1:]
+
+    # Verify that none of the passed species codes are already in use
+    __CheckSpp(inTable)
+
+    # For each species from the table, process the species
+    for row in rows:
+        print 'Input data:', row
+        # Create a Species object
+        sp = __Species(row, curSp, curWHR, connSp, connWHR)
+        try:
+            # Send the species through the queries, getting back a list of exceptions
+            exes = __ProcessSp(sp)
+            # Parse the exceptions and determine whether the user wishes to proceed
+            commit = __FilterExceptions(exes, sp)
+            # Apply the updates to the databases
+            if commit:
+                sp.connSp.commit()
+                sp.connWHR.commit()
+                print 'Updates have been committed to the databases.'
+            # Undo the updates to the databases
+            else:
+                sp.connSp.rollback()
+                sp.connWHR.rollback()
+        except Exception as e:
+            print 'Exception. Rolling back changes.'
+            sp.connSp.rollback()
+            sp.connWHR.rollback()
+            print e
+
+# Verify that the species codes are not already in use
+def __CheckSpp(table):
+    sppToAdd = tables.ListValues(table, 0)
+    sppExisting = ListAllSpecies()
+    for sp in sppToAdd[1:]:
+        if sp in sppExisting:
+            done = raw_input('\nThe species code {0} already exists in the database.\nAddress this issue and then try again.\n\nPress any key to close.'.format(sp))
+            sys.exit()
+
+
+# Parse the exceptions, taking note of all except the duplicate primary keys
+def __FilterExceptions(exes, sp):
+    exesDupe = list()
+    exesOther = list()
+    if len(exes) > 0:
+        for ex in exes:
+            if 'duplicate' in ex[-1]:
+                exesDupe.append(ex)
+            else:
+                exesOther.append(ex)
+    # Let the user see the duplicate primary key exceptions
+    if len(exesDupe) > 0:
+        print '\n\nNote that the {0} already occurs in one or more tables in the database. This may not be a problem; if you are attempting to un-drop a species, this is expected. See the following messages:'.format(sp.gapID)
+        for ex in exesDupe:
+            print '\n', ex
+
+    # Warn the user about all other exceptions, giving them the option to rollback
+    # changes
+    if len(exesOther) > 0:
+        print '\n\nThe following error(s) occurred while attempting to update the databases:'
+        for ex in exesOther:
+            print '\n', ex
+        while True:
+            commit = raw_input("\nGiven the above errors, please indicate whether you wish to save the changes to the database.\nEnter 'Y' to try saving the changes; enter 'N' to rollback the database updates:\n").lower()
+            if commit == 'y':
+                return True
+            if commit == 'n':
+                return False
+    return True
+
+
+
+# Base function for processing a species
+def __ProcessSp(sp):
+    exes = list()
+
+    # Run the species through each of the queries
+    for func in [__01_sp_tblAllSpecies, \
+                 __02_sp_tblModelingInfo, \
+                 __03_sp_tblModelStatus, \
+                 __04_sp_tblUpdateDateTime, \
+                 __05_whr_tblAllSpecies, \
+                 __06_whr_tblModelStatus, \
+                 __07_whr_tblModelingAncillary, \
+                 __08_whr_tblSppMapUnitPres, \
+                 __09_whr_tblHabNotes, \
+                 __10_whr_tblModelText, \
+                 __11_whr_tblTaxa, \
+                 __12_whr_tblConservationConcern, \
+                 __13_whr_tblSpeciesNotes]:
+        try:
+            func(sp)
+        except Exception as e:
+            #print e
+            exes.append(e)
+
+    return exes
+
+
+# Create the query string
+def __StartQuery(cur, count, tableName):
+    colNames = list()
+    for row in cur.columns(table=tableName):
+        colNames.append(row.column_name)
+
+    colNames = ', '.join(colNames[:count])
+
+    qry = '''INSERT INTO {0} ({1})'''.format(tableName, colNames)
+    return qry
+
+
+# Execute the query
+def __Insert(cur, tup, qry):
+    if len(tup) == 1:
+        qry = "{0} VALUES ('{1}')".format(qry, tup[0])
+    else:
+        qry = qry + ' VALUES {0}'.format(tup)
+
+    cur.execute(qry)
+
+
+# Query for the Species database's AllSpecies table
+def __01_sp_tblAllSpecies(sp):
+    tup = (sp.gapID, sp.nameBinom, sp.nameCommon, sp.gapID[0], sp.nameClass, \
+           sp.nameOrder, sp.nameFamily, sp.nameGenus, sp.nameSpecies, \
+           sp.nameSubSpecies, sp.nameSci, '', '', '', '', 'Not Started', \
+           'Not Started', sp.DownloadFileName, sp.Sensitive, sp.ServiceCode)
+
+    qry = '''INSERT INTO tblAllSpecies'''
+
+    __Insert(sp.curSp, tup, qry)
+
+def __02_sp_tblModelingInfo(sp):
+    tup = (sp.gapID, sp.modelCode, sp.gapID[0].upper(), \
+           sp.fourCode, sp.gapID[-1].upper(), 'Y', 0, \
+           sp.modelCode[:-1], 1, 1, sp.nameBinom, sp.nameSubSpecies, \
+           sp.nameCommon, sp.elCode)
+
+    qry = __StartQuery(sp.curSp, len(tup), 'tblModelingInfo')
+
+    __Insert(sp.curSp, tup, qry)
+
+def __03_sp_tblModelStatus(sp):
+    tup = [sp.modelCode]
+    qry = '''INSERT INTO tblModelStatus (strSpeciesModelCode)'''
+    __Insert(sp.curSp, tup, qry)
+
+def __04_sp_tblUpdateDateTime(sp):
+    tup = [sp.gapID]
+
+    qry = '''INSERT INTO tblUpdateDateTime (strUniqueID)'''
+
+    __Insert(sp.curSp, tup, qry)
+
+def __05_whr_tblAllSpecies(sp):
+    tup = (sp.modelCode, 'Y', 'Year-round', 0, sp.modelCode[:-1], sp.gapID, '', \
+           1, sp.nameBinom, sp.nameSubSpecies, sp.nameCommon, 'US', \
+           sp.gapID[0], sp.elCode, sp.fourCode)
+
+    qry = __StartQuery(sp.curWHR, len(tup), 'tblAllSpecies')
+
+    __Insert(sp.curWHR, tup, qry)
+
+def __06_whr_tblModelStatus(sp):
+    tup = (sp.modelCode, sp.gapID)
+    qry = '''INSERT INTO tblModelStatus (strSpeciesModelCode, strUC)'''
+    __Insert(sp.curWHR, tup, qry)
+
+def __07_whr_tblModelingAncillary(sp):
+    tup = [sp.modelCode]
+    qry = '''INSERT INTO tblModelingAncillary (strSpeciesModelCode)'''
+    __Insert(sp.curWHR, tup, qry)
+
+def __08_whr_tblSppMapUnitPres(sp):
+    mus = AllMUs(False, True)
+
+    rows = list()
+    for mu in mus:
+        rows.append([sp.modelCode, mu, False, False])
+
+    qry = '''INSERT INTO tblSppMapUnitPres
+             VALUES (?, ?, ?, ?)'''
+
+    sp.curWHR.executemany(qry, rows)
+
+def __09_whr_tblHabNotes(sp):
+    tup = [sp.modelCode]
+    qry = '''INSERT INTO tblHabNotes (strSpeciesModelCode)'''
+    __Insert(sp.curWHR, tup, qry)
+
+def __10_whr_tblModelText(sp):
+    tup = [sp.modelCode]
+    qry = '''INSERT INTO tblModelText (strSpeciesModelCode)'''
+    __Insert(sp.curWHR, tup, qry)
+
+def __11_whr_tblTaxa(sp):
+    tup = (sp.gapID, sp.nameBinom, sp.nameSubSpecies, sp.gapID[-1], sp.nameCommon, \
+           sp.elCode, sp.gapID[0])
+    qry = __StartQuery(sp.curWHR, len(tup), 'tblTaxa')
+    __Insert(sp.curWHR, tup, qry)
+
+def __12_whr_tblConservationConcern(sp):
+    tup = [sp.gapID]
+    qry = '''INSERT INTO tblConservationConcern (strUC)'''
+    __Insert(sp.curWHR, tup, qry)
+
+def __13_whr_tblSpeciesNotes(sp):
+    tup = [sp.gapID]
+    qry = '''INSERT INTO tblSpeciesNotes (strUC)'''
+    __Insert(sp.curWHR, tup, qry)
+
+
+
+if __name__ == '__main__':
+    pass

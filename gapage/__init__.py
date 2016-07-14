@@ -1,6 +1,7 @@
 import gapemail, docs, gapmath, gapdb, gapmodeling, dictionaries, conversions, gaprange, \
-        beta, gaprasters, match_and_filter, states, tables, featureclasses, zipping, gaprichness
+        beta, gaprasters, match_and_filter, states, tables, featureclasses, zipping, gaprichness, \
+        spatial, gapmetadata
 
 __all__ = ['gapemail', 'docs', 'gapmath', 'gapdb', 'gapmodeling', 'dictionaries', 'conversions', 
            'gaprange', 'beta', 'gaprasters', 'match_and_filter', 'states', 'tables', 
-           'featureclasses', 'zipping', 'gaprichness']
+           'featureclasses', 'zipping', 'gaprichness', 'spatial', 'gapmetadata']
