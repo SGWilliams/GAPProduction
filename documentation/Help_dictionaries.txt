@@ -1,0 +1,163 @@
+Python Library Documentation: module gapage.dictionaries in gapage
+
+NAME
+    gapage.dictionaries
+
+FILE
+    t:\scripts\gapage\gapage\dictionaries.py
+
+DESCRIPTION
+    ## This module stores dictionaries commonly used in processing GAP data as well
+    ## as general functions for manipulating dictionaries.
+    ##
+    ##
+    ## Public functions:
+    ##
+    ## InvertDictionary() -- Returns a dictionary in which the keys are the values
+    ##      from the input dictionary, and the values are a list of keys that had
+    ##      that value in the input dictionary
+    ##
+    ## ReverseDictionary() -- Returns a dictionary in which the keys and values have
+    ##      been swapped.
+    ##
+    ## IterableOfIterablesToDictionary() - Converts a list/tuple of lists/tuples to a
+    ##      dictionary
+    ##
+    ##
+    ## Public variables:
+    ##
+    ## stateDict_To_Abbr -- A dictionary in which the keys are state/territory names
+    ##      and the values are the states' two-character postal code abbreviations.
+    ##
+    ## stateDict_From_Abbr -- A dictionary in which the keys are the states' two-
+    ##      character postal code abbreviations, and the values are the state names.
+    ##
+    ## taxaDict -- A dictionary in which the keys are the class letter, used as the
+    ##      the first character in the six-character GAP unique IDs for species, and
+    ##      the values are the class common name
+    ##
+    ## taxaDict_Latin -- A dictionary in which the keys are the class letter, used
+    ##      as the the first character in the six-character GAP unique IDs for
+    ##      species, and the values are the class scientific name
+    ##
+    ## stateFIPS_Code_to_Name -- A dictionary in which the keys are the state FIPS
+    ##      codes (as int) and the values are the state names
+    ##
+    ## stateFIPS_Name_to_Code -- A dictionary in which the keys are the state names
+    ##      and the values are the state FIPS codes (as int)
+    ##
+    ## regionsDict_Num_To_Name = A dictionary in which the keys are the GAP modeling
+    ##      regions by numerical code (as int) and the values are the names of the
+    ##      modeling regions
+    ##
+    ## regionsDict_Num_To_Abbr = A dictionary in which the keys are the GAP modeling
+    ##      regions by numerical code (as int) and the values are the abbreviations
+    ##      of the modeling regions
+    ##
+    ## regionsDict_Abbr_To_Num = A dictionary in which the keys are the GAP modeling
+    ##      region abbreviations and the values are the modeling region codes (as
+    ##      int)
+    ##
+    ## regionsDict_Name_To_Num = A dictionary in which the keys are the GAP modeling
+    ##      region names and the values are the modeling region codes (as int)
+    ##
+    ## regionsDict_Abbr_To_Name = A dictionary in which the keys are the GAP
+    ##      modeling region abbreviations and the vlaues are the modeling region
+    ##      names
+    ##
+    ##
+
+FUNCTIONS
+    InvertDictionary(d, listsToTuples=False)
+        (dict) -> dict
+        
+        Returns a dictionary in which the keys are the values from the input
+          dictionary, and the values are a list of keys that had that value in
+          the input dictionary.
+        
+        Note that this differs from ReverseDictionary() in that this retains all
+          information from the input dictionary (given that all values are hashable)
+          and in that the output values here are always lists.
+        
+        Arguments:
+        d - The dictionary that you wish to invert
+        listToTuples - An optional, boolean parameter indicating whether you wish to
+          convert input values that are lists into tuples so that they can be used
+          as keys in the output dictionary. By default, it is set to False, meaning
+          that any entry in the input dictionary that has a value that is a list will
+          not be included in the output dictionary in any form. If set to true, the
+          list will be converted to a tuple, and that tuple will be a key in the
+          output dictionary.
+        
+        Examples:
+        >>> InvertDictionary({'a':'Amphibians', 'b':'Birds', 'm':'Mammals', 'r':'Reptiles'})
+        {'Amphibians':['a'], 'Birds':['b'], 'Mammals':['m'], 'Reptiles':['r']}
+        >>> InvertDictionary({'one':1, 'two':2, 'dos':2, 'three':3, 'uno':1})
+        {1: ['uno', 'one'], 2: ['dos', 'two'], 3: ['three']}
+    
+    IterableOfIterablesToDictionary(lot, itemsInKey=1)
+        (list/tuple, integer) -> dictionary
+        
+        Converts a list/tuple of lists/tuples to a dictionary, in which the key is
+            the first item from each tuple, and the value is the second item. If a
+            tuple holds more than two items, the value is a tuple of all the
+            remaining items.
+            The optional parameter 'itemsInKey', takes an integer of the number of
+                items to be joined in a tuple as the key.
+        
+        Arguments:
+        lot -- A list/tuple of lists/tuples.
+        itemsInKey -- An optional integer parameter indicating the number of items
+            you wish to hold in the dictionary's keys. Items are taken from the
+            beginning of the list and are stored in the key as a tuple.
+        
+        Example:
+        >>> myList1 = [(1, 13204036), (2, 47693447), (3, 97988818), (4, 386758918)]
+        >>> IterableOfIterablesToDictionary(myList1)
+        {1: 13204036, 2: 47693447, 3: 97988818, 4: 386758918}
+        >>> myList2 = [(1, 'summer', 13204036), (2, 'summer', 47693447), (3, 'winter', 97988818), (4, 'winter', 386758918)]
+        >>> IterableOfIterablesToDictionary(myList2)
+        {1: ('summer', 13204036), 2: ('summer', 47693447), 3: ('winter', 97988818), 4: ('winter', 386758918)}
+        >>> IterableOfIterablesToDictionary(myList2, 2)
+        {(4, 'winter'): 386758918, (1, 'summer'): 13204036, (2, 'summer'): 47693447, (3, 'winter'): 97988818}
+        >>> myList3 = [(1, 'summer', 'testVal', 13204036), (2, 'summer', 47693447), (3, 'winter', 'testVal', 97988818), (4, 'winter', 386758918)]
+        >>> IterableOfIterablesToDictionary(myList3, itemsInKey = 2)
+        {(4, 'winter'): 386758918, (1, 'summer'): ('testVal', 13204036), (2, 'summer'): 47693447, (3, 'winter'): ('testVal', 97988818)}
+    
+    ReverseDictionary(d)
+        (dict) -> dict
+        
+        Returns a dictionary in which the keys and values have been swapped.
+        
+        Note that this function differs from InvertDictionary() in that the output
+          values here are always single items and in that some information may be
+          lost (given recurring values in the input dictionary).
+        
+        Values in the original dictionary that are of hashable data types are the
+        only entries included in the output dictionary.
+        
+        Examples:
+        >>> ReverseDictionary({'a':'Amphibians', 'b':'Birds', 'm':'Mammals', 'r':'Reptiles'})
+        {'Amphibians':'a', 'Birds':'b', 'Mammals':'m', 'Reptiles':'r'}
+        >>> ReverseDictionary({'b':['Birds','others'], 'm':'Mammals', 'r':('Reptiles','and more'), 'f':38, 24:'Twenty-four'})
+        {('Reptiles', 'and more'): 'r', 'Mammals': 'm', 38: 'f', 'Twenty-four': 24}
+        >>> ReverseDictionary({'one':1, 'two':2, 'dos':2, 'three':3, 'uno':1})
+        {1: 'one', 2: 'two', 3: 'three'}
+    
+    StateFIPSDict(stateKeys=False)
+
+DATA
+    regionsDict_Abbr_To_Name = {'GP': 'Great Plains', 'NE': 'Northeast', '...
+    regionsDict_Abbr_To_Num = {'GP': 5, 'NE': 3, 'NW': 1, 'SE': 6, 'SW': 4...
+    regionsDict_Name_To_Num = {'Great Plains': 5, 'Northeast': 3, 'Northwe...
+    regionsDict_Num_To_Abbr = {1: 'NW', 2: 'UM', 3: 'NE', 4: 'SW', 5: 'GP'...
+    regionsDict_Num_To_Name = {1: 'Northwest', 2: 'Upper Midwest', 3: 'Nor...
+    stateDict_From_Abbr = {'AK': 'Alaska', 'AL': 'Alabama', 'AR': 'Arkansa...
+    stateDict_From_Abbr_CONUS = {'AL': 'Alabama', 'AR': 'Arkansas', 'AZ': ...
+    stateDict_To_Abbr = {'Alabama': 'AL', 'Alaska': 'AK', 'American Somoa'...
+    stateFIPS_Code_To_Name = {1: u'ALABAMA', 4: u'ARIZONA', 5: u'ARKANSAS'...
+    stateFIPS_Name_To_Code = {None: 0, u'ALABAMA': 1, u'ARIZONA': 4, u'ARK...
+    taxaDict = {'a': 'Amphibians', 'b': 'Birds', 'm': 'Mammals', 'r': 'Rep...
+    taxaDict_Latin = {'a': 'Amphibia', 'b': 'Aves', 'm': 'Mammalia', 'r': ...
+
+

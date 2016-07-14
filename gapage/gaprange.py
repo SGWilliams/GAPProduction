@@ -21,11 +21,14 @@
 
 import os, gapageconfig, gapdb, dictionaries, docs
 
-arcpy.CheckOutExtension("Spatial")
-arcpy.env.pyramid = "NONE"
-arcpy.env.overwriteOutput = "TRUE"
-arcpy.env.qualifiedFieldNames = False
-
+try:
+    import arcpy
+    arcpy.CheckOutExtension("Spatial")
+    arcpy.env.pyramid = "NONE"
+    arcpy.env.overwriteOutput = "TRUE"
+    arcpy.env.qualifiedFieldNames = False
+except:
+    print("Can't load arcpy")
 
 __headingsList = ['Origin', 'Presence', 'Repro', 'Season']
 
@@ -238,9 +241,10 @@ def RangeTable(sp, outDir, state=False, includeMigratory=True, includeHistoric=T
     Example:
     >>> RangeTable('mNAROx', 'My_Range_Folder')
     '''
+    '''    
     arcpy.env.workspace = outDir
     arcpy.env.scratchWorkspace = outDir
-
+    '''
     try:
         # Ensure that the output directory exists
         __CheckDir(outDir)
@@ -432,19 +436,19 @@ def __Dissolve(sp, outShp):
     '''
     try:
         import arcpy
-            outDiss1 = sp + 'diss1.shp'
-            outDiss2 = sp + 'diss2.shp'
-            # Dissolve the range twice, because nationwide ranges often result in large
-            # blocks not being dissolved on the first run.
-            arcpy.Dissolve_management(outShp, outDiss1, __headingsList)
-            # Delete the undissolved range
-            arcpy.Delete_management(outShp)
-            arcpy.Dissolve_management(outDiss1, outDiss2, __headingsList)
-            # Delete the first dissolved range
-            arcpy.Delete_management(outDiss1)
-            # Rename the dissolved range
-            arcpy.Rename_management(outDiss2, os.path.basename(outShp))
-            return
+        outDiss1 = sp + 'diss1.shp'
+        outDiss2 = sp + 'diss2.shp'
+        # Dissolve the range twice, because nationwide ranges often result in large
+        # blocks not being dissolved on the first run.
+        arcpy.Dissolve_management(outShp, outDiss1, __headingsList)
+        # Delete the undissolved range
+        arcpy.Delete_management(outShp)
+        arcpy.Dissolve_management(outDiss1, outDiss2, __headingsList)
+        # Delete the first dissolved range
+        arcpy.Delete_management(outDiss1)
+        # Rename the dissolved range
+        arcpy.Rename_management(outDiss2, os.path.basename(outShp))
+        return
     except:
         print("May not have been able to load arcpy")
 
@@ -473,7 +477,7 @@ def __AdministrativeBoundary(inShp, state):
         except Exception as e:
             print 'ERROR in __AdministrativeBoundary()'
             print e
-    excetpt:
+    except:
         print("May not have been able to load arcpy")
 
 

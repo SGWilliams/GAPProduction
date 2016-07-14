@@ -1,0 +1,36 @@
+Python Library Documentation: module gapage.gapmetadata in gapage
+
+NAME
+    gapage.gapmetadata
+
+FILE
+    t:\scripts\gapage\gapage\gapmetadata.py
+
+DESCRIPTION
+    ## Module to create species-specific metadata for a range table or model raster.
+    ##
+    ## Public Function:
+    ##
+    ## Run() -- Creates and processes the metadata for the input species and file.
+    ##
+    ##
+    ##
+
+FUNCTIONS
+    Run(sp, fPath)
+        (string, string)
+        
+        Creates dynamic, species-specific metadata for the input range or model.
+        
+        Returns True if the function ran successfully. Otherwise, returns False.
+        
+        Arguments:
+        sp -- The species' unique GAP ID
+        fPath -- The complete, absolute path to the range table or model raster
+            for which you wish to create metadata
+        
+        Example:
+        >>> import gapmetadata as gm
+        >>> gm.Run('aadsax', 'des_apa_adsax')
+
+

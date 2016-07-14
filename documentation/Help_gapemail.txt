@@ -1,0 +1,59 @@
+Python Library Documentation: module gapage.gapemail in gapage
+
+NAME
+    gapage.gapemail
+
+FILE
+    t:\scripts\gapage\gapage\gapemail.py
+
+DESCRIPTION
+    ## This module facilitates the sending of email messages.
+    ##
+    ## The sole public function is:
+    ## Email()
+    ##
+    ##
+    ##
+
+CLASSES
+    EmailAccount
+    EmailObject
+    
+    class EmailAccount
+     |  A class for objects representing the GAP email account.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+    
+    class EmailObject
+     |  A class for email objects, including the account to be used, the content,
+     |      subject, attachments, etc.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, toAddress, subject, content, attachment=False)
+
+FUNCTIONS
+    Email(toAddress, subject, content, attachment=False)
+        (str/list/tuple, str, str, [str/list]) -> boolean
+        
+        Sends an email.
+        
+        Arguments:
+        toAddress -- The address(es) to which you wish to send the email. Can be
+            a string representing a single email address or a list/tuple with many
+            addresses.
+        subject -- The subject line for the email.
+        content -- The content of the email.
+        attachment -- An optional parameter containing the path/paths to a file/files
+            that you wish to attach to the email. Can be a string representing a
+            single file or a list/tuple with many files.
+        
+        Examples:
+        >>> Email('tlaon@gmail.com', 'test subject', 'test message')
+        >>> Email(['tlaon@gmail.com','tlaon@uidaho.edu'], 'Test Subject', 'Test message', 'readme.txt')
+    
+    main()
+
+

@@ -1,0 +1,95 @@
+Python Library Documentation: module gapage.featureclasses in gapage
+
+NAME
+    gapage.featureclasses
+
+FILE
+    t:\scripts\gapage\gapage\featureclasses.py
+
+DESCRIPTION
+    ## This module contains functions to facilitate the processing of feature
+    ## classes (shapefiles and geodatabase feature classes).
+    ##
+    ## Public Functions:
+    ##
+    ## UseDACursor() -- Returns a boolean indicating whether the current system
+    ##      supports the data access module.
+    ##
+    ## ListValues() -- Return a list of all the values that occur in the given field
+    ##      in a feature class.
+    ##
+    ## CountOccurrencesOfValue() -- Counts the number of times that the given value
+    ##      occurs in the given field in the feature class.
+    ##
+    ## CountOccurrencesOfAllValues() -- Returns a dictionary within which the keys
+    ##      represent each unique value found in the field and the values
+    ##      represent the number of times that each value is found in the attribute
+    ##      table.
+    ##
+    ## FindDuplicateValues() -- Returns a list of values that occur multiple times
+    ##      in the given field.
+    ##
+    ## DeleteDuplicates() -- Delete records that share a value with another record.
+    ##      NOTE: This function will delete every matching record, not just the
+    ##      second and subsequent occurrences of the value.
+    ##
+    ## FieldsDictionary() -- Creates a dictionary where the keys and values are
+    ##      the field values from the passed fields for each record in the table/
+    ##      feature class. The key field must be a unique identifier to retain all
+    ##      data.
+    ##
+    ## FieldsDictionary_Inverse() -- Creates a dictionary where the keys and values
+    ##      are the field values from the passed fields for each record in the
+    ##      table/feature class. Differs from FieldsDictionary() in that, here, the
+    ##      keys do not need to be unique identifiers. Also, can only address a
+    ##      single value field. Furthermore, the returned dictionary values are
+    ##      lists.
+    ##
+    ## ListFromTable() -- Creates a list of lists. Each sub-list contains the values
+    ##     for a row in the input table/feature class.
+    ##
+    ## ListFields() -- Creates of a list of field names from the passed layer
+    ##
+    ## SetNulls() -- In the given attribute field(s), sets all Null values
+    ##      to match the passed value.
+    ##
+    ## ReplaceValue() -- In the given attribute field(s), sets all
+    ##      occurrences of the given value/string to match the new value/string
+    ##
+    ## ReplaceValues() -- In the given attribute field(s), sets all
+    ##      occurrences of any of the given values/strings to match the new value/string
+    ##
+    ## ReplaceValuesFromDict() -- In the given attribute field, updates
+    ##      occurrences of any of the dictionary's keys to match the key's corresponding value
+    ##
+    ## AttributeTableToCsv() - Exports the attribute table from the passed
+    ##      shapefile, feature class, raster, or geodatabase table to a csv.
+    ##
+    ## DomainAsDictionary() -- Returns the field's coded attribute domain as a
+    ##      dictionary, in which the keys are the codes and the values are the coded
+    ##      strings.
+    ##
+    ## RenameField() -- Renames the passed attribute field.
+    ##
+    ## CopyValues() -- For each feature in the feature class, copies the values from
+    ##      one field to another.
+    ##
+    ## ChangeFieldLength() -- Change the length property of a text field in the
+    ##      attribute table.
+    ##
+    ## GetMaxLength() -- Get the number of characters in the longest value from the
+    ##      passed field. If multiple fields are passed, returns the number of
+    ##      of characters in the longest concatenated string of values.
+    ##
+    ## ConcatenateFields() -- For each feature/row, concatenates the values in the
+    ##      passed fields to the output field, optionally adding a user-defined
+    ##      separator between each value.
+    ##
+    ## GetLinearUnit() -- Identify the linear unit of the feature class' spatial
+    ##      reference.
+    ##
+    ## SummarizeXByY_Area() -- Summarize the area and proportion area of features
+    ##      in the X column by features in the Y column. Writes output to a csv.
+    ##
+
+

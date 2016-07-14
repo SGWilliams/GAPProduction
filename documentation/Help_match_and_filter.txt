@@ -1,0 +1,107 @@
+Python Library Documentation: module gapage.match_and_filter in gapage
+
+NAME
+    gapage.match_and_filter
+
+FILE
+    t:\scripts\gapage\gapage\match_and_filter.py
+
+DESCRIPTION
+    ## This module facilitates common tasks for searching and filtering lists,
+    ## strings, etc.
+    ##
+    ## The public functions are:
+    ##
+    ## FilterList() -- Returns a list containing items from the input list that
+    ##      match the search string.
+    ##
+    ## LegalChars() -- Returns the string with all illegal characters removed/replaced.
+    ##
+    ## RemoveRepeats() -- Returns the string with all adjacent, duplicate
+    ##      occurrences of the given search string reduced to a single occurrence
+    ##
+    ##
+
+FUNCTIONS
+    FilterList(inputList, searchString, regex=r'[\s\S]*')
+        (list, string) -> list
+        
+        Returns a list containing all items from the input list that contain the
+            input search string.
+        
+        Arguments:
+        list -- A list of strings to be filtered.
+        searchString -- The string to search for in the input list; asterisks are
+            treated as one or more characters.
+        regex -- An optional parameter to set your own regular expression to replace
+            asterisks in the search string. By default, the expression will treat
+            the user's asterisks as any or no characters, including spaces, numbers,
+            punctuation, etc. For example, if you wanted to omit items that contain
+            spaces, you would set regex='[\S]*'. If you wish to include only items
+            that are comprised entirely of letters, you would set regex='[a-zA-Z]*'.
+            For examples of regular expressions and the meanings of them, see:
+            http://gskinner.com/RegExr/?30ote and
+            https://developers.google.com/edu/python/regular-expressions
+        
+        Example:
+        >>> l = ['bbaeax', 'mnarox', 'mnarop', 'rflapn', 'bbxaox', 'bbxaor', 'bbaeaf', 'xflurb']
+        >>> FilterList(l, 'x')
+        []
+        >>> FilterList(l, '*x')
+        ['bbaeax', 'mnarox', 'bbxaox']
+        >>> FilterList(l, '*x*')
+        ['bbaeax', 'mnarox', 'bbxaox', 'bbxaor', 'xflurb']
+        >>> FilterList(l, 'x*')
+        ['xflurb']
+    
+    Flatten(iterable)
+        (list/tuple) -> list
+        
+        Returns a 'flattened' list containing all the elements of the passed,
+            nested list/tuple of lists/tuples/dictionaries. Note that
+            if the passed argument contains dictionaries, the keys only
+            are included in the flattened list.
+        
+        Argument:
+        iterable -- Any list or tuple, including those that contain any
+            configuration of nested lists/tuples/dictionaries.
+        
+        Example:
+        >>> l=([[['test', 'test2'],[('test3')],[1, 3]], {'x':'24', 'z':'26'}])
+        >>> Flatten(l)
+        ['test', 'test2', 'test3', 1, 3, 'x', 'z']
+    
+    LegalChars(inText)
+        (str) -> str
+        
+        Returns the passesd string with all non-numeric and non-alphabetical
+          characters (except for underscores) removed/replaced.
+        
+        Note that runs of multiple "illegal" characters will be processed to replace
+          the entire run with just a single underscore.
+        
+        Argument:
+        inText -- The string from which you wish to remove "illegal" characters
+        
+        Example:
+        >>> gap.match_and_filter.LegalChars('Flurbington*87$##@, durfington---""!')
+        'Flurbington_87_durfington_'
+    
+    RemoveRepeats(inText, searchString)
+        (str, str) -> str
+        
+        Returns a processed version of the input string from which adjacent,
+          repeating occurrences of the search string have been removed
+        
+        Arguments:
+        inText -- The input string to be processed
+        searchString -- The sub-string, adjacent duplicates of which will be removed
+            from the inText
+        
+        Example:
+        >>> RemoveRepeats('fflurbinngtoned ddurfingtoneddd blah', 'd')
+        'fflurbinngtoned durfingtoned blah'
+        >>> RemoveRepeats('In the the CONUS extent, the data were processed', 'the ')
+        'In the CONUS extent, the data were processed'
+
+
