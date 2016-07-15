@@ -3,4 +3,6 @@ GAP datasets as well as modules that address generic data and file manipulation.
 
 Help files for each module are available within the "documentation" directory.
 
+N. Tarr is the primary administrator for this package and the master repository is https://github.com/nmtarr/GAPage.git.
+
 N. Tarr, 7/14/2016
