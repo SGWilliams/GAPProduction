@@ -18,7 +18,7 @@ password = raw_input("Password: ")
 GAP_data = "xxx/xxxx/xxx"
 
 #Path to the snap raster
-snap_raster = GAP_data + "/snapgrid"
+snap_raster = data_directory + "/snapgrid"
 
 #The path to the CONUS HUCs shapefile
 hucs = GAP_data + "/Hucs.shp"
