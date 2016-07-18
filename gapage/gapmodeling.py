@@ -40,8 +40,40 @@
 ##
 ## RemoveAlienMUs() -- Goes through each model in a list and unselects primary
 ##     and auxiliary map units which are not found within the model's region.
+##
+## ExcludeModels() -- Returns a list of models that exist in the WHRDb but are designated
+##      for exclusion in the ysnInclude field.
 
 import gapdb
+
+#######################################
+##### Function to get a tuple of "exclude models".
+def ExcludeModels():
+    '''
+    (None) -> tuple
+
+    Retrieves tuple of models that are designated for exclusion in tblAllSpecies.ysnInclude in the 
+    WHRDb.
+    '''
+
+    # Get a cursor and connection to WHR database
+    whrCursor, whrCon = gapdb.ConnectWHR()
+    # Execute the query to select model codes that match the passed species code
+    models = whrCursor.execute("""SELECT a.strSpeciesModelCode
+                            FROM dbo.tblAllSpecies as a
+                            WHERE a.ysnInclude = 'False'""").fetchall()
+
+    # Delete the cursor
+    del whrCursor
+    # Close the database connection
+    whrCon.close()
+
+    # Create a list of all the matching models
+    hm = [str(item[0]) for item in models]
+
+    # Return the list of matching model codes
+    return tuple(hm)
+
 
 try:
     import arcpy

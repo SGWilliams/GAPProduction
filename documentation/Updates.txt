@@ -315,17 +315,19 @@
 09/24/2015,gapmodeling.HandModels() - I added this function to fetch a list of models that
 	require hand modeling.
 
-6/15/2016,gapmodeling.EcoSystemModels() - I added this function to return lists of models 	associated with an ecological system.
+6/15/2016,gapmodeling.EcoSystemModels() - I added this function to return lists of models 			associated with an ecological system.
 
-6/15/2016,gapmodeling.EcoSystemSpecies() - Added this function to return lists of species associated with an ecological system.
+6/15/2016,gapmodeling.EcoSystemSpecies() - Added this function to return lists of species 		associated with an ecological system.
 
 7/5/2016,gappack.beta - I added a module for functions that are still in a testing phase.
 
-7/5/2016,gappack.arcmap - A new module for storing functions to use while doing modeling tasks in arcmap.
+7/5/2016,gappack.arcmap - A new module for storing functions to use while doing modeling tasks 		in arcmap.
 
 
 ******************  UPDATES ABOVE THIS LINE WERE TO THE ORIGINAL "GAPPACK"  ******************
 
 7/14/2016  - Many edits made in order to create a new version of the package.  Among them, the 
-addspecies module was placed in gapdb; gapanalysis was ommitted because the Gap Analysis database that it hit is no longer in place; paths module replaced with config file; pdfs not included; sqlite not included; checks put in place so that when USGS VPN is blocking the NCSU arcpy license, functions that do not rely upon arcpy are available; upon initialization, the script asks for a username and password.  N. Tarr.
+	addspecies module was placed in gapdb; gapanalysis was ommitted because the Gap Analysis 	database that it hit is no longer in place; paths module replaced with config file; pdfs 	not included; sqlite not included; checks put in place so that when USGS VPN is blocking 	the NCSU arcpy license, functions that do not rely upon arcpy are available; upon 	initialization,the script asks for a username and password.  N. Tarr.
+
+7/18/2016,gapage.gapmodeling - A function to retrieve a tuple of model codes that are marked for 	EXCLUSION in the WHRDb.tblAllspecies.ysnInclude. N. Tarr.
 

@@ -173,16 +173,16 @@ def __CopyModels(models, spp):
         # For each species
         for sp in spp:
             try:
-                # Get the path to the species' raster on clownfish
+                # Get the path to the species' raster
                 spPathClown = gaprasters.SpModel(sp)
                 # Set the path to the local raster
                 spPath = os.path.join(models.scratch, sp)
-                # If the species does not have a raster on Clownfish, print a
+                # If the species does not have a raster, print a
                 # warning and skip to the next species
                 if not spPathClown:
-                    __Log('\tWARNING! The species\' raster could not be found on Clownfish -- {0}'.format(sp))
+                    __Log('\tWARNING! The species\' raster could not be found -- {0}'.format(sp))
                     continue
-                # Copy the species' raster from clownfish to the local drive
+                # Copy the species' raster from the  species model output directory to the local drive
                 arcpy.Copy_management(spPathClown, spPath)
                 __Log('\t\t{0}'.format(sp))
                 # Add the path to the local raster to the list of species rasters
