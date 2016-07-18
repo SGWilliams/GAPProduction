@@ -97,20 +97,23 @@ FUNCTIONS
         Retrieves list of models that require hand modeling. Only includes models
         for which ysnInclude is True; omits models with region code 0
     
-    LoadSpeciesMUs(UC)
+    LoadSpeciesMUs(UC, Range=True)
         (string, boolean) -> dictionary
         
         Returns a dictionary with python sets containing map units that are selected
             as primary (prim) in any of the species' models, auxiliary (aux) in any of the
-            species' models, and prim and aux converted to names instead of codes
-            (primNames and auxNames).  A set of all map unit codes is returned as
-            well (allMU).
+            species' models, map units within the species' range (inRangeMU), map units
+            not in the species' range (outRangeMU), and prim and aux converted to names
+            instead of codes (primNames and auxNames).  A set of all map unit codes is
+            returned as well (allMU).
         
         Arguments:
         UC -- a strUC code (e.g, mSEWEn)
+        Range -- Defaults to True. Setting to True will run processes that extract a
+        list of map units that occur within a species' range.
         
         Example:
-        speciesMUs = loadSpeciesMapUnits("mSEWEn")
+        speciesMUs = loadSpeciesMapUnits("mSEWEn", Range=False)
     
     ModelCodes(spCode, season='all', contiguousOnly=False)
         (string, string, [boolean]) -> tuple

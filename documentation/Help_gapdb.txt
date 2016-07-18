@@ -226,7 +226,7 @@ FUNCTIONS
         ['OK', 'WY', 'AZ', 'OR', 'SD', 'CA', 'WA', 'ND', 'ID', 'NE', 'CO', 'TX',
         'MT', 'UT', 'NV', 'KS', 'NM']
     
-    ConnectSppDB(uid='GAP_Edit_VPN', pwd='G@pp$r', server='137.227.238.246,1433')
+    ConnectSppDB(uid='jj', pwd='j', server='137.227.238.246,1433')
         Returns a cursor and connection within the GAP species database.
     
     ConnectToDB(connectionStr)
@@ -247,7 +247,7 @@ FUNCTIONS
                        DATABASE=WHRdB;"""
         >>> cursor, connection = ConnectToDB(conString)
     
-    ConnectWHR(uid='GAP_Edit_VPN', pwd='G@pp$r', server='137.227.238.246,1433')
+    ConnectWHR(uid='jj', pwd='j', server='137.227.238.246,1433')
         Returns a cursor and connection within the GAP WHRdb.
     
     ConservationConcern(spCode)

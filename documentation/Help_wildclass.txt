@@ -1,0 +1,186 @@
+Python Library Documentation: module gapage.wildclass in gapage
+
+NAME
+    gapage.wildclass - Created on Fri Jul 15 10:28:52 2016
+
+FILE
+    t:\scripts\gapage\gapage\wildclass.py
+
+DESCRIPTION
+    @author: nmtarr
+    
+    This module enables you to retrieve pythons sets of groups of GAP LC map units with a common
+    feature.  Sets can then be intersected, subtracted, etc. for use in model building.  At the 
+    point of creation, this module isn't complete: many functions/sets are empty.  Sets will be 
+    built over time and updated.  
+    
+    This code is based on a pkl file (data/WildlifeMUClassification.pkl) that holds a dictionary 
+    of sets("classes") that are managed by NMT in an excel workbook.  The pkl may be updated 
+    periodically, "git pull" to retrieve the updates.
+    
+    This code can be used to update the function definitions.  Run it in the shell and copy 
+    and paste the results.
+    
+    for k in LoadMUSets().keys():   
+        functionstring = "def zzz():
+        return set(MUSets['zzz'][0])
+    zzz.__doc__ = MUSets['zzz'][1]
+    
+    "      
+        print(functionstring.replace("zzz", k))
+
+FUNCTIONS
+    LoadMUSets()
+        () -> dictionary
+        
+        For use in model building workflow.  Returns a dictionary with map unit sets
+        and their descriptions. Use LoadMUSets().keys() to list all of the map unit
+        sets included in the dictionary.
+    
+    hasAnthroForest()
+    
+    hasArid()
+    
+    hasBarren()
+    
+    hasBroadTree()
+        MU's with potentially some broad-leaved tree component, which could be very little. Could be forest or woodland.  Does not include Mountain Curl-leaf Mahogany as a tree.
+    
+    hasDesert()
+    
+    hasEmergWetland()
+    
+    hasEphemeralPool()
+    
+    hasForest()
+        MU's that have some forest component, which could be very little. MU's were included if the description or name of the MU explicititly stated "forest" or if I interpreted it to include dense canopy cover. Swamps included in this list.
+    
+    hasGrass()
+    
+    hasGravel()
+    
+    hasHerbaceous()
+    
+    hasIce()
+    
+    hasMixedTree()
+    
+    hasNeedleTree()
+        MU's that potentially have some coniferous tree component, which could be very little.  Could be forest or woodland. Includes Taxodium (cypress) but not Juniper.
+    
+    hasOpen()
+        MU's with the possibility of sizable areas without trees. Includes marsh, some glades (revise?), rock outcrops, steppe, and others but does not include woodlands, flatwoods, savannahs, or shrub-dominated areas (could be added via union with MUShrubDom).
+    
+    hasPlantation()
+    
+    hasPrairie()
+    
+    hasRegenerating()
+    
+    hasRiparian()
+    
+    hasRocky()
+    
+    hasSagebrush()
+        "Sagebrush MU's".   Not sure if this list is "is" or "has"
+    
+    hasSaltwater()
+    
+    hasSandy()
+    
+    hasSaturatedSoil()
+        Systems with soils that are constantly or very frequently saturated.  Must have soils capable of holding water for the length of time between flood events for at least one season.  This is meant to be useful for species that need wet, saturated soils found in places like swamps and marshes.  Includes tidal marshes and swamps, but not sandy beaches because the sands drain between floods or heavy rains. Rocky or cobble substrate not considered a 'soil' for this set.  Systems with soils that are flooded for an entire season are included.  Mesic forests that could contain small seeps are not included, the systems included have larger wetlands within them as specified by the description.  Consider creating a companion list of systems that could contain small seeps and fens. Wet meadows are included.
+    
+    hasShoreline()
+    
+    hasShrubDom()
+        Returns a tuple of MU's that include any amount of shrub dominated areas. Steppe is included but other systems with only intermittent shrub cover are not (such as badlands or cliffs).  Woodlands and savannahs with shrub understory but sparse tree cover are not included.  Cultivated Cropland is not included.
+    
+    hasSteppe()
+    
+    hasWetland()
+    
+    hasWoodland()
+        MU's that have some woodland, savanna, flatwoods, or very open tree canopy.  MU's were included if the description or name of the MU explicititly stated "woodland", "savanna", or "flatwoods" or if I interpreted it to include open canopy.  The list doesn't include systems that have at most a sparse occurrence of trees.  Pinyon-juniper woodlands included but not if they were stunted and shrubland like.  I considered Curl-leaf Mountain Mahogany a shrub, so woodland of it was not inluded in this list.  I did include dwarf cypress savanna.
+    
+    hasWoodyWetland()
+    
+    isAnthro()
+    
+    isAquatic()
+        Water and eelgrass bed MU's.
+    
+    isArid()
+    
+    isBarren()
+    
+    isBroadTree()
+    
+    isDesert()
+    
+    isDeveloped()
+        Developed MU's.
+    
+    isEmergWetland()
+    
+    isForest()
+    
+    isGrass()
+    
+    isGravel()
+    
+    isHerbaceous()
+    
+    isIce()
+    
+    isMixedTree()
+    
+    isMudflat()
+        Mudflat MU's.
+    
+    isNeedleTree()
+    
+    isOpen()
+    
+    isOrchard()
+        Orchard and 'high structure agriculture' MU's.
+    
+    isPlaya()
+        Playa MU's.
+    
+    isPrairie()
+    
+    isRegenerating()
+    
+    isRiparian()
+    
+    isRocky()
+    
+    isRowCrop()
+        Row crop MU's.
+    
+    isSagebrush()
+    
+    isSaltwater()
+    
+    isSandy()
+    
+    isSaturatedSoil()
+        Systems that are always (rare droughts aside) wet or saturated with water throughout.  Seasonally flooded systems are not included here.
+    
+    isShoreline()
+    
+    isShrubDom()
+    
+    isSteppe()
+    
+    isWetland()
+    
+    isWoodland()
+    
+    isWoodyWetland()
+
+DATA
+    MUSets = {u'hasAnthroForest': ((), nan), u'hasArid': ((), nan), u'hasB...
+
+
