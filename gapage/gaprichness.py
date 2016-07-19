@@ -12,11 +12,11 @@ import os, shutil, gapageconfig, gaprasters, tables
 # Class to organize information about the species to be included and the
 # directories to use
 class __Models:
-    def __init__(self, spp, groupName, season, outDir=gapageconfig.richness_directory):
+    def __init__(self, spp, groupName, outDir, season):
         self.spp = spp
         self.groupName = groupName
-        self.season = season        
         self.outDir = outDir
+        self.season = season   
 
         global log
         log = os.path.join(self.outDir, 'log_' + self.groupName + '.txt')
@@ -30,7 +30,7 @@ class __Models:
 
 
 # Public function to create a species richness raster
-def ProcessRichness(spp, groupName, outDir, season="Year-round"):
+def ProcessRichness(spp, groupName, outDir=gapageconfig.richness_directory, season="Year-round"):
     '''
     (list, str, [str]) -> str, str
 
@@ -54,29 +54,34 @@ def ProcessRichness(spp, groupName, outDir, season="Year-round"):
         to place output and intermediate files. By default, it is set to
         C:\Species_Richness
     season -- Seasonal criteris for reclassifying the output.  Choose "Summer", "Winter", 
-        or "Year-round".  
+        or "Year-round". "Year-round" is default. 
 
     Example:
     >>> ProcessRichness(['aagtox', 'bbaeax', 'mnarox'], 'MyRandomSpecies', \
             r'C:\GIS_Data\Richness')
     C:\GIS_Data\Richness\MyRandomSpecies_04_Richness\MyRandomSpecies.tif, C:\GIS_Data\Richness\MyRandomSpecies.csv
     '''
-    try:
+    try:       
         import arcpy
         arcpy.CheckOutExtension('SPATIAL')
         arcpy.env.extent = 'MAXOF'
         arcpy.env.pyramid = 'NONE'
-    
+        print "A, B"
         models = __Models(spp, groupName, outDir, season)
+        print "C"
     
         __PrepDirs(models)
+        print "D"
     
         outRast = __Process(models)
+        print "E"
     
         sppTable = __WriteSppTable(models)
+        print "F"
     
         shutil.rmtree(models.scratch)
         shutil.rmtree(models.reclassDir)
+        print "G"
     
         return outRast, sppTable
     except:
@@ -117,18 +122,25 @@ def __Process(models):
             sppSubset = models.spp[x:x+interval]
             # Assigned the species subset a name
             gn = '{0}_{1}'.format(models.groupName, x)
+            print "CC"
+            season = models.season
             # Process the richness for the subset of species
-            intRast = __ProcessGroup(models, gn, sppSubset)
+            intRast = __ProcessGroup(models, gn, sppSubset, season)
+            print "DD"
             # Add the subset's richness raster to the list of intermediate rasters
             richInts.append(intRast)
+            print "EE"
     
         # Sum the intermediate rasters to calculate the final richness
         __Log('Calculating final richness')
         richness = arcpy.sa.CellStatistics(richInts, 'SUM', 'DATA')
+        print "FF"
         __Log('\tRichness calculated')
         outRast = os.path.join(models.outDir, models.groupName + '.tif')
+        print "GG"
         __Log('Saving richness raster to {0}'.format(outRast))
         richness.save(outRast)
+        print "HH"
         __Log('\tRichness raster saved.')
     
         return outRast
@@ -201,6 +213,7 @@ def __CopyModels(models, spp):
 # Function to reclassify the local models
 def __ReclassModels(models, sppLocal, season):
     try:
+        season = models.season        
         import arcpy
         __Log('\tReclassifying')
         # Initialize an empty list to store the paths to the reclassed rasters
@@ -211,7 +224,8 @@ def __ReclassModels(models, sppLocal, season):
             try:
                 # Set a path to the output reclassified raster
                 reclassed = os.path.join(models.reclassDir, os.path.basename(sp))
-    
+                print "AAA"
+                print season
                 # The where clause to use in the conditional calculation
                 if season == "Summer":
                     wc = "VALUE = 1"
@@ -219,18 +233,22 @@ def __ReclassModels(models, sppLocal, season):
                     wc = "VALUE = 2"
                 elif season == "Year-round":
                     wc = "VALUE > 0"
-                #wc = "VALUE > 0"
+                print "BBB"
+               #wc = "VALUE > 0"
                 # Create a temporary raster from the species' raster, setting all
                 # values that are greater than zero to 1
                 tempRast = arcpy.sa.Con(sp, 1, where_clause = wc)
+                print "CCC"
                 # Save the reclassified raster
                 tempRast.save(reclassed)
+                print "DDD"
                 # Add the reclassed raster's path to the list
                 sppReclassed.append(reclassed)
-    
+                print "EEE"
                 # Add the species to the list of those included in the richness
                 # calculation
                 models.sppIncluded.append(os.path.basename(sp))
+                print "FFF"
     
                 # Delete the species' raw local raster
                 arcpy.Delete_management(sp)
