@@ -78,14 +78,11 @@ def CheckModelVAT(workspace):
                     elif value > 3:
                         print d + " - has a value greater than 3"
                         overThree.append(d)
-                    else:
-                        pass
 
             except:
                 print "No VAT"
                 noVAT.append(d)
-
-            return {"Negatives":negatives, "NoVAT":noVAT, "OverThree":overThree}
+        return {"Negatives":negatives, "NoVAT":noVAT, "OverThree":overThree}
     except:
         print("There was a problem.  Is arcpy accessible?")
 
