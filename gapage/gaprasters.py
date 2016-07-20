@@ -50,7 +50,7 @@ def CheckModelVAT(workspace):
     {'Negatives': [], 'NoCursor': [], 'OverThree': []}
     '''
     try:
-        import arcpy
+        import arcpy, time
         arcpy.CheckOutExtension("Spatial")
         arcpy.env.workspace = workspace
         rasterList = arcpy.ListRasters()
@@ -61,26 +61,25 @@ def CheckModelVAT(workspace):
         overThree = []
 
         # Loop through rasters and process
-        for d in rasterList:
+        for d in rasterList:            
             print "\nWorking on " + d
             try:
                 # Make a cursor as a test to see if there's a vat
                 cursor = arcpy.SearchCursor(d)
                 print("It has an attribute table")
-
                 for c in cursor:
                     countt = c.getValue("COUNT")
-                    value = c.getValue("VALUE")
                     if countt < 0:
                             print d + "  - has negatives"
                             negatives.append(d)
                             arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
                             arcpy.management.CalculateStatistics(d)
-                            print "New VAT built"
-                    elif value > 3:
+                            print "New VAT built"                    
+                    time.sleep(.5)
+                    value = c.getValue("VALUE")
+                    if value > 3:
                         print d + " - has a value greater than 3"
                         overThree.append(d)
-
             except:
                 print "No VAT"
                 noCursor.append(d)
