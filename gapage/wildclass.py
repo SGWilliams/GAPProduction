@@ -31,7 +31,7 @@ def LoadMUSets():
     and their descriptions. Use LoadMUSets().keys() to list all of the map unit
     sets included in the dictionary.
     '''
-    filename = open(gapageconfig.wildclass, "rb")
+    filename = open(gapageconfig.wildclass)
     MUSets = pickle.load(filename)
     filename.close()
     return MUSets
