@@ -67,13 +67,13 @@ def CheckModelVAT(workspace):
                 print("It has an attribute table")
 
                 for c in cursor:
-                    sign = c.getValue("COUNT")
+                    countt = c.getValue("COUNT")
                     value = c.getValue("VALUE")
-                    if sign < 0:
+                    if countt < 0:
                             print d + "  - has negatives"
                             negatives.append(d)
-                            arcpy.BuildRasterAttributeTable_management(d, overwrite=True)
-                            arcpy.CalculateStatistics_management(d)
+                            arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
+                            arcpy.management.CalculateStatistics(d)
                             print "New VAT built"
                     elif value > 3:
                         print d + " - has a value greater than 3"
