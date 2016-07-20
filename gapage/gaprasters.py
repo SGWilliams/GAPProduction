@@ -3,7 +3,7 @@
 ##
 ## The public functions are:
 ##
-## SpModel() -- Finds the path to the species' model on Clownfish
+## SpModel() -- Finds the path to the species' model 
 ##
 ## RemoveEmptyRasters() -- Deletes empty rasters from the passed directory.
 ##
@@ -55,7 +55,7 @@ def CheckModelVAT(workspace):
 
         # MAke empty list to collect rasters with issues
         negatives = []
-        noVAT = []
+        noCursor = []
         overThree = []
 
         # Loop through rasters and process
@@ -81,8 +81,8 @@ def CheckModelVAT(workspace):
 
             except:
                 print "No VAT"
-                noVAT.append(d)
-        return {"Negatives":negatives, "NoVAT":noVAT, "OverThree":overThree}
+                noCursor.append(d)
+        return {"Negatives":negatives, "NoCursor":noCursor, "OverThree":overThree}
     except:
         print("There was a problem.  Is arcpy accessible?")
 
