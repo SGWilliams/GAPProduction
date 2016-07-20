@@ -36,8 +36,10 @@ def CheckModelVAT(workspace):
 
     Returns a dictionary of lists, one for each error that the function tests for.
         It looks for tables with a count of values less than zero, raster values
-        greater than 3, and rasters with no VAT.  Designed for testing GAP species
-        model output specifically.
+        greater than 3, and rasters that have an issue with search cursors.  
+        Designed for testing GAP species model output specifically.  NOTE!!!!!!!!
+        !!!!! In some cases, this function is inconsistent and mysterious in what it
+        collects as "NoCursor".  This is a know bug that hasn't been solved.
 
 
     Argument:
@@ -45,7 +47,7 @@ def CheckModelVAT(workspace):
 
     Examples:
     >>> CheckModelVAT('X:/Name/Name2')
-    {'Negatives': [], 'NoVAT': [], 'OverThree': []}
+    {'Negatives': [], 'NoCursor': [], 'OverThree': []}
     '''
     try:
         import arcpy
