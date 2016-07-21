@@ -75,7 +75,7 @@ def CheckModelVAT(workspace):
                             arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
                             arcpy.management.CalculateStatistics(d)
                             print "New VAT built"                    
-                    time.sleep(.5)
+                    time.sleep(.4)
                     value = c.getValue("VALUE")
                     if value > 3:
                         print d + " - has a value greater than 3"
