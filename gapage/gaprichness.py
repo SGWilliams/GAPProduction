@@ -16,7 +16,7 @@ class __Models:
         self.spp = spp
         self.groupName = groupName
         self.outDir = outDir
-        self.season = season   
+        self.season = season
 
         global log
         log = os.path.join(self.outDir, 'log_' + self.groupName + '.txt')
@@ -70,10 +70,10 @@ def ProcessRichness(spp, groupName, outDir=gapageconfig.richness_directory, seas
         models = __Models(spp, groupName, outDir, season)
     
         __PrepDirs(models)
+        
+        sppTable = __WriteSppTable(models)
     
         outRast = __Process(models)
-    
-        sppTable = __WriteSppTable(models)
     
         shutil.rmtree(models.scratch)
         shutil.rmtree(models.reclassDir)
@@ -117,6 +117,7 @@ def __Process(models):
             sppSubset = models.spp[x:x+interval]
             # Assigned the species subset a name
             gn = '{0}_{1}'.format(models.groupName, x)
+            # Define a season
             season = models.season
             # Process the richness for the subset of species
             intRast = __ProcessGroup(models, gn, sppSubset, season)
@@ -204,6 +205,7 @@ def __ReclassModels(models, sppLocal, season):
     try:
         season = models.season        
         import arcpy
+        arcpy.env.workspace = models.reclassDir
         __Log('\tReclassifying')
         # Initialize an empty list to store the paths to the reclassed rasters
         sppReclassed = list()
@@ -249,7 +251,6 @@ def __WriteSppTable(models):
     tables.WriteSppTable(outTable, models.sppIncluded)
     __Log('\tCrosswalk table written to {0}'.format(outTable))
     return outTable
-
 
 
 if __name__ == '__main__':
