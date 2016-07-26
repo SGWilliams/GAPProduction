@@ -6,7 +6,7 @@
 #
 #
 
-import os, shutil, gapageconfig, gaprasters, tables
+import os, shutil, gapageconfig, gaprasters, tables, datetime
 
 
 # Class to organize information about the species to be included and the
@@ -72,9 +72,12 @@ def ProcessRichness(spp, groupName, outDir=gapageconfig.richness_directory, seas
         __PrepDirs(models)
         
         sppTable = __WriteSppTable(models)
-    
+        starttime = datetime.datetime.now()
         outRast = __Process(models)
-    
+        endtime = datetime.datetime.now()
+        runtime = endtime - starttime
+        print runtime
+        
         shutil.rmtree(models.scratch)
         shutil.rmtree(models.reclassDir)
     
@@ -142,7 +145,8 @@ def __ProcessGroup(models, groupName, spp, season):
     try:
         import arcpy
         __Log('Processing {0}: {1}'.format(groupName, spp))
-        try:
+        try:            
+            starttime = datetime.datetime.now()            
             # Get a list of paths to the models on the local machine
             sppLocal = __CopyModels(models, spp)
             # Get a list of reclassified models
@@ -153,7 +157,11 @@ def __ProcessGroup(models, groupName, spp, season):
             outRast = os.path.join(models.intDir, groupName + '.tif')
             richness.save(outRast)
             __Log('\tSaved to {0}'.format(outRast))
-    
+        
+            endtime = datetime.datetime.now()
+            runtime = endtime - starttime
+            print runtime
+            
             # Delete each of the reclassified species models
             for rast in sppReclassed:
                 try:
