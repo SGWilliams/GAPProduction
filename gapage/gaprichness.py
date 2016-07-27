@@ -256,7 +256,7 @@ def __ReclassModels(models, sppLocal, season):
 # calculation
 def __WriteSppTable(models):
     import pickle 
-    sppPickle = open(os.path.join(models.root, models.groupName + ".pkl"), "wb")
+    sppPickle = open(os.path.join(models.outDir, models.groupName + ".pkl"), "wb")
     pickle.dump(models.spp, sppPickle)
     sppPickle.close()
     outTable = os.path.join(models.root, models.groupName + '.csv')
