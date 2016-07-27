@@ -255,6 +255,10 @@ def __ReclassModels(models, sppLocal, season):
 # Function to create a crosswalk table of species included in the richness
 # calculation
 def __WriteSppTable(models):
+    import pickle 
+    sppPickle = open(os.path.join(models.root, models.groupName + ".pkl"), "wb")
+    pickle.dump(models.spp, sppPickle)
+    sppPickle.close()
     outTable = os.path.join(models.root, models.groupName + '.csv')
     tables.WriteSppTable(outTable, models.sppIncluded)
     __Log('\tCrosswalk table written to {0}'.format(outTable))
