@@ -76,7 +76,7 @@ def ProcessRichness(spp, groupName, outDir=gapageconfig.richness_directory, seas
         outRast = __Process(models)
         endtime = datetime.datetime.now()
         runtime = endtime - starttime
-        print runtime
+        __Log("Runtime: " + runtime)
         
         shutil.rmtree(models.scratch)
         shutil.rmtree(models.reclassDir)
@@ -108,6 +108,7 @@ def __Process(models):
     try:
         import arcpy
         __Log('Processing {0} {1}.\n'.format(len(models.spp), models.groupName).upper())
+        __Log('Season selected is ' + models.season)
         __Log(str(models.spp) + '\n')
     
         # Maximum number of species to process at once
@@ -160,7 +161,7 @@ def __ProcessGroup(models, groupName, spp, season):
         
             endtime = datetime.datetime.now()
             runtime = endtime - starttime
-            print runtime
+            __Log('\tRuntime was {0}'.format(runtime))
             
             # Delete each of the reclassified species models
             for rast in sppReclassed:
@@ -223,7 +224,6 @@ def __ReclassModels(models, sppLocal, season):
             try:
                 # Set a path to the output reclassified raster
                 reclassed = os.path.join(models.reclassDir, os.path.basename(sp))
-                print(season)
                 # Designate a where clause to use in the conditional calculation
                 if season == "Summer":
                     wc = "VALUE = 1 OR VALUE = 3"
