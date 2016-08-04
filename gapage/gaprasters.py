@@ -37,7 +37,7 @@ import os, gapageconfig
 
 def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables=False):
     '''
-        (list, string, string, string) -> list, list
+        (list, string, string, boolean) -> list, list
     
         Checks the extent of a list of species model raster objects against the extents 
             of  the hucs that the species occurs or occurred in.  Returns two lists: 
@@ -77,49 +77,50 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
     hucDF.drop([u'FID', u'OBJECTID', u'STATES', u'HUC_8', u'HUC_10', u'HUC12RNG',
                 u'Shape_Leng',], axis=1, inplace=True) 
                
-    for r in sp:
-        sp = r[:-4]
-        print sp
+    for t in sp:
+        r = t[:-4]
+        print r
         # Get a dataframe of the species range table
         try:
-            sp_table = gaprange.RangeTable(sp, workDir)
+            sp_table = gaprange.RangeTable(r, workDir)
             spDF = pd.read_csv(sp_table)
             if saveTables == False:
                 os.remove(sp_table)
             else:
                 pass
-        
+            
             # Join dataframes
             sp_hucDF = pd.merge(hucDF, spDF, how='right', left_on='HUC_12', 
                                 right_on='HUC12')
-            
-            # Get the outer points from species range table
+           
+           # Get the outer points from species range table
             sp_hucYMin = min(sp_hucDF['YMin'])
             sp_hucYMax = max(sp_hucDF['YMax'])
             sp_hucXMin = min(sp_hucDF['XMin'])
             sp_hucXMax = max(sp_hucDF['XMax'])
             
             # Get the outer points from species raster
-            rasprop = arcpy.Describe(r)
+            ras = arcpy.Raster(t)
+            rasprop = arcpy.Describe(ras)
             rasterYMin = rasprop.Extent.YMin
             rasterYMax = rasprop.Extent.YMax
             rasterXMin = rasprop.Extent.XMin
-            rasterXMax = rasprop.Extent.XMax 
+            rasterXMax = rasprop.Extent.XMax
             
             # Find problem outputs
             if abs(sp_hucXMax - rasterXMax > 6000):
-                too_large.append(sp)
+                too_large.append(t)
             if abs(sp_hucXMin - rasterXMin > 6000):
-                too_large.append(sp)
+                too_large.append(t)
             if abs(sp_hucYMax - rasterYMax > 6000):
-                too_large.append(sp)
+                too_large.append(t)
             if abs(sp_hucYMin - rasterYMin > 6000):
-                too_large.append(sp)
+                too_large.append(t)
         except:
-            errors.append(r)
+            errors.append(t)
         
-        # Return the lists, with duplicates removed.
-        return list(set(too_large)), list(set(errors))
+    # Return the lists, with duplicates removed.
+    return list(set(too_large)), list(set(errors))
   
       
 def CheckModelVAT(workspace):
