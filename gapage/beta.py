@@ -5,7 +5,29 @@ This a place to put functions that are in development.
 '''
 A collecton of funcions for common tasks related to land cover data.
 '''
-    
+def MakeRemapList(mapUnitCodes, reclassValue):
+    '''
+    (list, integer) -> list of lists
+
+    Returns a RemapValue list for use with arcpy.sa.Reclassify()
+
+    Arguments:
+    mapUnitCodes -- A list of land cover map units that you with to reclassify.
+    reclassValue -- The value that you want to reclassify the mapUnitCodes that you
+        are passing to.
+
+    Example:
+    >>> MakeRemap([1201, 2543, 5678, 1234], 1)
+    [[1201, 1], [2543, 1], [5678, 1], [1234, 1]]
+    '''
+    remap = []
+    for x in mapUnitCodes:
+        o = []
+        o.append(x)
+        o.append(reclassValue)
+        remap.append(o)
+    return remap  
+            
 def ReclassLandCover(MUlist, reclassTo, keyword, workDir):
     '''
     (list) -> map
@@ -20,33 +42,10 @@ def ReclassLandCover(MUlist, reclassTo, keyword, workDir):
     workDir -- Where to save output and intermediate files.
     '''
     import gapageconfig
-    def MakeRemap(mapUnitCodes, reclassValue):
-            '''
-            (list, integer) -> list of lists
-        
-            Returns a RemapValue list for use with arcpy.sa.Reclassify()
-        
-            Arguments:
-            mapUnitCodes -- A list of land cover map units that you with to reclassify.
-            reclassValue -- The value that you want to reclassify the mapUnitCodes that you
-                are passing to.
-        
-            Example:
-            >>> MakeRemap([1201, 2543, 5678, 1234], 1)
-            [[1201, 1], [2543, 1], [5678, 1], [1234, 1]]
-            '''
-            remap = []
-            for x in mapUnitCodes:
-                o = []
-                o.append(x)
-                o.append(reclassValue)
-                remap.append(o)
-            return remap
+    
     try:
         import arcpy
         arcpy.CheckOutExtension("Spatial")
-        
-        
         
         #Some environment settings  
         LCLoc = gapageconfig.land_cover + "/"
@@ -62,7 +61,7 @@ def ReclassLandCover(MUlist, reclassTo, keyword, workDir):
         arcpy.env.workspace = workDir
         
         #Make a remap object
-        remap = arcpy.sa.RemapValue(MakeRemap(MUlist, reclassTo))
+        remap = arcpy.sa.RemapValue(MakeRemapList(MUlist, reclassTo))
         
     #    # Reclass the first region
     #    seed = arcpy.sa.Raster(LCLoc + regions[0])

@@ -27,9 +27,101 @@
 ##
 ## CheckModelVAT() -- Checks to see that a valid raster attribute table exists
 ##      and that
+##
+## CheckModelExtents() -- Checks a list of species model ouputs to collect a list of
+##      ones with extents that are too large relative to the species' range.
+##
 
-import os
+import os, gapageconfig
 
+
+def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables=False):
+    '''
+        (list, string, string, string) -> list, list
+    
+        Checks the extent of a list of species model raster objects against the extents 
+            of  the hucs that the species occurs or occurred in.  Returns two lists: 
+            1) a list of species for which the raster is too large compared to the hucs
+            where it occurs and 2) a list of species for which there was an error in 
+            the process (usually related to range data in the database for hawaiian 
+            species). Runtime can be an hour to check all models.  Extents are deemed 
+            "too big" if one of a raster's corners is more than 6000 m away from the 
+            corner of the corresponding huc.
+    
+        Arguments:
+        sp -- List of arcpy raster objects to check the extent of.  This code assumes 
+            they are geotiffs (name ending in ".tif").
+        workDir -- The directory within which you wish to place the range tables.  
+            Consider a temp location.
+        hucTable -- Path to a csv file with the extents for each huc in Albers 
+            projection. Defaults to the table in gapage's data directory.
+        saveTables -- True or False for whether you want to save the range tables 
+            that will be generated during processing.
+        
+        Example:
+        >>> CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
+                              'C:/temp/HUCS_Extent.txt')
+        >>> CheckModelExtents(['arcpy.Raster(C:/temp/aambux.tif'), 
+                              'arcpy.Raster(C:/temp/bamgox.tif')], 'C:/temp', 
+                              'C:/temp/HUCS_Extent.txt')
+    '''
+    import pandas as pd, arcpy, os, gaprange
+    
+    # Make a list to collect extra large extent models
+    too_large = []
+    errors = []
+    
+    # Read in the huc extent table as a dataframe
+    hucDF = pd.read_csv(hucTable)
+    #Filter out unnecessary fields
+    hucDF.drop([u'FID', u'OBJECTID', u'STATES', u'HUC_8', u'HUC_10', u'HUC12RNG',
+                u'Shape_Leng',], axis=1, inplace=True) 
+               
+    for r in sp:
+        sp = r[:-4]
+        print sp
+        # Get a dataframe of the species range table
+        try:
+            sp_table = gaprange.RangeTable(sp, workDir)
+            spDF = pd.read_csv(sp_table)
+            if saveTables == False:
+                os.remove(sp_table)
+            else:
+                pass
+        
+            # Join dataframes
+            sp_hucDF = pd.merge(hucDF, spDF, how='right', left_on='HUC_12', 
+                                right_on='HUC12')
+            
+            # Get the outer points from species range table
+            sp_hucYMin = min(sp_hucDF['YMin'])
+            sp_hucYMax = max(sp_hucDF['YMax'])
+            sp_hucXMin = min(sp_hucDF['XMin'])
+            sp_hucXMax = max(sp_hucDF['XMax'])
+            
+            # Get the outer points from species raster
+            rasprop = arcpy.Describe(r)
+            rasterYMin = rasprop.Extent.YMin
+            rasterYMax = rasprop.Extent.YMax
+            rasterXMin = rasprop.Extent.XMin
+            rasterXMax = rasprop.Extent.XMax 
+            
+            # Find problem outputs
+            if abs(sp_hucXMax - rasterXMax > 6000):
+                too_large.append(sp)
+            if abs(sp_hucXMin - rasterXMin > 6000):
+                too_large.append(sp)
+            if abs(sp_hucYMax - rasterYMax > 6000):
+                too_large.append(sp)
+            if abs(sp_hucYMin - rasterYMin > 6000):
+                too_large.append(sp)
+        except:
+            errors.append(r)
+        
+        # Return the lists, with duplicates removed.
+        return list(set(too_large)), list(set(errors))
+  
+      
 def CheckModelVAT(workspace):
     '''
     (path) -> dict

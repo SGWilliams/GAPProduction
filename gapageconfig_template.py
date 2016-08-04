@@ -1,7 +1,7 @@
 #This is the config file for gapage.  Store it somewhere other than with the gapage code and data.
 
 #Directory with spatial and aspatial datasets needed for gappack
-data_directory = "xxxxxx/BasicPackage/data"
+data_directory = "xxxxxx/GAPage/data"
 
 #Directory where some temp files should be stored (scratch workspace)
 temp_directory = "xxxxxxxx"
@@ -22,6 +22,9 @@ snap_raster = data_directory + "/snapgrid"
 
 #The path to the CONUS HUCs shapefile
 hucs = GAP_data + "/Hucs.shp"
+
+#Path to table with extents of each huc in Albers
+HUC_Extents = data_directory + "/HUC_Extents.txt"
 
 #Path to directory containing regional boundary shapefiles
 region_shapefiles = GAP_data + "/regions"
