@@ -37,33 +37,32 @@ import os, gapageconfig
 
 def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables=False):
     '''
-        (list, string, string, boolean) -> list, list
+    (list, string, string, boolean) -> list, list
+
+    Checks the extent of a list of species model raster objects against the extents 
+        of  the hucs that the species occurs or occurred in.  Returns two lists: 
+        1) a list of species for which the raster is too large compared to the hucs
+        where it occurs and 2) a list of species for which there was an error in 
+        the process (usually related to range data in the database for hawaiian 
+        species). Runtime can be an hour to check all models.  Extents are deemed 
+        "too big" if one of a raster's corners is more than 6000 m away from the 
+        corner of the corresponding huc.
+
+    Arguments:
+    sp -- List of arcpy raster objects to check the extent of.  This code assumes 
+        they are geotiffs (name ending in ".tif").
+    workDir -- The directory within which you wish to place the range tables.  
+        Consider a temp location.
+    hucTable -- Path to a csv file with the extents for each huc in Albers 
+        projection. Defaults to the table in gapage's data directory.
+    saveTables -- True or False for whether you want to save the range tables 
+        that will be generated during processing.
     
-        Checks the extent of a list of species model raster objects against the extents 
-            of  the hucs that the species occurs or occurred in.  Returns two lists: 
-            1) a list of species for which the raster is too large compared to the hucs
-            where it occurs and 2) a list of species for which there was an error in 
-            the process (usually related to range data in the database for hawaiian 
-            species). Runtime can be an hour to check all models.  Extents are deemed 
-            "too big" if one of a raster's corners is more than 6000 m away from the 
-            corner of the corresponding huc.
-    
-        Arguments:
-        sp -- List of arcpy raster objects to check the extent of.  This code assumes 
-            they are geotiffs (name ending in ".tif").
-        workDir -- The directory within which you wish to place the range tables.  
-            Consider a temp location.
-        hucTable -- Path to a csv file with the extents for each huc in Albers 
-            projection. Defaults to the table in gapage's data directory.
-        saveTables -- True or False for whether you want to save the range tables 
-            that will be generated during processing.
-        
-        Example:
-        >>> CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
-                              'C:/temp/HUCS_Extent.txt')
-        >>> CheckModelExtents(['arcpy.Raster(C:/temp/aambux.tif'), 
-                              'arcpy.Raster(C:/temp/bamgox.tif')], 'C:/temp', 
-                              'C:/temp/HUCS_Extent.txt')
+    Example:
+    >>> CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
+                          'C:/data/HUCS_Extent.txt')
+    >>> CheckModelExtents(['C:/temp/aambux.tif', 'C:/temp/bamgox.tif'], 'C:/temp', 
+                          'C:/data/HUCS_Extent.txt')
     '''
     import pandas as pd, arcpy, os, gaprange
     
