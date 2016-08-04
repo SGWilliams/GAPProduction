@@ -44,7 +44,7 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
         1) a list of species for which the raster is too large compared to the hucs
         where it occurs and 2) a list of species for which there was an error in 
         the process (usually related to range data in the database for hawaiian 
-        species). Runtime can be an hour to check all models.  Extents are deemed 
+        species). Runtime can be hours to check all models.  Extents are deemed 
         "too big" if one of a raster's corners is more than 6000 m away from the 
         corner of the corresponding huc.
 
