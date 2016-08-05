@@ -136,28 +136,27 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
     return oversized, list(set(errors))
   
       
-def CheckModelTable(workspace):
+def CheckModelTable(rasterList):
     '''
-    (path) -> dict
+    (list) -> dict
 
     Returns a dictionary of lists, one for each error that the function tests for.
         It looks for tables with a count of values less than zero, raster values
         greater than 3, and rasters that have an issue with search cursors.  
         Designed for testing GAP species model output specifically.
 
-
     Argument:
-    workspace -- The directory holding the rasters that you want to scan and test.
+    rasterList -- A list of rasters to check.
 
     Examples:
-    >>> CheckModelVAT('X:/Name/Name2')
+    >>> CheckModelTable(['X:/Name/Name.tif'])
     {'Negatives': [], 'NoCursor': [], 'OverThree': []}
     '''
     try:
         import arcpy, time
-        arcpy.CheckOutExtension("Spatial")
-        arcpy.env.workspace = workspace
-        rasterList = arcpy.ListRasters()
+        #arcpy.CheckOutExtension("Spatial")
+        #arcpy.env.workspace = workspace
+        #rasterList = arcpy.ListRasters()
 
         # MAke empty list to collect rasters with issues        
         badCount = []
@@ -167,6 +166,7 @@ def CheckModelTable(workspace):
         # Loop through rasters and process
         for d in rasterList:            
             print "\nWorking on " + d
+            d = arcpy.Raster(d)
             try:
                 # Make an indicator variable for checking whether the cursor is empty,
                 # otherwise the cursor will quietly pass tables with no rows.
@@ -190,7 +190,6 @@ def CheckModelTable(workspace):
                     else:
                         pass
                     time.sleep(.4)
-                    
                     value = c.getValue("VALUE")
                     if value > 3:
                         print d + " - has a value greater than 3"
