@@ -150,7 +150,7 @@ def CheckModelTable(rasterList):
 
     Examples:
     >>> CheckModelTable(['X:/Name/Name.tif'])
-    {'Negatives': [], 'NoCursor': [], 'OverThree': []}
+    {'Negatives': [], 'cursorProblem': [], 'OverThree': []}
     '''
     try:
         import arcpy, time
@@ -159,8 +159,9 @@ def CheckModelTable(rasterList):
         #rasterList = arcpy.ListRasters()
 
         # MAke empty list to collect rasters with issues        
+        noRows = []        
         badCount = []
-        noCursor = []
+        cursorProblem = []
         overThree = []
 
         # Loop through rasters and process
@@ -189,17 +190,18 @@ def CheckModelTable(rasterList):
                         RowsOK = True
                     else:
                         pass
-                    time.sleep(.4)
+                    time.sleep(.5)
                     value = c.getValue("VALUE")
                     if value > 3:
                         print d + " - has a value greater than 3"
                         overThree.append(d)
                 if RowsOK == False:
-                    badCount.append(d)
+                    noRows.append(d)
             except:
                 print "No Cursor"
-                noCursor.append(d)
-        return {"BadCount":badCount, "NoCursor":noCursor, "OverThree":overThree}
+                cursorProblem.append(d)
+        return {"BadCount":badCount, "CursorProblem":cursorProblem, "OverThree":overThree, 
+                "NoRows":noRows}
     except:
         print("There was a problem.  Is arcpy accessible?")
 
