@@ -37,16 +37,18 @@ import os, gapageconfig
 
 def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables=False):
     '''
-    (list, string, string, boolean) -> list, list
+    (list, string, string, boolean) -> dictionary, list
 
     Checks the extent of a list of species model raster objects against the extents 
-        of  the hucs that the species occurs or occurred in.  Returns two lists: 
-        1) a list of species for which the raster is too large compared to the hucs
-        where it occurs and 2) a list of species for which there was an error in 
-        the process (usually related to range data in the database for hawaiian 
-        species). Runtime can be hours to check all models.  Extents are deemed 
-        "too big" if one of a raster's corners is more than 6000 m away from the 
-        corner of the corresponding huc.
+        of  the hucs that the species occurs or occurred in.  Returns a dictionary
+        and list.  The dictionary is of species for which the raster is too 
+        large compared to the hucs where it occurs and has species names as keys and 
+        tuples of what the extent should ideally be as values.  The tuple is formatted
+        as (XMin, YMin, XMax, YMax) in hopes that it plays nicely with arcpy.env.extent.
+        The list is of species for which there was an error in the process (usually 
+        related to range data in the database for hawaiian species). Runtime can be 
+        hours to check all models.  Extents are deemed "too big" if one of a raster's 
+        corners is more than 6000 m away from the corner of the corresponding huc.
 
     Arguments:
     sp -- List of arcpy raster objects to check the extent of.  This code assumes 
@@ -59,16 +61,17 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
         that will be generated during processing.
     
     Example:
-    >>> CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
+    >>> dicto, listt = CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
                           'C:/data/HUCS_Extent.txt')
-    >>> CheckModelExtents(['C:/temp/aambux.tif', 'C:/temp/bamgox.tif'], 'C:/temp', 
-                          'C:/data/HUCS_Extent.txt')
+    >>> dicto, listt = CheckModelExtents(['C:/temp/aambux.tif', 'C:/temp/bamgox.tif'],
+                                         'C:/temp', 'C:/data/HUCS_Extent.txt')
     '''
     import pandas as pd, arcpy, os, gaprange
     
     # Make a list to collect extra large extent models
-    too_large = []
+    #too_large = []
     errors = []
+    oversized = {}
     
     # Read in the huc extent table as a dataframe
     hucDF = pd.read_csv(hucTable)
@@ -106,32 +109,41 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
             rasterXMin = rasprop.Extent.XMin
             rasterXMax = rasprop.Extent.XMax
             
+            # Make a list to pass along if exent is too big
+            extent = [sp_hucXMin, sp_hucYMin, sp_hucXMax, sp_hucYMax]  
+            
             # Find problem outputs
-            if abs(sp_hucXMax - rasterXMax > 6000):
-                too_large.append(t)
-            if abs(sp_hucXMin - rasterXMin > 6000):
-                too_large.append(t)
-            if abs(sp_hucYMax - rasterYMax > 6000):
-                too_large.append(t)
-            if abs(sp_hucYMin - rasterYMin > 6000):
-                too_large.append(t)
+            if abs(sp_hucXMax - rasterXMax > 6000) or \
+                abs(sp_hucXMin - rasterXMin > 6000) or \
+                abs(sp_hucYMax - rasterYMax > 6000) or \
+                abs(sp_hucYMin - rasterYMin > 6000):
+                    oversized[t] = tuple(extent)
+                
+#            # Find problem outputs
+#            if abs(sp_hucXMax - rasterXMax > 6000):
+#                too_large.append(t)
+#            if abs(sp_hucXMin - rasterXMin > 6000):
+#                too_large.append(t)
+#            if abs(sp_hucYMax - rasterYMax > 6000):
+#                too_large.append(t)
+#            if abs(sp_hucYMin - rasterYMin > 6000):
+#                too_large.append(t)
         except:
             errors.append(t)
         
     # Return the lists, with duplicates removed.
-    return list(set(too_large)), list(set(errors))
+    #return list(set(too_large)), list(set(errors))
+    return oversized, list(set(errors))
   
       
-def CheckModelVAT(workspace):
+def CheckModelTable(workspace):
     '''
     (path) -> dict
 
     Returns a dictionary of lists, one for each error that the function tests for.
         It looks for tables with a count of values less than zero, raster values
         greater than 3, and rasters that have an issue with search cursors.  
-        Designed for testing GAP species model output specifically.  NOTE!!!!!!!!
-        !!!!! In some cases, this function is inconsistent and mysterious in what it
-        collects as "NoCursor".  This is a know bug that hasn't been solved.
+        Designed for testing GAP species model output specifically.
 
 
     Argument:
@@ -147,8 +159,8 @@ def CheckModelVAT(workspace):
         arcpy.env.workspace = workspace
         rasterList = arcpy.ListRasters()
 
-        # MAke empty list to collect rasters with issues
-        negatives = []
+        # MAke empty list to collect rasters with issues        
+        badCount = []
         noCursor = []
         overThree = []
 
@@ -156,26 +168,39 @@ def CheckModelVAT(workspace):
         for d in rasterList:            
             print "\nWorking on " + d
             try:
-                # Make a cursor as a test to see if there's a vat
+                # Make an indicator variable for checking whether the cursor is empty,
+                # otherwise the cursor will quietly pass tables with no rows.
+                RowsOK = False                
+                # Make a cursor as a test to see if there's a vat                
                 cursor = arcpy.SearchCursor(d)
                 print("It has an attribute table")
                 for c in cursor:
                     countt = c.getValue("COUNT")
-                    if countt < 0:
-                            print d + "  - has negatives"
-                            negatives.append(d)
-                            arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
-                            arcpy.management.CalculateStatistics(d)
-                            print "New VAT built"                    
+                    if countt < 0 or countt == 0:
+                        print d + "  - has bad counts"
+                        badCount.append(d)
+                        arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
+                        arcpy.management.CalculateStatistics(d)
+                        print "New VAT built" 
+                        # Change RowsOK to True since the table has rows.                        
+                        RowsOK = True
+                    elif countt > 0:
+                        # Change RowsOK to True since the table has rows.                          
+                        RowsOK = True
+                    else:
+                        pass
                     time.sleep(.4)
+                    
                     value = c.getValue("VALUE")
                     if value > 3:
                         print d + " - has a value greater than 3"
                         overThree.append(d)
+                if RowsOK == False:
+                    badCount.append(d)
             except:
-                print "No VAT"
+                print "No Cursor"
                 noCursor.append(d)
-        return {"Negatives":negatives, "NoCursor":noCursor, "OverThree":overThree}
+        return {"BadCount":badCount, "NoCursor":noCursor, "OverThree":overThree}
     except:
         print("There was a problem.  Is arcpy accessible?")
 
@@ -332,7 +357,6 @@ def __Compare(rast, field, descDic, rastDic, fieldDic):
     return match
 
 
-
 def __ProcessComparisons(rasts, field, descDic, rastDic, fieldDic):
     '''
     A private function, intended to be called only by other functions within
@@ -389,7 +413,9 @@ def CompareRasterProperties(directory, referenceRaster='', wildcard='', field=''
     Examples:
     >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory)
 
-    >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory, myCorrectRaster, 'a*', 'count', ['maximum', 'pixelType', 'noDataValue'])
+    >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory, myCorrectRaster,
+                                                   'a*', 'count', ['maximum', 
+                                                   'pixelType', 'noDataValue'])
     '''
     try:
         import arcpy, match_and_filter
