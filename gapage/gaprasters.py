@@ -25,14 +25,59 @@
 ## SetNullsToValue() -- Change NoData or Null values in a raster to the passed
 ##       value. Overwrites the input raster. Returns the input raster's path/name.
 ##
-## CheckModelVAT() -- Checks to see that a valid raster attribute table exists
+## CheckModelTable() -- Checks to see that a valid raster attribute table exists
 ##      and that
 ##
 ## CheckModelExtents() -- Checks a list of species model ouputs to collect a list of
 ##      ones with extents that are too large relative to the species' range.
-##
+## 
+## CheckRasterProperties() -- Checks the properties of species model raster output.
 
 import os, gapageconfig
+
+
+def CheckRasterProperties(rasters):
+    '''
+    (list) -> dictionary
+    
+    A function to check that the properties of a list of rasters, match the desired 
+        properties species models (TIFF, Albers projection, 8 bit unsigned pixel type, 
+        NoDataValue = 0)
+    
+    Argument:
+    rasters -- A list of rasters to check.
+
+    Examples:
+    >>> BadProperties = CheckRasterProperties(arcpy.ListRasters())
+    >>> a = BadProperties["WrongNoDataValue"]
+    >>> a
+    ['amwlfx.tif', 'andsax.tif']
+    '''
+    import arcpy, time
+    
+    WrongProjection = []
+    WrongNoDataValue = []
+    WrongPixelType = []
+    WrongFormat = []
+    
+    for r in rasters:
+        print r
+        time.sleep(.4)
+        rasObj = arcpy.Raster(r)
+        desObj = arcpy.Describe(rasObj)
+        
+        if desObj.spatialReference.projectionName != "Albers":
+            WrongProjection.append(r)
+        if desObj.format != "TIFF":
+            WrongFormat.append(r)
+        if desObj.pixelType != "U8":
+            WrongPixelType.append(r)
+        if desObj.nodataValue != 0:
+            WrongNoDataValue.append(r)
+            
+    return {"WrongProjection":WrongProjection, "WrongNoDataValue":WrongNoDataValue,
+            "WrongPixelType":WrongPixelType, "WrongFormat":WrongFormat}
+
 
 
 def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables=False):
@@ -166,7 +211,7 @@ def CheckModelTable(rasterList):
 
         # Loop through rasters and process
         for d in rasterList:            
-            print "\nWorking on " + d
+            print d
             d = arcpy.Raster(d)
             try:
                 # Make an indicator variable for checking whether the cursor is empty,
@@ -174,7 +219,6 @@ def CheckModelTable(rasterList):
                 RowsOK = False                
                 # Make a cursor as a test to see if there's a vat                
                 cursor = arcpy.SearchCursor(d)
-                print("It has an attribute table")
                 for c in cursor:
                     countt = c.getValue("COUNT")
                     if countt < 0 or countt == 0:
