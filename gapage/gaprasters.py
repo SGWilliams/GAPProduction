@@ -26,12 +26,12 @@
 ##       value. Overwrites the input raster. Returns the input raster's path/name.
 ##
 ## CheckModelTable() -- Checks to see that a valid raster attribute table exists
-##      and that
+##      and that it has rows.
 ##
 ## CheckModelExtents() -- Checks a list of species model ouputs to collect a list of
 ##      ones with extents that are too large relative to the species' range.
 ## 
-## CheckRasterProperties() -- Checks the properties of species model raster output.
+## CheckRasterProperties() -- Checks the properties of species model raster.
 
 import os, gapageconfig
 
