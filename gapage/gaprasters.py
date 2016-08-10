@@ -163,21 +163,10 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
                 abs(sp_hucYMax - rasterYMax) > 6000 or \
                 abs(sp_hucYMin - rasterYMin) > 6000:
                     oversized[t] = tuple(extent)
-                
-#            # Find problem outputs
-#            if abs(sp_hucXMax - rasterXMax > 6000):
-#                too_large.append(t)
-#            if abs(sp_hucXMin - rasterXMin > 6000):
-#                too_large.append(t)
-#            if abs(sp_hucYMax - rasterYMax > 6000):
-#                too_large.append(t)
-#            if abs(sp_hucYMin - rasterYMin > 6000):
-#                too_large.append(t)
         except:
             errors.append(t)
         
     # Return the lists, with duplicates removed.
-    #return list(set(too_large)), list(set(errors))
     return oversized, list(set(errors))
   
       
