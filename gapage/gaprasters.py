@@ -223,7 +223,7 @@ def CheckModelTable(rasterList):
                     countt = c.getValue("COUNT")
                     if countt < 0 or countt == 0:
                         print d + "  - has bad counts"
-                        badCount.append(d)
+                        badCount.append(d.name)
                         arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
                         arcpy.management.CalculateStatistics(d)
                         print "New VAT built" 
@@ -238,12 +238,12 @@ def CheckModelTable(rasterList):
                     value = c.getValue("VALUE")
                     if value > 3:
                         print d + " - has a value greater than 3"
-                        overThree.append(d)
+                        overThree.append(d.name)
                 if RowsOK == False:
-                    noRows.append(d)
+                    noRows.append(d.name)
             except:
                 print "No Cursor"
-                cursorProblem.append(d)
+                cursorProblem.append(d.name)
         return {"BadCount":badCount, "CursorProblem":cursorProblem, "OverThree":overThree, 
                 "NoRows":noRows}
     except:
