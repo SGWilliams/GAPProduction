@@ -158,10 +158,10 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
             extent = [sp_hucXMin, sp_hucYMin, sp_hucXMax, sp_hucYMax]  
             
             # Find problem outputs
-            if abs(sp_hucXMax - rasterXMax > 6000) or \
-                abs(sp_hucXMin - rasterXMin > 6000) or \
-                abs(sp_hucYMax - rasterYMax > 6000) or \
-                abs(sp_hucYMin - rasterYMin > 6000):
+            if abs(sp_hucXMax - rasterXMax) > 6000 or \
+                abs(sp_hucXMin - rasterXMin) > 6000 or \
+                abs(sp_hucYMax - rasterYMax) > 6000 or \
+                abs(sp_hucYMin - rasterYMin) > 6000:
                     oversized[t] = tuple(extent)
                 
 #            # Find problem outputs
