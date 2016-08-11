@@ -223,7 +223,7 @@ def CheckModelTable(rasterList):
                         RowsOK = True
                     else:
                         pass
-                    time.sleep(.5)
+                    time.sleep(.6)
                     value = c.getValue("VALUE")
                     if value > 3:
                         print d + " - has a value greater than 3"
