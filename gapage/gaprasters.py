@@ -93,7 +93,7 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
         The list is of species for which there was an error in the process (usually 
         related to range data in the database for hawaiian species). Runtime can be 
         hours to check all models.  Extents are deemed "too big" if one of a raster's 
-        corners is more than 6000 m away from the corner of the corresponding huc.
+        corners is more than 100000 m away from the corner of the corresponding huc.
 
     Arguments:
     sp -- List of arcpy raster objects to check the extent of.  This code assumes 
@@ -158,10 +158,10 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
             extent = [sp_hucXMin, sp_hucYMin, sp_hucXMax, sp_hucYMax]  
             
             # Find problem outputs
-            if abs(sp_hucXMax - rasterXMax) > 6000 or \
-                abs(sp_hucXMin - rasterXMin) > 6000 or \
-                abs(sp_hucYMax - rasterYMax) > 6000 or \
-                abs(sp_hucYMin - rasterYMin) > 6000:
+            if abs(sp_hucXMax - rasterXMax) > 100000 or \
+                abs(sp_hucXMin - rasterXMin) > 100000 or \
+                abs(sp_hucYMax - rasterYMax) > 100000 or \
+                abs(sp_hucYMin - rasterYMin) > 100000:
                     oversized[t] = tuple(extent)
         except:
             errors.append(t)
@@ -197,6 +197,7 @@ def CheckModelTable(rasterList):
         badCount = []
         cursorProblem = []
         overThree = []
+        zero = []
 
         # Loop through rasters and process
         for d in rasterList:            
@@ -213,9 +214,9 @@ def CheckModelTable(rasterList):
                     if countt < 0 or countt == 0:
                         print d + "  - has bad counts"
                         badCount.append(d.name)
-                        arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
-                        arcpy.management.CalculateStatistics(d)
-                        print "New VAT built" 
+                        #arcpy.management.BuildRasterAttributeTable(d, overwrite=True)
+                        #arcpy.management.CalculateStatistics(d)
+                        #print "New VAT built" 
                         # Change RowsOK to True since the table has rows.                        
                         RowsOK = True
                     elif countt > 0:
@@ -228,13 +229,16 @@ def CheckModelTable(rasterList):
                     if value > 3:
                         print d + " - has a value greater than 3"
                         overThree.append(d.name)
+                    if value == 0:
+                        print d + " - has a value equal to 0"
+                        zero.append(d.name)
                 if RowsOK == False:
                     noRows.append(d.name)
             except:
                 print "No Cursor"
                 cursorProblem.append(d.name)
         return {"BadCount":badCount, "CursorProblem":cursorProblem, "OverThree":overThree, 
-                "NoRows":noRows}
+                "NoRows":noRows, "Zeros":zero}
     except:
         print("There was a problem.  Is arcpy accessible?")
 
