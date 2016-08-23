@@ -80,10 +80,11 @@ def CheckRasterProperties(rasters):
 
 
 
-def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables=False):
+def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_location, 
+                      hucTable=gapageconfig.HUC_Extents, saveTables=False):
     '''
-    (list, string, string, boolean) -> dictionary, list
-
+    (list, string, int, string, string, boolean) -> dictionary, list
+    
     Checks the extent of a list of species model raster objects against the extents 
         of  the hucs that the species occurs or occurred in.  Returns a dictionary
         and list.  The dictionary is of species for which the raster is too 
@@ -93,13 +94,17 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
         The list is of species for which there was an error in the process (usually 
         related to range data in the database for hawaiian species). Runtime can be 
         hours to check all models.  Extents are deemed "too big" if one of a raster's 
-        corners is more than 100000 m away from the corner of the corresponding huc.
-
+        corners is more than the threshold distance away from the corner of the corresponding huc.
+    
     Arguments:
-    sp -- List of arcpy raster objects to check the extent of.  This code assumes 
+    sp -- List of species model tifs to check the extent of.  This code assumes 
         they are geotiffs (name ending in ".tif").
     workDir -- The directory within which you wish to place the range tables.  
         Consider a temp location.
+    threshold -- Differences above this value in meters will cause a species to be 
+        included in the dictionary of models that are too big.  Most model's extents 
+        are about 5000 m different from that of the species' range.  
+    modelDir -- The directory containing the geotifs to check.
     hucTable -- Path to a csv file with the extents for each huc in Albers 
         projection. Defaults to the table in gapage's data directory.
     saveTables -- True or False for whether you want to save the range tables 
@@ -107,29 +112,26 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
     
     Example:
     >>> dicto, listt = CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
-                          'C:/data/HUCS_Extent.txt')
-    >>> dicto, listt = CheckModelExtents(['C:/temp/aambux.tif', 'C:/temp/bamgox.tif'],
-                                         'C:/temp', 'C:/data/HUCS_Extent.txt')
+                          'C:/data/HUCS_Extent.txt', threshold=500000)
     '''
     import pandas as pd, arcpy, os, gaprange
-    
     # Make a list to collect extra large extent models
-    #too_large = []
     errors = []
     oversized = {}
-    
     # Read in the huc extent table as a dataframe
     hucDF = pd.read_csv(hucTable)
-    #Filter out unnecessary fields
+    # Filter out unnecessary fields
     hucDF.drop([u'FID', u'OBJECTID', u'STATES', u'HUC_8', u'HUC_10', u'HUC12RNG',
                 u'Shape_Leng',], axis=1, inplace=True) 
-               
+    print "Printing table minus map differences in this order:"
+    print ("XMin", "YMin", "XMax", "YMax")        
     for t in sp:
         r = t[:-4]
         print r
         # Get a dataframe of the species range table
         try:
-            sp_table = gaprange.RangeTable(r, workDir)
+            sp_table = gaprange.RangeTable(r, workDir, includeMigratory=False, 
+                                              includeHistoric=False)
             spDF = pd.read_csv(sp_table)
             if saveTables == False:
                 os.remove(sp_table)
@@ -141,32 +143,35 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
                                 right_on='HUC12')
            
            # Get the outer points from species range table
-            sp_hucYMin = float(min(sp_hucDF['YMin']))
-            sp_hucYMax = float(max(sp_hucDF['YMax']))
-            sp_hucXMin = float(min(sp_hucDF['XMin']))
-            sp_hucXMax = float(max(sp_hucDF['XMax']))
+            sp_hucYMin = min(sp_hucDF['YMin'])
+            sp_hucYMax = max(sp_hucDF['YMax'])
+            sp_hucXMin = min(sp_hucDF['XMin'])
+            sp_hucXMax = max(sp_hucDF['XMax'])
             
             # Get the outer points from species raster
-            ras = arcpy.Raster(t)
+            ras = arcpy.Raster(modelDir + t)
             rasprop = arcpy.Describe(ras)
-            rasterYMin = float(rasprop.Extent.YMin)
-            rasterYMax = float(rasprop.Extent.YMax)
-            rasterXMin = float(rasprop.Extent.XMin)
-            rasterXMax = float(rasprop.Extent.XMax)
+            rasterYMin = rasprop.Extent.YMin
+            rasterYMax = rasprop.Extent.YMax
+            rasterXMin = rasprop.Extent.XMin
+            rasterXMax = rasprop.Extent.XMax
             
             # Make a list to pass along if exent is too big
             extent = [sp_hucXMin, sp_hucYMin, sp_hucXMax, sp_hucYMax]  
             
             # Find problem outputs
-            if abs(sp_hucXMax - rasterXMax) > 100000.0 or \
-                abs(sp_hucXMin - rasterXMin) > 100000.0 or \
-                abs(sp_hucYMax - rasterYMax) > 100000.0 or \
-                abs(sp_hucYMin - rasterYMin) > 100000.0:
+            if abs(sp_hucXMax - rasterXMax) > threshold or \
+                abs(sp_hucXMin - rasterXMin) > threshold or \
+                abs(sp_hucYMax - rasterYMax) > threshold or \
+                abs(sp_hucYMin - rasterYMin) > threshold:
                     oversized[t] = tuple(extent)
+            
+            print (int(sp_hucXMin - rasterXMin), int(sp_hucYMin - rasterYMin),
+                   int(sp_hucXMax - rasterXMax), int(sp_hucYMax - rasterYMax))      
+        
         except:
             errors.append(t)
-        
-    # Return the lists, with duplicates removed.
+    #Return the lists, with duplicates removed.
     return oversized, list(set(errors))
   
       
