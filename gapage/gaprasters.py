@@ -141,27 +141,27 @@ def CheckModelExtents(sp, workDir, hucTable=gapageconfig.HUC_Extents, saveTables
                                 right_on='HUC12')
            
            # Get the outer points from species range table
-            sp_hucYMin = min(sp_hucDF['YMin'])
-            sp_hucYMax = max(sp_hucDF['YMax'])
-            sp_hucXMin = min(sp_hucDF['XMin'])
-            sp_hucXMax = max(sp_hucDF['XMax'])
+            sp_hucYMin = float(min(sp_hucDF['YMin']))
+            sp_hucYMax = float(max(sp_hucDF['YMax']))
+            sp_hucXMin = float(min(sp_hucDF['XMin']))
+            sp_hucXMax = float(max(sp_hucDF['XMax']))
             
             # Get the outer points from species raster
             ras = arcpy.Raster(t)
             rasprop = arcpy.Describe(ras)
-            rasterYMin = rasprop.Extent.YMin
-            rasterYMax = rasprop.Extent.YMax
-            rasterXMin = rasprop.Extent.XMin
-            rasterXMax = rasprop.Extent.XMax
+            rasterYMin = float(rasprop.Extent.YMin)
+            rasterYMax = float(rasprop.Extent.YMax)
+            rasterXMin = float(rasprop.Extent.XMin)
+            rasterXMax = float(rasprop.Extent.XMax)
             
             # Make a list to pass along if exent is too big
             extent = [sp_hucXMin, sp_hucYMin, sp_hucXMax, sp_hucYMax]  
             
             # Find problem outputs
-            if abs(sp_hucXMax - rasterXMax) > 100000 or \
-                abs(sp_hucXMin - rasterXMin) > 100000 or \
-                abs(sp_hucYMax - rasterYMax) > 100000 or \
-                abs(sp_hucYMin - rasterYMin) > 100000:
+            if abs(sp_hucXMax - rasterXMax) > 100000.0 or \
+                abs(sp_hucXMin - rasterXMin) > 100000.0 or \
+                abs(sp_hucYMax - rasterYMax) > 100000.0 or \
+                abs(sp_hucYMin - rasterYMin) > 100000.0:
                     oversized[t] = tuple(extent)
         except:
             errors.append(t)

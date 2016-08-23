@@ -5,6 +5,8 @@ This a place to put functions that are in development.
 '''
 A collecton of funcions for common tasks related to land cover data.
 '''
+import gapageconfig
+
 def MakeRemapList(mapUnitCodes, reclassValue):
     '''
     (list, integer) -> list of lists
@@ -84,4 +86,4 @@ def ReclassLandCover(MUlist, reclassTo, keyword, workDir):
         #arcpy.management.CalculateStatistics(workDir + "\\" + keyword)
         #arcpy.management.BuildPyramids(workDir + "\\" + keyword)
     except:
-        print "May not have been able to load arcpy"                                           
+        print "May not have been able to load arcpy"     
