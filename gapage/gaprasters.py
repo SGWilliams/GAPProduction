@@ -171,6 +171,7 @@ def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_locat
         
         except:
             errors.append(t)
+            
     #Return the lists, with duplicates removed.
     return oversized, list(set(errors))
   

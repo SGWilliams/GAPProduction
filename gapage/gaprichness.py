@@ -32,7 +32,7 @@ class __Models:
 # Public function to create a species richness raster
 def ProcessRichness(spp, groupName, outDir=gapageconfig.richness_directory, season="Any"):
     '''
-    (list, str, [str]) -> str, str
+    (list, str, str, str) -> str, str
 
     Creates a species richness raster for the passed species. Also includes a
       csv table listing all the included species and crosswalk information for
