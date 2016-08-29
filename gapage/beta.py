@@ -39,9 +39,7 @@ def ReclassLandCover(MUlist, reclassTo, keyword, workDir):
     reclassTo -- Value to reclass the MUs in MUlist to.
     keyword -- A keyword to use for output name.  Keep to <13 characters.
     workDir -- Where to save output and intermediate files.
-    '''
-    import gapageconfig
-    
+    '''    
     try:
         import arcpy
         arcpy.CheckOutExtension("Spatial")
@@ -240,15 +238,21 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                 # Create a temporary raster from the species' raster, setting all
                 # values meeting the condition to 1
                 tempRast = arcpy.sa.Con(sp, 1, where_clause = wc)
+                # Check that the reclassed raster has valid values (should be 1's and nodatas)
+                if tempRast.minimum != 1:
+                    __Log('\tWARNING! Invalid minimum raster value -- {0}'.format(sp))
+                if tempRast.maximum != 1:
+                    __Log('\tWARNING! Invalid maximum raster value -- {0}'.format(sp))
+                if tempRast.mean != 1:
+                    __Log('\tWARNING! Invalid mean raster value -- {0}'.format(sp))
                 ########  ADD TO STEVES RASTER HERE?
                 # Save the reclassified raster
                 tempRast.save(reclassed)
                 # Add the reclassed raster's path to the list
                 sppReclassed.append(reclassed)
                 # Make sure that the reclassified model exists, pause if not.
-                if not arcpy.Exists(sp):
-                    __Log('\tWARNING! The species\' raster could not be found -- {0}'.format(sp))
-                    raw_input("Fix, then press enter to resume")
+                if not arcpy.Exists(reclassed):
+                    __Log('\tWARNING! This reclassed raster could not be found -- {0}'.format(sp))
             except Exception as e:
                 __Log('ERROR in reclassifying a model - {0}'.format(e))
         __Log('\tAll models reclassified')
