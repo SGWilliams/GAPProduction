@@ -60,7 +60,7 @@ FUNCTIONS
             introduced HUC among any number of native or reintroduced HUCs will be
             returned.
     
-    RangeShp(sp, outDir=r'T:\Scripts', dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True)
+    RangeShp(sp, outDir=r'C:\Windows\system32', dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True)
         (string, string, [boolean], [string], [boolean], [boolean], [boolean]) -> string
         
         Creates a shapefile of the species' range and returns the full absolute

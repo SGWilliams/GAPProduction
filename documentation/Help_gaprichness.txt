@@ -16,8 +16,8 @@ DESCRIPTION
     #
 
 FUNCTIONS
-    ProcessRichness(spp, groupName, outDir)
-        (list, str, [str]) -> str, str
+    ProcessRichness(spp, groupName, outDir='T:/GAP/Richness', season='Any')
+        (list, str, str, str) -> str, str
         
         Creates a species richness raster for the passed species. Also includes a
           csv table listing all the included species and crosswalk information for
@@ -38,6 +38,9 @@ FUNCTIONS
         outDir -- An optional parameter, indicating the directory in which you wish
             to place output and intermediate files. By default, it is set to
             C:\Species_Richness
+        season -- Seasonal criteris for reclassifying the output.  Choose "Summer", "Winter", 
+            or "Any". "Any" will reclassify output so that any value > 0 gets reclassed to "1" and
+            is the default. 
         
         Example:
         >>> ProcessRichness(['aagtox', 'bbaeax', 'mnarox'], 'MyRandomSpecies',             r'C:\GIS_Data\Richness')

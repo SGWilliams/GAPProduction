@@ -49,6 +49,9 @@ DESCRIPTION
     ##
     ## RemoveAlienMUs() -- Goes through each model in a list and unselects primary
     ##     and auxiliary map units which are not found within the model's region.
+    ##
+    ## ExcludeModels() -- Returns a list of models that exist in the WHRDb but are designated
+    ##      for exclusion in the ysnInclude field.
 
 FUNCTIONS
     EcoSystemModels(ecologicalSystem, season='all', contiguousOnly=False)
@@ -90,6 +93,12 @@ FUNCTIONS
             wish to return codes only for models within the contiguous U.S. By
             default, it is set to False, which means that all model codes will be
             returned, regardless of their region.
+    
+    ExcludeModels()
+        (None) -> tuple
+        
+        Retrieves tuple of models that are designated for exclusion in tblAllSpecies.ysnInclude in the 
+        WHRDb.
     
     HandModels()
         (None) -> tuple

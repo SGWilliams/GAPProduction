@@ -12,7 +12,7 @@ DESCRIPTION
     ##
     ## The public functions are:
     ##
-    ## SpModel() -- Finds the path to the species' model on Clownfish
+    ## SpModel() -- Finds the path to the species' model 
     ##
     ## RemoveEmptyRasters() -- Deletes empty rasters from the passed directory.
     ##
@@ -34,25 +34,77 @@ DESCRIPTION
     ## SetNullsToValue() -- Change NoData or Null values in a raster to the passed
     ##       value. Overwrites the input raster. Returns the input raster's path/name.
     ##
-    ## CheckModelVAT() -- Checks to see that a valid raster attribute table exists
-    ##      and that
+    ## CheckModelTable() -- Checks to see that a valid raster attribute table exists
+    ##      and that it has rows.
+    ##
+    ## CheckModelExtents() -- Checks a list of species model ouputs to collect a list of
+    ##      ones with extents that are too large relative to the species' range.
+    ## 
+    ## CheckRasterProperties() -- Checks the properties of species model raster.
 
 FUNCTIONS
-    CheckModelVAT(workspace)
-        (path) -> dict
+    CheckModelExtents(sp, workDir, threshold, modelDir='P:/Proj3/USGap/Vert/Model/Output', hucTable='T:/Scripts/GAPage/data/HUC_Extents.txt', saveTables=False)
+        (list, string, int, string, string, boolean) -> dictionary, list
+        
+        Checks the extent of a list of species model raster objects against the extents 
+            of  the hucs that the species occurs or occurred in.  Returns a dictionary
+            and list.  The dictionary is of species for which the raster is too 
+            large compared to the hucs where it occurs and has species names as keys and 
+            tuples of what the extent should ideally be as values.  The tuple is formatted
+            as (XMin, YMin, XMax, YMax) in hopes that it plays nicely with arcpy.env.extent.
+            The list is of species for which there was an error in the process (usually 
+            related to range data in the database for hawaiian species). Runtime can be 
+            hours to check all models.  Extents are deemed "too big" if one of a raster's 
+            corners is more than the threshold distance away from the corner of the corresponding huc.
+        
+        Arguments:
+        sp -- List of species model tifs to check the extent of.  This code assumes 
+            they are geotiffs (name ending in ".tif").
+        workDir -- The directory within which you wish to place the range tables.  
+            Consider a temp location.
+        threshold -- Differences above this value in meters will cause a species to be 
+            included in the dictionary of models that are too big.  Most model's extents 
+            are about 5000 m different from that of the species' range.  
+        modelDir -- The directory containing the geotifs to check.
+        hucTable -- Path to a csv file with the extents for each huc in Albers 
+            projection. Defaults to the table in gapage's data directory.
+        saveTables -- True or False for whether you want to save the range tables 
+            that will be generated during processing.
+        
+        Example:
+        >>> dicto, listt = CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
+                              'C:/data/HUCS_Extent.txt', threshold=500000)
+    
+    CheckModelTable(rasterList)
+        (list) -> dict
         
         Returns a dictionary of lists, one for each error that the function tests for.
             It looks for tables with a count of values less than zero, raster values
-            greater than 3, and rasters with no VAT.  Designed for testing GAP species
-            model output specifically.
-        
+            greater than 3, and rasters that have an issue with search cursors.  
+            Designed for testing GAP species model output specifically.
         
         Argument:
-        workspace -- The directory holding the rasters that you want to scan and test.
+        rasterList -- A list of rasters to check.
         
         Examples:
-        >>> CheckModelVAT('X:/Name/Name2')
-        {'Negatives': [], 'NoVAT': [], 'OverThree': []}
+        >>> CheckModelTable(['X:/Name/Name.tif'])
+        {'Negatives': [], 'cursorProblem': [], 'OverThree': []}
+    
+    CheckRasterProperties(rasters)
+        (list) -> dictionary
+        
+        A function to check that the properties of a list of rasters, match the desired 
+            properties species models (TIFF, Albers projection, 8 bit unsigned pixel type, 
+            NoDataValue = 0)
+        
+        Argument:
+        rasters -- A list of rasters to check.
+        
+        Examples:
+        >>> BadProperties = CheckRasterProperties(arcpy.ListRasters())
+        >>> a = BadProperties["WrongNoDataValue"]
+        >>> a
+        ['amwlfx.tif', 'andsax.tif']
     
     CompareRasterProperties(directory, referenceRaster='', wildcard='', field='', omitProperties=[])
         (string, [string], [string], [string], [list]) -> list, list
@@ -87,7 +139,9 @@ FUNCTIONS
         Examples:
         >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory)
         
-        >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory, myCorrectRaster, 'a*', 'count', ['maximum', 'pixelType', 'noDataValue'])
+        >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory, myCorrectRaster,
+                                                       'a*', 'count', ['maximum', 
+                                                       'pixelType', 'noDataValue'])
     
     GetSnapGrid()
         () -> str

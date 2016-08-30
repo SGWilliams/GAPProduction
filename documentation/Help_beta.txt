@@ -6,4 +6,71 @@ NAME
 FILE
     t:\scripts\gapage\gapage\beta.py
 
+FUNCTIONS
+    MakeRemapList(mapUnitCodes, reclassValue)
+        (list, integer) -> list of lists
+        
+        Returns a RemapValue list for use with arcpy.sa.Reclassify()
+        
+        Arguments:
+        mapUnitCodes -- A list of land cover map units that you with to reclassify.
+        reclassValue -- The value that you want to reclassify the mapUnitCodes that you
+            are passing to.
+        
+        Example:
+        >>> MakeRemap([1201, 2543, 5678, 1234], 1)
+        [[1201, 1], [2543, 1], [5678, 1], [1234, 1]]
+    
+    ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, log, expand=False)
+        (list, str, str, str, str, int, str) -> str, str
+        
+        Creates a species richness raster for the passed species. Also includes a
+          table listing all the included species. Intermediate richness rasters are
+          retained. That is, the code processes the rasters in groups of the given interval
+          size, to keep from overloading ArcPy's cell statistics function; the intermediate
+          richness rasters are retained for spot-checking and for potential re-running of 
+          species subsets. Refer to the output log file for a list of species included in 
+          each intermediate raster as well as the code that was run for the process.
+        
+        Returns the path to the output richness raster and the path to the species
+          table.
+        
+        Arguments:
+        spp -- A list of GAP species codes to include in the calculation
+        groupName -- The name you wish to use to identify the output directories
+            and files (e.g., 'raptors')
+        outLoc -- The directory in which you wish to place output and intermediate files.
+        modelDir -- The directory that holds all of the GAP habitat map .tifs needed for the 
+            analysis.
+        season -- Seasonal criteris for reclassifying the output.  Choose "Summer", "Winter", 
+            or "Any". "Any" will reclassify output so that any value > 0 gets reclassed to "1" and
+            is the default. 
+        interval_size -- How many rasters to include in an intermediate batch.  20 is a good number.
+        log -- Path and name of log file to save print statements, errors, and code to.  Recommended
+            location is "os.path.join(outLoc, 'log_' + groupName + '.txt')"
+        expand -- Default to False.  If you set to true, then each reclassed raster will be added to
+            a raster of CONUS extent with the top, left 9 pixels having a value of 1, and all others 
+            with a value of zero.  Doing this provides a check that each model was added during the 
+            processing, but it slows things down A LOT.  The CONUS extent grid lives in the GAPage
+            data directory.
+        
+        Example:
+        >>> ProcessRichness(['aagtox', 'bbaeax', 'mnarox'], 'MyRandomSpecies', 
+                            outLoc='C:/GIS_Data/Richness', modelDir='C:/Data/Model/Output',
+                            season="Summer", interval_size=20, 
+                            log='C:/GIS_DATA/Richness/log_MyRandomSpecies.txt')
+        C:\GIS_Data\Richness\MyRandomSpecies_04_Richness\MyRandomSpecies.tif, C:\GIS_Data\Richness\MyRandomSpecies.csv
+    
+    ReclassLandCover(MUlist, reclassTo, keyword, workDir)
+        (list) -> map
+        
+        Builds a national map of select systems from the GAP Landcover used in species
+            modeling. Takes several hours to run.
+            
+        Arguments:
+        MUlist -- A list of land cover map unit codes that you want to reclass.
+        reclassTo -- Value to reclass the MUs in MUlist to.
+        keyword -- A keyword to use for output name.  Keep to <13 characters.
+        workDir -- Where to save output and intermediate files.
+
 
