@@ -84,7 +84,7 @@ def ReclassLandCover(MUlist, reclassTo, keyword, workDir):
         print "May not have been able to load arcpy"
 
 
-def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, log):    
+def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, log, expand=False):    
     '''
     (list, str, str, str, str, int, str) -> str, str
 
@@ -112,6 +112,11 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
     interval_size -- How many rasters to include in an intermediate batch.  20 is a good number.
     log -- Path and name of log file to save print statements, errors, and code to.  Recommended
         location is "os.path.join(outLoc, 'log_' + groupName + '.txt')"
+    expand -- Default to False.  If you set to true, then each reclassed raster will be added to
+        a raster of CONUS extent with the top, left 9 pixels having a value of 1, and all others 
+        with a value of zero.  Doing this provides a check that each model was added during the 
+        processing, but it slows things down A LOT.  The CONUS extent grid lives in the GAPage
+        data directory.
 
     Example:
     >>> ProcessRichness(['aagtox', 'bbaeax', 'mnarox'], 'MyRandomSpecies', 
@@ -155,15 +160,15 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
     
     ###################################################### Write header to log file
     ###############################################################################
+    __Log("\n" + ("#"*67))
+    __Log("The results from richness processing")
+    __Log("#"*67)    
     __Log(starttime.strftime("%c"))
     __Log('\nProcessing {0} species as "{1}".\n'.format(len(spp), groupName).upper())
     __Log('Season of this calculation: ' + season)
     __Log('Table written to {0}'.format(outTable))
     __Log('The species that will be used for analysis:')
     __Log(str(spp) + '\n')
-    __Log("\n" + ("#"*67))
-    __Log("The results from richness processing are printed below")
-    __Log("#"*67)
     
     # Maximum number of species to process at once
     interval = interval_size
@@ -228,6 +233,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
         # For each of the local species rasters
         for sp in sppLocal:
             try:
+                ####################################################### Reclassify                
                 __Log('\t\t{0}'.format(os.path.basename(sp)))
                 # Set a path to the output reclassified raster
                 reclassed = os.path.join(reclassDir, os.path.basename(sp))
@@ -245,7 +251,13 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                     __Log('\tWARNING! Invalid maximum raster value -- {0}'.format(sp))
                 if tempRast.mean != 1:
                     __Log('\tWARNING! Invalid mean raster value -- {0}'.format(sp))
-                ########  ADD TO STEVES RASTER HERE?
+                try:
+                    ############################## Optional: expand to CONUS extent                
+                    if expand == True:
+                        tempRast = arcpy.sa.CellStatistics([tempRast, gapageconfig.CONUS_extent], 
+                                                            "SUM", "DATA")
+                except Exception as e:
+                    __Log('ERROR expanding reclassed raster - {0}'.format(e))
                 # Save the reclassified raster
                 tempRast.save(reclassed)
                 # Add the reclassed raster's path to the list

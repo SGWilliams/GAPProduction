@@ -17,7 +17,7 @@ output_location = "xxx/xxxx/xxx"
 #Directory to store output from richness analyses
 richness_directory = "xxx/xxxx/xxx"
 
-# Username and password for the GAP databases
+#Username and password for the GAP databases
 server = ""
 uid = raw_input("Username: ")
 password = raw_input("Password: ")
@@ -30,6 +30,9 @@ emailDefaultToAddress = ""
 
 
 ####################    STUFF YOU DON'T HAVE TO CHANGE  ############################################
+
+#Path to the CONUS extent raster with top, left pixels for counting.
+CONUS_extent = GAP_data + "/conus_ext_cnt"
 
 #The path to the CONUS HUCs shapefile
 hucs = GAP_data + "/Hucs.shp"
