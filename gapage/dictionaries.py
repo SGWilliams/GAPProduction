@@ -58,9 +58,36 @@
 ##
 ##
 
-stateDict_To_Abbr = {'Alabama':'AL','Alaska':'AK','American Somoa':'AS','Arizona':'AZ','Arkansas':'AR','California':'CA','Colorado':'CO','Connecticut':'CT','Delaware':'DE','Florida':'FL','Georgia':'GA','Guam':'GU','Hawaii':'HI','Idaho':'ID','Illinois':'IL','Indiana':'IN','Iowa':'IA','Kansas':'KS','Kentucky':'KY','Louisiana':'LA','Maine':'ME','Maryland':'MD','Massachusetts':'MA','Michigan':'MI','Minnesota':'MN','Mississippi':'MS','Missouri':'MO','Montana':'MT','Nebraska':'NE','Nevada':'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND','Northern Mariana Islands':'MP','Ohio':'OH','Oklahoma':'OK','Oregon':'OR','Pennsylvania':'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD','Tennessee':'TN','Texas':'TX','Utah':'UT','Vermont':'VT','Virginia':'VA','Washington':'WA','West Virginia':'WV','Wisconsin':'WI','Wyoming':'WY','Puerto Rico':'PR','Virgin Islands':'VI','District of Columbia':'DC'}
+stateDict_To_Abbr = {'Alabama':'AL','Alaska':'AK','American Somoa':'AS','Arizona':'AZ',
+                     'Arkansas':'AR','California':'CA','Colorado':'CO','Connecticut':'CT',
+                     'Delaware':'DE','Florida':'FL','Georgia':'GA','Guam':'GU','Hawaii':'HI',
+                     'Idaho':'ID','Illinois':'IL','Indiana':'IN','Iowa':'IA','Kansas':'KS',
+                     'Kentucky':'KY','Louisiana':'LA','Maine':'ME','Maryland':'MD',
+                     'Massachusetts':'MA','Michigan':'MI','Minnesota':'MN','Mississippi':'MS',
+                     'Missouri':'MO','Montana':'MT','Nebraska':'NE','Nevada':'NV',
+                     'New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY',
+                     'North Carolina':'NC','North Dakota':'ND','Northern Mariana Islands':'MP',
+                     'Ohio':'OH','Oklahoma':'OK','Oregon':'OR','Pennsylvania':'PA',
+                     'Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD',
+                     'Tennessee':'TN','Texas':'TX','Utah':'UT','Vermont':'VT','Virginia':'VA',
+                     'Washington':'WA','West Virginia':'WV','Wisconsin':'WI','Wyoming':'WY',
+                     'Puerto Rico':'PR','Virgin Islands':'VI','District of Columbia':'DC'}
 
-stateDict_From_Abbr = {'AS':'American Somoa','GU':'Guam','MP':'Northern Mariana Islands','MS':'Mississippi','OK':'Oklahoma','DE':'Delaware','MN':'Minnesota','IL':'Illinois','AR':'Arkansas','NM':'New Mexico','IN':'Indiana','LA':'Louisiana','TX':'Texas','WI':'Wisconsin','KS':'Kansas','CT':'Connecticut','VI':'Virgin Islands','CA':'California','WV':'West Virginia','GA':'Georgia','ND':'North Dakota','PA':'Pennsylvania','PR':'Puerto Rico','AK':'Alaska','MO':'Missouri','SD':'South Dakota','CO':'Colorado','NJ':'New Jersey','WA':'Washington','NY':'New York','NV':'Nevada','MD':'Maryland','ID':'Idaho','WY':'Wyoming','AZ':'Arizona','IA':'Iowa','MI':'Michigan','UT':'Utah','VA':'Virginia','OR':'Oregon','MT':'Montana','NH':'New Hampshire','MA':'Massachusetts','SC':'South Carolina','VT':'Vermont','FL':'Florida','HI':'Hawaii','KY':'Kentucky','RI':'Rhode Island','NE':'Nebraska','OH':'Ohio','AL':'Alabama','NC':'North Carolina','TN':'Tennessee','ME':'Maine','DC':'District of Columbia'}
+stateDict_From_Abbr = {'AS':'American Somoa','GU':'Guam','MP':'Northern Mariana Islands',
+                       'MS':'Mississippi','OK':'Oklahoma','DE':'Delaware','MN':'Minnesota',
+                       'IL':'Illinois','AR':'Arkansas','NM':'New Mexico','IN':'Indiana',
+                       'LA':'Louisiana','TX':'Texas','WI':'Wisconsin','KS':'Kansas',
+                       'CT':'Connecticut','VI':'Virgin Islands','CA':'California',
+                       'WV':'West Virginia','GA':'Georgia','ND':'North Dakota',
+                       'PA':'Pennsylvania','PR':'Puerto Rico','AK':'Alaska','MO':'Missouri',
+                       'SD':'South Dakota','CO':'Colorado','NJ':'New Jersey','WA':'Washington',
+                       'NY':'New York','NV':'Nevada','MD':'Maryland','ID':'Idaho','WY':'Wyoming',
+                       'AZ':'Arizona','IA':'Iowa','MI':'Michigan','UT':'Utah','VA':'Virginia',
+                       'OR':'Oregon','MT':'Montana','NH':'New Hampshire','MA':'Massachusetts',
+                       'SC':'South Carolina','VT':'Vermont','FL':'Florida','HI':'Hawaii',
+                       'KY':'Kentucky','RI':'Rhode Island','NE':'Nebraska','OH':'Ohio',
+                       'AL':'Alabama','NC':'North Carolina','TN':'Tennessee','ME':'Maine',
+                       'DC':'District of Columbia'}
 
 stateDict_From_Abbr_CONUS = {'MS':'Mississippi','OK':'Oklahoma','DE':'Delaware','MN':'Minnesota','IL':'Illinois','AR':'Arkansas','NM':'New Mexico','IN':'Indiana','LA':'Louisiana','TX':'Texas','WI':'Wisconsin','KS':'Kansas','CT':'Connecticut','CA':'California','WV':'West Virginia','GA':'Georgia','ND':'North Dakota','PA':'Pennsylvania','MO':'Missouri','SD':'South Dakota','CO':'Colorado','NJ':'New Jersey','WA':'Washington','NY':'New York','NV':'Nevada','MD':'Maryland','ID':'Idaho','WY':'Wyoming','AZ':'Arizona','IA':'Iowa','MI':'Michigan','UT':'Utah','VA':'Virginia','OR':'Oregon','MT':'Montana','NH':'New Hampshire','MA':'Massachusetts','SC':'South Carolina','VT':'Vermont','FL':'Florida','KY':'Kentucky','RI':'Rhode Island','NE':'Nebraska','OH':'Ohio','AL':'Alabama','NC':'North Carolina','TN':'Tennessee','ME':'Maine','DC':'District of Columbia'}
 
@@ -74,15 +101,46 @@ regionsDict_Num_To_Abbr = {1:'NW', 2:'UM', 3:'NE', 4:'SW', 5:'GP', 6:'SE'}
 
 regionsDict_Abbr_To_Num = {'NW':1, 'UM':2, 'NE':3, 'SW':4, 'GP':5, 'SE':6}
 
-regionsDict_Name_To_Num = {'Northwest':1, 'Upper Midwest':2, 'Northeast':3, 'Southwest':4, 'Great Plains':5, 'Southeast':6}
+regionsDict_Name_To_Num = {'Northwest':1, 'Upper Midwest':2, 'Northeast':3, 'Southwest':4,
+                           'Great Plains':5, 'Southeast':6}
 
-regionsDict_Abbr_To_Name = {'NW':'Northwest', 'UM':'Upper Midwest', 'NE':'Northeast', 'SW':'Southwest', 'GP':'Great Plains', 'SE':'Southeast'}
+regionsDict_Abbr_To_Name = {'NW':'Northwest', 'UM':'Upper Midwest', 'NE':'Northeast', 
+                            'SW':'Southwest', 'GP':'Great Plains', 'SE':'Southeast'}
 
-stateFIPS_Code_To_Name = {1: u'ALABAMA', 4: u'ARIZONA', 5: u'ARKANSAS', 6: u'CALIFORNIA', 8: u'COLORADO', 9: u'CONNECTICUT', 10: u'DELAWARE', 11: u'DISTRICT OF COLUMBIA', 12: u'FLORIDA', 13: u'GEORGIA', 16: u'IDAHO', 17: u'ILLINOIS', 18: u'INDIANA', 19: u'IOWA', 20: u'KANSAS', 21: u'KENTUCKY', 22: u'LOUISIANA', 23: u'MAINE', 24: u'MARYLAND', 25: u'MASSACHUSETTS', 26: u'MICHIGAN', 27: u'MINNESOTA', 28: u'MISSISSIPPI', 29: u'MISSOURI', 30: u'MONTANA', 31: u'NEBRASKA', 32: u'NEVADA', 33: u'NEW HAMPSHIRE', 34: u'NEW JERSEY', 35: u'NEW MEXICO', 36: u'NEW YORK', 37: u'NORTH CAROLINA', 38: u'NORTH DAKOTA', 39: u'OHIO', 40: u'OKLAHOMA', 41: u'OREGON', 42: u'PENNSYLVANIA', 44: u'RHODE ISLAND', 45: u'SOUTH CAROLINA', 46: u'SOUTH DAKOTA', 47: u'TENNESSEE', 48: u'TEXAS', 49: u'UTAH', 50: u'VERMONT', 51: u'VIRGINIA', 53: u'WASHINGTON', 54: u'WEST VIRGINIA', 55: u'WISCONSIN', 56: u'WYOMING'}
+stateFIPS_Code_To_Name = {1: u'ALABAMA', 4: u'ARIZONA', 5: u'ARKANSAS', 6: u'CALIFORNIA', 
+                          8: u'COLORADO', 9: u'CONNECTICUT', 10: u'DELAWARE', 
+                          11: u'DISTRICT OF COLUMBIA', 12: u'FLORIDA', 13: u'GEORGIA', 
+                          16: u'IDAHO', 17: u'ILLINOIS', 18: u'INDIANA', 19: u'IOWA', 
+                          20: u'KANSAS', 21: u'KENTUCKY', 22: u'LOUISIANA', 23: u'MAINE', 
+                          24: u'MARYLAND', 25: u'MASSACHUSETTS', 26: u'MICHIGAN', 
+                          27: u'MINNESOTA', 28: u'MISSISSIPPI', 29: u'MISSOURI', 
+                          30: u'MONTANA', 31: u'NEBRASKA', 32: u'NEVADA', 33: u'NEW HAMPSHIRE',
+                          34: u'NEW JERSEY', 35: u'NEW MEXICO', 36: u'NEW YORK', 
+                          37: u'NORTH CAROLINA', 38: u'NORTH DAKOTA', 39: u'OHIO', 
+                          40: u'OKLAHOMA', 41: u'OREGON', 42: u'PENNSYLVANIA', 
+                          44: u'RHODE ISLAND', 45: u'SOUTH CAROLINA', 46: u'SOUTH DAKOTA', 
+                          47: u'TENNESSEE', 48: u'TEXAS', 49: u'UTAH', 50: u'VERMONT',
+                          51: u'VIRGINIA', 53: u'WASHINGTON', 54: u'WEST VIRGINIA', 
+                          55: u'WISCONSIN', 56: u'WYOMING'}
 
 stateFIPS_Name_To_Code = {u'VERMONT': 50, u'GEORGIA': 13, u'IOWA': 19, u'KANSAS': 20, u'FLORIDA': 12, u'VIRGINIA': 51, u'NORTH CAROLINA': 37, u'NEBRASKA': 31, u'NEW YORK': 36, u'CALIFORNIA': 6, u'ALABAMA': 1, u'IDAHO': 16, u'DELAWARE': 10, u'TENNESSEE': 47, u'ILLINOIS': 17, u'SOUTH DAKOTA': 46, u'CONNECTICUT': 9, u'MONTANA': 30, None: 0, u'MASSACHUSETTS': 25, u'NEW HAMPSHIRE': 33, u'MARYLAND': 24, u'NEW MEXICO': 35, u'MISSISSIPPI': 28, u'WYOMING': 56, u'COLORADO': 8, u'NEW JERSEY': 34, u'UTAH': 49, u'MICHIGAN': 26, u'WEST VIRGINIA': 54, u'WASHINGTON': 53, u'MINNESOTA': 27, u'OREGON': 41, u'OHIO': 39, u'SOUTH CAROLINA': 45, u'INDIANA': 18, u'NEVADA': 32, u'LOUISIANA': 22, u'ARIZONA': 4, u'WISCONSIN': 55, u'NORTH DAKOTA': 38, u'PENNSYLVANIA': 42, u'OKLAHOMA': 40, u'KENTUCKY': 21, u'RHODE ISLAND': 44, u'DISTRICT OF COLUMBIA': 11, u'ARKANSAS': 5, u'MISSOURI': 29, u'TEXAS': 48, u'MAINE': 23}
 
+presenceDict = {1: "Known/extant", 2: "Possibly present", 3: "Potential for presence", 
+                4: "Extirpated/historical presence", 
+                5: "Extirpated purposely (applies to introduced species only)",
+                6: "Occurs on indicated island chain", 7: "Unknown"}
 
+originDict = {1: "Native", 2: "Introduced", 3: "Either introducted or native", 4: "Reintroduced",
+              5: "Either introduced or reintroduced", 6: "Vagrant", 7: "Unkown"}
+
+reproductiveDict = {1: "Breeding", 2: "Nonbreeding", 3: "Both breeding and nonbreeding",
+                    4: "Unkown"}
+                    
+seasonalDict = {1: "Year-round", 2: "Migratory", 3: "Winter", 4: "Summer", 
+                5: "Passage migrant or wanderer", 6: "Seasonal permanence uncertain", 
+                7: "Unkown", 8: "Vagrant"}
+                
+                
 ##################################
 #### Function to reverse the keys and values in a dictionary
 def InvertDictionary(d, listsToTuples=False):

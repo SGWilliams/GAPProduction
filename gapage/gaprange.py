@@ -32,7 +32,6 @@ except:
 
 __headingsList = ['Origin', 'Presence', 'Repro', 'Season']
 
-
 HUCs = gapageconfig.hucs
 
 """
@@ -211,6 +210,7 @@ class __RangeQuery:
             elif state in toAbbr:
                 pass
             return state
+            
     except Exception as e:
         print 'Error in gaprange.__RangeQuery()'
         print e
@@ -240,10 +240,6 @@ def RangeTable(sp, outDir, state=False, includeMigratory=True, includeHistoric=T
 
     Example:
     >>> RangeTable('mNAROx', 'My_Range_Folder')
-    '''
-    '''    
-    arcpy.env.workspace = outDir
-    arcpy.env.scratchWorkspace = outDir
     '''
     try:
         # Ensure that the output directory exists

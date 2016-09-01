@@ -114,7 +114,7 @@ def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_locat
     >>> dicto, listt = CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
                           'C:/data/HUCS_Extent.txt', threshold=500000)
     '''
-    import pandas as pd, arcpy, os, gaprange
+    import pandas as pd, arcpy, os, gaprange, beta
     # Make a list to collect extra large extent models
     errors = []
     oversized = {}
@@ -130,7 +130,7 @@ def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_locat
         print r
         # Get a dataframe of the species range table
         try:
-            sp_table = gaprange.RangeTable(r, workDir, includeMigratory=False, 
+            sp_table = beta.RangeTable_NEW(r, workDir, includeMigratory=False, 
                                               includeHistoric=False)
             spDF = pd.read_csv(sp_table)
             if saveTables == False:
@@ -166,8 +166,8 @@ def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_locat
                 abs(sp_hucYMin - rasterYMin) > threshold:
                     oversized[t] = tuple(extent)
             
-            print (int(sp_hucXMin - rasterXMin), int(sp_hucYMin - rasterYMin),
-                   int(sp_hucXMax - rasterXMax), int(sp_hucYMax - rasterYMax))      
+            print(int(sp_hucXMin - rasterXMin), int(sp_hucYMin - rasterYMin),
+                  int(sp_hucXMax - rasterXMax), int(sp_hucYMax - rasterYMax))      
         
         except:
             errors.append(t)

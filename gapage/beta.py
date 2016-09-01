@@ -2,7 +2,102 @@
 '''
 This a place to put functions that are in development.
 '''
-import gapageconfig
+import gapageconfig, gapdb, dictionaries
+
+def RangeTable_NEW(sp, outDir, state=False, includeMigratory=True, includeHistoric=True):
+    '''
+    (string, string, string, string, string) -> string
+
+    Creates a comma-delimited text file of the species' range, with fields indicating
+        12-digit HUC, origin, presence, reproductive use, and seasonality. Returns
+        the full, absolute path to the output text file.
+
+    Arguments:
+    sp -- The species six-character unique GAP code
+    outDir -- The directory within which you wish to place the output text file
+    state -- An optional parameter to indicate a state to which you wish to
+        limit the result
+    includeMigratory -- An optional boolean parameter indicating whether to
+        include migratory range in the output. By default, it is set to True
+    includeHistoric -- An optional boolean parameter indicating whether to
+        include historic/extirpated range in the output. By default, it is set
+        to True
+
+    Example:
+    >>> RangeTable('mNAROx', 'My_Range_Folder', state="OH")
+    ''' 
+    import pandas as pd, os
+    try:
+        # Ensure that the output directory exists if the directory exists, go on
+        # If the directory does not yet exist, create it and all necessary parent directories
+        oDir = os.path.abspath(outDir)
+        if not os.path.exists(oDir):
+            os.makedirs(oDir)
+        
+        ## Connect to the Species Database
+        sppCursor, sppConn = gapdb.ConnectSppDB()
+        
+        # Build an SQL statement that returns relevant fields in the
+        # appropriate taxa table tblRanges_<taxa> using a species code
+        # First get the taxon code then get a dataframe of the hucs used by the species, 
+        # then clean it up
+        tax = dictionaries.taxaDict[sp[0]]
+        sql = """SELECT t.strUC, t.strHUC12RNG, intGapOrigin, intGapPres, intGapRepro, intGapSeas
+            FROM dbo.tblRanges_""" + tax + """ as t
+            WHERE (t.strUC = ?)""" 
+        spDF = pd.io.sql.read_sql(sql, sppConn, params=sp.split())
+        spDF.drop(["strUC"], axis=1, inplace=True)
+        spDF.columns=["HUC12","Origin","Presence","Repro","Season"]
+        spDF["HUC12"] = [str(i) for i in spDF["HUC12"]]  
+    except Exception as e:
+        print("There was an error getting the species dataframe- {0}".format(e))
+    
+    try:    
+        # Apply any filters specified
+        if not includeMigratory:
+            # Filter out migratory records
+            spDF = spDF.loc[(spDF["Season"] != 2) & (spDF["Season"] != 5) & (spDF["Season"] != 8)]
+            
+        if not includeHistoric:
+            # Filter out historic records
+            spDF = spDF.loc[spDF["Presence"] != 7]
+    except Exception as e:
+        print("There was an error filtering the dataframe- {0}".format(e))   
+    
+    try:    
+        if state:
+            # Make sure that the user entered a valid state abbreviation or name
+            fromAbbr = dictionaries.stateDict_From_Abbr
+            toAbbr = dictionaries.stateDict_To_Abbr
+            if state in fromAbbr:
+                stateName = fromAbbr[state]
+            elif state in toAbbr:
+                stateName = state
+           
+           ## Get a dataframe of hucs in the state
+            sql_State = """SELECT s.strHUC12RNG
+                        FROM dbo.tblBoundaryCrosswalk as s
+                        WHERE (s.strStateName = ?)"""
+            stateDF = pd.io.sql.read_sql(sql_State, sppConn, params=[stateName])  
+            
+            #Join the state-huc dataframe with the species-huc dataframe to get hucs in state the 
+            #species uses. Clean up.
+            spDF = pd.merge(spDF, stateDF, left_on="HUC12", right_on="strHUC12RNG", how='right')
+            spDF.drop(["strHUC12RNG"], inplace=True, axis=1)
+    except Exception as e:
+        print("There was an error with the state-huc dataframe - {0}".format(e))
+        
+    try:
+        #Write final dataframe to csv file    
+        spDF.to_csv(outDir + "/" + sp + "_RangeTable.txt", sep=",", index=False)
+        # Close the database connection
+        sppConn.close()
+    except Exception as e:
+        print("There was an error writing to txt file - {0}".format(e))
+    
+    # Return the path to the table
+    return outDir + "/" + sp + "_RangeTable.txt"
+
 
 def MakeRemapList(mapUnitCodes, reclassValue):
     '''
