@@ -56,7 +56,8 @@
 ##      modeling region abbreviations and the vlaues are the modeling region
 ##      names
 ##
-##
+## rangeCodesDict = A dictionary of dictionaries with a key for each GAP range map 
+##      attribute and a value that's a dictionary of definitions.
 
 stateDict_To_Abbr = {'Alabama':'AL','Alaska':'AK','American Somoa':'AS','Arizona':'AZ',
                      'Arkansas':'AR','California':'CA','Colorado':'CO','Connecticut':'CT',
@@ -89,13 +90,26 @@ stateDict_From_Abbr = {'AS':'American Somoa','GU':'Guam','MP':'Northern Mariana 
                        'AL':'Alabama','NC':'North Carolina','TN':'Tennessee','ME':'Maine',
                        'DC':'District of Columbia'}
 
-stateDict_From_Abbr_CONUS = {'MS':'Mississippi','OK':'Oklahoma','DE':'Delaware','MN':'Minnesota','IL':'Illinois','AR':'Arkansas','NM':'New Mexico','IN':'Indiana','LA':'Louisiana','TX':'Texas','WI':'Wisconsin','KS':'Kansas','CT':'Connecticut','CA':'California','WV':'West Virginia','GA':'Georgia','ND':'North Dakota','PA':'Pennsylvania','MO':'Missouri','SD':'South Dakota','CO':'Colorado','NJ':'New Jersey','WA':'Washington','NY':'New York','NV':'Nevada','MD':'Maryland','ID':'Idaho','WY':'Wyoming','AZ':'Arizona','IA':'Iowa','MI':'Michigan','UT':'Utah','VA':'Virginia','OR':'Oregon','MT':'Montana','NH':'New Hampshire','MA':'Massachusetts','SC':'South Carolina','VT':'Vermont','FL':'Florida','KY':'Kentucky','RI':'Rhode Island','NE':'Nebraska','OH':'Ohio','AL':'Alabama','NC':'North Carolina','TN':'Tennessee','ME':'Maine','DC':'District of Columbia'}
+stateDict_From_Abbr_CONUS = {'MS':'Mississippi','OK':'Oklahoma','DE':'Delaware','MN':'Minnesota',
+                             'IL':'Illinois','AR':'Arkansas','NM':'New Mexico','IN':'Indiana',
+                             'LA':'Louisiana','TX':'Texas','WI':'Wisconsin','KS':'Kansas',
+                             'CT':'Connecticut','CA':'California','WV':'West Virginia',
+                             'GA':'Georgia','ND':'North Dakota','PA':'Pennsylvania','MO':'Missouri',
+                             'SD':'South Dakota','CO':'Colorado','NJ':'New Jersey',
+                             'WA':'Washington','NY':'New York','NV':'Nevada','MD':'Maryland',
+                             'ID':'Idaho','WY':'Wyoming','AZ':'Arizona','IA':'Iowa','MI':'Michigan',
+                             'UT':'Utah','VA':'Virginia','OR':'Oregon','MT':'Montana',
+                             'NH':'New Hampshire','MA':'Massachusetts','SC':'South Carolina',
+                             'VT':'Vermont','FL':'Florida','KY':'Kentucky','RI':'Rhode Island',
+                             'NE':'Nebraska','OH':'Ohio','AL':'Alabama','NC':'North Carolina',
+                             'TN':'Tennessee','ME':'Maine','DC':'District of Columbia'}
 
 taxaDict = {'a':'Amphibians', 'b':'Birds', 'm':'Mammals', 'r':'Reptiles'}
 
 taxaDict_Latin = {'a':'Amphibia', 'b':'Aves', 'm':'Mammalia', 'r':'Reptilia'}
 
-regionsDict_Num_To_Name = {1:'Northwest', 2:'Upper Midwest', 3:'Northeast', 4:'Southwest', 5:'Great Plains', 6:'Southeast'}
+regionsDict_Num_To_Name = {1:'Northwest', 2:'Upper Midwest', 3:'Northeast', 4:'Southwest',
+                           5:'Great Plains', 6:'Southeast'}
 
 regionsDict_Num_To_Abbr = {1:'NW', 2:'UM', 3:'NE', 4:'SW', 5:'GP', 6:'SE'}
 
@@ -123,22 +137,33 @@ stateFIPS_Code_To_Name = {1: u'ALABAMA', 4: u'ARIZONA', 5: u'ARKANSAS', 6: u'CAL
                           51: u'VIRGINIA', 53: u'WASHINGTON', 54: u'WEST VIRGINIA', 
                           55: u'WISCONSIN', 56: u'WYOMING'}
 
-stateFIPS_Name_To_Code = {u'VERMONT': 50, u'GEORGIA': 13, u'IOWA': 19, u'KANSAS': 20, u'FLORIDA': 12, u'VIRGINIA': 51, u'NORTH CAROLINA': 37, u'NEBRASKA': 31, u'NEW YORK': 36, u'CALIFORNIA': 6, u'ALABAMA': 1, u'IDAHO': 16, u'DELAWARE': 10, u'TENNESSEE': 47, u'ILLINOIS': 17, u'SOUTH DAKOTA': 46, u'CONNECTICUT': 9, u'MONTANA': 30, None: 0, u'MASSACHUSETTS': 25, u'NEW HAMPSHIRE': 33, u'MARYLAND': 24, u'NEW MEXICO': 35, u'MISSISSIPPI': 28, u'WYOMING': 56, u'COLORADO': 8, u'NEW JERSEY': 34, u'UTAH': 49, u'MICHIGAN': 26, u'WEST VIRGINIA': 54, u'WASHINGTON': 53, u'MINNESOTA': 27, u'OREGON': 41, u'OHIO': 39, u'SOUTH CAROLINA': 45, u'INDIANA': 18, u'NEVADA': 32, u'LOUISIANA': 22, u'ARIZONA': 4, u'WISCONSIN': 55, u'NORTH DAKOTA': 38, u'PENNSYLVANIA': 42, u'OKLAHOMA': 40, u'KENTUCKY': 21, u'RHODE ISLAND': 44, u'DISTRICT OF COLUMBIA': 11, u'ARKANSAS': 5, u'MISSOURI': 29, u'TEXAS': 48, u'MAINE': 23}
+stateFIPS_Name_To_Code = {u'VERMONT': 50, u'GEORGIA': 13, u'IOWA': 19, u'KANSAS': 20,
+                          u'FLORIDA': 12, u'VIRGINIA': 51, u'NORTH CAROLINA': 37, u'NEBRASKA': 31,
+                          u'NEW YORK': 36, u'CALIFORNIA': 6, u'ALABAMA': 1, u'IDAHO': 16,
+                          u'DELAWARE': 10, u'TENNESSEE': 47, u'ILLINOIS': 17, u'SOUTH DAKOTA': 46, 
+                          u'CONNECTICUT': 9, u'MONTANA': 30, None: 0, u'MASSACHUSETTS': 25,
+                          u'NEW HAMPSHIRE': 33, u'MARYLAND': 24, u'NEW MEXICO': 35, 
+                          u'MISSISSIPPI': 28, u'WYOMING': 56, u'COLORADO': 8, u'NEW JERSEY': 34,
+                          u'UTAH': 49, u'MICHIGAN': 26, u'WEST VIRGINIA': 54, u'WASHINGTON': 53, 
+                          u'MINNESOTA': 27, u'OREGON': 41, u'OHIO': 39, u'SOUTH CAROLINA': 45,
+                          u'INDIANA': 18, u'NEVADA': 32, u'LOUISIANA': 22, u'ARIZONA': 4, 
+                          u'WISCONSIN': 55, u'NORTH DAKOTA': 38, u'PENNSYLVANIA': 42, 
+                          u'OKLAHOMA': 40, u'KENTUCKY': 21, u'RHODE ISLAND': 44, 
+                          u'DISTRICT OF COLUMBIA': 11, u'ARKANSAS': 5, u'MISSOURI': 29, 
+                          u'TEXAS': 48, u'MAINE': 23}
 
-presenceDict = {1: "Known/extant", 2: "Possibly present", 3: "Potential for presence", 
-                4: "Extirpated/historical presence", 
-                5: "Extirpated purposely (applies to introduced species only)",
-                6: "Occurs on indicated island chain", 7: "Unknown"}
-
-originDict = {1: "Native", 2: "Introduced", 3: "Either introducted or native", 4: "Reintroduced",
-              5: "Either introduced or reintroduced", 6: "Vagrant", 7: "Unkown"}
-
-reproductiveDict = {1: "Breeding", 2: "Nonbreeding", 3: "Both breeding and nonbreeding",
-                    4: "Unkown"}
-                    
-seasonalDict = {1: "Year-round", 2: "Migratory", 3: "Winter", 4: "Summer", 
-                5: "Passage migrant or wanderer", 6: "Seasonal permanence uncertain", 
-                7: "Unkown", 8: "Vagrant"}
+RangeCodesDict = {"Presence": {1: "Known/extant", 2: "Possibly present", 3: "Potential for presence", 
+                               4: "Extirpated/historical presence", 
+                               5: "Extirpated purposely (applies to introduced species only)",
+                                6: "Occurs on indicated island chain", 7: "Unknown"},
+                "Origin": {1: "Native", 2: "Introduced", 3: "Either introducted or native", 
+                           4: "Reintroduced", 5: "Either introduced or reintroduced",
+                           6: "Vagrant", 7: "Unkown"},
+                "Reproduction": {1: "Breeding", 2: "Nonbreeding", 
+                                 3: "Both breeding and nonbreeding", 4: "Unkown"},
+                 "Season": {1: "Year-round", 2: "Migratory", 3: "Winter", 4: "Summer", 
+                            5: "Passage migrant or wanderer", 6: "Seasonal permanence uncertain", 
+                            7: "Unkown", 8: "Vagrant"}}
                 
                 
 ##################################

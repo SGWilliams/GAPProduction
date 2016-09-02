@@ -169,7 +169,8 @@ def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_locat
             print(int(sp_hucXMin - rasterXMin), int(sp_hucYMin - rasterYMin),
                   int(sp_hucXMax - rasterXMax), int(sp_hucYMax - rasterYMax))      
         
-        except:
+        except Exception as e:
+            print("ERROR - {0}".format(e))
             errors.append(t)
             
     #Return the lists, with duplicates removed.
