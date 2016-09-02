@@ -14,8 +14,6 @@
 ## EcoSysInRange() -- Gets a list of ecological systems that occur within the
 ##      species' range
 ##
-## GetRangeFile() -- Gets the path to the species' range file, if it exists
-##
 ## ListIntroducedSpp() -- Gets a list of species that have any introduced range
 ##
 
@@ -151,7 +149,9 @@ def __CreateText(sp, rangeAtts, outDir):
                 for subItem in item[1:]:
                     outTxt.write("," + str(subItem))
 
-        schemaBaseList = ["[insertspp.txt]", "Format=CSVDelimited", "Col1=HUC12 Text", "Col2=ORIGIN Short", "Col3=PRESENCE Short", "Col4=REPRO Short", "Col5=SEASON Short"]
+        schemaBaseList = ["[insertspp.txt]", "Format=CSVDelimited", "Col1=HUC12 Text",
+                          "Col2=ORIGIN Short", "Col3=PRESENCE Short", "Col4=REPRO Short", 
+                          "Col5=SEASON Short"]
         schemaBase = '\n'.join(schemaBaseList)
         schemaContent = schemaBase.replace('insertspp', sp)
 
@@ -349,7 +349,8 @@ def __DelFields(shp):
 
 #######################################
 ##### Function for creating a species' range shapefile
-def RangeShp(sp, outDir=os.getcwd(), dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True):
+def RangeShp(sp, outDir=os.getcwd(), dissolve=False, state=False, includeMigratory=True, 
+             includeHistoric=True, HUCs=True):
     '''
     (string, string, [boolean], [string], [boolean], [boolean], [boolean]) -> string
 

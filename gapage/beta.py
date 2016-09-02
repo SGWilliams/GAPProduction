@@ -42,7 +42,7 @@ def RangeTable_NEW(sp, outDir, state=False, includeMigratory=True, includeHistor
         # First get the taxon code then get a dataframe of the hucs used by the species, 
         # then clean it up
         tax = dictionaries.taxaDict[sp[0]]
-        sql = """SELECT t.strUC, t.strHUC12RNG, intGapOrigin, intGapPres, intGapRepro, intGapSeas
+        sql = """SELECT DISTINCT t.strUC, t.strHUC12RNG, intGapOrigin, intGapPres, intGapRepro, intGapSeas
             FROM dbo.tblRanges_""" + tax + """ as t
             WHERE (t.strUC = ?)""" 
         spDF = pd.io.sql.read_sql(sql, sppConn, params=sp.split())
@@ -281,7 +281,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
         # Assigned the species subset a name
         gn = '{0}_{1}'.format(groupName, x)
         # Process the richness for the subset of species
-        __Log('Processing {0}: {1}'.format(groupName, spp))  
+        __Log('Processing {0}: {1}'.format(groupName, sppSubset))  
               
         #########################################  Copy models to scratch directory
         ###########################################################################
@@ -343,17 +343,17 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                 tempRast = arcpy.sa.Con(sp, 1, where_clause = wc)
                 # Check that the reclassed raster has valid values (should be 1's and nodatas)
                 if tempRast.minimum != 1:
-                    __Log('\tWARNING! Invalid minimum raster value -- {0}'.format(sp))
+                    __Log('\tWARNING! Invalid minimum cell value -- {0}'.format(sp))
                 elif tempRast.minimum == 1:
-                    __Log('\tValid minimum raster value')
+                    __Log('\tValid minimum cell value')
                 if tempRast.maximum != 1:
-                    __Log('\tWARNING! Invalid maximum raster value -- {0}'.format(sp))
+                    __Log('\tWARNING! Invalid maximum cell value -- {0}'.format(sp))
                 elif tempRast.maximum == 1:
-                    __Log('\tValid maximum raster value')
+                    __Log('\tValid maximum cell value')
                 if tempRast.mean != 1:
-                    __Log('\tWARNING! Invalid mean raster value -- {0}'.format(sp))
+                    __Log('\tWARNING! Invalid mean cell value -- {0}'.format(sp))
                 elif tempRast.mean == 1:
-                    __Log('\tValid mean raster value')
+                    __Log('\tValid mean cell value')
             except Exception as e:
                 __Log('ERROR in reclassifying a model - {0}'.format(e))                
             
