@@ -46,6 +46,8 @@ def RangeTable_NEW(sp, outDir, state=False, includeMigratory=True, includeHistor
             FROM dbo.tblRanges_""" + tax + """ as t
             WHERE (t.strUC = ?)""" 
         spDF = pd.io.sql.read_sql(sql, sppConn, params=sp.split())
+        if len(spDF) == 0:
+            print("ERROR - No range data was retrieved for {0}".format(sp))
         spDF.drop(["strUC"], axis=1, inplace=True)
         spDF.columns=["HUC12","Origin","Presence","Repro","Season"]
         spDF["HUC12"] = [str(i) for i in spDF["HUC12"]]  
