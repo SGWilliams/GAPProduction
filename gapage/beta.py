@@ -228,14 +228,14 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
     arcpy.env.overwriteOutput=True
     arcpy.env.extent = 'MAXOF'
     arcpy.env.pyramid = 'NONE'
+    starttime = datetime.datetime.now()      
     
     ############################################# create directories for the output
     ###############################################################################
-    starttime = datetime.datetime.now()       
-    scratch = os.path.join(outLoc, groupName + '_01_scratch')
-    reclassDir = os.path.join(outLoc, groupName + '_02_reclassed')
-    intDir = os.path.join(outLoc, groupName + '_03_Richness_intermediate')
-    outDir = os.path.join(outLoc, groupName + '_04_Richness')
+    outDir = os.path.join(outLoc, groupName + '_Richness')    
+    scratch = os.path.join(outDir,'_scratch')
+    reclassDir = os.path.join(outDir, '_reclassed')
+    intDir = os.path.join(outDir, 'Richness_intermediates')
     for x in [scratch, reclassDir, intDir, outDir]:
         if not os.path.exists(x):
             os.makedirs(x)
@@ -281,7 +281,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
         # Assigned the species subset a name
         gn = '{0}_{1}'.format(groupName, x)
         # Process the richness for the subset of species
-        __Log('Processing {0}: {1}'.format(groupName, sppSubset))  
+        __Log('Processing {0}: {1}'.format(gn, sppSubset))  
               
         #########################################  Copy models to scratch directory
         ###########################################################################
