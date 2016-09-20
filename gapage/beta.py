@@ -228,6 +228,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
     arcpy.env.overwriteOutput=True
     arcpy.env.extent = 'MAXOF'
     arcpy.env.pyramid = 'NONE'
+    arcpy.env.snapRaster = gapageconfig.snap_raster
     starttime = datetime.datetime.now()      
     
     ############################################# create directories for the output
@@ -281,7 +282,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
         # Assigned the species subset a name
         gn = '{0}_{1}'.format(groupName, x)
         # Process the richness for the subset of species
-        __Log('Processing {0}: {1}'.format(gn, sppSubset))  
+        __Log('\nProcessing {0}: {1}'.format(gn, sppSubset))  
               
         #########################################  Copy models to scratch directory
         ###########################################################################
@@ -383,6 +384,8 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             outRast = os.path.join(intDir, gn + '.tif')
             richness.save(outRast)
             __Log('\tSaved to {0}'.format(outRast))
+            if richness.maximum > interval:
+                __Log('\tWARNING! Invalid maximum cell value in {0}'.format(gn))
             # Add the subset's richness raster to the list of intermediate rasters
             richInts.append(outRast)
         except Exception as e:
