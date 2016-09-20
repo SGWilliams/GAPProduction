@@ -65,7 +65,8 @@ DESCRIPTION
     ##      modeling region abbreviations and the vlaues are the modeling region
     ##      names
     ##
-    ##
+    ## rangeCodesDict = A dictionary of dictionaries with a key for each GAP range map 
+    ##      attribute and a value that's a dictionary of definitions.
 
 FUNCTIONS
     InvertDictionary(d, listsToTuples=False)
@@ -147,6 +148,7 @@ FUNCTIONS
     StateFIPSDict(stateKeys=False)
 
 DATA
+    RangeCodesDict = {'Origin': {1: 'Native', 2: 'Introduced', 3: 'Either ...
     regionsDict_Abbr_To_Name = {'GP': 'Great Plains', 'NE': 'Northeast', '...
     regionsDict_Abbr_To_Num = {'GP': 5, 'NE': 3, 'NW': 1, 'SE': 6, 'SW': 4...
     regionsDict_Name_To_Num = {'Great Plains': 5, 'Northeast': 3, 'Northwe...

@@ -61,6 +61,27 @@ FUNCTIONS
                             log='C:/GIS_DATA/Richness/log_MyRandomSpecies.txt')
         C:\GIS_Data\Richness\MyRandomSpecies_04_Richness\MyRandomSpecies.tif, C:\GIS_Data\Richness\MyRandomSpecies.csv
     
+    RangeTable_NEW(sp, outDir, state=False, includeMigratory=True, includeHistoric=True)
+        (string, string, string, string, string) -> string
+        
+        Creates a comma-delimited text file of the species' range, with fields indicating
+            12-digit HUC, origin, presence, reproductive use, and seasonality. Returns
+            the full, absolute path to the output text file.
+        
+        Arguments:
+        sp -- The species six-character unique GAP code
+        outDir -- The directory within which you wish to place the output text file
+        state -- An optional parameter to indicate a state to which you wish to
+            limit the result
+        includeMigratory -- An optional boolean parameter indicating whether to
+            include migratory range in the output. By default, it is set to True
+        includeHistoric -- An optional boolean parameter indicating whether to
+            include historic/extirpated range in the output. By default, it is set
+            to True
+        
+        Example:
+        >>> RangeTable('mNAROx', 'My_Range_Folder', state="OH")
+    
     ReclassLandCover(MUlist, reclassTo, keyword, workDir)
         (list) -> map
         

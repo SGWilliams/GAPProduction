@@ -265,7 +265,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
     __Log('\nProcessing {0} species as "{1}".\n'.format(len(spp), groupName).upper())
     __Log('Season of this calculation: ' + season)
     __Log('Table written to {0}'.format(outTable))
-    __Log('The species that will be used for analysis:')
+    __Log('\nThe species that will be used for analysis:')
     __Log(str(spp) + '\n')
     
     # Maximum number of species to process at once
