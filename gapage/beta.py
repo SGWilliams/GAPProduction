@@ -384,14 +384,15 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             outRast = os.path.join(intDir, gn + '.tif')
             richness.save(outRast)
             __Log('\tSaved to {0}'.format(outRast))
-            if richness.maximum > interval:
+            # Check the max value.  It shouldn't be > the group length.
+            if richness.maximum > len(sppSubset):
                 __Log('\tWARNING! Invalid maximum cell value in {0}'.format(gn))
             # Add the subset's richness raster to the list of intermediate rasters
             richInts.append(outRast)
         except Exception as e:
             __Log('ERROR in making intermediate richness - {0}'.format(e))
         
-        ############# If the expand option used, check max count to see if it right
+        ########### If the expand option used, check max count to see if it's right
         ###########################################################################
         if expand == True:
             try:
