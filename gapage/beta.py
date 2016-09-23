@@ -325,8 +325,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                 summerCount = startTifTable[1]
             if 1 not in startTifTable and 3 in startTifTable:
                 summerCount = startTifTable[3]
-            print anyCount, winterCount, summerCount
-            
+                        
             # Check that the species has cells with the desired seasonal value, if
             # so, copy to scratch directory.
             if season == "Winter" and spObj.maximum == 1 and spObj.minimum == 1:
@@ -367,7 +366,8 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             wc = "VALUE > 0"
         # For each of the local species rasters
         for sp in sppLocal:
-            ############################################################ Reclassify              
+            ################################################################ Reclassify 
+            ###########################################################################             
             try:
                 __Log('\t\t{0}'.format(os.path.basename(sp)))
                 # Set a path to the output reclassified raster
@@ -385,7 +385,8 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             except Exception as e:
                 __Log('ERROR in reclassifying a model - {0}'.format(e))
             
-            ###################################### Optional: expand to CONUS extent    
+            ########################################## Optional: expand to CONUS extent
+            ###########################################################################
             try:
                 if expand == True:
                     tempRast = arcpy.sa.CellStatistics([tempRast, gapageconfig.CONUS_extent], 
@@ -393,7 +394,8 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             except Exception as e:
                 __Log('ERROR expanding reclassed raster - {0}'.format(e))
             
-            ########################################## Save the reclassified raster
+            ############################################## Save the reclassified raster
+            ###########################################################################
             tempRast.save(reclassed)
             # Add the reclassed raster's path to the list
             sppReclassed.append(reclassed)
@@ -401,7 +403,8 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             if not arcpy.Exists(reclassed):
                 __Log('\tWARNING! This reclassed raster could not be found -- {0}'.format(sp))   
            
-            ########################################## Check the values of tempRast
+            ############################################## Check the values of tempRast
+            ###########################################################################
             # Check min, max, and mean values                
             if tempRast.minimum != 1:
                 __Log('\tWARNING! Invalid minimum cell value -- {0}'.format(sp))
@@ -424,13 +427,14 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                     tempRastTable[row.getValue("VALUE")] = row.getValue("COUNT")
                 if season == "Any" and tempRastTable[1] != anyCount:
                     __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
-                if season == "Summer" and tempRastTable[1] != summerCount:
+                elif season == "Summer" and tempRastTable[1] != summerCount:
                     __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
-                if season == "Winter" and tempRastTable[1] != winterCount:
+                elif season == "Winter" and tempRastTable[1] != winterCount:
                     __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+                else:
+                    __Log("\tValid cell count")
             except Exception as e:
-                __Log("Couldn't check the total cell count of {0}".format(e))                
-            
+                __Log("Couldn't check the total cell count of {0}".format(e))  
         __Log('\tAll models reclassified')
     
         ########################################  Calculate richness for the subset
