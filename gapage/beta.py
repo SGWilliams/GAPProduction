@@ -305,14 +305,35 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             if not arcpy.Exists(startTif):
                 __Log('\tWARNING! The species\' raster could not be found -- {0}'.format(sp))
                 raw_input("Fix, then press enter to resume")
+            spObj = arcpy.Raster(startTif)
+            
+            # Build a dictionary to store value counts of initial map for error checking later
+            startTifTable = {}
+            startTifCursor = arcpy.SearchCursor(spObj)
+            for row in startTifCursor:
+                startTifTable[row.getValue("VALUE")] = row.getValue("COUNT")
+            anyCount = sum(startTifTable.values())
+            if 2 in startTifTable and 3 in startTifTable:
+                winterCount = startTifTable[2] + startTifTable[3]
+            if 2 in startTifTable and 3 not in startTifTable:
+                winterCount = startTifTable[2]
+            if 2 not in startTifTable and 3 in startTifTable:
+                winterCount = startTifTable[3]
+            if 1 in startTifTable and 3 in startTifTable:
+                summerCount = startTifTable[1] + startTifTable[3]
+            if 1 in startTifTable and 3 not in startTifTable:
+                summerCount = startTifTable[1]
+            if 1 not in startTifTable and 3 in startTifTable:
+                summerCount = startTifTable[3]
+            print anyCount, winterCount, summerCount
+            
             # Check that the species has cells with the desired seasonal value, if
             # so, copy to scratch directory.
-            spObj = arcpy.Raster(startTif)
             if season == "Winter" and spObj.maximum == 1 and spObj.minimum == 1:
                 __Log("\t{0} doesn't have any winter habitat, skipping...".format(sp))
                 # Deduct this model from count of the subset
                 groupLength = groupLength - 1
-                sppLength = sppLength - 1
+                sppLength = sppLength - 1  
             elif season == "Summer" and spObj.maximum == 2 and spObj.minimum == 2:
                 __Log("\t{0} doesn't have any summer habitat, skipping...".format(sp))
                 # Deduct this model from count of the subset
@@ -345,7 +366,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
         elif season == "Any":
             wc = "VALUE > 0"
         # For each of the local species rasters
-        for sp in sppLocal:        
+        for sp in sppLocal:
             ############################################################ Reclassify              
             try:
                 __Log('\t\t{0}'.format(os.path.basename(sp)))
@@ -361,20 +382,8 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                 # Check that the reclassed raster has valid values (should be 1's and nodatas),
                 # first build statistics
                 arcpy.management.CalculateStatistics(in_raster_dataset=tempRast, skip_existing=True)
-                if tempRast.minimum != 1:
-                    __Log('\tWARNING! Invalid minimum cell value -- {0}'.format(sp))
-                elif tempRast.minimum == 1:
-                    __Log('\tValid minimum cell value')
-                if tempRast.maximum != 1:
-                    __Log('\tWARNING! Invalid maximum cell value -- {0}'.format(sp))
-                elif tempRast.maximum == 1:
-                    __Log('\tValid maximum cell value')
-                if tempRast.mean != 1:
-                    __Log('\tWARNING! Invalid mean cell value -- {0}'.format(sp))
-                elif tempRast.mean == 1:
-                    __Log('\tValid mean cell value')
             except Exception as e:
-                __Log('ERROR in reclassifying a model - {0}'.format(e))                
+                __Log('ERROR in reclassifying a model - {0}'.format(e))
             
             ###################################### Optional: expand to CONUS extent    
             try:
@@ -383,14 +392,44 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                                                         "SUM", "DATA")
             except Exception as e:
                 __Log('ERROR expanding reclassed raster - {0}'.format(e))
-                # Save the reclassified raster
             
+            ########################################## Save the reclassified raster
             tempRast.save(reclassed)
             # Add the reclassed raster's path to the list
             sppReclassed.append(reclassed)
-            # Make sure that the reclassified model exists, pause if not.
+            # Make sure that the reclassified model exists.
             if not arcpy.Exists(reclassed):
-                __Log('\tWARNING! This reclassed raster could not be found -- {0}'.format(sp))
+                __Log('\tWARNING! This reclassed raster could not be found -- {0}'.format(sp))   
+           
+            ########################################## Check the values of tempRast
+            # Check min, max, and mean values                
+            if tempRast.minimum != 1:
+                __Log('\tWARNING! Invalid minimum cell value -- {0}'.format(sp))
+            elif tempRast.minimum == 1:
+                __Log('\tValid minimum cell value')
+            if tempRast.maximum != 1:
+                __Log('\tWARNING! Invalid maximum cell value -- {0}'.format(sp))
+            elif tempRast.maximum == 1:
+                __Log('\tValid maximum cell value')
+            if tempRast.mean != 1:
+                __Log('\tWARNING! Invalid mean cell value -- {0}'.format(sp))
+            elif tempRast.mean == 1:
+                __Log('\tValid mean cell value')
+            # Check the count of the reclassed raster against the original, expect errors
+            # if grid has over 2 billion cells.
+            try:
+                tempRastTable = {}
+                tempRastCursor = arcpy.SearchCursor(tempRast)
+                for row in tempRastCursor:
+                    tempRastTable[row.getValue("VALUE")] = row.getValue("COUNT")
+                if season == "Any" and tempRastTable[1] != anyCount:
+                    __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+                if season == "Summer" and tempRastTable[1] != summerCount:
+                    __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+                if season == "Winter" and tempRastTable[1] != winterCount:
+                    __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+            except Exception as e:
+                __Log("Couldn't check the total cell count of {0}".format(e))                
             
         __Log('\tAll models reclassified')
     
