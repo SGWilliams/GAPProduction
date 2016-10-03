@@ -329,12 +329,12 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             # Check that the species has cells with the desired seasonal value, if
             # so, copy to scratch directory.
             if season == "Winter" and spObj.maximum == 1 and spObj.minimum == 1:
-                __Log("\t{0} doesn't have any winter habitat, skipping...".format(sp))
+                __Log("\t\t\t{0} doesn't have any winter habitat, skipping...".format(sp))
                 # Deduct this model from count of the subset
                 groupLength = groupLength - 1
                 sppLength = sppLength - 1  
             elif season == "Summer" and spObj.maximum == 2 and spObj.minimum == 2:
-                __Log("\t{0} doesn't have any summer habitat, skipping...".format(sp))
+                __Log("\t\t\t{0} doesn't have any summer habitat, skipping...".format(sp))
                 # Deduct this model from count of the subset
                 groupLength = groupLength - 1
                 sppLength = sppLength - 1
@@ -407,17 +407,17 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             ###########################################################################
             # Check min, max, and mean values                
             if tempRast.minimum != 1:
-                __Log('\tWARNING! Invalid minimum cell value -- {0}'.format(sp))
+                __Log('\t\t\tWARNING! Invalid minimum cell value -- {0}'.format(sp))
             elif tempRast.minimum == 1:
-                __Log('\tValid minimum cell value')
+                __Log('\t\t\tValid minimum cell value')
             if tempRast.maximum != 1:
-                __Log('\tWARNING! Invalid maximum cell value -- {0}'.format(sp))
+                __Log('\t\t\tWARNING! Invalid maximum cell value -- {0}'.format(sp))
             elif tempRast.maximum == 1:
-                __Log('\tValid maximum cell value')
+                __Log('\t\t\tValid maximum cell value')
             if tempRast.mean != 1:
-                __Log('\tWARNING! Invalid mean cell value -- {0}'.format(sp))
+                __Log('\t\t\tWARNING! Invalid mean cell value -- {0}'.format(sp))
             elif tempRast.mean == 1:
-                __Log('\tValid mean cell value')
+                __Log('\t\t\tValid mean cell value')
             # Check the count of the reclassed raster against the original, expect errors
             # if grid has over 2 billion cells.
             try:
@@ -425,14 +425,16 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                 tempRastCursor = arcpy.SearchCursor(tempRast)
                 for row in tempRastCursor:
                     tempRastTable[row.getValue("VALUE")] = row.getValue("COUNT")
+                #####################################  !!!!!!!!!!!!!!!!!   Doesn't work
+                ################
                 if season == "Any" and tempRastTable[1] != anyCount:
-                    __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
                 elif season == "Summer" and tempRastTable[1] != summerCount:
-                    __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
                 elif season == "Winter" and tempRastTable[1] != winterCount:
-                    __Log("\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
                 else:
-                    __Log("\tValid cell count")
+                    __Log("\t\t\tValid cell count")
             except Exception as e:
                 __Log("Couldn't check the total cell count of {0}".format(e))  
         __Log('\tAll models reclassified')
