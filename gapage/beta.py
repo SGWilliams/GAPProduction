@@ -275,6 +275,10 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
     __Log('\nThe species that will be used for analysis:')
     __Log(str(spp) + '\n')
     
+    ####### Create dictionary to collect raster tables for use in checking the count 
+    ################################# of cells in the original vs. reclassed rasters
+    startTifTables = {}
+    
     ############  Process the batches of species to make intermediate richness maps
     ###############################################################################
     # Iterate through the list interval # at a time
@@ -307,7 +311,7 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
                 raw_input("Fix, then press enter to resume")
             spObj = arcpy.Raster(startTif)
             
-            # Build a dictionary to store value counts of initial map for error checking later
+            # Build a dictionary to store VAT of initial map for error checking later
             startTifTable = {}
             startTifCursor = arcpy.SearchCursor(spObj)
             for row in startTifCursor:
@@ -315,17 +319,27 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             anyCount = sum(startTifTable.values())
             if 2 in startTifTable and 3 in startTifTable:
                 winterCount = startTifTable[2] + startTifTable[3]
+                summerCount = startTifTable[3] + (anyCount - winterCount)
             if 2 in startTifTable and 3 not in startTifTable:
                 winterCount = startTifTable[2]
+                summerCount = anyCount - winterCount
             if 2 not in startTifTable and 3 in startTifTable:
                 winterCount = startTifTable[3]
+                summerCount = startTifTable[3]
             if 1 in startTifTable and 3 in startTifTable:
                 summerCount = startTifTable[1] + startTifTable[3]
+                winterCount = startTifTable[3] + (anyCount - summerCount)
             if 1 in startTifTable and 3 not in startTifTable:
                 summerCount = startTifTable[1]
+                winterCount = anyCount - summerCount
             if 1 not in startTifTable and 3 in startTifTable:
                 summerCount = startTifTable[3]
-                        
+                winterCount = startTifTable[3]
+            startTifTables[sp] = {}
+            startTifTables[sp]["anyCount"] = anyCount
+            startTifTables[sp]["summerCount"] = summerCount
+            startTifTables[sp]["winterCount"] = winterCount
+            
             # Check that the species has cells with the desired seasonal value, if
             # so, copy to scratch directory.
             if season == "Winter" and spObj.maximum == 1 and spObj.minimum == 1:
@@ -358,13 +372,14 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
         __Log('\tReclassifying')
         # Initialize an empty list to store the paths to the reclassed rasters
         sppReclassed = list()
+        # Assign SQL statements for reclass condition
         if season == "Summer":
             wc = "VALUE = 1 OR VALUE = 3"
         elif season == "Winter":
             wc = "VALUE = 2 OR VALUE = 3"
         elif season == "Any":
             wc = "VALUE > 0"
-        # For each of the local species rasters
+        # For each of the local species rasters....
         for sp in sppLocal:
             ################################################################ Reclassify 
             ###########################################################################             
@@ -419,20 +434,22 @@ def ProcessRichnessNew(spp, groupName, outLoc, modelDir, season, interval_size, 
             elif tempRast.mean == 1:
                 __Log('\t\t\tValid mean cell value')
             # Check the count of the reclassed raster against the original, expect errors
-            # if grid has over 2 billion cells.
+            # if grid has over 2 billion cells bcs. VAT can't be built
             try:
                 tempRastTable = {}
                 tempRastCursor = arcpy.SearchCursor(tempRast)
                 for row in tempRastCursor:
                     tempRastTable[row.getValue("VALUE")] = row.getValue("COUNT")
-                #####################################  !!!!!!!!!!!!!!!!!   Doesn't work
-                ################
-                if season == "Any" and tempRastTable[1] != anyCount:
-                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
-                elif season == "Summer" and tempRastTable[1] != summerCount:
-                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
-                elif season == "Winter" and tempRastTable[1] != winterCount:
-                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp))
+                    # Delete the row and cursor to avoid a lingering .lock file
+                    del row
+                del tempRastCursor
+                tempRast = None
+                if season == "Any" and tempRastTable[1] != startTifTables[sp[-10:]]["anyCount"]:
+                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp[-10:]))
+                elif season == "Summer" and tempRastTable[1] != startTifTables[sp[-10:]]["summerCount"]:
+                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp[-10:]))
+                elif season == "Winter" and tempRastTable[1] != startTifTables[sp[-10:]]["winterCount"]:
+                    __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp[-10:]))
                 else:
                     __Log("\t\t\tValid cell count")
             except Exception as e:
