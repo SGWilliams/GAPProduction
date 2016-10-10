@@ -59,10 +59,12 @@ def CheckRasterProperties(rasters):
     WrongNoDataValue = []
     WrongPixelType = []
     WrongFormat = []
+    WrongMinimum = []
+    WrongMaximum = []
     
     for r in rasters:
         print r
-        time.sleep(.4)
+        time.sleep(.1)
         rasObj = arcpy.Raster(r)
         desObj = arcpy.Describe(rasObj)
         
@@ -74,10 +76,14 @@ def CheckRasterProperties(rasters):
             WrongPixelType.append(r)
         if desObj.nodataValue != 0:
             WrongNoDataValue.append(r)
+        if rasObj.maximum > 3:
+            WrongMaximum.append(r)
+        if rasObj.minimum > 3:
+            WrongMinimum.append(r)
             
     return {"WrongProjection":WrongProjection, "WrongNoDataValue":WrongNoDataValue,
-            "WrongPixelType":WrongPixelType, "WrongFormat":WrongFormat}
-
+            "WrongPixelType":WrongPixelType, "WrongFormat":WrongFormat, "WrongMinimum":WrongMinimum,
+            "WrongMaximum":WrongMaximum}
 
 
 def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_location, 
@@ -231,7 +237,7 @@ def CheckModelTable(rasterList):
                         RowsOK = True
                     else:
                         pass
-                    time.sleep(.6)
+                    time.sleep(.1)
                     value = c.getValue("VALUE")
                     if value > 3:
                         print d + " - has a value greater than 3"

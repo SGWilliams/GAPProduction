@@ -43,6 +43,9 @@
 ##
 ## ExcludeModels() -- Returns a list of models that exist in the WHRDb but are designated
 ##      for exclusion in the ysnInclude field.
+##
+## ModelAsDictionary() -- Returns model variables as a dictionary.
+##
 
 import gapdb
 
@@ -523,7 +526,156 @@ def SpEcoSystems(spCode, season='all', contiguousOnly=False):
     except:
         return False, False
 
+############################################
+## Get a dictionary version of a model
+##
+def ModelAsDictionary(model, muCodes=True):
+    '''
+    (string, boolean) -> dictionary
 
+    Returns a dictionary that includes a key for each of a regional model's variables.
+
+    Arguments:
+    model -- a model code (e.g., "bcoyex-s6")
+    muCodes -- specifies whether to return ecological system names or codes. Defaults
+        to true, which returns codes and takes a little longer to run.
+
+    Dictionary keys -- ['intIntoBuffFW', 'ScientificName', 'ysnHydroWV', 'intAuxBuff',
+                        'strForIntBuffer', 'ysnHandModel', 'intIntoBuffOW', 'Season',
+                        'intElevMax', 'PrimEcoSys', 'AuxEcoSys', 'SpeciesCode',
+                        'intIntoBuffWV', 'cbxContPatch', 'ysnUrbanExclude', 'intFromBuffFW',
+                        'intElevMin', 'ysnHydroOW', 'Region', 'CommonName',
+                        'ysnUrbanInclude', 'strUseForInt', 'intEdgeEcoWidth',
+                        'intFromBuffWV', 'strStreamVel', 'strSalinity', 'strEdgeType',
+                        'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW']
+
+    Example:
+    modelDictionary = ModelAsDictionary(model="mSEWEx-y1", muCodes=False)
+    '''
+    import dictionaries
+    ################### Create a function to retrieve the desired ancillary variable
+    ################################################################################
+    def __getVariable(model, variable):
+        WHRCursor, WHRConnection = gapdb.ConnectWHR()
+        var = WHRCursor.execute("""SELECT anc.{0}
+                             FROM dbo.tblModelingAncillary as anc
+                             WHERE anc.strSpeciesModelCode = '{1}'""".format(variable, model)).fetchall()
+        var = var[0][0]
+        return var
+
+    ################################################  Add parameters to a dictionary
+    ################################################################################
+    # Initialize dictionary
+    modelDict = {}
+
+    # Regiona and season
+    region = dictionaries.regionsDict_Num_To_Name[int(model[8])]
+    modelDict["Region"] = region
+
+    season = model[7]
+    modelDict["Season"] = season
+                                                    
+    # Species names
+    SpeciesCode = model[:6]
+    modelDict["SpeciesCode"] = SpeciesCode
+
+    Common = gapdb.NameCommon(SpeciesCode)
+    modelDict["CommonName"] = Common
+
+    Scientific = gapdb.NameSci(SpeciesCode)
+    modelDict["ScientificName"] = Scientific
+    
+    # Land Cover Map Units
+    if muCodes == True:
+        primary, auxiliary = ModelEcoSystems(model)
+        modelDict["PrimEcoSys"] = gapdb.MUNamesToCodes(primary)
+        modelDict["AuxEcoSys"] = gapdb.MUNamesToCodes(auxiliary)
+    else:
+        primary, auxiliary = ModelEcoSystems(model)
+        modelDict["PrimEcoSys"] = primary
+        modelDict["AuxEcoSys"] = auxiliary 
+
+    # Hand Model
+    ysnHandModel = __getVariable(model, "ysnHandModel")
+    modelDict["ysnHandModel"] = ysnHandModel
+
+    # Hydrography variables
+    ysnHydroFW = __getVariable(model, "ysnHydroFW")
+    modelDict["ysnHydroFW"] = ysnHydroFW
+
+    intFromBuffFW = __getVariable(model, "intFromBuffFW")
+    modelDict["intFromBuffFW"] = intFromBuffFW
+
+    intIntoBuffFW = __getVariable(model, "intIntoBuffFW")
+    modelDict["intIntoBuffFW"] = intIntoBuffFW
+
+    ysnHydroOW = __getVariable(model, "ysnHydroOW")
+    modelDict["ysnHydroOW"] = ysnHydroOW
+
+    intFromBuffOW = __getVariable(model, "intFromBuffOW")
+    modelDict["intFromBuffOW"] = intFromBuffOW
+
+    intIntoBuffOW = __getVariable(model, "intIntoBuffOW")
+    modelDict["intIntoBuffOW"] = intIntoBuffOW
+
+    ysnHydroWV = __getVariable(model, "ysnHydroWV")
+    modelDict["ysnHydroWV"] = ysnHydroWV
+
+    intFromBuffWV = __getVariable(model, "intFromBuffWV")
+    modelDict["intFromBuffWV"] = intFromBuffWV
+
+    intIntoBuffWV = __getVariable(model, "intIntoBuffWV")
+    modelDict["intIntoBuffWV"] = intIntoBuffWV
+
+    strSalinity = __getVariable(model, "strSalinity")
+    modelDict["strSalinity"] = strSalinity
+
+    strStreamVel = __getVariable(model, "strStreamVel")
+    modelDict["strStreamVel"] = strStreamVel
+
+    # Edge variables
+    strEdgeType = __getVariable(model, "strEdgeType")
+    modelDict["strEdgeType"] = strEdgeType
+
+    intEdgeEcoWidth = __getVariable(model, "intEdgeEcoWidth")
+    modelDict["intEdgeEcoWidth"] = intEdgeEcoWidth
+
+    # Forest interior variables
+    strUseForInt = __getVariable(model, "strUseForInt")
+    modelDict["strUseForInt"] = strUseForInt
+
+    strForIntBuffer = __getVariable(model, "strForIntBuffer")
+    modelDict["strForIntBuffer"] = strForIntBuffer
+
+    # Patch size
+    cbxContPatch = __getVariable(model, "cbxContPatch")
+    modelDict["cbxContPatch"] = cbxContPatch
+
+    intContPatchSize = __getVariable(model, "intContPatchSize")
+    modelDict["intContPatchSize"] = intContPatchSize
+
+    # Auxiliary LC Map Unit Buffer Distance
+    intAuxBuff = __getVariable(model, "intAuxBuff")
+    modelDict["intAuxBuff"] = intAuxBuff
+
+    # Urban avoid layer
+    strAvoid = __getVariable(model, "strAvoid")
+    modelDict["strAvoid"] = strAvoid
+
+    ysnUrbanExclude = __getVariable(model, "ysnUrbanExclude")
+    modelDict["ysnUrbanExclude"] = ysnUrbanExclude
+
+    ysnUrbanInclude = __getVariable(model, "ysnUrbanInclude")
+    modelDict["ysnUrbanInclude"] = ysnUrbanInclude
+
+    # Elevation variables
+    intElevMin = __getVariable(model, "intElevMin")
+    modelDict["intElevMin"] = intElevMin
+
+    intElevMax = __getVariable(model, "intElevMax")
+    modelDict["intElevMax"] = intElevMax
+
+    return modelDict
 
 
 def SetMUs(modelCode, mapUnits, primary=True, select=True):
