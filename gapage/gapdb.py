@@ -482,6 +482,7 @@ def SppModelCompleted(state=False):
 ##### Function to get a list of all species that occur in the given state
 def SppInState(state, breedingOnly=False):
     '''
+    !!!!!!!!!!!!!!!!!!!!!!  May not be working correctly.
     (string) -> list
 
     Gets a list of all the species that occur in the given state. Requires

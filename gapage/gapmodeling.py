@@ -534,6 +534,7 @@ def ModelAsDictionary(model, muCodes=True):
     (string, boolean) -> dictionary
 
     Returns a dictionary that includes a key for each of a regional model's variables.
+        NOTE: Only works for conus models.
 
     Arguments:
     model -- a model code (e.g., "bcoyex-s6")
