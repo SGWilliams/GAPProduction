@@ -552,8 +552,6 @@ def SppInState(state, breedingOnly=False):
             # If the species is in the state, add its code to the species list.
             if inState:
                 sppList.append(inState[0])
-            else:
-                pass
 
         del sppCursor
         sppCon.close()

@@ -120,7 +120,7 @@ def ProcessRichness(spp, groupName, outLoc, modelDir, season, interval_size, log
               
         #########################################  Copy models to scratch directory
         ###########################################################################
-        __Log('\tCopying models to local drive')
+        __Log('\tCopying models to scratch directory')
         # Initialize an empty list to store paths to the local models
         sppLocal = list()
         # For each species
@@ -272,10 +272,13 @@ def ProcessRichness(spp, groupName, outLoc, modelDir, season, interval_size, log
                 tempRast = None
                 if season == "Any" and tempRastTable[1] != startTifTables[sp[-10:]]["anyCount"]:
                     __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp[-10:]))
+                    __Log("\t\tReclassed count = {0}, initial geotiff count = {1}".format(tempRastTable[1], startTifTables[sp[-10:]]["anyCount"]))
                 elif season == "Summer" and tempRastTable[1] != startTifTables[sp[-10:]]["summerCount"]:
                     __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp[-10:]))
+                    __Log("\t\tReclassed count = {0}, initial geotiff count = {1}".format(tempRastTable[1], startTifTables[sp[-10:]]["summerCount"]))
                 elif season == "Winter" and tempRastTable[1] != startTifTables[sp[-10:]]["winterCount"]:
                     __Log("\t\t\tWARNING! incorrect total cell count in reclass of {0}".format(sp[-10:]))
+                    __Log("\t\tReclassed count = {0}, initial geotiff count = {1}".format(tempRastTable[1], startTifTables[sp[-10:]]["winterCount"]))
                 else:
                     __Log("\t\t\tValid cell count")
             except Exception as e:
