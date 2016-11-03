@@ -77,7 +77,98 @@ def ExcludeModels():
     # Return the list of matching model codes
     return tuple(hm)
 
+#######################################
+##### Function to get species habitat descriptions.
+def SppHabText(spp):
+    '''
+    (list) -> pandas dataframe
+    
+    This function queries the WHRDb for a species' habitat
+        description text and populates a table with the
+        text for all species provided in the list.
+        
+    Arguments:
+    spp -- Python list of unique species codes (strUC)
+        
+    Example: 
+    >>>dfHab = SppHabText(spp=["mSEWEx", "bAMROx"])
+    '''
+    import pandas as pd
+    # Connect to db
+    cursor, con = gapdb.ConnectWHR()
+    # Build empty dataframe
+    dfHabitat = pd.DataFrame(index=spp, 
+                             columns=["SciName", "SppHabDesc"])
+    dfHabitat.index.name = "strUC"
+    for sp in spp:
+        print sp
+        # Fetch habitat description
+        qry = cursor.execute(""" SELECT t.strUC, t.memSppHabDesc
+                           FROM dbo.tblTaxa as t
+                           WHERE t.strUC = ?""", sp).fetchone()
+        # Populate table
+        try:
+            dfHabitat.loc[sp, "SppHabDesc"] = qry[1]
+        except:
+            dfHabitat.loc[sp, "SppHabDesc"] = "Error"
+        dfHabitat.loc[sp, "SciName"] = gapdb.NameSci(sp)
+    return dfHabitat
 
+#######################################
+##### Function to get species citations.
+def SpReferences(sp):
+    '''
+    (string) -> pandas dataframe
+    
+    Builds and returns a dataframe containing citations/references for the 
+        species that you gave.  It combines references associated with any of
+        the species models' published, conus, and non-migratory models.
+    
+    Argument:
+    sp -- A species code (strUC).
+    
+    Example:
+    >>>df = SpReferences("bAMROx")
+    >>>df.to_csv("R:/RobinRefs.csv")
+    '''
+    import pandas as pd
+    # Connect to db
+    cursor, con = gapdb.ConnectWHR()
+    # Define empty objects to store results
+    refCodes = set([])
+    references = {}
+    # Get a list of models for the species
+    mods = gapdb.ModelCodes(sp, publishedOnly=True, 
+                               conusOnly=True, migratory=False)
+    # Retrieve the reference codes for each model, collect new ones in the set
+    for mod in mods:
+        qry = cursor.execute("""SELECT j.strRefCode
+                             FROM dbo.tblSppCitations as j 
+                             WHERE j.strSpeciesModelCode = ?""",mod).fetchall()
+        sprefCodes = set([x[0] for x in qry])
+        refCodes = sprefCodes | refCodes
+    # Retrieve the text for each code and add to a dictionary
+    for code in refCodes:
+        qry2 = cursor.execute("""SELECT r.memCitation
+                              FROM dbo.tblCitations as r
+                              WHERE r.strRefCode = ?""",code).fetchall()
+        try:
+            references[code] = str(qry2[0][0])
+        except:
+            references[code] = "ERROR"
+    # Build a dataframe with strUC, SciName, and Reference text
+    dfReferences = pd.DataFrame(index=references.keys(), 
+                                columns=["memCitation"])
+    dfReferences.index.name = "strRefCode"
+    dfReferences["strUC"] = sp
+    dfReferences["SciName"] = gapdb.NameSci(sp)
+    for i in dfReferences.index:
+        dfReferences.loc[i, "memCitation"] = references[i]
+    # Return the resulting DataFrame
+    return dfReferences
+
+#######################################
+##### Function to get a dictionaries of map units used by species.
 try:
     import arcpy
     def LoadSpeciesMUs(UC, Range=True):

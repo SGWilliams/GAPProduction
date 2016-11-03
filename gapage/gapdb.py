@@ -117,8 +117,6 @@
 ##        codes that begin with whatever argument you submitted.
 ##
 ##
-##
-##
 ## MAP UNITS:
 ##
 ##    AllMUs()

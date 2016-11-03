@@ -32,75 +32,6 @@ __headingsList = ['Origin', 'Presence', 'Repro', 'Season']
 
 HUCs = gapageconfig.hucs
 
-"""
-def GetRangeFile(speciesCode, dissolved=False):
-    '''
-    (string, [boolean]) -> string
-
-    Returns the path to the species' GAP range shapefile, if it exists.
-
-    Arguments:
-    speciesCode -- The species' 6-character GAP unique ID
-    dissolved -- An optional, boolean parameter indicating whether you wish to
-        return the dissolved range. By default, it is set to False, meaning that
-        the file contains individual HUC records and features.
-    '''
-    # Find the clownfish drive letter
-    import paths
-    cf = paths.clownfish
-    if not cf:
-        return False
-
-    # Initialize a 'shp' variable
-    shp = False
-    # If the user wishes to return the full, HUC-level range
-    if not dissolved:
-        # For each of the potential directories
-        for d in [os.path.join(cf, 'NAT_Data', 'NAT_Ranges'), os.path.join(cf, 'NAT_Data', 'Nat_Ranges_Mammals'), os.path.join(cf, 'NAT_Data', 'Nat_Ranges_Mammals')]:
-            # If the species has a range file within that directory, set the shp
-            # variable to that path and break the loop
-            spShp = os.path.join(d, speciesCode + '.shp')
-            if arcpy.Exists(spShp):
-                shp = spShp
-                break
-    # If the user wishes to return the dissolved range
-    else:
-        spShp = os.path.join(cf, 'NAT_Data', 'NAT_Ranges_dissolved', speciesCode + '.shp')
-        # If the dissolved range exists, set the shp variable to its path
-        if arcpy.Exists(spShp):
-            shp = spShp
-
-    return shp
-
-
-
-##class Range:
-##    def __init__(self, sp, outputFile, includeMigratory=True, includeHistoric=True):
-##        self.sp = sp
-##        self.featureClass = outputFile
-##        self.outputDirectory = os.path.dirname(self.outputFile)
-##        self.__CheckOutputDirectory()
-##        self.gdb = self.outputDirectory.endswith('.gdb')
-##        self.includeMigratory = includeMigratory
-##        self.includeHistoric = includeHistoric
-##
-##    def __CheckOutputDirectory(self):
-##        if self.gdb:
-##            if not arcpy.Exists(self.outputDirectory):
-##                arcpy.CreateFileGDB_management(os.path.dirname(self.outputDirectory), os.path.basename(self.outputDirectory))
-##        else:
-##            if not os.path.exists(self.outputDirectory):
-##                os.makedirs(self.outputDirectory)
-##
-##    def __CreateRange(self):
-##        pass
-##
-##    def ClipToState(self, state):
-##        pass
-##
-##    def Dissolve(self):
-##        pass
-"""
 
 #######################################
 ##### Private function for verifying/creating a directory
@@ -427,6 +358,7 @@ def RangeShp(sp, outDir=os.getcwd(), dissolve=False, state=False, includeMigrato
     except:
         print("Couldn't load arcpy")        
 
+
 def __Dissolve(sp, outShp):
     '''
     Private function optionally called by RangeShp()
@@ -607,7 +539,7 @@ def __SpRegions(spShp, season, regions):
             del row, rows
     
         # The directory where the land cover rasters are stored
-        lcDir = paths.GetLCDir()
+        lcDir = gapageconfig.land_cover
         while os.path.exists(lcDir) is False:
             lcDir = raw_input("The directory containing the land cover rasters is not found at \n" +
                                     lcDir + ".\nPlease enter the full path to the directory: ")
