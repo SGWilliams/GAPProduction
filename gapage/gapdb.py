@@ -527,12 +527,13 @@ def SppInState(state, breedingOnly=False):
 
             if breedingOnly is False:
                 qry = """SELECT DISTINCT rt.strUC
-                        FROM [Species Database].dbo.tblBoundaryCrosswalk AS bc
-                        INNER JOIN [Species Database].dbo.tblRanges_""" + taxa + """ AS rt
+                        FROM dbo.tblBoundaryCrosswalk AS bc
+                        INNER JOIN dbo.tblRanges_""" + taxa + """ AS rt
                         ON bc.strHUC12RNG = rt.strHUC12RNG
                         WHERE (rt.strUC=?)
                         AND (bc.strStateName=?)
                         AND (rt.intGapSeas<>2)
+                        AND (rt.intGapRepro=1 OR rt.intGapRepro=3 OR rt.intGapRepro=2)
                         AND (rt.intGapPres=1 OR rt.intGapPres=2 OR rt.intGapPres=6);"""
             else:
                 qry = """SELECT DISTINCT rt.strUC
@@ -546,7 +547,7 @@ def SppInState(state, breedingOnly=False):
                         AND (rt.intGapPres=1 OR rt.intGapPres=2 OR rt.intGapPres=6);"""
 
             inState = sppCursor.execute(qry, sp, state).fetchone()
-
+            print("Wait a few minutes for it......")
             # If the species is in the state, add its code to the species list.
             if inState:
                 sppList.append(inState[0])
