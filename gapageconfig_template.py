@@ -21,6 +21,7 @@ richness_directory = "xxx/xxxx/xxx"
 server = ""
 uid = raw_input("Username: ")
 password = raw_input("Password: ")
+trusted = raw_input("Trusted (Yes/No)?")
 
 #Gapemail passwords
 emailAddress = ""

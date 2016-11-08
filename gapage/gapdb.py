@@ -180,7 +180,6 @@ import pyodbc, gapageconfig, tables, sys
 from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict
 
 
-
 #######################################################################
 ##########################################################
 #############################################
@@ -218,17 +217,19 @@ def ConnectToDB(connectionStr):
 #######################################
 ##### Connect to the Species Database
 def ConnectSppDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
-                    server=gapageconfig.server):
+                 server=gapageconfig.server, trusted=gapageconfig.trusted):
     '''
     Returns a cursor and connection within the GAP species database.
     '''
     # Species database connection parameters
-    sppConStr = """DRIVER=SQL Server Native Client 11.0;
-                   SERVER={0};
-                   UID={1};
-                   PWD={2};
-                   APP=gappack;
-                   DATABASE=Species_Database;""".format(server, uid, pwd)
+    sppConStr = """DRIVER=SQL Server Native Client 10.0;
+            SERVER={0};
+            UID={1};
+            PWD={2};
+            DATABASE=Species_Database;
+            TRUSTED_CONNECTION={3};
+            APP=gapage;
+            """.format(server, uid, pwd, trusted)
 
     return ConnectToDB(sppConStr)
 
@@ -236,20 +237,21 @@ def ConnectSppDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
 #######################################
 ##### Function to connect to the WHRDB
 def ConnectWHR(uid=gapageconfig.uid, pwd=gapageconfig.password,
-                    server=gapageconfig.server):
+               server=gapageconfig.server, trusted=gapageconfig.trusted):
     '''
     Returns a cursor and connection within the GAP WHRdb.
     '''
     # WHRDB connection parameters:
-    whrConStr = """DRIVER=SQL Server Native Client 11.0;
-                   SERVER={0};
-                   UID={1};
-                   PWD={2};
-                   APP=gappack;
-                   DATABASE=WHRdB;""".format(server, uid, pwd)
+    whrConStr = """DRIVER=SQL Server Native Client 10.0;
+            SERVER={0};
+            UID={1};
+            PWD={2};
+            DATABASE=WHRdb;
+            TRUSTED_CONNECTION={3};
+            APP=gapage;
+            """.format(server, uid, pwd, trusted)
 
     return ConnectToDB(whrConStr)
-
 
 
 #######################################################################
