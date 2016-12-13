@@ -200,7 +200,6 @@ def ConnectToDB(connectionStr):
                    SERVER={0};
                    UID={1};
                    PWD={2};
-                   APP=gappack;
                    DATABASE=WHRdB;"""
     >>> cursor, connection = ConnectToDB(conString)
 
@@ -222,7 +221,7 @@ def ConnectSppDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
     Returns a cursor and connection within the GAP species database.
     '''
     # Species database connection parameters
-    sppConStr = """DRIVER=SQL Server Native Client 10.0;
+    sppConStr = """DRIVER=SQL Server Native Client 11.0;
             SERVER={0};
             UID={1};
             PWD={2};
@@ -242,7 +241,7 @@ def ConnectWHR(uid=gapageconfig.uid, pwd=gapageconfig.password,
     Returns a cursor and connection within the GAP WHRdb.
     '''
     # WHRDB connection parameters:
-    whrConStr = """DRIVER=SQL Server Native Client 10.0;
+    whrConStr = """DRIVER=SQL Server Native Client 11.0;
             SERVER={0};
             UID={1};
             PWD={2};

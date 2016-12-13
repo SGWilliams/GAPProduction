@@ -5,7 +5,7 @@
       <citeinfo>
         <origin>U.S. Geological Survey - Gap Analysis Program</origin>
         <pubdate>2016</pubdate>
-        <title>[InsertCommonName]([InsertSciName]) Habitat Map</title>
+        <title>Cooper's Hawk (Accipter cooperii) Habitat Map</title>
         <geoform>maps and data</geoform>
         <pubinfo>
           <pubplace>Boise, Idaho</pubplace>
@@ -48,8 +48,8 @@ GAP uses the best information available to create these species habitat distribu
     <keywords>
       <theme>
         <themekt>USGS Thesaurus</themekt>
-        <themekey>[InsertCommonName]</themekey>
-        <themekey>[InsertSciName]</themekey>
+        <themekey>Cooper's Hawk</themekey>
+        <themekey>Accipiter cooperii</themekey>
         <themekey>species distribution</themekey>
         <themekey>biodiversity</themekey>
         <themekey>wildlife biology</themekey>
@@ -120,7 +120,7 @@ GAP uses the best information available to create these species habitat distribu
     <taxonomy>
       <keywtax>
         <taxonkt>USGS Biocomplexity Thesaurus</taxonkt>
-        <taxonkey>[InsertClass]</taxonkey>
+        <taxonkey>Birds</taxonkey>
       </keywtax>
       <taxonsys>
         <classsys>
@@ -679,7 +679,7 @@ The final range and model are then published and made available online. Publicat
   <eainfo>
     <detailed>
       <enttyp>
-        <enttypl>[InsertGapCaseCode]</enttypl>
+        <enttypl>bCOHAx</enttypl>
         <enttypd>Habitat map. We defined a species distribution as the spatial arrangement of environments suitable for occupation by a species. In other words, a species habitat map is created using a deductive model to predict areas suitable for occupation within a species range.</enttypd>
         <enttypds>Producer defined</enttypds>
       </enttyp>
@@ -705,7 +705,7 @@ The final range and model are then published and made available online. Publicat
             <edomv>2</edomv>
             <edomvd>Known or probable occurrence, winter</edomvd>
             <edomvds>Producer defined</edomvds>
-          </edom>b
+          </edom>
           <edom>
             <edomv>3</edomv>
             <edomvd>Known or probable occurrence, year-round (both winter and summer)</edomvd>

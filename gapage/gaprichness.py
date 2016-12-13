@@ -46,7 +46,7 @@ def ProcessRichness(spp, groupName, outLoc, modelDir, season, interval_size, log
                         outLoc='C:/GIS_Data/Richness', modelDir='C:/Data/Model/Output',
                         season="Summer", interval_size=20, 
                         log='C:/GIS_DATA/Richness/log_MyRandomSpecies.txt')
-    C:\GIS_Data\Richness\MyRandomSpecies_04_Richness\MyRandomSpecies.tif, C:\GIS_Data\Richness\MyRandomSpecies.csv
+    C:\GIS_Data\Richness\MyRandomSpecies\MyRandomSpecies.tif, C:\GIS_Data\Richness\MyRandomSpecies.csv
     '''    
     
     import os, datetime, arcpy, shutil 
@@ -66,7 +66,7 @@ def ProcessRichness(spp, groupName, outLoc, modelDir, season, interval_size, log
     
     ############################################# create directories for the output
     ###############################################################################
-    outDir = os.path.join(outLoc, groupName + '_Richness')    
+    outDir = os.path.join(outLoc, groupName)    
     scratch = os.path.join(outDir,'_scratch')
     reclassDir = os.path.join(outDir, '_reclassed')
     intDir = os.path.join(outDir, 'Richness_intermediates')
