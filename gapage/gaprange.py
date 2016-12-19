@@ -16,21 +16,87 @@
 ##
 ## ListIntroducedSpp() -- Gets a list of species that have any introduced range
 ##
+## PublishRanges() -- Publish ranges for a list of species
+##
+
 
 import os, gapageconfig, gapdb, dictionaries, docs
-
-try:
-    import arcpy
-    arcpy.CheckOutExtension("Spatial")
-    arcpy.env.pyramid = "NONE"
-    arcpy.env.overwriteOutput = "TRUE"
-    arcpy.env.qualifiedFieldNames = False
-except:
-    print("Can't load arcpy")
-
+import arcpy
+arcpy.CheckOutExtension("Spatial")
+arcpy.env.pyramid = "NONE"
+arcpy.env.overwriteOutput = "TRUE"
+arcpy.env.qualifiedFieldNames = False
 __headingsList = ['Origin', 'Presence', 'Repro', 'Season']
-
 HUCs = gapageconfig.hucs
+
+#######################################
+##### Function for publishing ranges within the species database
+def PublishRanges(spp):
+    '''
+    (list) -> insertion of records into table
+    
+    "Publishes" ranges for the species in the list provided.  Records for each species
+        are deleted from published table and deep storage, then are replaced with new
+        records from the temporary range tables.
+        
+    Arguments:
+    spp -- a python list of species codes (strUC) to process.
+    
+    Example:
+    >>> PublishRanges(["aadsax", "aamtox"])
+    '''
+    for i in spp:
+        print "Processing: " + i
+        deepTest = ""
+        # create cursor based on connection
+        sppCursor, sppConnection = gapdb.ConnectSppDB()
+        
+        # create dictionary for proper table lookup
+        RangeTabledict = dictionaries.taxaDict
+        
+        # look up the correct species database range table
+        speciesTable = RangeTabledict[i[0]]
+        
+        # Test to see if the species is in the tmp table
+        try:
+            deepTest = "DeepStorage"
+            deepTest = sppCursor.execute("""SELECT t.strHUC12RNG 
+                                        FROM dbo.tblRanges_tmp_{0} as t
+                                        WHERE t.strUC = '{1}'""".format(speciesTable, i)).fetchone()[0]
+        except:
+            pass
+        
+        # if the species wasn't in the temp table, then say so and quit
+        if deepTest == "DeepStorage":
+            print "Failed to Publish: " + i +" There are no records in the tmp tbl\n"
+        else:
+            # build and execute sql statement to delete all records with a strUC 
+            # equal to the species UC
+            sppCursor.execute("""DELETE from dbo.tblRanges_{0} 
+                                WHERE strUC = '{1}'""".format(speciesTable, i))
+            
+            sppCursor.execute("""DELETE from dbo.tblRanges_DS_{0}
+                                WHERE strUC = '{1}'""".format(speciesTable, i))
+            
+            # insert records from tmp table to current range table
+            sppCursor.execute ("""INSERT INTO dbo.tblRanges_{0} 
+                                (strUC, strHUC12RNG, intGapOrigin,intGapPres, intGapRepro, intGapSeas, StrCompSrc, strNS_cd, strNWGap_cd, strSEGap_cd, strSWGap_cd)
+                                SELECT strUC, strHUC12RNG, intGapOrigin, intGapPres, intGapRepro, intGapSeas, StrCompSrc, strNS_cd, strNWGap_cd, strSEGap_cd, strSWGap_cd
+                                FROM dbo.tblRanges_tmp_{0}                          
+                                WHERE dbo.tblRanges_tmp_{0}.strUC='{1}';""".format(speciesTable, i))
+            print "Published to Public table"
+            
+            # insert records from tmp table to deep storage
+            sppCursor.execute ("""INSERT INTO dbo.tblRanges_DS_{0} 
+                                (strUC, strHUC12RNG, intGapOrigin,intGapPres, intGapRepro, intGapSeas, StrCompSrc, strNS_cd, strNWGap_cd, strSEGap_cd, strSWGap_cd)
+                                SELECT strUC, strHUC12RNG, intGapOrigin, intGapPres, intGapRepro, intGapSeas, StrCompSrc, strNS_cd, strNWGap_cd, strSEGap_cd, strSWGap_cd
+                                FROM dbo.tblRanges_tmp_{0}                          
+                                WHERE dbo.tblRanges_tmp_{0}.strUC='{1}';""".format(speciesTable, i))
+            print "Published to Deep Storage table"
+            
+            #save changes to database
+            sppConnection.commit()
+            print "Completed publishing for: " + i + "\n"
 
 
 #######################################
