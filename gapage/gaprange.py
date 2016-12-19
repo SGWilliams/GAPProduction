@@ -96,6 +96,18 @@ def PublishRanges(spp):
             
             #save changes to database
             sppConnection.commit()
+            
+            # create cursor for status updates
+            StatusCursor, StatusConnection = gapdb.ConnectSppDB()
+            
+            # update the status of the species
+            print "Updating range status for " + i
+            StatusCursor.execute("""UPDATE dbo.tblAllSpecies
+                                    SET strRangeStatus='{1}'
+                                    WHERE tblAllSpecies.strUniqueID='{0}'""".format(i, "complete"))
+            # Commit changes to DB
+            StatusConnection.commit()
+            
             print "Completed publishing for: " + i + "\n"
 
 
