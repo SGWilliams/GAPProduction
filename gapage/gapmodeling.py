@@ -264,7 +264,7 @@ def RemoveAlienMUs(models):
     Models -- A list of model codes (e.g., ["mRESQx-y5", "mRESQx-y4"])
     '''
     for model in models:
-        prim, aux = gapdb.ModelEcoSystems(model)
+        prim, aux = ModelEcoSystems(model)
 
         alienPMU = [x for x in prim if gapdb.MuInRegion(x, model[-1:]) == False]
         SetMUs(model, alienPMU, select=False)
