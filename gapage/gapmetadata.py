@@ -74,7 +74,12 @@ def ScienceBaseCSV(species, publicationDate, csvName):
     Creates a dataframe and csv file with rows for species in your list and columns for
         each of the pieces of information needed when updating metadata records on 
         ScienceBase for habitat maps.
-        
+    
+    Notes:
+    The "end_date" column pulls from tblUpdateDateTime, but it's unclear how this table
+        is and was populated.  Many entries are blank, so this function uses 2013 if the
+        model editing field is blank.
+    
     Arguments:
     species -- Python list of GAP species codes to process
     publicationDate -- A year to use as the publication date
@@ -96,7 +101,10 @@ def ScienceBaseCSV(species, publicationDate, csvName):
         DF0.loc[sp, "common_name"] = nameCom
         DF0.loc[sp, "scientific_name"] = nameSci
         DF0.loc[sp, "start_date"] = 2008
-        DF0.loc[sp, "end_date"] = gapdb.ProcessDate(sp).year # Check this
+        try:
+            DF0.loc[sp, "end_date"] = gapdb.ProcessDate(sp).year
+        except:
+            DF0.loc[sp, "end_date"] = 2013
         DF0.loc[sp, "publication_date"] = publicationDate
         DF0.loc[sp, "citation"] = "U.S. Geological Survey - Gap Analysis Program, {2}, {0} ({1}) Habitat Map: U.S. Geological Survey.".format(nameCom, nameSci, publicationDate)
         DF0.loc[sp, "place_keywords"] = "United States" 

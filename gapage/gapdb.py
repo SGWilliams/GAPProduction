@@ -1344,8 +1344,6 @@ def Who(spCode, action="reviewed"):
     >>> print WhoReviewed("bBAEAx", action="reviewed")
     "Jeff Lonneker"
     '''
-    print("See Notes!!!")
-    
     # Dictionaries
     actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
               "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
