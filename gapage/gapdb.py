@@ -109,6 +109,9 @@
 ##        Gets the date that the species' range or model was created
 ##        or last edited. Returns the date as a date data type.
 ##
+##    Who(spCode, action="reviewed")
+##        Returns the name of a person who worked on a species.
+##
 ##    Related(code)
 ##        Gets a list of species/subspecies that share the code root (i.e.
 ##        the first 5 characters of the code). If your argument exceeds five
@@ -272,10 +275,9 @@ def ListAllSpecies(completedModels=False, CONUSOnly=False):
         wish to return only species that have completed models. By default, it
         is set to False, meaning that all species will be returned.
     '''
-
-    sppCursor, sppCon = ConnectSppDB()
-    comp = sppCursor.execute("""SELECT al.strUniqueID
-                         FROM dbo.tblAllSpecies as al""").fetchall()
+    print("!!!completedModels Option doesn't work because the SppDB is not up to date!!!")
+    sppCursor, sppCon = ConnectWHR()
+    comp = sppCursor.execute("""SELECT DISTINCT strUC FROM dbo.tblAllSpecies""").fetchall()
     del sppCursor
     sppCon.close()
 
@@ -1315,7 +1317,60 @@ def ProcessDate(spCode, x = 'Model', y = 'Edited', seconds=False):
 
     return d
 
-
+#######################################
+##### Function to return the name of a person who worked on a species.
+def Who(spCode, action="reviewed"):
+    '''
+    (string, action) -> string
+    
+    Gets the name of the staff member who completed an action of interest.
+    
+    Notes:
+    This function queries the WHRdb tblModelStatus table, which has rows for each region-
+        season model, not strUC.  It grabs (I believe) the first record of the query
+        result.  It would ideally query the species database, but the table there is not 
+        up to date.
+    
+    Arguments:
+    spCode -- the species' unique GAP ID
+    action -- The action of interest.  Choose from "edited", "mosaiced", "reviewed", 
+        "published".
+    
+    Example:
+    >>> print WhoReviewed("bBAEAx", action="reviewed")
+    "Jeff Lonneker"
+    '''
+    print("See Notes!!!")
+    
+    # Dictionaries
+    actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
+              "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
+    staff = {"mjr": "Matthew Rubino", "nmt": "Nathan Tarr", "jjl": "Jeff Lonneker",
+                 "tl": "Thomas Laxon", "rta": "Robert Adair", "mjb": "Matthew Rubino",
+                 "mbr": "Matthew Rubino"}
+    # Build a query             
+    field = actions[action]
+    qry = """SELECT """ + field + """
+            FROM dbo.tblModelStatus
+            WHERE strUC = ?"""
+    # Connect to database
+    sppCursor, sppCon = ConnectWHR()
+    result = sppCursor.execute(qry, spCode).fetchone()
+    
+    # Format result of query
+    if result and result[0] != None:
+        if result[0].lower() in staff.keys():
+            name = staff[result[0].lower()]
+        else:
+            name="Unknown"
+    else:
+        name = "Unknown"
+    
+    # Delete cursor
+    del sppCursor
+    sppCon.close()
+    
+    return name
 
 #######################################
 ##### Function to return an input string with the capitalization
