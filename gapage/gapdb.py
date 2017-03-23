@@ -1077,6 +1077,7 @@ def ModelCodes(code, publishedOnly=False, conusOnly=False, migratory=True):
     [u'aHOTOx-y5', u'aHOTOx-y6']
 
     '''
+    import gapmodeling
     sppCursor, sppCon = ConnectWHR()
     qry = """SELECT strSpeciesModelCode
             FROM dbo.tblModelStatus
@@ -1091,6 +1092,9 @@ def ModelCodes(code, publishedOnly=False, conusOnly=False, migratory=True):
     sppCon.close()
 
     spCodes = [item[0] for item in qryResult]
+    
+    # Filter out models in the excluded model list
+    spCodes = [x for x in spCodes if x not in gapmodeling.ExcludeModels()]
 
     # Get list of migratory models
     migs = [x for x in spCodes if x[-2] == "m"]
