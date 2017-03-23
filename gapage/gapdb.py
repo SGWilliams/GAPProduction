@@ -1350,8 +1350,8 @@ def Who(spCode, action="reviewed"):
     actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
               "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
     staff = {"mjr": "Matthew Rubino", "nmt": "Nathan Tarr", "jjl": "Jeff Lonneker",
-                 "tl": "Thomas Laxon", "rta": "Robert Adair", "mjb": "Matthew Rubino",
-                 "mbr": "Matthew Rubino"}
+             "tl": "Thomas Laxon", "rta": "Robert Adair", "mjb": "Matthew Rubino",
+             "mbr": "Matthew Rubino", "kb": "Ken Boykin"}
     # Build a query             
     field = actions[action]
     qry = """SELECT """ + field + """
