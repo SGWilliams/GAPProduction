@@ -421,13 +421,18 @@ def ModelExists(modelCode):
 
 #######################################
 ##### Function to get a list of all included, valid region models for a species
-def ModelCodes(spCode, season='all', contiguousOnly=False):
+def ModelCodes(spCode, season='all', publishedOnly=False, conusOnly=True,
+               migratory=False):
     '''
-    (string, string, [boolean]) -> tuple
-
+    (string, string, [boolean], [boolean], [boolean]) -> tuple
+    
     Retrieves list of models for the given species. Only includes models
-        for which ysnInclude is True; omits models with region code 0
-
+    for which ysnInclude is True; omits models with region code 0
+    
+    Notes:
+    This is pulling from two different tables in WHRdb.  The code could probably be 
+        a little more succinct if a join were specified in the sql query passed.
+    
     Arguments:
     spCode -- The species' unique GAP ID
     season -- The season for which you wish to return models. By default, all
@@ -438,7 +443,13 @@ def ModelCodes(spCode, season='all', contiguousOnly=False):
         wish to return codes only for models within the contiguous U.S. By
         default, it is set to False, which means that all model codes will be
         returned, regardless of their region.
-
+    publishedOnly -- Optional boolean parameter to include only published models.
+        By default, it is set as False, which returns all models.
+    conusOnly -- Optional boolean parameter to include only models within CONUS.
+        By default, it is set as False, which returns all models.
+    migratory -- Optional boolean parameter to include migratory models.
+        By default, it is set as True, which includes migratory models.
+    
     Example:
     >>> ModelCodes('rGLSNx')
     (u'rGLSNx-y5', u'rGLSNx-y6', u'rGLSNx-y4')
@@ -447,40 +458,65 @@ def ModelCodes(spCode, season='all', contiguousOnly=False):
     >>> gp.gapdb.ModelCodes('bbaeax', 'winter')
     ['bBAEAx-w1', 'bBAEAx-w2', 'bBAEAx-w3', 'bBAEAx-w4', 'bBAEAx-w5', 'bBAEAx-w6']
     '''
-
+    
     # Get a cursor and connection to WHR database
     whrCursor, whrCon = gapdb.ConnectWHR()
-    # Execute the query to select model codes that match the passed species code
+    
+    # Execute a query to select model codes that match the passed species code
+    # from tblAllSpecies
     models = whrCursor.execute("""SELECT strSpeciesModelCode
                             FROM dbo.tblAllSpecies
                             WHERE strUC LIKE ?
                             AND ysnInclude = 'True'
                             AND strSpeciesModelCode NOT LIKE '%0'
                             """, spCode + '%').fetchall()
-
-    # Delete the cursor
-    del whrCursor
-    # Close the database connection
-    whrCon.close()
-
-    # Create a list of all the matching models
-    mcs = [str(item[0]) for item in models]
-
+    
+    # Pull model codes out of return tuple
+    mcsAllSpec = [str(item[0]) for item in models]
+    
     # If the user only wishes to return models from the contiguous U.S....
-    if contiguousOnly:
+    if conusOnly:
         # Select only those models with region codes less than 7
-        mcs = [i for i in mcs if int(i[-1]) < 7]
-
+        mcsAllSpec = [i for i in mcsAllSpec if int(i[-1]) < 7]
+        
     # Filter by the passed season
     season = season.lower()
     if season != 'all':
         if season == 's' or season == 'summer':
-            mcs = [i for i in mcs if i[-2] == 's']
+            mcsAllSpec = [i for i in mcsAllSpec if i[-2] == 's']
         elif season == 'w' or season == 'winter':
-            mcs = [i for i in mcs if i[-2] == 'w']
+            mcsAllSpec = [i for i in mcsAllSpec if i[-2] == 'w']
         elif season == 'y' or season == 'year-round' or season == 'yearround' or season == 'year':
-            mcs = [i for i in mcs if i[-2] == 'y']
-
+            mcsAllSpec = [i for i in mcsAllSpec if i[-2] == 'y']
+    
+    # Migratory filtering
+    # Get list of migratory models
+    migs = [x for x in mcsAllSpec if x[-2] == "m"]
+    # Filter out migratory models
+    mcsAllSpec = [x for x in mcsAllSpec if x[-2] != "m"]
+    # If the user wishes to include migratory models.
+    if migratory:
+        mcsAllSpec = mcsAllSpec + migs
+    
+    if publishedOnly:
+    # Execute a query to select model codes that match the passed species code
+    # from tblModelStatus
+        qry = """SELECT strSpeciesModelCode
+                FROM dbo.tblModelStatus
+                WHERE strSpeciesModelCode LIKE '{0}%'""".format(spCode)
+        qry = qry + '\nAND strModelStatusAll = \'Publishing Completed\''
+        models_status = whrCursor.execute(qry).fetchall()
+        mcsModelStatus = set([item[0] for item in models_status])
+        # Filter out models not in tblAllSpecies, to remove non-"publishing completed"
+        mcs = tuple(set(mcsAllSpec) & mcsModelStatus)
+    else:
+        mcs = tuple(mcsAllSpec)
+        
+    # Delete the cursor
+    del whrCursor
+    # Close the database connection
+    whrCon.close()    
+    
     # Return the list of matching model codes
     return mcs
 

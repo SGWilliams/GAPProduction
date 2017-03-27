@@ -1077,55 +1077,57 @@ def ModelCodes(code, publishedOnly=False, conusOnly=False, migratory=True):
     [u'aHOTOx-y5', u'aHOTOx-y6']
 
     '''
-    import gapmodeling
-    sppCursor, sppCon = ConnectWHR()
-    qry = """SELECT strSpeciesModelCode
-            FROM dbo.tblModelStatus
-            WHERE strSpeciesModelCode LIKE '{0}%'""".format(code)
+    print("gapdb.ModelCodes() was decommissioned.  Use gapmodeling.ModelCodes() instead")
 
-    if publishedOnly:
-        qry = qry + '\nAND strModelStatusAll = \'Publishing Completed\''
-
-    qryResult = sppCursor.execute(qry).fetchall()
-
-    del sppCursor
-    sppCon.close()
-
-    spCodes = [item[0] for item in qryResult]
-    
-    # Filter out models in the excluded model list
-    spCodes = [x for x in spCodes if x not in gapmodeling.ExcludeModels()]
-
-    # Get list of migratory models
-    migs = [x for x in spCodes if x[-2] == "m"]
-
-    # Filter out migratory models
-    spCodes = [x for x in spCodes if x[-2] != "m"]
-
-    # If the user wishes to view only models for CONUS
-    if conusOnly:
-        # Copy the spCodes list
-        codes = spCodes
-        spCodes = [x for x in codes if x[-1] in [str(y) for y in range(1,7)]]
-        '''# !!!!! This old code leaves in migratory but not winter models ->
-        # Initialize an empty list
-        spCodes = list()
-        # For each number from 1-6 (i.e., CONUS region codes)
-        for i in range(1,7):
-            # For each model code
-            for code in codes:
-                # If the conus region code is in the model name
-                if str(i) in code:
-                    # Add the code to the list
-                    spCodes.append(code)
-                    break'''
-
-     # If the user wishes to include migratory models.
-    if migratory:
-        spCodes=spCodes + migs
-
-    return spCodes
-
+#    import gapmodeling
+#    sppCursor, sppCon = ConnectWHR()
+#    qry = """SELECT strSpeciesModelCode
+#            FROM dbo.tblModelStatus
+#            WHERE strSpeciesModelCode LIKE '{0}%'""".format(code)
+#
+#    if publishedOnly:
+#        qry = qry + '\nAND strModelStatusAll = \'Publishing Completed\''
+#
+#    qryResult = sppCursor.execute(qry).fetchall()
+#
+#    del sppCursor
+#    sppCon.close()
+#
+#    spCodes = [item[0] for item in qryResult]
+#    
+#    # Filter out models in the excluded model list
+#    spCodes = [x for x in spCodes if x not in gapmodeling.ExcludeModels()]
+#
+#    # Get list of migratory models
+#    migs = [x for x in spCodes if x[-2] == "m"]
+#
+#    # Filter out migratory models
+#    spCodes = [x for x in spCodes if x[-2] != "m"]
+#
+#    # If the user wishes to view only models for CONUS
+#    if conusOnly:
+#        # Copy the spCodes list
+#        codes = spCodes
+#        spCodes = [x for x in codes if x[-1] in [str(y) for y in range(1,7)]]
+#        '''# !!!!! This old code leaves in migratory but not winter models ->
+#        # Initialize an empty list
+#        spCodes = list()
+#        # For each number from 1-6 (i.e., CONUS region codes)
+#        for i in range(1,7):
+#            # For each model code
+#            for code in codes:
+#                # If the conus region code is in the model name
+#                if str(i) in code:
+#                    # Add the code to the list
+#                    spCodes.append(code)
+#                    break'''
+#
+#     # If the user wishes to include migratory models.
+#    if migratory:
+#        spCodes=spCodes + migs
+#
+#    return spCodes
+    return
 
 def SpInCONUS(code, publishedOnly=False):
     '''
