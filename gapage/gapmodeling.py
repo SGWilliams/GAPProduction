@@ -426,7 +426,7 @@ def ModelCodes(spCode, season='all', contiguousOnly=False):
     (string, string, [boolean]) -> tuple
 
     Retrieves list of models for the given species. Only includes models
-    for which ysnInclude is True; omits models with region code 0
+        for which ysnInclude is True; omits models with region code 0
 
     Arguments:
     spCode -- The species' unique GAP ID

@@ -1364,9 +1364,9 @@ def Who(spCode, action="reviewed"):
         if result[0].lower() in staff.keys():
             name = staff[result[0].lower()]
         else:
-            name="Unknown"
+            name=""
     else:
-        name = "Unknown"
+        name = ""
     
     # Delete cursor
     del sppCursor

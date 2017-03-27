@@ -96,6 +96,7 @@ def ScienceBaseCSV(species, publicationDate, csvName):
 
     # Fill out desired columns
     for sp in species:
+        print sp
         nameCom = gapdb.NameCommon(sp)
         nameSci = gapdb.NameSci(sp)
         DF0.loc[sp, "common_name"] = nameCom
