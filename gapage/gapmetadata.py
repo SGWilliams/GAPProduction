@@ -12,7 +12,8 @@
 import dictionaries, os, time, gapageconfig
 
 
-def SpeciesInputs(strUC):
+def SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True,
+                  migratory=False):
     '''
     (string) -> list
     
@@ -21,12 +22,22 @@ def SpeciesInputs(strUC):
     
     Arguments:
     strUC -- A gap species code like "bAMROx".
+    season -- The season for which you wish to return models. By default, all
+        seasons will be assessed. You may enter: 's' or 'summer' for summer
+        models; 'w' or 'winter' for winter models; 'y', 'year', 'yearround', or
+        'year-round' for year-round models.
+    publishedOnly -- Optional boolean parameter to include only published models.
+        By default, it is set as False, which assesses models in all stages.
+    conusOnly -- Optional boolean parameter to include only models within CONUS.
+        By default, it is set as True, which assesses only CONUS models.
+    migratory -- Optional boolean parameter to include migratory models.
+        By default, it is set as False, which skips migratory models.
     
     Example:
     >>>inputs = SpeciesInputs("bAMREx")
     ['hydrology', 'elevation']
     '''
-    import gapmodeling, gapdb
+    import gapmodeling
     # Dictionary of model variables and associated input layers
     input_dict = {'intEdgeEcoWidth': "forest_edge", 'intElevMax': "elevation",
                   'intElevMin': "elevation", 'strAvoid': "forest_edge",
@@ -41,7 +52,7 @@ def SpeciesInputs(strUC):
     # Build starter set/list.            
     sp_inputs = set(["natl_GAP_land_cover_ver1.0_(2001)"])
     # Get list of models for the species
-    mods = gapdb.ModelCodes(strUC, conusOnly=True, migratory=False)
+    mods = gapmodeling.ModelCodes(strUC, season, publishedOnly, conusOnly, migratory)
     for mod in mods:
         # Get dictionary version of model
         mod_dict = gapmodeling.ModelAsDictionary(mod, muCodes=False)
@@ -64,7 +75,6 @@ def SpeciesInputs(strUC):
         sp_inputs = set(mod_inputs) | sp_inputs
     # Return the list of inputs the species uses.
     return list(sp_inputs)
-
 
 
 def ScienceBaseCSV(species, publicationDate, csvName):

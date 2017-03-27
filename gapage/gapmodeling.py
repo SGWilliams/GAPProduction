@@ -439,16 +439,12 @@ def ModelCodes(spCode, season='all', publishedOnly=False, conusOnly=True,
         seasons will be retrieved. You may enter: 's' or 'summer' for summer
         models; 'w' or 'winter' for winter models; 'y', 'year', 'yearround', or
         'year-round' for year-round models.
-    contiguousOnly -- An optional, boolean parameter, indicating whether you
-        wish to return codes only for models within the contiguous U.S. By
-        default, it is set to False, which means that all model codes will be
-        returned, regardless of their region.
     publishedOnly -- Optional boolean parameter to include only published models.
         By default, it is set as False, which returns all models.
     conusOnly -- Optional boolean parameter to include only models within CONUS.
-        By default, it is set as False, which returns all models.
+        By default, it is set as True, which returns only CONUS models.
     migratory -- Optional boolean parameter to include migratory models.
-        By default, it is set as True, which includes migratory models.
+        By default, it is set as False, which excludes migratory models.
     
     Example:
     >>> ModelCodes('rGLSNx')
