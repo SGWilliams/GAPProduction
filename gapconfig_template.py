@@ -3,19 +3,13 @@
 ############################     STUFF YOU HAVE TO CHANGE   ########################################
 
 #Directory with spatial and aspatial datasets needed for gappack
-data_directory = "xxxxxx/GAPage/data"
+data_directory = "xxxxxx/GAPProduction/data"
 
 #Directory where some temp files should be stored (scratch workspace)
 temp_directory = "xxxxxxxx"
 
 #Path to modeling data layers
 GAP_data = "xxx/xxxx/xxx"
-
-#Path to directory containing completed species model outputs GEOtiffs for analyses
-output_location = "xxx/xxxx/xxx"
-
-#Directory to store output from richness analyses
-richness_directory = "xxx/xxxx/xxx"
 
 #Username and password for the GAP databases
 server = ""
@@ -55,6 +49,3 @@ HUC_Extents = data_directory + "/HUC_Extents.txt"
 
 #Path to shapefile of all regions
 regions_shapefile = data_directory + "modeling_regions.shp"
-
-#Directory with metadata templates
-meta_templates_dir = data_directory + "/metadata_templates"

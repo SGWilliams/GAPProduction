@@ -21,7 +21,7 @@ for k in LoadMUSets().keys():
     print(functionstring.replace("zzz", k))
 
 """
-import pickle, gapageconfig
+import pickle, gapconfig
 
 def LoadMUSets():
     '''
@@ -31,7 +31,7 @@ def LoadMUSets():
     and their descriptions. Use LoadMUSets().keys() to list all of the map unit
     sets included in the dictionary.
     '''
-    filename = open(gapageconfig.wildclass)
+    filename = open(gapconfig.wildclass)
     MUSets = pickle.load(filename)
     filename.close()
     return MUSets
