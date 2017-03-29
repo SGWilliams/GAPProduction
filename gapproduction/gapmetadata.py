@@ -103,7 +103,11 @@ def ScienceBaseCSV(species, publicationDate, csvName):
     # Intialize a dataframe
     DF0 = pd.DataFrame()
     DF0.index.name = "GAP_code"
-
+    
+    abstract_text = "This dataset represents a species habitat distribution model for {0}.  These habitat maps are created by applying a deductive habitat model to remotely-sensed data layers within a species' range.  A full description of the modeling process is included in the collection level item https://www.sciencebase.gov/catalog/item/527d0a83e4b0850ea0518326."
+    
+    citation_text = "U.S. Geological Survey - Gap Analysis Program, {2}, {0} ({1}) Habitat Map, U.S. Geological Survey data release, https://doi.org/10.5066/{3}."
+    
     # Fill out desired columns
     for sp in species:
         print sp
@@ -117,7 +121,8 @@ def ScienceBaseCSV(species, publicationDate, csvName):
         except:
             DF0.loc[sp, "end_date"] = 2013
         DF0.loc[sp, "publication_date"] = publicationDate
-        DF0.loc[sp, "citation"] = "U.S. Geological Survey - Gap Analysis Program, {2}, {0} ({1}) Habitat Map: U.S. Geological Survey.".format(nameCom, nameSci, publicationDate)
+        DF0.loc[sp, "citation"] = citation_text.format(nameCom, nameSci, publicationDate,
+                                                        "TOBEDETERMINED")
         DF0.loc[sp, "place_keywords"] = "United States" 
         DF0.loc[sp, "theme_keywords"] = "{1}, {0}".format(nameCom, nameSci)
         DF0.loc[sp, "reviewers"] = gapdb.Who(sp)
@@ -126,6 +131,7 @@ def ScienceBaseCSV(species, publicationDate, csvName):
         DF0.loc[sp, "EGT_ID"] = gapdb.Crosswalk(sp)[3]
         DF0.loc[sp, "input_data"] = str(SpeciesInputs(sp))
         DF0.loc[sp, "IPDS"] = "IP-082267"
+        DF0.loc[sp, "abstract"] = abstract_text.format(nameCom)
     
     DF0.to_csv(csvName)
     return DF0
