@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.gaprasters in gapage
+Python Library Documentation: module gapproduction.gaprasters in gapproduction
 
 NAME
-    gapage.gaprasters
+    gapproduction.gaprasters
 
 FILE
-    t:\scripts\gapage\gapage\gaprasters.py
+    t:\scripts\gapproduction\gapproduction\gaprasters.py
 
 DESCRIPTION
     ## This module facilitates common tasks for processing rasters.

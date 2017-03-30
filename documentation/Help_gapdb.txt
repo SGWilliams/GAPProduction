@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.gapdb in gapage
+Python Library Documentation: module gapproduction.gapdb in gapproduction
 
 NAME
-    gapage.gapdb
+    gapproduction.gapdb
 
 FILE
-    t:\scripts\gapage\gapage\gapdb.py
+    t:\scripts\gapproduction\gapproduction\gapdb.py
 
 DESCRIPTION
     ## This module facilitates common tasks for querying the GAP Species Database
@@ -118,14 +118,15 @@ DESCRIPTION
     ##        Gets the date that the species' range or model was created
     ##        or last edited. Returns the date as a date data type.
     ##
+    ##    Who(spCode, action="reviewed")
+    ##        Returns the name of a person who worked on a species.
+    ##
     ##    Related(code)
     ##        Gets a list of species/subspecies that share the code root (i.e.
     ##        the first 5 characters of the code). If your argument exceeds five
     ##        characters, the function will ignore all but the first five. If you submit
     ##        an argument with fewer than five characters, the function will return all
     ##        codes that begin with whatever argument you submitted.
-    ##
-    ##
     ##
     ##
     ## MAP UNITS:
@@ -226,7 +227,7 @@ FUNCTIONS
         ['OK', 'WY', 'AZ', 'OR', 'SD', 'CA', 'WA', 'ND', 'ID', 'NE', 'CO', 'TX',
         'MT', 'UT', 'NV', 'KS', 'NM']
     
-    ConnectSppDB(uid='GAP_Edit_VPN', pwd='G@pp$r', server='137.227.238.246,1433')
+    ConnectSppDB(uid='', pwd='', server=r'CHUCK\SQL2014', trusted='Yes')
         Returns a cursor and connection within the GAP species database.
     
     ConnectToDB(connectionStr)
@@ -243,11 +244,10 @@ FUNCTIONS
                        SERVER={0};
                        UID={1};
                        PWD={2};
-                       APP=gappack;
                        DATABASE=WHRdB;"""
         >>> cursor, connection = ConnectToDB(conString)
     
-    ConnectWHR(uid='GAP_Edit_VPN', pwd='G@pp$r', server='137.227.238.246,1433')
+    ConnectWHR(uid='', pwd='', server=r'CHUCK\SQL2014', trusted='Yes')
         Returns a cursor and connection within the GAP WHRdb.
     
     ConservationConcern(spCode)
@@ -627,6 +627,7 @@ FUNCTIONS
             in the proper order.
     
     SppInState(state, breedingOnly=False)
+        !!!!!!!!!!!!!!!!!!!!!!  May not be working correctly.
         (string) -> list
         
         Gets a list of all the species that occur in the given state. Requires
@@ -731,6 +732,26 @@ FUNCTIONS
             the list includes all regions (though the inRegion is removed from the
             list), meaning that only map units that are unique to the inRegion will
             be returned.
+    
+    Who(spCode, action='reviewed')
+        (string, action) -> string
+        
+        Gets the name of the staff member who completed an action of interest.
+        
+        Notes:
+        This function queries the WHRdb tblModelStatus table, which has rows for each region-
+            season model, not strUC.  It grabs (I believe) the first record of the query
+            result.  It would ideally query the species database, but the table there is not 
+            up to date.
+        
+        Arguments:
+        spCode -- the species' unique GAP ID
+        action -- The action of interest.  Choose from "edited", "mosaiced", "reviewed", 
+            "published".
+        
+        Example:
+        >>> print WhoReviewed("bBAEAx", action="reviewed")
+        "Jeff Lonneker"
 
 DATA
     stateDict_From_Abbr = {'AK': 'Alaska', 'AL': 'Alabama', 'AR': 'Arkansa...

@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.conversions in gapage
+Python Library Documentation: module gapproduction.conversions in gapproduction
 
 NAME
-    gapage.conversions
+    gapproduction.conversions
 
 FILE
-    t:\scripts\gapage\gapage\conversions.py
+    t:\scripts\gapproduction\gapproduction\conversions.py
 
 DESCRIPTION
     ## Module for converting between measurement units.

@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.gapmath in gapage
+Python Library Documentation: module gapproduction.gapmath in gapproduction
 
 NAME
-    gapage.gapmath
+    gapproduction.gapmath
 
 FILE
-    t:\scripts\gapage\gapage\gapmath.py
+    t:\scripts\gapproduction\gapproduction\gapmath.py
 
 DESCRIPTION
     # This module facilitates standard math operations for which there is no simple,

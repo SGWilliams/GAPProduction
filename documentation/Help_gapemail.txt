@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.gapemail in gapage
+Python Library Documentation: module gapproduction.gapemail in gapproduction
 
 NAME
-    gapage.gapemail
+    gapproduction.gapemail
 
 FILE
-    t:\scripts\gapage\gapage\gapemail.py
+    t:\scripts\gapproduction\gapproduction\gapemail.py
 
 DESCRIPTION
     ## This module facilitates the sending of email messages.

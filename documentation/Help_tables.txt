@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.tables in gapage
+Python Library Documentation: module gapproduction.tables in gapproduction
 
 NAME
-    gapage.tables
+    gapproduction.tables
 
 FILE
-    t:\scripts\gapage\gapage\tables.py
+    t:\scripts\gapproduction\gapproduction\tables.py
 
 DESCRIPTION
     ## This module facilitates common tasks for searching/manipulating plain text

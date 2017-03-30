@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.featureclasses in gapage
+Python Library Documentation: module gapproduction.featureclasses in gapproduction
 
 NAME
-    gapage.featureclasses
+    gapproduction.featureclasses
 
 FILE
-    t:\scripts\gapage\gapage\featureclasses.py
+    t:\scripts\gapproduction\gapproduction\featureclasses.py
 
 DESCRIPTION
     ## This module contains functions to facilitate the processing of feature

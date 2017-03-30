@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.zipping in gapage
+Python Library Documentation: module gapproduction.zipping in gapproduction
 
 NAME
-    gapage.zipping
+    gapproduction.zipping
 
 FILE
-    t:\scripts\gapage\gapage\zipping.py
+    t:\scripts\gapproduction\gapproduction\zipping.py
 
 DESCRIPTION
     ## This module facilitates common tasks for archiving with the zipfile module,

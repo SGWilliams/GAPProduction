@@ -1094,3 +1094,235 @@ def ResolveMuDiscrepancies(templateModel, changeModel, uid, pwd):
     del cur, conn
 
     return
+    
+#############################  MODELING WORKFLOW FUNCTIONS
+##########################################################
+    
+def RunModel(modelCode, regionalDir, year=2011):
+    '''
+    (string, string, string?) -> raster object saved to outDir
+
+    Runs the model for the passed regional-seasonal model code, using the
+        input data for the year provided and saves output in regionalDir.  Also
+        returns output as a raster object.
+
+    Arguments:
+    modelCode -- Species-region-season code.
+    regionalDir -- Directory where to save output.
+    year -- Year of input data that you wish to create.
+
+    Example:
+    >>> RunModel("mSEWEx-y4", "T:/Output/", 2011)
+    
+    '''
+    # Use year to locate directories for data
+
+    print("No code yet")
+
+
+def StartEdit_1(modelCode, initials):
+    '''
+    (string, string) -> changes to WHRdb
+
+    Changes status of model to "editing started" in WHRdb.
+
+    Arguments:
+    modelCode -- Species-region-season code.
+    initials -- Your initials.  
+
+    Example:
+    >>> StartEdit_1("mSEWEx-y4", "NMT")
+    '''
+    # Change the model status to "editing started"
+
+    # Record initials in editor field
+
+    # Email when done
+    
+    print("STEP 1 -- No code yet")
+
+
+def EndEdit_2(modelCode, initials):
+    '''
+    (string, string) -> changes to WHRdb
+
+    Changes status of model to "editing complete" in WHRdb.
+
+    Arguments:
+    modelCode -- Species-region-season code.
+    initials -- Your initials.  
+
+    Example:
+    >>> EndEdit_2("mSEWEx-y4", "NMT")
+    '''
+    
+    # Change the model status to "editing complete"
+
+    # Record initials in editor field
+
+    # Email when done
+
+    
+    print("Step 2 -- No code yet")
+
+
+def Mosaic_3(rasters, initials, outDir, overwrite=True):
+    '''
+    (list, string, string, [Boolean]) -> raster object, saved raster
+
+    Changes status of model to "mosaicing started" in WHRdb.
+
+    Arguments:
+    modelCodes -- List of species-region-season codes to mosaic.
+    initials -- Your initials.
+    outDir -- Where to save the mosaiced models.
+    overwrite -- True/False whether to overwrite any existing mosaic.
+
+    Example:
+    >>> Mosaic_3(["T:/Output/mSEWEx-y4", "T:/Output/mSEWEx-y1"], "NMT",
+                "T:/Output/Mosaics/")
+    '''
+    
+    # Change the model status to "mosaicing started"
+
+    # Record initials in mosaicker field
+    
+    # Verify that a map exists for each season-region-model
+
+    # Sum seasonal outputs within regions
+
+    # Mosaic - make sure environments (snap) are correctly handled.
+        
+    # Email when done
+        
+    print("Step 3 -- No code yet")
+
+
+def VerifyMosaic_4(strUC, initials, suitable=True, mosaicDir, regionalDir, reviewerInitials):
+    '''
+    (string, string, [Boolean], string, string, string) -> changes to WHRdb, email sent to reviewer
+
+    Changes status of model to "mosaicing complete" in WHRdb and notifies the
+        reviwer that it is complete and ready for review.
+
+    Arguments:
+    strUC -- strUC for species that was mosaiced.
+    initials -- Your initials.
+    suitable -- True/False whether the mosaic is correct.
+    mosaicDir -- Directory where the mosaic is saved.
+    regionalDir -- Directory where the regional outputs are saved.
+    reviewerInitials -- Used to send email to the reviwer about the species.
+
+    Example:
+    >>> VerifyMosaic_4("mSEWEx", "NMT", True, mosaicDir="P:/Proj3/Output/Mosaics/",
+                       regionalDir="P:/Proj3/Output/Regional/", "MJR")
+    '''
+    # Change the model status to "mosaic complete"
+
+    # Record initials in mosaicker field
+
+    # If mosaic is bad, delete mosaic and regional models, revert to "editing started"
+
+    # Email the reviewer to let them know that the species ready for review.
+    
+    # Email when done
+    
+    print("Step 4 -- No code yet")
+
+
+def StartReview_5(strUC, initials):
+    '''
+    (string, string) -> changes to WHRdb
+
+    Changes status of model to "review started" in WHRdb, records initials.
+
+    Arguments:
+    strUC -- strUC for species that was mosaiced.
+    initials -- Your initials.
+    
+    Example:
+    >>> StartReview_5("mSEWEx", "NMT")
+    '''
+
+    # Change the model status to "review started"
+
+    # Email when done
+    
+    print("Step 5 -- No code yet")
+
+
+def EndReview_6(strUC, initials, suitable=True, mosaicDir, regionalDir, modelerInitials):
+    '''
+    (string, string, [boolean], string, string, string) -> changes to WHRdb
+
+    Changes status of model to "review complete" in WHRdb, records initials.
+
+    Arguments:
+    strUC -- strUC for species that was mosaiced.
+    initials -- Your initials.
+    suitable -- True/False whether the mosaic is correct.
+    mosaicDir -- Directory where the mosaic is saved.
+    regionalDir -- Directory where the regional outputs are saved.
+    modelerInitial -- Initials of the person who edited the model
+        
+    Example:
+    >>> EndReview_6("mSEWEx", "NMT", True, mosaicDir="P:/Proj3/Output/Mosaics/",
+                    regionalDir="P:/Proj3/Output/Regional/", "MJR")
+    '''
+
+    # Change model status.
+
+    # Record initials of reviewer.
+
+    # If mosaic is bad, delete mosaic and regional models, revert to "editing started"
+
+    # Email the reviewer to let them know that the species ready for review.
+    
+    # Email when done
+
+    print("Step 6 -- No code yet")
+
+def Publish_7(strUC, initials, regionalDir, mosaicDir, storageDir, outputDir):
+    '''
+    (string, string, string, string, string, string) -> multiple processes.
+
+    Changes status of model to "publishing started" in WHRdb, records initials,
+        and .......
+
+    Arguments:
+    strUC -- The path name of the file to publish.
+    initials -- Your initials.
+    regionalDir -- Directory with regional outputs.
+    mosaicDir -- Directory where mosaiced output is saved.
+    storageDir -- Directory for "deep storage".
+    outputDir -- Directory of the "Null123" outputs.
+    
+    Example:
+    >>> Publish_7("mSEWEx", "NMT", "T:/Output")
+    '''
+
+    # Change model status.
+
+    # Record initials of reviewer.
+
+    # Copy regional models to any long term storage if desired, then delete
+
+    # Copy file to null123 directory
+
+    # Create 0123 version
+
+    # Create 01 season versions
+
+    # Publish to ScienceBase with metadata.
+
+    # Create web services?
+
+    # Is reprojection required?
+
+    # Update model version and archive model in a dictionary of model dictionaries
+
+    # Update range map version and archive table.
+
+    # Email when done
+
+    print("Step 7 -- No code yet")

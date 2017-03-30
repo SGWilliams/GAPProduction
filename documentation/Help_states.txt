@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.states in gapage
+Python Library Documentation: module gapproduction.states in gapproduction
 
 NAME
-    gapage.states
+    gapproduction.states
 
 FILE
-    t:\scripts\gapage\gapage\states.py
+    t:\scripts\gapproduction\gapproduction\states.py
 
 DESCRIPTION
     # A module for accessing state boundaries datasets.

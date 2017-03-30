@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.spatial in gapage
+Python Library Documentation: module gapproduction.spatial in gapproduction
 
 NAME
-    gapage.spatial
+    gapproduction.spatial
 
 FILE
-    t:\scripts\gapage\gapage\spatial.py
+    t:\scripts\gapproduction\gapproduction\spatial.py
 
 DESCRIPTION
     ## Module to process and calculate explicitly spatial data.

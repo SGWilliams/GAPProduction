@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.dictionaries in gapage
+Python Library Documentation: module gapproduction.dictionaries in gapproduction
 
 NAME
-    gapage.dictionaries
+    gapproduction.dictionaries
 
 FILE
-    t:\scripts\gapage\gapage\dictionaries.py
+    t:\scripts\gapproduction\gapproduction\dictionaries.py
 
 DESCRIPTION
     ## This module stores dictionaries commonly used in processing GAP data as well

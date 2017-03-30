@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.docs in gapage
+Python Library Documentation: module gapproduction.docs in gapproduction
 
 NAME
-    gapage.docs
+    gapproduction.docs
 
 FILE
-    t:\scripts\gapage\gapage\docs.py
+    t:\scripts\gapproduction\gapproduction\docs.py
 
 DESCRIPTION
     ## This module facilitates common tasks for searching/manipulating text files.

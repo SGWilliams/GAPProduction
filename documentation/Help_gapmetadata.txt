@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.gapmetadata in gapage
+Python Library Documentation: module gapproduction.gapmetadata in gapproduction
 
 NAME
-    gapage.gapmetadata
+    gapproduction.gapmetadata
 
 FILE
-    t:\scripts\gapage\gapage\gapmetadata.py
+    t:\scripts\gapproduction\gapproduction\gapmetadata.py
 
 DESCRIPTION
     ## Module to create species-specific metadata for a range table or model raster.
@@ -14,7 +14,9 @@ DESCRIPTION
     ## Run() -- Creates and processes the metadata for the input species and file.
     ##
     ##
+    ## SpeciesInputs() -- Gives a list of input data layers used by a species
     ##
+    ## ScienceBaseCSV() -- Creates a csv file for use in uploading metadata to ScienceBase
 
 FUNCTIONS
     Run(sp, fPath)
@@ -32,5 +34,49 @@ FUNCTIONS
         Example:
         >>> import gapmetadata as gm
         >>> gm.Run('aadsax', 'des_apa_adsax')
+    
+    ScienceBaseCSV(species, publicationDate, csvName)
+        (list, integer, string) -> pandas DataFrame and saved CSV file.
+        
+        Creates a dataframe and csv file with rows for species in your list and columns for
+            each of the pieces of information needed when updating metadata records on 
+            ScienceBase for habitat maps.
+        
+        Notes:
+        The "end_date" column pulls from tblUpdateDateTime, but it's unclear how this table
+            is and was populated.  Many entries are blank, so this function uses 2013 if the
+            model editing field is blank.
+        
+        Arguments:
+        species -- Python list of GAP species codes to process
+        publicationDate -- A year to use as the publication date
+        csvName -- Path and name of where to save csv file
+        
+        Example:
+        >>>DF = MakeScienceBaseCSV(["aAMBUx", "bCOHAx", "bAMROx", "bCOMEx"], 
+                                   publicationDate = 2017, csvName="T:/temp/SBTable.csv")
+    
+    SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True, migratory=False)
+        (string) -> list
+        
+        Returns a list of input layers used by one of a species' regional-seasonal models.
+            Developed for use with updating metadata on ScienceBase.
+        
+        Arguments:
+        strUC -- A gap species code like "bAMROx".
+        season -- The season for which you wish to return models. By default, all
+            seasons will be assessed. You may enter: 's' or 'summer' for summer
+            models; 'w' or 'winter' for winter models; 'y', 'year', 'yearround', or
+            'year-round' for year-round models.
+        publishedOnly -- Optional boolean parameter to include only published models.
+            By default, it is set as False, which assesses models in all stages.
+        conusOnly -- Optional boolean parameter to include only models within CONUS.
+            By default, it is set as True, which assesses only CONUS models.
+        migratory -- Optional boolean parameter to include migratory models.
+            By default, it is set as False, which skips migratory models.
+        
+        Example:
+        >>>inputs = SpeciesInputs("bAMREx")
+        ['hydrology', 'elevation']
 
 

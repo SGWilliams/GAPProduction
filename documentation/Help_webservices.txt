@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.webservices in gapage
+Python Library Documentation: module gapproduction.webservices in gapproduction
 
 NAME
-    gapage.webservices
+    gapproduction.webservices
 
 FILE
-    t:\scripts\gapage\gapage\webservices.py
+    t:\scripts\gapproduction\gapproduction\webservices.py
 
 DESCRIPTION
     ## Module for retrieving information about ArcGIS web services

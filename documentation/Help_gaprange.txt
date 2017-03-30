@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.gaprange in gapage
+Python Library Documentation: module gapproduction.gaprange in gapproduction
 
 NAME
-    gapage.gaprange
+    gapproduction.gaprange
 
 FILE
-    t:\scripts\gapage\gapage\gaprange.py
+    t:\scripts\gapproduction\gapproduction\gaprange.py
 
 DESCRIPTION
     ## This module facilitates common tasks involving GAP ranges.
@@ -24,6 +24,8 @@ DESCRIPTION
     ##      species' range
     ##
     ## ListIntroducedSpp() -- Gets a list of species that have any introduced range
+    ##
+    ## PublishRanges() -- Publish ranges for a list of species
     ##
 
 FUNCTIONS
@@ -57,6 +59,19 @@ FUNCTIONS
             By default, it is set to True, meaning that species with even a single
             introduced HUC among any number of native or reintroduced HUCs will be
             returned.
+    
+    PublishRanges(spp)
+        (list) -> insertion of records into table
+        
+        "Publishes" ranges for the species in the list provided.  Records for each species
+            are deleted from published table and deep storage, then are replaced with new
+            records from the temporary range tables.
+            
+        Arguments:
+        spp -- a python list of species codes (strUC) to process.
+        
+        Example:
+        >>> PublishRanges(["aadsax", "aamtox"])
     
     RangeShp(sp, outDir=r'T:\Scripts', dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True)
         (string, string, [boolean], [string], [boolean], [boolean], [boolean]) -> string
@@ -106,6 +121,6 @@ FUNCTIONS
         >>> RangeTable('mNAROx', 'My_Range_Folder')
 
 DATA
-    HUCs = 'P:/Proj3/USGAP/Vert/Model/data/Hucs.shp'
+    HUCs = 'P:/Proj3/USGAP/Vert/Model/data/HucRng/Hucs.shp'
 
 

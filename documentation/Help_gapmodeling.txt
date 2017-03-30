@@ -1,10 +1,10 @@
-Python Library Documentation: module gapage.gapmodeling in gapage
+Python Library Documentation: module gapproduction.gapmodeling in gapproduction
 
 NAME
-    gapage.gapmodeling
+    gapproduction.gapmodeling
 
 FILE
-    t:\scripts\gapage\gapage\gapmodeling.py
+    t:\scripts\gapproduction\gapproduction\gapmodeling.py
 
 DESCRIPTION
     ## Module to query/manipulate model parameters within the WHRdb.
@@ -52,6 +52,9 @@ DESCRIPTION
     ##
     ## ExcludeModels() -- Returns a list of models that exist in the WHRDb but are designated
     ##      for exclusion in the ysnInclude field.
+    ##
+    ## ModelAsDictionary() -- Returns model variables as a dictionary.
+    ##
 
 FUNCTIONS
     EcoSystemModels(ecologicalSystem, season='all', contiguousOnly=False)
@@ -124,11 +127,38 @@ FUNCTIONS
         Example:
         speciesMUs = loadSpeciesMapUnits("mSEWEn", Range=False)
     
-    ModelCodes(spCode, season='all', contiguousOnly=False)
-        (string, string, [boolean]) -> tuple
+    ModelAsDictionary(model, muCodes=True)
+        (string, boolean) -> dictionary
+        
+        Returns a dictionary that includes a key for each of a regional model's variables.
+            NOTE: Only works for conus models.
+        
+        Arguments:
+        model -- a model code (e.g., "bcoyex-s6")
+        muCodes -- specifies whether to return ecological system names or codes. Defaults
+            to true, which returns codes and takes a little longer to run.
+        
+        Dictionary keys -- ['intIntoBuffFW', 'ScientificName', 'ysnHydroWV', 'intAuxBuff',
+                            'strForIntBuffer', 'ysnHandModel', 'intIntoBuffOW', 'Season',
+                            'intElevMax', 'PrimEcoSys', 'AuxEcoSys', 'SpeciesCode',
+                            'intIntoBuffWV', 'cbxContPatch', 'ysnUrbanExclude', 'intFromBuffFW',
+                            'intElevMin', 'ysnHydroOW', 'Region', 'CommonName',
+                            'ysnUrbanInclude', 'strUseForInt', 'intEdgeEcoWidth',
+                            'intFromBuffWV', 'strStreamVel', 'strSalinity', 'strEdgeType',
+                            'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW']
+        
+        Example:
+        modelDictionary = ModelAsDictionary(model="mSEWEx-y1", muCodes=False)
+    
+    ModelCodes(spCode, season='all', publishedOnly=False, conusOnly=True, migratory=False)
+        (string, string, [boolean], [boolean], [boolean]) -> tuple
         
         Retrieves list of models for the given species. Only includes models
         for which ysnInclude is True; omits models with region code 0
+        
+        Notes:
+        This is pulling from two different tables in WHRdb.  The code could probably be 
+            a little more succinct if a join were specified in the sql query passed.
         
         Arguments:
         spCode -- The species' unique GAP ID
@@ -136,10 +166,12 @@ FUNCTIONS
             seasons will be retrieved. You may enter: 's' or 'summer' for summer
             models; 'w' or 'winter' for winter models; 'y', 'year', 'yearround', or
             'year-round' for year-round models.
-        contiguousOnly -- An optional, boolean parameter, indicating whether you
-            wish to return codes only for models within the contiguous U.S. By
-            default, it is set to False, which means that all model codes will be
-            returned, regardless of their region.
+        publishedOnly -- Optional boolean parameter to include only published models.
+            By default, it is set as False, which returns all models.
+        conusOnly -- Optional boolean parameter to include only models within CONUS.
+            By default, it is set as True, which returns only CONUS models.
+        migratory -- Optional boolean parameter to include migratory models.
+            By default, it is set as False, which excludes migratory models.
         
         Example:
         >>> ModelCodes('rGLSNx')
@@ -309,5 +341,32 @@ FUNCTIONS
             wish to examine only models within the contiguous U.S. By default, it is
             set to True, which means that only models within the conterminous U.S.
             will be examined.
+    
+    SpReferences(sp)
+        (string) -> pandas dataframe
+        
+        Builds and returns a dataframe containing citations/references for the 
+            species that you gave.  It combines references associated with any of
+            the species models' published, conus, and non-migratory models.
+        
+        Argument:
+        sp -- A species code (strUC).
+        
+        Example:
+        >>>df = SpReferences("bAMROx")
+        >>>df.to_csv("R:/RobinRefs.csv")
+    
+    SppHabText(spp)
+        (list) -> pandas dataframe
+        
+        This function queries the WHRDb for a species' habitat
+            description text and populates a table with the
+            text for all species provided in the list.
+            
+        Arguments:
+        spp -- Python list of unique species codes (strUC)
+            
+        Example: 
+        >>>dfHab = SppHabText(spp=["mSEWEx", "bAMROx"])
 
 
