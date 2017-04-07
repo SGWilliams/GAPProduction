@@ -1117,7 +1117,7 @@ def RunModel(modelCode, regionalDir, year=2011):
     '''
     # Use year to locate directories for data
 
-    print("No code yet")
+    print("RunModel - No code yet")
 
 
 def StartEdit_1(modelCode, initials):
@@ -1166,7 +1166,7 @@ def EndEdit_2(modelCode, initials):
     print("Step 2 -- No code yet")
 
 
-def Mosaic_3(rasters, initials, outDir, overwrite=True):
+def Mosaic_3(rasters, initials, mosaicDir, overwrite=True):
     '''
     (list, string, string, [Boolean]) -> raster object, saved raster
 
@@ -1175,7 +1175,7 @@ def Mosaic_3(rasters, initials, outDir, overwrite=True):
     Arguments:
     modelCodes -- List of species-region-season codes to mosaic.
     initials -- Your initials.
-    outDir -- Where to save the mosaiced models.
+    mosaicDir -- Where to save the mosaiced models.
     overwrite -- True/False whether to overwrite any existing mosaic.
 
     Example:
@@ -1198,9 +1198,11 @@ def Mosaic_3(rasters, initials, outDir, overwrite=True):
     print("Step 3 -- No code yet")
 
 
-def VerifyMosaic_4(strUC, initials, suitable=True, mosaicDir, regionalDir, reviewerInitials):
+def VerifyMosaic_4(strUC, initials, mosaicDir, regionalDir, reviewerInitials, 
+                   suitable=True):
     '''
-    (string, string, [Boolean], string, string, string) -> changes to WHRdb, email sent to reviewer
+    (string, string, [Boolean], string, string, string) -> changes to WHRdb, email 
+                                                            sent to reviewer
 
     Changes status of model to "mosaicing complete" in WHRdb and notifies the
         reviwer that it is complete and ready for review.
@@ -1251,7 +1253,7 @@ def StartReview_5(strUC, initials):
     print("Step 5 -- No code yet")
 
 
-def EndReview_6(strUC, initials, suitable=True, mosaicDir, regionalDir, modelerInitials):
+def EndReview_6(strUC, initials, mosaicDir, regionalDir, modelerInitials, suitable=True, ):
     '''
     (string, string, [boolean], string, string, string) -> changes to WHRdb
 
