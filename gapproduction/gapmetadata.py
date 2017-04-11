@@ -125,7 +125,7 @@ def ScienceBaseCSV(species, publicationDate, csvName):
                                                         "TOBEDETERMINED")
         DF0.loc[sp, "place_keywords"] = "United States" 
         DF0.loc[sp, "theme_keywords"] = "{1}, {0}".format(nameCom, nameSci)
-        DF0.loc[sp, "reviewers"] = gapdb.Who(sp)
+        DF0.loc[sp, "modeler"] = gapdb.Who(sp)
         DF0.loc[sp, "NatureServe_element_code"] = gapdb.Crosswalk(sp)[1]
         DF0.loc[sp, "TSN_code"] = gapdb.Crosswalk(sp)[2]
         DF0.loc[sp, "EGT_ID"] = gapdb.Crosswalk(sp)[3]

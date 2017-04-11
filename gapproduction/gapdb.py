@@ -1325,7 +1325,7 @@ def ProcessDate(spCode, x = 'Model', y = 'Edited', seconds=False):
 
 #######################################
 ##### Function to return the name of a person who worked on a species.
-def Who(spCode, action="reviewed"):
+def Who(spCode, action="edited"):
     '''
     (string, action) -> string
     
