@@ -55,8 +55,8 @@ def ExcludeModels():
     '''
     (None) -> tuple
 
-    Retrieves tuple of models that are designated for exclusion in tblAllSpecies.ysnInclude in the 
-    WHRDb.
+    Retrieves tuple of models that are designated for exclusion in 
+    tblAllSpecies.ysnInclude in the WHRDb.
     '''
 
     # Get a cursor and connection to WHR database
