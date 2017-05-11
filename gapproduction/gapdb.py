@@ -254,6 +254,26 @@ def ConnectWHR(uid=gapageconfig.uid, pwd=gapageconfig.password,
             """.format(server, uid, pwd, trusted)
 
     return ConnectToDB(whrConStr)
+    
+    
+#######################################
+##### Function to connect to the WHRDB
+def ConnectAnalyticDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
+               server=gapageconfig.server, trusted=gapageconfig.trusted):
+    '''
+    Returns a cursor and connection within the Analytic Database.
+    '''
+    # AnalyticDB connection parameters:
+    analysisConStr = """DRIVER=SQL Server Native Client 11.0;
+            SERVER={0};
+            UID={1};
+            PWD={2};
+            DATABASE=GAP_AnalyticDB;
+            TRUSTED_CONNECTION={3};
+            APP=gapage;
+            """.format(server, uid, pwd, trusted)
+
+    return ConnectToDB(analysisConStr)
 
 
 #######################################################################
