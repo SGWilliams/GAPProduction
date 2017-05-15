@@ -630,6 +630,35 @@ def __SpRegions(spShp, season, regions):
     except:
         print("May not have been able to load arcpy")
 
+
+def ListCONUSEndemics():
+    '''
+    () -> list
+
+    Gets a list of GAP species codes for all species/subspecies that are endemic to CONUS.
+
+    Arguments:
+
+    '''
+    
+    qry = '''
+    SELECT ysnCONUSEndemic, strUC
+    FROM tblConservationConcern
+    WHERE tblConservationConcern.ysnCONUSEndemic = 1
+    '''
+
+    # Connect to the database
+    Cursor, Conn = gapdb.ConnectWHR()
+    # Get the range table for the species
+    sppEnd = Cursor.execute(qry).fetchall()
+    sppEnd = [i[1] for i in sppEnd]
+
+    # Close the database connection
+    Conn.close()
+
+    return sppEnd
+
+
 def ListIntroducedSpp(anyIntroducedHUCs=True):
     '''
     () -> list
