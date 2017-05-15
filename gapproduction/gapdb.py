@@ -179,7 +179,7 @@
 #######################################
 ##### Importing other modules and setting global variables
 
-import pyodbc, gapageconfig, tables, sys
+import pyodbc, gapconfig, tables, sys
 from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict
 
 
@@ -218,8 +218,8 @@ def ConnectToDB(connectionStr):
 
 #######################################
 ##### Connect to the Species Database
-def ConnectSppDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
-                 server=gapageconfig.server, trusted=gapageconfig.trusted):
+def ConnectSppDB(uid=gapconfig.uid, pwd=gapconfig.password,
+                 server=gapconfig.server, trusted=gapconfig.trusted):
     '''
     Returns a cursor and connection within the GAP species database.
     '''
@@ -238,8 +238,8 @@ def ConnectSppDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
 
 #######################################
 ##### Function to connect to the WHRDB
-def ConnectWHR(uid=gapageconfig.uid, pwd=gapageconfig.password,
-               server=gapageconfig.server, trusted=gapageconfig.trusted):
+def ConnectWHR(uid=gapconfig.uid, pwd=gapconfig.password,
+               server=gapconfig.server, trusted=gapconfig.trusted):
     '''
     Returns a cursor and connection within the GAP WHRdb.
     '''
@@ -258,8 +258,8 @@ def ConnectWHR(uid=gapageconfig.uid, pwd=gapageconfig.password,
     
 #######################################
 ##### Function to connect to the WHRDB
-def ConnectAnalyticDB(uid=gapageconfig.uid, pwd=gapageconfig.password,
-               server=gapageconfig.server, trusted=gapageconfig.trusted):
+def ConnectAnalyticDB(uid=gapconfig.uid, pwd=gapconfig.password,
+               server=gapconfig.server, trusted=gapconfig.trusted):
     '''
     Returns a cursor and connection within the Analytic Database.
     '''

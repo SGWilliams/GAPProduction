@@ -6,7 +6,7 @@
 ##
 ##
 
-import os, email, smtplib, collections, gapageconfig
+import os, email, smtplib, collections, gapconfig
 from email.mime.text import MIMEText
 from email.MIMEMultipart import MIMEMultipart
 
@@ -16,10 +16,10 @@ class EmailAccount:
     A class for objects representing the GAP email account.
     '''
     def __init__(self):
-        self.address = gapageconfig.emailAddress
-        self.pwd = gapageconfig.emailPwd
-        self.accountServer = gapageconfig.emailAccountServer
-        self.defaultToAddress = gapageconfig.emailDefaultToAddress
+        self.address = gapconfig.emailAddress
+        self.pwd = gapconfig.emailPwd
+        self.accountServer = gapconfig.emailAccountServer
+        self.defaultToAddress = gapconfig.emailDefaultToAddress
 
 
 class EmailObject:

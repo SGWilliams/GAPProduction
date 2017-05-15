@@ -5,7 +5,7 @@
 # ProcessRichness() -- Calculate a richness raster from the passed species
 #
 #
-import gapageconfig
+import gapconfig
 
 def ProcessRichness(spp, groupName, outLoc, modelDir, season, interval_size, log, expand=False):    
     '''
@@ -54,7 +54,7 @@ def ProcessRichness(spp, groupName, outLoc, modelDir, season, interval_size, log
     arcpy.env.overwriteOutput=True
     arcpy.env.extent = 'MAXOF'
     arcpy.env.pyramid = 'NONE'
-    arcpy.env.snapRaster = gapageconfig.snap_raster
+    arcpy.env.snapRaster = gapconfig.snap_raster
     starttime = datetime.datetime.now()      
     
     # Maximum number of species to process at once
@@ -230,7 +230,7 @@ def ProcessRichness(spp, groupName, outLoc, modelDir, season, interval_size, log
             ###########################################################################
             try:
                 if expand == True:
-                    tempRast = arcpy.sa.CellStatistics([tempRast, gapageconfig.CONUS_extent], 
+                    tempRast = arcpy.sa.CellStatistics([tempRast, gapconfig.CONUS_extent], 
                                                         "SUM", "DATA")
             except Exception as e:
                 __Log('ERROR expanding reclassed raster - {0}'.format(e))

@@ -52,8 +52,8 @@ def GetStatesShp(includeMarine=True):
         True, meaning that all boundaries will be returned.
     '''
     # Find the path to the data directory
-    import os, gapageconfig
-    dd = gapageconfig.data_directory
+    import os, gapconfig
+    dd = gapconfig.data_directory
     # Select the proper file based on whether use wishes to include marine
     # territory
     if includeMarine:

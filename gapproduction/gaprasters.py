@@ -33,7 +33,7 @@
 ## 
 ## CheckRasterProperties() -- Checks the properties of species model raster.
 
-import os, gapageconfig
+import os, gapconfig
 
 
 def CheckRasterProperties(rasters):
@@ -86,8 +86,8 @@ def CheckRasterProperties(rasters):
             "WrongMaximum":WrongMaximum}
 
 
-def CheckModelExtents(sp, workDir, threshold, modelDir=gapageconfig.output_location, 
-                      hucTable=gapageconfig.HUC_Extents, saveTables=False):
+def CheckModelExtents(sp, workDir, threshold, modelDir=gapconfig.output_location, 
+                      hucTable=gapconfig.HUC_Extents, saveTables=False):
     '''
     (list, string, int, string, string, boolean) -> dictionary, list
     
@@ -262,8 +262,8 @@ def GetSnapGrid():
 
     Returns the path to a valid GAP snap raster.
     '''
-    import gapageconfig
-    return gapageconfig.snap_raster
+    import gapconfig
+    return gapconfig.snap_raster
 
 
 def SpModel(sp):
@@ -283,11 +283,11 @@ def SpModel(sp):
     False
     '''
     try:
-        import arcpy, gapageconfig
+        import arcpy, gapconfig
         sp = sp.lower()
         try:
             # Root directory to search
-            outputDir = gapageconfig.output_location
+            outputDir = gapconfig.output_location
             rast = outputDir + "/" + sp
             if arcpy.Exists(rast):
                 return rast

@@ -20,14 +20,14 @@
 ##
 
 
-import os, gapageconfig, gapdb, dictionaries, docs
+import os, gapconfig, gapdb, dictionaries, docs
 import arcpy
 arcpy.CheckOutExtension("Spatial")
 arcpy.env.pyramid = "NONE"
 arcpy.env.overwriteOutput = "TRUE"
 arcpy.env.qualifiedFieldNames = False
 __headingsList = ['Origin', 'Presence', 'Repro', 'Season']
-HUCs = gapageconfig.hucs
+HUCs = gapconfig.hucs
 
 #######################################
 ##### Function for publishing ranges within the species database
@@ -302,7 +302,7 @@ def __CreateRange(sp, rTable, outDir):
     
         try:
             # Search for a nationwide HUC layer
-            shpHUCs = gapageconfig.hucs
+            shpHUCs = gapconfig.hucs
             if not shpHUCs:
                 raise Exception('A national HUCs shapefile could not be located.')
     
@@ -509,7 +509,7 @@ def EcoSysInRange(sp, season=1, regions=[]):
         will determine the regions in which the species occurs, and it will
         process all relevant regions.
     '''
-    tDir = gapageconfig.temp_directory
+    tDir = gapconfig.temp_directory
     # If the temp directory doesn't exist, create it
     if os.path.exists(tDir) is False:
         os.makedirs(tDir)
@@ -598,7 +598,7 @@ def __SpRegions(spShp, season, regions):
             spLyr = arcpy.MakeFeatureLayer_management(spShp, 'spLayer', wc)
     
             # Find the modeling regions shapefile
-            regionShp = gapageconfig.regions_shapefile
+            regionShp = gapconfig.regions_shapefile
     
             while arcpy.Exists(regionShp) is False:
                 regionShp = raw_input("Hey, I can't find the modeling regions shapefile. I'm looking for it at " +
@@ -617,7 +617,7 @@ def __SpRegions(spShp, season, regions):
             del row, rows
     
         # The directory where the land cover rasters are stored
-        lcDir = gapageconfig.land_cover
+        lcDir = gapconfig.land_cover
         while os.path.exists(lcDir) is False:
             lcDir = raw_input("The directory containing the land cover rasters is not found at \n" +
                                     lcDir + ".\nPlease enter the full path to the directory: ")
@@ -636,9 +636,6 @@ def ListCONUSEndemics():
     () -> list
 
     Gets a list of GAP species codes for all species/subspecies that are endemic to CONUS.
-
-    Arguments:
-
     '''
     
     qry = '''
@@ -657,8 +654,7 @@ def ListCONUSEndemics():
     Conn.close()
 
     return sppEnd
-
-
+    
 def ListIntroducedSpp(anyIntroducedHUCs=True):
     '''
     () -> list

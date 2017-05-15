@@ -2,7 +2,7 @@
 '''
 This a place to put functions that are in development.
 '''
-import gapageconfig, gapdb, dictionaries
+import gapconfig, gapdb, dictionaries
 
 def RangeTable_NEW(sp, outDir, state=False, includeMigratory=True, includeHistoric=True):
     '''
@@ -142,10 +142,10 @@ def ReclassLandCover(MUlist, reclassTo, keyword, workDir):
         arcpy.CheckOutExtension("Spatial")
         
         #Some environment settings  
-        LCLoc = gapageconfig.land_cover + "/"
+        LCLoc = gapconfig.land_cover + "/"
         arcpy.env.overwriteOutput = True
         arcpy.env.cellSize = "30"
-        arcpy.env.snapraster = gapageconfig.snap_raster
+        arcpy.env.snapraster = gapconfig.snap_raster
         
         #Get list of regional land covers to reclassify, reset workspace to workdir.
         arcpy.env.workspace = LCLoc

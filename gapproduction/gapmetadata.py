@@ -9,7 +9,7 @@
 ##
 ## ScienceBaseCSV() -- Creates a csv file for use in uploading metadata to ScienceBase
 
-import dictionaries, os, time, gapageconfig
+import dictionaries, os, time, gapconfig
 
 
 def SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True,
@@ -270,7 +270,7 @@ def _Template(x):
     # Get the directory name within which this script is stored
     ##scriptDir = os.path.dirname(__file__)
     
-    mdDir = gapageconfig.meta_templates_dir
+    mdDir = gapconfig.meta_templates_dir
 
     try:
         mdTName = x.lower() + "_metadata_template.xml"
