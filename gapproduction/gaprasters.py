@@ -86,7 +86,7 @@ def CheckRasterProperties(rasters):
             "WrongMaximum":WrongMaximum}
 
 
-def CheckModelExtents(sp, workDir, threshold, modelDir=gapconfig.output_location, 
+def CheckModelExtents(sp, workDir, threshold, modelDir, 
                       hucTable=gapconfig.HUC_Extents, saveTables=False):
     '''
     (list, string, int, string, string, boolean) -> dictionary, list
