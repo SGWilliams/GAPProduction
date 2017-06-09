@@ -1,5 +1,6 @@
 ## This module facilitates common tasks for searching/manipulating text files.
 ##
+
 ##
 ## The public functions are:
 ##
