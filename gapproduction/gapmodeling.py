@@ -709,6 +709,9 @@ def ModelAsDictionary(model, muCodes=True):
     Scientific = gapdb.NameSci(SpeciesCode)
     modelDict["ScientificName"] = Scientific
     
+    Sub = gapdb.NameSubspecies(SpeciesCode)
+    modelDict["SubspeciesName"] = Sub
+    
     # Land Cover Map Units
     if muCodes == True:
         primary, auxiliary = ModelEcoSystems(model)
