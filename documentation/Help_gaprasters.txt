@@ -43,7 +43,7 @@ DESCRIPTION
     ## CheckRasterProperties() -- Checks the properties of species model raster.
 
 FUNCTIONS
-    CheckModelExtents(sp, workDir, threshold, modelDir='P:/Proj3/USGap/Vert/Model/Output/Conus', hucTable='T:/Scripts/GAPage/data/HUC_Extents.txt', saveTables=False)
+    CheckModelExtents(sp, workDir, threshold, modelDir, hucTable='T:/Scripts/GAPProduction/data/HUC_Extents.txt', saveTables=False)
         (list, string, int, string, string, boolean) -> dictionary, list
         
         Checks the extent of a list of species model raster objects against the extents 

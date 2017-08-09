@@ -9,28 +9,6 @@ FILE
 DESCRIPTION
     ## This module facilitates common tasks for searching/manipulating text files.
     ##
-    ##
-    ## The public functions are:
-    ##
-    ## Write() - appends to (default) or overwrites a file with the text of the second
-    ##      argument; creates the file and even the directories, if necessary.
-    ##
-    ## DocReplace() - replaces selected text in a given document; any number of text
-    ##      replacement pairs may be submitted.
-    ##
-    ## GetLines() - returns a list containing the complete text of every line that
-    ##      contains the search text
-    ##
-    ## SearchInFiles() - searches for the given text in the files of the given root
-    ##      directory, including all subdirectories
-    ##
-    ## SearchFilenames() - searches for the given text in the filenames of a given
-    ##      root directory, including all subdirectories
-    ##
-    ## SearchDirectoryNames() -- searches the given text in the directory names of
-    ##      given root directory, including all subdirectories
-    ##
-    ##
 
 FUNCTIONS
     DocReplace(document, *replacePairs)

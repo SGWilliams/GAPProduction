@@ -27,6 +27,9 @@ DESCRIPTION
     ##
     ## PublishRanges() -- Publish ranges for a list of species
     ##
+    ## GetEndemics() -- Get a list (table) of species endemic to a polygon (shapefile)
+    ##
+    ##
 
 FUNCTIONS
     EcoSysInRange(sp, season=1, regions=[])
@@ -45,6 +48,56 @@ FUNCTIONS
             that you wish to be considered in the analysis. By default, the function
             will determine the regions in which the species occurs, and it will
             process all relevant regions.
+    
+    GetEndemics(extentShapefile, shpHucs, workDir, keyword)
+        (string, string, string) -> string & saved csv file.
+                             
+            Use this to create a CSV file of species' (including subspecies)
+        whose ranges are endemic to a specified input AOI shapefile.
+        Generally, the AOI shapefile should be a single polygon. The script
+        uses a select by location function in which 12-digit HUCs are
+        selected that are completely within the AOI shapefile. If there
+        is more than one polygon, the selections will be made within each
+        individual polygon - i.e. there will by multiple selections as
+        opposed to one continuous set of HUCs.
+        The shapefile must have projection and coordinate system that 
+        matches the 12-digit HUC shapefile from which species' ranges are
+        derived.
+        
+        The final CSV file will contain the following fields:
+        Species Code
+        Scientific Name
+        Common Name
+        
+        NOTE: Be careful with this function, finding endemics may be more 
+        difficult than it seems. This obviously does not take into account 
+        species' ranges outside CONUS since GAP ranges are not complete outside
+        the lower 48 (with some AK, HI, PR exceptions). And, obviously again, this
+        does not take into consideration ranges in other countries during
+        different seasons. It would be possible to alter this script to
+        look for seasonal endemism. As currently written, the sql query
+        to get HUC range data includes all seasons and known, possibly,
+        and potentially present ocurrence status.  Also, bear in mind that you
+        may need to take extra caution regarding endemic species that are 
+        distributed up to the edges of oceans.
+        
+        Arguments:
+        extentShapfile -- A designated AOI shapefile with projection and coordinate
+                    system to match the 12-digit HUC range shapefile.
+        shpHucs -- A 12-digit HUC range shapefile.
+        workDir -- Where to save the csv file (KeywordEndemicSpecies.txt)
+        keyword -- Keyword to use in output file name, whatever you want that to be.
+        
+        Example:
+        >> csvPath = GetEndemics(extent="T:/Project/ProjectExtent.shp",
+                                               workDir='T:/Project/',
+                                               shpHUCs="T:/hucs.shp",
+                                               keyword="ThisProject")
+    
+    ListCONUSEndemics()
+        () -> list
+        
+        Gets a list of GAP species codes for all species/subspecies that are endemic to CONUS.
     
     ListIntroducedSpp(anyIntroducedHUCs=True)
         () -> list
@@ -73,7 +126,7 @@ FUNCTIONS
         Example:
         >>> PublishRanges(["aadsax", "aamtox"])
     
-    RangeShp(sp, outDir=r'T:\Scripts', dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True)
+    RangeShp(sp, outDir=r'T:\Scripts\GAPAnalysis\gapanalysis', dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True)
         (string, string, [boolean], [string], [boolean], [boolean], [boolean]) -> string
         
         Creates a shapefile of the species' range and returns the full absolute

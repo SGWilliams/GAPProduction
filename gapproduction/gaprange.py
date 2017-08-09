@@ -19,6 +19,10 @@
 ## PublishRanges() -- Publish ranges for a list of species
 ##
 ## GetEndemics() -- Get a list (table) of species endemic to a polygon (shapefile)
+##
+## SppInAOI() -- Get a list of species occuring in an area of interest (shapefile)
+##
+##
 
 
 import os, gapconfig, gapdb, dictionaries, docs
@@ -231,7 +235,7 @@ class __RangeQuery:
 ##### text format.
 def RangeTable(sp, outDir, state=False, includeMigratory=True, includeHistoric=True):
     '''
-    (string, string, [string]) -> string
+    (string, string, [boolean], [boolean], [boolean]) -> string
 
     Creates a comma-delimited text file of the species' range, with fields indicating
         12-digit HUC, origin, presence, reproductive use, and seasonality. Returns
@@ -766,14 +770,17 @@ def GetEndemics(extentShapefile, shpHucs, workDir, keyword):
     Scientific Name
     Common Name
     
-    NOTE: This obviously does not take into account species' ranges
-    outside CONUS since GAP ranges are not complete outside the lower
-    48 (with some AK, HI, PR exceptions). And, obviously again, this
+    NOTE: Be careful with this function, finding endemics may be more 
+    difficult than it seems. This obviously does not take into account 
+    species' ranges outside CONUS since GAP ranges are not complete outside
+    the lower 48 (with some AK, HI, PR exceptions). And, obviously again, this
     does not take into consideration ranges in other countries during
     different seasons. It would be possible to alter this script to
     look for seasonal endemism. As currently written, the sql query
     to get HUC range data includes all seasons and known, possibly,
-    and potentially present ocurrence status.
+    and potentially present ocurrence status.  Also, bear in mind that you
+    may need to take extra caution regarding endemic species that are 
+    distributed up to the edges of oceans.
     
     Arguments:
     extentShapfile -- A designated AOI shapefile with projection and coordinate
@@ -788,10 +795,7 @@ def GetEndemics(extentShapefile, shpHucs, workDir, keyword):
                                            shpHUCs="T:/hucs.shp",
                                            keyword="ThisProject")
     """
-    import sys, arcpy
-    sys.path.append('T:/Scripts/GAPProduction')
-    import gapproduction as gp
-    
+    import arcpy
     import pandas as pd, datetime
     from datetime import datetime
     starttime = datetime.now()
@@ -936,6 +940,8 @@ def GetEndemics(extentShapefile, shpHucs, workDir, keyword):
         # Export to text file
         outFileName = workDir + keyword + "EndemicSpeciesList.txt"
         dfMaster.to_csv(outFileName)
+        # Return dfMaster
+        return outFileName
     
     # Delete cursors and close db connections
     sppConn.close()
@@ -950,6 +956,126 @@ def GetEndemics(extentShapefile, shpHucs, workDir, keyword):
     print "+"*35
     print "Processing time: " + str(delta)
     print "+"*35
+    print("!!!  BE SURE TO READ THE NOTES IN THE DOCUMENTATION  !!!")
     
-    # Return dfMaster
-    return outFileName
+    
+def SppInAOI(AOIShp, hucShp, workDir, origin, season, reproduction,
+                 presence):
+    '''
+    (string, string, string, string, list, list, list, list) -> list
+    
+    Returns a list of species occurring within the provided polygon.  Runtime
+    is about 3-5 minutes.
+    
+    Arguments:
+    AOIShp -- A shapefile polygon (dissolved) to investigate.  Should have 
+        the same coordinate systems as the huc shapefile.
+    hucShp -- A 12 digit huc shapefile that matches the GAP species database hucs.
+    workDir -- Where to work and save output.
+    origin -- Origin codes to include.
+    season -- Season codes to include.
+    reproduction -- Reproduction codes to include.
+    presence -- Presence codes to include.
+    
+    Example:
+    >>> sppList = SppInPolygon(AOIShp = "T:/Temp/BlueMountains2.shp",
+                               hucShp = config.hucs,
+                               workDir = "T:/Temp/",
+                               origin = [1],
+                               season = [1, 3, 4],
+                               reproduction = [1, 2, 3],
+                               presence = [1, 2, 3])
+    '''    
+    import arcpy
+    arcpy.ResetEnvironments()
+    arcpy.env.overwriteOutput=True
+    arcpy.env.workspace = workDir
+    import pandas as pd
+    
+    ##############################################  Get list of hucs within polygon
+    ###############################################################################
+    print("\nSelecting HUCs completely within the AOI shapefile\n")
+    arcpy.management.MakeFeatureLayer(hucShp, 'HUCs_lyr')
+    arcpy.management.MakeFeatureLayer(AOIShp, 'shp_lyr')
+    arcpy.management.SelectLayerByLocation('HUCs_lyr', 'WITHIN', 'shp_lyr')        #  Is WITHIN the best choice?
+    
+    # Make an empty list to append
+    selHUCsList = []
+    # Get the fields from the input selected HUCs layer
+    fields = arcpy.ListFields('HUCs_lyr')
+    # Create a fieldinfo object
+    fieldinfo = arcpy.FieldInfo()
+    # Use only the HUC12RNG field and set it to fieldinfo
+    for field in fields:
+        if field.name == "HUC12RNG":
+            fieldinfo.addField(field.name, field.name, "VISIBLE", "")
+    # The selected HUCs layer will have fields as set in fieldinfo object
+    arcpy.MakeTableView_management("HUCs_lyr", "selHUCsTV", "", "", fieldinfo)
+    # Loop through the selected HUCs and add them to a list
+    for row in sorted(arcpy.da.SearchCursor('selHUCsTV', ['HUC12RNG'])):
+        selHUCsList.append(row[0])
+    # Make the selected HUCs list a set for comparing with species range HUCs
+    selHUCsSet = set(selHUCsList)
+    
+    #################################################  Get a species list to assess
+    ###############################################################################  
+    print("Comparing species ranges to selected HUCs\n")
+    ## Make WHRdb and Species databse connections
+    whrCursor, whrConn = gapdb.ConnectWHR()
+    sppCursor, sppConn = gapdb.ConnectSppDB()
+    
+    # Build and SQL statement that returns CONUS
+    # full species codes and names that are in the modeled list
+    sql = """SELECT t.strUC, t.strCommonName, t.strScientificName,
+                    t.strsubSciNameText, t.ysnInclude, intRegionCode               
+                    FROM dbo.tblAllSpecies as t
+                    WHERE (t.ysnInclude = 'True') AND t.intRegionCode < 7"""
+    
+    # Pull into a dataframe
+    dfAllSpp = pd.read_sql(sql, whrConn)
+     # Drop the region code and include fields
+    dfAllSpp = dfAllSpp.drop(['intRegionCode','ysnInclude'], axis=1)
+    # Drop duplicates to get unique species codes
+    dfUnique = dfAllSpp.drop_duplicates(subset='strUC', keep='first')
+    
+    ################################  Asses each species' occurence in polygon hucs
+    ###############################################################################  
+    # List to collect species in AOI
+    masterList = []
+    for SC in list(dfUnique.strUC):
+        taxa = dictionaries.taxaDict[SC[0]]
+        
+        # What hucs are species' in?
+        sql = """SELECT t.strHUC12RNG, t.strUC, t.intGapOrigin, t.intGapPres, 
+                    t.intGapRepro, t.intGapSeas 
+                    FROM dbo.tblRanges_""" + taxa + """ as t
+                    WHERE (t.strUC = '""" + str(SC) + """') 
+                    AND t.strHUC12RNG < '190000000000'"""
+        dfRngHUCs = pd.read_sql(sql, sppConn)
+        
+        # Which hucs have acceptable attributes?
+        select={'intGapPres':presence, 'intGapSeas':season, 
+                'intGapOrigin':origin, 'intGapRepro':reproduction}
+        dfS1 = dfRngHUCs[dfRngHUCs[select.keys()].isin(select).all(axis=1)]   
+        
+        # Get the strHUC12RNG column into a set
+        SpeciesSet = set(dfS1[dfS1.columns[0]].tolist())
+        
+        # Compare the species and AOI huc sets to see if there's any overlap.
+        if len(selHUCsSet & SpeciesSet) > 0:
+            print(gapdb.NameCommon(SC))
+            masterList.append(SC)
+        else:
+            pass 
+    
+    if len(masterList) == 0:
+        print "!!!!  There was some sort of problem  !!!!\n"
+    else:
+        # Delete cursors and close db connections
+        sppConn.close()
+        whrConn.close()
+        del sppCursor, sppConn
+        del whrCursor, whrConn
+        
+        return masterList
+    

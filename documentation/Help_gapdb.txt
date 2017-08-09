@@ -227,6 +227,9 @@ FUNCTIONS
         ['OK', 'WY', 'AZ', 'OR', 'SD', 'CA', 'WA', 'ND', 'ID', 'NE', 'CO', 'TX',
         'MT', 'UT', 'NV', 'KS', 'NM']
     
+    ConnectAnalyticDB(uid='', pwd='', server=r'CHUCK\SQL2014', trusted='Yes')
+        Returns a cursor and connection within the Analytic Database.
+    
     ConnectSppDB(uid='', pwd='', server=r'CHUCK\SQL2014', trusted='Yes')
         Returns a cursor and connection within the GAP species database.
     
@@ -733,7 +736,7 @@ FUNCTIONS
             list), meaning that only map units that are unique to the inRegion will
             be returned.
     
-    Who(spCode, action='reviewed')
+    Who(spCode, action='edited')
         (string, action) -> string
         
         Gets the name of the staff member who completed an action of interest.
