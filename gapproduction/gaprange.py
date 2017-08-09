@@ -18,6 +18,7 @@
 ##
 ## PublishRanges() -- Publish ranges for a list of species
 ##
+## GetEndemics() -- Get a list (table) of species endemic to a polygon (shapefile)
 
 
 import os, gapconfig, gapdb, dictionaries, docs
@@ -744,13 +745,211 @@ def ListIntroducedSpp(anyIntroducedHUCs=True):
 
     return sppInt
 
+def GetEndemics(extentShapefile, shpHucs, workDir, keyword):
+    """
+    (string, string, string) -> string & saved csv file.
+                         
+        Use this to create a CSV file of species' (including subspecies)
+    whose ranges are endemic to a specified input AOI shapefile.
+    Generally, the AOI shapefile should be a single polygon. The script
+    uses a select by location function in which 12-digit HUCs are
+    selected that are completely within the AOI shapefile. If there
+    is more than one polygon, the selections will be made within each
+    individual polygon - i.e. there will by multiple selections as
+    opposed to one continuous set of HUCs.
+    The shapefile must have projection and coordinate system that 
+    matches the 12-digit HUC shapefile from which species' ranges are
+    derived.
+    
+    The final CSV file will contain the following fields:
+    Species Code
+    Scientific Name
+    Common Name
+    
+    NOTE: This obviously does not take into account species' ranges
+    outside CONUS since GAP ranges are not complete outside the lower
+    48 (with some AK, HI, PR exceptions). And, obviously again, this
+    does not take into consideration ranges in other countries during
+    different seasons. It would be possible to alter this script to
+    look for seasonal endemism. As currently written, the sql query
+    to get HUC range data includes all seasons and known, possibly,
+    and potentially present ocurrence status.
+    
+    Arguments:
+    extentShapfile -- A designated AOI shapefile with projection and coordinate
+                system to match the 12-digit HUC range shapefile.
+    shpHucs -- A 12-digit HUC range shapefile.
+    workDir -- Where to save the csv file (KeywordEndemicSpecies.txt)
+    keyword -- Keyword to use in output file name, whatever you want that to be.
+    
+    Example:
+    >> csvPath = GetEndemics(extent="T:/Project/ProjectExtent.shp",
+                                           workDir='T:/Project/',
+                                           shpHUCs="T:/hucs.shp",
+                                           keyword="ThisProject")
+    """
+    import sys, arcpy
+    sys.path.append('T:/Scripts/GAPProduction')
+    import gapproduction as gp
+    
+    import pandas as pd, datetime
+    from datetime import datetime
+    starttime = datetime.now()
+    
+    # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    #            ++++ Directory & File Locations ++++
+    arcpy.env.workspace = workDir
 
-#######################################
-##### Main function
-def __main():
-    pass
-
-
-# If this script is run directly, call the main function
-if __name__ == '__main__':
-    __main()
+    # ***************************************************************
+    ''' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        Select HUCs of the CONUS HUC shapefile that are completely within the
+        user defined source layer feature shapefile. Each must be made into a
+        layer prior to using SelectLayerByLocation
+    '''
+    print "\nSelecting HUCs completely within the designated shapefile ....\n"
+    
+    arcpy.MakeFeatureLayer_management(shpHucs, 'HUCs_lyr')
+    arcpy.MakeFeatureLayer_management(extentShapefile, 'shp_lyr')
+    arcpy.SelectLayerByLocation_management('HUCs_lyr', 'COMPLETELY_WITHIN', 'shp_lyr')
+    
+    # Make an empty list to append
+    selHUCsList = []
+    # Get the fields from the input selected HUCs layer
+    fields = arcpy.ListFields('HUCs_lyr')
+    
+    # Create a fieldinfo object
+    fieldinfo = arcpy.FieldInfo()
+    
+    # Use only the HUC12RNG field and set it to fieldinfo
+    for field in fields:
+        if field.name == "HUC12RNG":
+            fieldinfo.addField(field.name, field.name, "VISIBLE", "")
+    
+    # The selected HUCs layer will have fields as set in fieldinfo object
+    arcpy.MakeTableView_management("HUCs_lyr", "selHUCsTV", "", "", fieldinfo)
+    
+    # Loop through the selected HUCs and add them to a list
+    for row in sorted(arcpy.da.SearchCursor('selHUCsTV', ['HUC12RNG'])):
+        selHUCsList.append(row[0])
+    # Make the selected HUCs list a set for comparing with species range HUCs
+    selHUCsSet = set(selHUCsList)
+    
+        
+    ''' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        Get HUC range data from the Species Database
+    '''
+    print "\n++++++++++++++ Comparing species ranges to selected HUCs +++++++++++++++++\n"
+    
+    # Make an empty master dataframe
+    dfMaster = pd.DataFrame()
+    
+    ## Make WHRdb and Species databse connections
+    whrCursor, whrConn = gapdb.ConnectWHR()
+    sppCursor, sppConn = gapdb.ConnectSppDB()
+    
+    # Build and SQL statement that returns CONUS
+    # full species codes and names that are in the modeled list
+    sql = """SELECT t.strUC, t.strCommonName, t.strScientificName,
+                    t.strsubSciNameText, t.ysnInclude, intRegionCode               
+                    FROM dbo.tblAllSpecies as t
+                    WHERE (t.ysnInclude = 'True') AND t.intRegionCode < 7"""
+    
+    # Pull into a dataframe
+    dfAllSpp = pd.read_sql(sql, whrConn)
+     # Drop the region code and include fields
+    dfAllSpp = dfAllSpp.drop(['intRegionCode','ysnInclude'], axis=1)
+    # Drop duplicates to get unique species codes
+    dfUnique = dfAllSpp.drop_duplicates(subset='strUC', keep='first')
+        
+    
+    ''' Loop over the unique species list to calculate each
+        one's range size and percentage
+    '''
+    # Set up an iterator to get row index for dfUSpp dataframe
+    # First, sort and reset the row index in dfUnique dataframe
+    dfSort = dfUnique.sort_values(by='strUC')
+    dfUSpp = dfSort.reset_index(drop=True)
+    i = -1
+    for spp in dfUSpp['strUC']:
+        
+        print "Working on " + spp + " ...."
+        
+        # Add one to the iterartor
+        i += 1
+        # Now, get the scientific name, subspecies name,
+        # common name, and species code based on row index
+        SN = dfUSpp['strScientificName'][i]
+        SSN = dfUSpp['strsubSciNameText'][i]
+        CN = dfUSpp['strCommonName'][i]
+        SC = dfUSpp['strUC'][i]
+        
+        # Get the taxon from the species code
+        if spp[0] == 'a':
+            taxa = 'Amphibians'
+        elif spp[0] == 'b':
+            taxa = 'Birds'
+        elif spp[0] == 'm':
+            taxa = 'Mammals'
+        else:
+            taxa = 'Reptiles'
+            
+        # Build an SQL statement that returns relevant fields in the
+        # appropriate taxa table tblRanges_<taxa> using a species code
+        # Limit the HUC codes to only CONUS - i.e. < 190000000000    
+        
+        sql = """SELECT t.strHUC12RNG, t.strUC, t.intGapOrigin, t.intGapPres, 
+                    t.intGapRepro, t.intGapSeas 
+                    FROM dbo.tblRanges_""" + taxa + """ as t
+                    WHERE (t.strUC = '""" + str(spp) + """') 
+                    AND t.strHUC12RNG < '190000000000'"""
+        
+        dfRngHUCs = pd.read_sql(sql, sppConn)
+        
+        # Select only known, possibly, or potentially present;
+        #             year-round, winter, or summer seasons
+        select={'intGapPres':[1,2,3], 'intGapSeas':[1,3,4]}
+        dfS1 = dfRngHUCs[dfRngHUCs[list(select)].isin(select).all(axis=1)]
+        # Get the strHUC12RNG column into a set
+        dfS1Set = set(dfS1[dfS1.columns[0]].tolist())
+        
+        # Subtract this species' range HUC set from the shapefile's HUC set
+        # to see if the set is empty => all range HUCs for the species would
+        # then be entirely within the shapefile's interior HUCs
+        if len(dfS1Set - selHUCsSet) == 0:
+            print SN, "range is endemic to the input shapefile\n"
+            # Add the species' info to a dataframe
+            dfMaster = dfMaster.append({'Species Code':SC, 
+                                        'Scientific Name':SN,
+                                        'subspecies Name':SSN,
+                                        'Common Name':CN}, ignore_index=True)
+        else:
+            print "Range not endemic to AOI. Moving on to next species...\n"
+    
+    
+    # Check to see if there are any species with their range entirely
+    # within the designated shapefile. If not print message to the screen
+    if len(dfMaster) == 0:
+        print " ========= No species have endemic range within the AOI =========\n"
+    else:
+        # Reorder columns in completed dataframe
+        dfMaster = dfMaster[['Species Code', 'Scientific Name','Common Name']]
+        # Export to text file
+        outFileName = workDir + keyword + "EndemicSpeciesList.txt"
+        dfMaster.to_csv(outFileName)
+    
+    # Delete cursors and close db connections
+    sppConn.close()
+    whrConn.close()
+    del sppCursor, sppConn
+    del whrCursor, whrConn
+    del dfAllSpp, dfUnique, dfSort, dfUSpp
+    del dfS1, dfS1Set
+    
+    endtime = datetime.now()
+    delta = endtime - starttime
+    print "+"*35
+    print "Processing time: " + str(delta)
+    print "+"*35
+    
+    # Return dfMaster
+    return outFileName
