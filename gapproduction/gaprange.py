@@ -997,7 +997,7 @@ def SppInAOI(AOIShp, hucShp, workDir, origin, season, reproduction,
     print("\nSelecting HUCs completely within the AOI shapefile\n")
     arcpy.management.MakeFeatureLayer(hucShp, 'HUCs_lyr')
     arcpy.management.MakeFeatureLayer(AOIShp, 'shp_lyr')
-    arcpy.management.SelectLayerByLocation('HUCs_lyr', 'WITHIN', 'shp_lyr')        #  Is WITHIN the best choice?
+    arcpy.management.SelectLayerByLocation('HUCs_lyr', 'INTERSECT', 'shp_lyr')
     
     # Make an empty list to append
     selHUCsList = []
