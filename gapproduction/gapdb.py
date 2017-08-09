@@ -180,7 +180,7 @@
 ##### Importing other modules and setting global variables
 
 import pyodbc, gapconfig, tables, sys
-from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict
+from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict, staffDict
 
 
 #######################################################################
@@ -1369,9 +1369,7 @@ def Who(spCode, action="edited"):
     # Dictionaries
     actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
               "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
-    staff = {"mjr": "Matthew Rubino", "nmt": "Nathan Tarr", "jjl": "Jeff Lonneker",
-             "tl": "Thomas Laxon", "rta": "Robert Adair", "mjb": "Matthew Rubino",
-             "mbr": "Matthew Rubino", "kb": "Ken Boykin"}
+    staff = staffDict
     # Build a query             
     field = actions[action]
     qry = """SELECT """ + field + """

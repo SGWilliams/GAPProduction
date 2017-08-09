@@ -58,6 +58,8 @@
 ##
 ## rangeCodesDict = A dictionary of dictionaries with a key for each GAP range map 
 ##      attribute and a value that's a dictionary of definitions.
+##
+## staffDict = A dictionary of staff's initials.
 
 stateDict_To_Abbr = {'Alabama':'AL','Alaska':'AK','American Somoa':'AS','Arizona':'AZ',
                      'Arkansas':'AR','California':'CA','Colorado':'CO','Connecticut':'CT',
@@ -165,6 +167,9 @@ RangeCodesDict = {"Presence": {1: "Known/extant", 2: "Possibly present", 3: "Pot
                             5: "Passage migrant or wanderer", 6: "Seasonal permanence uncertain", 
                             7: "Unkown", 8: "Vagrant"}}
                 
+staffDict = {"mjr": "Matthew Rubino", "nmt": "Nathan Tarr", "jjl": "Jeff Lonneker",
+             "tl": "Thomas Laxon", "rta": "Robert Adair", "mjb": "Matthew Rubino",
+             "mbr": "Matthew Rubino", "kb": "Ken Boykin"}     
                 
 ##################################
 #### Function to reverse the keys and values in a dictionary
@@ -347,10 +352,3 @@ def StateFIPSDict(stateKeys=False):
     else:
         return stateFIPS_Code_To_Name
 
-
-
-def __main():
-    pass
-
-if __name__ == '__main__':
-    __main()

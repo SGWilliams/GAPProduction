@@ -29,6 +29,8 @@ DESCRIPTION
     ##
     ## GetEndemics() -- Get a list (table) of species endemic to a polygon (shapefile)
     ##
+    ## SppInAOI() -- Get a list of species occuring in an area of interest (shapefile)
+    ##
     ##
 
 FUNCTIONS
@@ -126,7 +128,7 @@ FUNCTIONS
         Example:
         >>> PublishRanges(["aadsax", "aamtox"])
     
-    RangeShp(sp, outDir=r'T:\Scripts\GAPAnalysis\gapanalysis', dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True)
+    RangeShp(sp, outDir=r'T:\Scripts', dissolve=False, state=False, includeMigratory=True, includeHistoric=True, HUCs=True)
         (string, string, [boolean], [string], [boolean], [boolean], [boolean]) -> string
         
         Creates a shapefile of the species' range and returns the full absolute
@@ -153,7 +155,7 @@ FUNCTIONS
         >>> RangeShp('mNAROx', 'My_ranges')
     
     RangeTable(sp, outDir, state=False, includeMigratory=True, includeHistoric=True)
-        (string, string, [string]) -> string
+        (string, string, [boolean], [boolean], [boolean]) -> string
         
         Creates a comma-delimited text file of the species' range, with fields indicating
             12-digit HUC, origin, presence, reproductive use, and seasonality. Returns
@@ -172,6 +174,31 @@ FUNCTIONS
         
         Example:
         >>> RangeTable('mNAROx', 'My_Range_Folder')
+    
+    SppInAOI(AOIShp, hucShp, workDir, origin, season, reproduction, presence)
+        (string, string, string, string, list, list, list, list) -> list
+        
+        Returns a list of species occurring within the provided polygon.  Runtime
+        is about 3-5 minutes.
+        
+        Arguments:
+        AOIShp -- A shapefile polygon (dissolved) to investigate.  Should have 
+            the same coordinate systems as the huc shapefile.
+        hucShp -- A 12 digit huc shapefile that matches the GAP species database hucs.
+        workDir -- Where to work and save output.
+        origin -- Origin codes to include.
+        season -- Season codes to include.
+        reproduction -- Reproduction codes to include.
+        presence -- Presence codes to include.
+        
+        Example:
+        >>> sppList = SppInPolygon(AOIShp = "T:/Temp/BlueMountains2.shp",
+                                   hucShp = config.hucs,
+                                   workDir = "T:/Temp/",
+                                   origin = [1],
+                                   season = [1, 3, 4],
+                                   reproduction = [1, 2, 3],
+                                   presence = [1, 2, 3])
 
 DATA
     HUCs = 'P:/Proj3/USGAP/Vert/Model/data/HucRng/Hucs.shp'
