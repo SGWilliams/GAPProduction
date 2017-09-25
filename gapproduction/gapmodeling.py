@@ -598,7 +598,8 @@ def ModelEcoSystems(modelCode):
 #######################################
 ##### Get a list of the ecological systems that are selected in the WHRdb for
 ##### any models that match the passed species code
-def SpEcoSystems(spCode, season='all', contiguousOnly=False):
+def SpEcoSystems(spCode, season='all', contiguousOnly=True, 
+                 publishedOnly=False, migratory=False):
     '''
     (string) -> list, list
 
@@ -606,7 +607,7 @@ def SpEcoSystems(spCode, season='all', contiguousOnly=False):
         systems that have been selected as primary habitat in any or all of the
         passed species' models, and the second of which contains those
         ecological systems selected as auxiliary habitat.
-
+    
     Arguments:
     spCode -- The species' GAP code; you can opt to pass either the 6-character
         code or to retrieve systems selected by any or all subspecies/species by
@@ -621,10 +622,18 @@ def SpEcoSystems(spCode, season='all', contiguousOnly=False):
         wish to return codes only for models within the contiguous U.S. By
         default, it is set to False, which means that all model codes will be
         returned, regardless of their region.
+    publishedOnly -- Optional boolean parameter to include only published models.
+        By default, it is set as False, which returns all models.
+    migratory -- Optional boolean parameter to include migratory models.
+        By default, it is set as False, which excludes migratory models.
+    
     '''
+    print("!!!! NOTE -- the publishedOnly option may not be up to date. The appropriate tables need to be checked.")
     try:
         # Get the model codes that match the passed species code
-        models = ModelCodes(spCode, season, contiguousOnly)
+        models = ModelCodes(spCode=spCode, season=season, 
+                            publishedOnly=publishedOnly, 
+                            conusOnly=contiguousOnly, migratory=migratory)
         # Initialize empty lists to store the primary and auxiliary map units
         essP = []
         essA = []

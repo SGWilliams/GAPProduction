@@ -1381,10 +1381,7 @@ def Who(spCode, action="edited"):
     
     # Format result of query
     if result and result[0] != None:
-        if result[0].lower() in staff.keys():
-            name = staff[result[0].lower()]
-        else:
-            name=""
+        name = result[0]
     else:
         name = ""
     
