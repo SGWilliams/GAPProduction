@@ -1,6 +1,8 @@
 # GAPProduction
 A package of python code used for producing and managing GAP wildlife range maps and habitat models.  This package has been used for over 5 years for creating and working with GAP data in the wildlife-habitat relationship and species/range databases.  It includes handy functions to save time performing many tedious tasks and facilitate convenient interaction with the databases through python.  It is for internal use and data development and is not usable to those without permission to access GAP databases.
 
+Help files are available in the "documentation" folder that list and document functions in each of the package's modules.
+
 # Provisional Software Disclaimer
 Under USGS Software Release Policy, any software codes here are considered preliminary, not released officially, and posted to this repo for informal sharing among colleagues.
 
