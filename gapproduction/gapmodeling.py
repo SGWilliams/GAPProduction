@@ -49,6 +49,15 @@
 
 import gapdb
 
+
+#######################################
+##### Dictionary of data layers used in 2001
+layers_2001 = {"Land Cover": "https://doi.org/10.5066/F7959GF5",
+              "Elevation" : "https://doi.org/10.5066/F7959GF5",
+              "Hydrography": "https://doi.org/10.5066/F7959GF5",
+              "ForeEdge" : "https://doi.org/10.5066/F7959GF5"}
+
+
 #######################################
 ##### Function to get a tuple of "exclude models".
 def ExcludeModels():
@@ -138,7 +147,7 @@ def SpReferences(sp):
     refCodes = set([])
     references = {}
     # Get a list of models for the species
-    mods = gapdb.ModelCodes(sp, publishedOnly=True, 
+    mods = ModelCodes(sp, publishedOnly=True, 
                                conusOnly=True, migratory=False)
     # Retrieve the reference codes for each model, collect new ones in the set
     for mod in mods:
