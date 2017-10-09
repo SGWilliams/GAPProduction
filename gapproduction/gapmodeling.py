@@ -47,7 +47,7 @@
 ## ModelAsDictionary() -- Returns model variables as a dictionary.
 ##
 
-import gapdb
+import gapdb, dictionaries
 
 
 #######################################
@@ -745,7 +745,7 @@ def ModelAsDictionary(model, ecolSystem="codes"):
                         'ysnUrbanInclude', 'strUseForInt', 'intEdgeEcoWidth',
                         'intFromBuffWV', 'strStreamVel', 'strSalinity', 'strEdgeType',
                         'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW',
-                        'HandModelComments']
+                        'memHMNotes']
 
     Example:
     modelDictionary = ModelAsDictionary(model="mSEWEx-y1", ecolSystem="both")
@@ -805,11 +805,8 @@ def ModelAsDictionary(model, ecolSystem="codes"):
     modelDict["ysnHandModel"] = ysnHandModel
     
     # Hand Model Comments
-#    WHRCursor, WHRConnection = gp.gapdb.ConnectWHR()
-#    HandModelComments = WHRCursor.execute("""SELECT hab.memSppHabDesc
-#                         FROM dbo.tblTaxa as hab
-#                         WHERE hab.strUC = '{0}'""".format(model)).fetchall()
-#    modelDict["HandModelComments"] = HandModelComments[0][0]
+    memHandModelNotes = __getVariable(model, "memHMNotes")
+    modelDict["memHandModelNotes"] = memHandModelNotes
 
     # Hydrography variables
     ysnHydroFW = __getVariable(model, "ysnHydroFW")
