@@ -724,7 +724,7 @@ def SpEcoSystems(spCode, season='all', contiguousOnly=True,
 ############################################
 ## Get a dictionary version of a model
 ##
-def ModelAsDictionary(model, muCodes=True):
+def ModelAsDictionary(model, ecolSystem="codes"):
     '''
     (string, boolean) -> dictionary
 
@@ -733,8 +733,9 @@ def ModelAsDictionary(model, muCodes=True):
 
     Arguments:
     model -- a model code (e.g., "bcoyex-s6")
-    muCodes -- specifies whether to return ecological system names or codes. Defaults
-        to true, which returns codes and takes a little longer to run.
+    ecolSystem -- specifies whether to return ecological system names, codes, or both.
+        Defaults codes, which returns codes and takes a little longer to run.  Choosing
+        "both" will return a list of tuples (code, name).
 
     Dictionary keys -- ['intIntoBuffFW', 'ScientificName', 'ysnHydroWV', 'intAuxBuff',
                         'strForIntBuffer', 'ysnHandModel', 'intIntoBuffOW', 'Season',
@@ -743,12 +744,13 @@ def ModelAsDictionary(model, muCodes=True):
                         'intElevMin', 'ysnHydroOW', 'Region', 'CommonName',
                         'ysnUrbanInclude', 'strUseForInt', 'intEdgeEcoWidth',
                         'intFromBuffWV', 'strStreamVel', 'strSalinity', 'strEdgeType',
-                        'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW']
+                        'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW',
+                        'HandModelComments']
 
     Example:
-    modelDictionary = ModelAsDictionary(model="mSEWEx-y1", muCodes=False)
+    modelDictionary = ModelAsDictionary(model="mSEWEx-y1", ecolSystem="both")
     '''
-    import dictionaries
+    #import dictionaries
     ################### Create a function to retrieve the desired ancillary variable
     ################################################################################
     def __getVariable(model, variable):
@@ -785,18 +787,29 @@ def ModelAsDictionary(model, muCodes=True):
     modelDict["SubspeciesName"] = Sub
     
     # Land Cover Map Units
-    if muCodes == True:
+    if ecolSystem == "codes":
         primary, auxiliary = ModelEcoSystems(model)
         modelDict["PrimEcoSys"] = gapdb.MUNamesToCodes(primary)
         modelDict["AuxEcoSys"] = gapdb.MUNamesToCodes(auxiliary)
-    else:
+    elif ecolSystem == "names":
         primary, auxiliary = ModelEcoSystems(model)
         modelDict["PrimEcoSys"] = primary
-        modelDict["AuxEcoSys"] = auxiliary 
+        modelDict["AuxEcoSys"] = auxiliary
+    elif ecolSystem == "both":
+        primary, auxiliary = ModelEcoSystems(model)
+        modelDict["PrimEcoSys"] = zip(gapdb.MUNamesToCodes(primary), primary)
+        modelDict["AuxEcoSys"] = zip(gapdb.MUNamesToCodes(auxiliary), auxiliary)
 
     # Hand Model
     ysnHandModel = __getVariable(model, "ysnHandModel")
     modelDict["ysnHandModel"] = ysnHandModel
+    
+    # Hand Model Comments
+#    WHRCursor, WHRConnection = gp.gapdb.ConnectWHR()
+#    HandModelComments = WHRCursor.execute("""SELECT hab.memSppHabDesc
+#                         FROM dbo.tblTaxa as hab
+#                         WHERE hab.strUC = '{0}'""".format(model)).fetchall()
+#    modelDict["HandModelComments"] = HandModelComments[0][0]
 
     # Hydrography variables
     ysnHydroFW = __getVariable(model, "ysnHydroFW")
