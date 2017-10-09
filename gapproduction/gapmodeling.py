@@ -89,11 +89,28 @@ def getHabitatDescription(strUC):
     '''
     WHRCursor, WHRConnection = gapdb.ConnectWHR()
     desc = WHRCursor.execute("""SELECT hab.memSppHabDesc
-                         FROM dbo.tblSppHabDesc as hab
+                         FROM dbo.tblTaxa as hab
                          WHERE hab.strUC = '{0}'""".format(strUC)).fetchall()
     desc = desc[0][0]
     return desc
 
+########################################
+##### Function to get the model comments text for a species.
+def getModelComments(strUC):
+    '''
+    (string) -> string
+    
+    Returns the modeling comments text for a species.
+    
+    Arguments:
+    strUC -- Gap species code
+    '''
+    WHRCursor, WHRConnection = gapdb.ConnectWHR()
+    desc = WHRCursor.execute("""SELECT hab.memSppComments
+                         FROM dbo.tblTaxa as hab
+                         WHERE hab.strUC = '{0}'""".format(strUC)).fetchall()
+    desc = desc[0][0]
+    return desc
 
 ######################################
 ##### Function to get a tuple of "exclude models".
