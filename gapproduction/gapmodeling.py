@@ -786,6 +786,10 @@ def ModelAsDictionary(model, ecolSystem="codes"):
     Sub = gapdb.NameSubspecies(SpeciesCode)
     modelDict["SubspeciesName"] = Sub
     
+    # Who worked on the model
+    modelDict["Modeler"] = gapdb.Who(model, "edited")
+    modelDict["Reviewer"] = gapdb.Who(model, "reviewed")
+    
     # Land Cover Map Units
     if ecolSystem == "codes":
         primary, auxiliary = ModelEcoSystems(model)
