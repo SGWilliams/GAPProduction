@@ -49,7 +49,7 @@ def SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True,
     mods = gapmodeling.ModelCodes(strUC, season, publishedOnly, conusOnly, migratory)
     for mod in mods:
         # Get dictionary version of model
-        mod_dict = gapmodeling.ModelAsDictionary(mod, muCodes=False)
+        mod_dict = gapmodeling.ModelAsDictionary(mod, ecolSystem="names")
         # Check if model is a handmodel, break out if so.
         if mod_dict["ysnHandModel"] == True:
             sp_inputs = [input_dict['ysnHandModel']]

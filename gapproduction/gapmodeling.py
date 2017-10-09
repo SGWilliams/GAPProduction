@@ -46,34 +46,40 @@
 ##
 ## ModelAsDictionary() -- Returns model variables as a dictionary.
 ##
+## getHabitatDescription() -- Returns species' habitat description
+##
+## getModelComments() -- Returns species' model comments
+##
+## layers_2001 -- Dictionary of the 2001 data layers and locations on ScienceBase
+##
+## SpReferences() -- Get a table of references for a species. 
 
 import gapdb, dictionaries
 
-
 #######################################
 ##### Dictionary of data layers used in 2001
-layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/F7959GF5",
-             'strForIntBuffer': "https://doi.org/10.5066/F7959GF5",
-             'intIntoBuffOW': "https://doi.org/10.5066/F7959GF5",
-             'intElevMax' : "https://doi.org/10.5066/F7959GF5",
-             'PrimEcoSys': "https://doi.org/10.5066/F7959GF5",
-             'AuxEcoSys': "https://doi.org/10.5066/F7959GF5",
-             'intIntoBuffWV': "https://doi.org/10.5066/F7959GF5",
-             'intFromBuffFW': "https://doi.org/10.5066/F7959GF5",
-             'intElevMin': "https://doi.org/10.5066/F7959GF5",
-             'ysnHydroOW': "https://doi.org/10.5066/F7959GF5",
-             'Region': "https://doi.org/10.5066/F7959GF5",
-             'ysnUrbanInclude': "https://doi.org/10.5066/F7959GF5",
-             'strUseForInt': "https://doi.org/10.5066/F7959GF5",
-             'intEdgeEcoWidth': "https://doi.org/10.5066/F7959GF5",
-             'intFromBuffWV': "https://doi.org/10.5066/F7959GF5",
-             'strStreamVel': "https://doi.org/10.5066/F7959GF5",
-             'strSalinity': "https://doi.org/10.5066/F7959GF5",
-             'strEdgeType': "https://doi.org/10.5066/F7959GF5",
-             'ysnHydroFW': "https://doi.org/10.5066/F7959GF5",
-             'ysnUrbanExclude': "https://doi.org/10.5066/F7959GF5",
-             'strAvoid': "https://doi.org/10.5066/F7959GF5",
-             'intFromBuffOW': "https://doi.org/10.5066/F7959GF5"}
+layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/????????",
+             'strForIntBuffer': "https://doi.org/10.5066/????????",
+             'intIntoBuffOW': "https://doi.org/10.5066/????????",
+             'intElevMax' : "https://doi.org/10.5066/????????",
+             'PrimEcoSys': "https://doi.org/10.5066/????????",
+             'AuxEcoSys': "https://doi.org/10.5066/????????",
+             'intIntoBuffWV': "https://doi.org/10.5066/????????",
+             'intFromBuffFW': "https://doi.org/10.5066/????????",
+             'intElevMin': "https://doi.org/10.5066/????????",
+             'ysnHydroOW': "https://doi.org/10.5066/????????",
+             'Region': "https://doi.org/10.5066/????????",
+             'ysnUrbanInclude': "https://doi.org/10.5066/????????",
+             'strUseForInt': "https://doi.org/10.5066/????????",
+             'intEdgeEcoWidth': "https://doi.org/10.5066/????????",
+             'intFromBuffWV': "https://doi.org/10.5066/????????",
+             'strStreamVel': "https://doi.org/10.5066/????????",
+             'strSalinity': "https://doi.org/10.5066/????????",
+             'strEdgeType': "https://doi.org/10.5066/????????",
+             'ysnHydroFW': "https://doi.org/10.5066/????????",
+             'ysnUrbanExclude': "https://doi.org/10.5066/????????",
+             'strAvoid': "https://doi.org/10.5066/????????",
+             'intFromBuffOW': "https://doi.org/10.5066/????????"}
 
 
 ########################################
@@ -233,7 +239,6 @@ def SpReferences(sp):
 #######################################
 ##### Function to get a dictionaries of map units used by species.
 try:
-    import arcpy
     def LoadSpeciesMUs(UC, Range=True):
         '''
         (string, boolean) -> dictionary
@@ -787,8 +792,8 @@ def ModelAsDictionary(model, ecolSystem="codes"):
     modelDict["SubspeciesName"] = Sub
     
     # Who worked on the model
-    modelDict["Modeler"] = gapdb.Who(model, "edited")
-    modelDict["Reviewer"] = gapdb.Who(model, "reviewed")
+    modelDict["Modeler"] = gapdb.Who(model, action="edited")
+    modelDict["Reviewer"] = gapdb.Who(model, action="reviewed")
     
     # Land Cover Map Units
     if ecolSystem == "codes":
