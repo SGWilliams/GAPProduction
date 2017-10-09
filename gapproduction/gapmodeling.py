@@ -52,13 +52,50 @@ import gapdb
 
 #######################################
 ##### Dictionary of data layers used in 2001
-layers_2001 = {"Land Cover": "https://doi.org/10.5066/F7959GF5",
-              "Elevation" : "https://doi.org/10.5066/F7959GF5",
-              "Hydrography": "https://doi.org/10.5066/F7959GF5",
-              "ForeEdge" : "https://doi.org/10.5066/F7959GF5"}
+layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/F7959GF5",
+             'strForIntBuffer': "https://doi.org/10.5066/F7959GF5",
+             'intIntoBuffOW': "https://doi.org/10.5066/F7959GF5",
+             'intElevMax' : "https://doi.org/10.5066/F7959GF5",
+             'PrimEcoSys': "https://doi.org/10.5066/F7959GF5",
+             'AuxEcoSys': "https://doi.org/10.5066/F7959GF5",
+             'intIntoBuffWV': "https://doi.org/10.5066/F7959GF5",
+             'intFromBuffFW': "https://doi.org/10.5066/F7959GF5",
+             'intElevMin': "https://doi.org/10.5066/F7959GF5",
+             'ysnHydroOW': "https://doi.org/10.5066/F7959GF5",
+             'Region': "https://doi.org/10.5066/F7959GF5",
+             'ysnUrbanInclude': "https://doi.org/10.5066/F7959GF5",
+             'strUseForInt': "https://doi.org/10.5066/F7959GF5",
+             'intEdgeEcoWidth': "https://doi.org/10.5066/F7959GF5",
+             'intFromBuffWV': "https://doi.org/10.5066/F7959GF5",
+             'strStreamVel': "https://doi.org/10.5066/F7959GF5",
+             'strSalinity': "https://doi.org/10.5066/F7959GF5",
+             'strEdgeType': "https://doi.org/10.5066/F7959GF5",
+             'ysnHydroFW': "https://doi.org/10.5066/F7959GF5",
+             'ysnUrbanExclude': "https://doi.org/10.5066/F7959GF5",
+             'strAvoid': "https://doi.org/10.5066/F7959GF5",
+             'intFromBuffOW': "https://doi.org/10.5066/F7959GF5"}
 
 
-#######################################
+########################################
+##### Function to get the habitat description text for a species.
+def getHabitatDescription(strUC):
+    '''
+    (string) -> string
+    
+    Returns the habitat description text for a species.
+    
+    Arguments:
+    strUC -- Gap species code
+    '''
+    WHRCursor, WHRConnection = gapdb.ConnectWHR()
+    desc = WHRCursor.execute("""SELECT hab.memSppHabDesc
+                         FROM dbo.tblSppHabDesc as hab
+                         WHERE hab.strUC = '{0}'""".format(strUC)).fetchall()
+    desc = desc[0][0]
+    return desc
+
+
+######################################
 ##### Function to get a tuple of "exclude models".
 def ExcludeModels():
     '''
