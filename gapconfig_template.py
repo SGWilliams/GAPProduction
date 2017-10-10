@@ -23,6 +23,9 @@ emailPwd = ""
 emailAccountServer = ""
 emailDefaultToAddress = ""
 
+#Sciencebase credentials
+sbUserName = ""
+
 
 ####################    STUFF YOU DON'T HAVE TO CHANGE  ############################################
 
