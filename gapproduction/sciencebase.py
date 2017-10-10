@@ -25,7 +25,7 @@ def ConnectToSB(username=gapconfig.sbUserName):
     return sb
 
 #### Function to get list of habitat map child items
-def HabitatMapIDs():
+def ListHabitatMapIDs():
     """
     () -> list
     
@@ -55,6 +55,28 @@ def ListUCs():
     >> UCs = ListUCs()
     """
     sb = ConnectToSB()
-    habitatMapIDs = HabitatMapIDs()
+    habitatMapIDs = ListHabitatMapIDs()
     UCs = [sb.get_item(x)["identifiers"][0]["key"] for x in habitatMapIDs[:]]
     return UCs
+
+#### Function to return a species habitat map's science base item ID
+def GetHabMapID(strUC):
+    """
+    (string) -> string
+    
+    Returns the ScienceBase Item ID for the habitat map of the passed
+    species/strUC.
+    
+    Arguments:
+    strUC -- A gap species code ("mSEWEx")
+    
+    Example:
+    >> id = GetHabMapID("bAMROx")
+    """
+    global habMapCollectionItem
+    sb = ConnectToSB()    
+    IDs = sb.get_child_ids(habMapCollectionItem)
+    for ID in IDs:
+        if sb.get_item(ID)["identifiers"][0]["key"] == strUC:
+            return(ID)
+            break
