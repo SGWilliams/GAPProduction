@@ -123,8 +123,7 @@ def ScienceBaseCSV(species, publicationDate, csvName):
         DF0.loc[sp, "reviewer"] = gapdb.Who(sp, "reviewed")
         DF0.loc[sp, "NatureServe_element_code"] = gapdb.Crosswalk(sp)[1]
         DF0.loc[sp, "TSN_code"] = gapdb.Crosswalk(sp)[2]
-        DF0.loc[sp, "EGT_ID"] = gapdb.Crosswalk(sp)[3]
-        DF0.loc[sp, "Global_SEQ_ID"] = gapdb.Crosswalk(sp)[4]
+        DF0.loc[sp, "Global_SEQ_ID"] = gapdb.Crosswalk(sp)[3]
         DF0.loc[sp, "input_data"] = str(SpeciesInputs(sp))
         DF0.loc[sp, "IPDS"] = "IP-082267"
         DF0.loc[sp, "abstract"] = abstract_text.format(nameCom)
