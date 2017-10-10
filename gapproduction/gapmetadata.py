@@ -93,7 +93,7 @@ def ScienceBaseCSV(species, publicationDate, csvName):
     >>>DF = MakeScienceBaseCSV(["aAMBUx", "bCOHAx", "bAMROx", "bCOMEx"], 
                                publicationDate = 2017, csvName="T:/temp/SBTable.csv")    
     '''
-    import pandas as pd, gapdb
+    import pandas as pd, gapdb, sciencebase
     # Intialize a dataframe
     DF0 = pd.DataFrame()
     DF0.index.name = "GAP_code"
@@ -116,7 +116,7 @@ def ScienceBaseCSV(species, publicationDate, csvName):
             DF0.loc[sp, "end_date"] = 2013
         DF0.loc[sp, "publication_date"] = publicationDate
         DF0.loc[sp, "citation"] = citation_text.format(nameCom, nameSci, publicationDate,
-                                                        "TOBEDETERMINED")
+                                                        sciencebase.GetHabMapDOI(sp))
         DF0.loc[sp, "place_keywords"] = "United States" 
         DF0.loc[sp, "theme_keywords"] = "{1}, {0}".format(nameCom, nameSci)
         DF0.loc[sp, "editor"] = gapdb.Who(sp, "edited")
