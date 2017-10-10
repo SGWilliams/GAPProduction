@@ -793,8 +793,8 @@ def ModelAsDictionary(model, ecolSystem="codes"):
     modelDict["SubspeciesName"] = Sub
     
     # Who worked on the model
-    modelDict["Modeler"] = gapdb.Who(model, action="edited")
-    modelDict["Reviewer"] = gapdb.Who(model, action="reviewed")
+    modelDict["Modeler"] = gapdb.Who(SpeciesCode, action="edited")
+    modelDict["Reviewer"] = gapdb.Who(SpeciesCode, action="reviewed")
     
     # Land Cover Map Units
     if ecolSystem == "codes":
