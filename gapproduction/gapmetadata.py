@@ -115,8 +115,8 @@ def ScienceBaseCSV(species, publicationDate, csvName):
         except:
             DF0.loc[sp, "end_date"] = 2013
         DF0.loc[sp, "publication_date"] = publicationDate
-        DF0.loc[sp, "citation"] = citation_text.format(nameCom, nameSci, publicationDate,
-                                                        sciencebase.GetHabMapDOI(sp))
+        DF0.loc[sp, "citation"] = citation_text.format(nameCom, nameSci, publicationDate, "???")
+                                                        #sciencebase.GetHabMapDOI(sp))
         DF0.loc[sp, "place_keywords"] = "United States" 
         DF0.loc[sp, "theme_keywords"] = "{1}, {0}".format(nameCom, nameSci)
         DF0.loc[sp, "editor"] = gapdb.Who(sp, "edited")
