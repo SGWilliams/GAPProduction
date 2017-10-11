@@ -80,8 +80,13 @@ layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/F7JM28J1",
              'ysnHydroFW': "https://doi.org/10.5066/F7JM28J1",
              'ysnUrbanExclude': "https://doi.org/10.5066/F7PC318R",
              'strAvoid': "https://doi.org/10.5066/F7PC318R",
-             'intFromBuffOW': "https://doi.org/10.5066/F7JM28J1"}
-
+             'intFromBuffOW': "https://doi.org/10.5066/F7JM28J1",
+             'Region': "https://doi.org/10.5066/F77H1HGT",
+             
+             'intSlopeMin': "https://doi.org/10.5066/F75D8QQF",
+             'intSlopeMax': "https://doi.org/10.5066/F75D8QQF",
+             'hucs': "https://doi.org/10.5066/F7DZ0754",
+             'intPercentCanopy': "https://doi.org/10.5066/F7DZ0754"}
 
 ########################################
 ##### Function to get the habitat description text for a species.
@@ -893,6 +898,17 @@ def ModelAsDictionary(model, ecolSystem="codes"):
 
     intElevMax = __getVariable(model, "intElevMax")
     modelDict["intElevMax"] = intElevMax
+    
+    # Slope variables
+    intSlopeMin = __getVariable(model, "intSlopeMin")
+    modelDict["intSlopeMin"] = intSlopeMin
+
+    intSlopeMax = __getVariable(model, "intSlopeMax")
+    modelDict["intSlopeMax"] = intSlopeMax
+    
+    # Slope variables
+    intPercentCanopy = __getVariable(model, "intPercentCanopy")
+    modelDict["intPercentCanopy"] = intPercentCanopy
 
     return modelDict
 
