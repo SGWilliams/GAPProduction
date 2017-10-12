@@ -803,18 +803,40 @@ def ModelAsDictionary(model, ecolSystem="codes"):
     
     # Land Cover Map Units
     if ecolSystem == "codes":
-        primary, auxiliary = ModelEcoSystems(model)
-        modelDict["PrimEcoSys"] = gapdb.MUNamesToCodes(primary)
-        modelDict["AuxEcoSys"] = gapdb.MUNamesToCodes(auxiliary)
+        cursor, conn = gapdb.ConnectWHR()
+        PrimEcoSys = cursor.execute("""SELECT j.intLSGapMapCode
+                                  FROM dbo.tblSppMapUnitPres as j 
+                                  WHERE j.strSpeciesModelCode = ? 
+                                  """, model).fetchall()
+        modelDict["PrimEcoSys"] =[x[0] for x in PrimEcoSys]
+        AuxEcoSys = cursor.execute("""SELECT j.intLSGapMapCode
+                                  FROM dbo.tblSppMapUnitPres as j 
+                                  WHERE j.strSpeciesModelCode = ? 
+                                  """, model).fetchall()
+        modelDict["AuxEcoSys"] =[x[0] for x in AuxEcoSys]
     elif ecolSystem == "names":
         primary, auxiliary = ModelEcoSystems(model)
         modelDict["PrimEcoSys"] = primary
         modelDict["AuxEcoSys"] = auxiliary
     elif ecolSystem == "both":
-        primary, auxiliary = ModelEcoSystems(model)
-        modelDict["PrimEcoSys"] = zip(gapdb.MUNamesToCodes(primary), primary)
-        modelDict["AuxEcoSys"] = zip(gapdb.MUNamesToCodes(auxiliary), auxiliary)
+        cursor, conn = gapdb.ConnectWHR()
+        modelDict["PrimEcoSys"] = cursor.execute("""SELECT j.intLSGapMapCode, 
+                                                           d.strLSGapName
+                                  FROM dbo.tblSppMapUnitPres as j 
+                                  INNER JOIN dbo.tblMapUnitDesc as d 
+                                  ON d.intLSGapMapCode = j.intLSGapMapCode
+                                  WHERE (j.strSpeciesModelCode = ?) 
+                                  AND (j.ysnPres = 1)""", model).fetchall()
 
+
+        modelDict["AuxEcoSys"] = cursor.execute("""SELECT j.intLSGapMapCode, 
+                                                          d.strLSGapName
+                                 FROM dbo.tblSppMapUnitPres as j
+                                 INNER JOIN dbo.tblMapUnitDesc as d 
+                                 ON d.intLSGapMapCode = j.intLSGapMapCode
+                                 WHERE (j.strSpeciesModelCode = ?) 
+                                 AND (j.ysnPresAuxiliary = 1)""", model).fetchall()
+       
     # Hand Model
     ysnHandModel = __getVariable(model, "ysnHandModel")
     modelDict["ysnHandModel"] = ysnHandModel
