@@ -71,7 +71,7 @@ def SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True,
     return list(sp_inputs)
 
 
-def ScienceBaseCSV(species, publicationDate, csvName):
+def ScienceBaseHabMapCSV(species, publicationDate, csvName):
     '''
     (list, integer, string) -> pandas DataFrame and saved CSV file.
     
