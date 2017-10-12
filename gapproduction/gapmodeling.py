@@ -820,22 +820,24 @@ def ModelAsDictionary(model, ecolSystem="codes"):
         modelDict["AuxEcoSys"] = auxiliary
     elif ecolSystem == "both":
         cursor, conn = gapdb.ConnectWHR()
-        modelDict["PrimEcoSys"] = cursor.execute("""SELECT j.intLSGapMapCode, 
+        qry1 = cursor.execute("""SELECT j.intLSGapMapCode, 
                                                            d.strLSGapName
                                   FROM dbo.tblSppMapUnitPres as j 
                                   INNER JOIN dbo.tblMapUnitDesc as d 
                                   ON d.intLSGapMapCode = j.intLSGapMapCode
                                   WHERE (j.strSpeciesModelCode = ?) 
                                   AND (j.ysnPres = 1)""", model).fetchall()
+        modelDict["PrimEcoSys"] = [(x[0], x[1].strip()) for x in qry1]
 
 
-        modelDict["AuxEcoSys"] = cursor.execute("""SELECT j.intLSGapMapCode, 
+        qry2 =  cursor.execute("""SELECT j.intLSGapMapCode, 
                                                           d.strLSGapName
                                  FROM dbo.tblSppMapUnitPres as j
                                  INNER JOIN dbo.tblMapUnitDesc as d 
                                  ON d.intLSGapMapCode = j.intLSGapMapCode
                                  WHERE (j.strSpeciesModelCode = ?) 
                                  AND (j.ysnPresAuxiliary = 1)""", model).fetchall()
+        modelDict["AuxEcoSys"] = [(x[0], x[1].strip()) for x in qry2]
        
     # Hand Model
     ysnHandModel = __getVariable(model, "ysnHandModel")
