@@ -25,6 +25,7 @@ emailDefaultToAddress = ""
 
 #Sciencebase credentials
 sbUserName = ""
+sbWord = ''''''
 
 
 ####################    STUFF YOU DON'T HAVE TO CHANGE  ############################################
