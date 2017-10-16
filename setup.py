@@ -5,7 +5,7 @@ setup(
     
     version='1.2',
     
-    packages=['gaproduction',],
+    packages=['gapproduction',],
     
     author='Nathan M. Tarr',
     author_email='nmtarr@ncsu.edu',
