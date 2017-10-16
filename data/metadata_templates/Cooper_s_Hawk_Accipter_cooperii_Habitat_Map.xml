@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>U.S. Geological Survey - Gap Analysis Program</origin>
+        <pubdate>2016</pubdate>
+        <title>Cooper's Hawk (Accipter cooperii) Habitat Map</title>
+        <geoform>maps and data</geoform>
+        <pubinfo>
+          <pubplace>Boise, Idaho</pubplace>
+          <publish>U.S. Geological Survey</publish>
+        </pubinfo>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>Gap Analysis Program (GAP) habitat maps are predictions of the spatial distribution of suitable environmental and land cover conditions within the United States for individual species. Mapped areas represent places where the environment is suitable for the species to occur (i.e. suitable to support one or more life history requirements for breeding, resting, or foraging), while areas not included in the map are those predicted to be unsuitable for the species. While the actual distributions of many species are likely to be habitat limited, some may not actually occur in suitable habitat at all times because of population dynamics and species interactions. Furthermore, these maps correspond to midscale characterizations of landscapes, but individual animals may deem areas to be unsuitable because of presence or absence of fine-scale features and characteristics that are not represented in our models (e.g. snags, vernal pools, shrubby undergrowth). These maps are intended to be used at a 1:100,000 or smaller map scale.&#xD;
+&#xD;
+These habitat maps are created by applying a deductive habitat model to remotely-sensed data layers within a species’ range. The deductive habitat models are built by compiling information on species’ habitat associations and entering it into the Wildlife Habitat Relationship Database (WHRdb). Information is compiled from the best available characterizations of species’ habitat, which included species accounts in books and databases, primary peer-reviewed literature. For all species, the compiled habitat information is used by a biologist to determine which of the ecological systems and land use classes represented in the National Gap Analysis Program’s Land Cover Map Ver. 1.0 that the species is associated with. For many species, information on other mapped factors that define the environment that is suitable is also entered into the WHRdb. These factors included elevation (i.e. minimum, maximum), proximity to water features, proximity to wetlands, level of human development, forest ecotone width, and forest edge; and each of these factors corresponded to a data layer that is available during the map production (hereafter, “ancillary data layers”).&#xD;
+&#xD;
+The maps are generated using a python script that queries the model parameters in the WHRdb; reclassifies the GAP Land Cover Ver 1.0 and ancillary data layers within the species’ range; and combines the reclassified layers to produce the final 30m resolution habitat map. Map output is, therefore, not only a reflection of the ecological systems that are selected in the habitat model, but also any other constraints in the model that are represented by the ancillary data layers. &#xD;
+&#xD;
+GAP uses the best information available to create these species habitat distribution maps; however GAP seeks to improve and update these data as new information becomes available.</abstract>
+      <purpose>The mission of the U.S. Geological Survey Gap Analysis Program (GAP) is to provide state, regional and national biodiversity assessments of the conservation status of native vertebrate species and natural land cover types and to facilitate the application of this information to land management activities. Species distribution models are used to conduct a biodiversity assessment for species across the U.S. The goal of GAP is to keep common species common by identifying species and plant communities not adequately represented in existing conservation lands. Common species are those not currently threatened with extinction. By providing these data, land managers and policy makers can make better-informed decisions when identifying priority areas for conservation.</purpose>
+    </descript>
+    <timeperd>
+      <timeinfo>
+        <rngdates>
+          <begdate>2001</begdate>
+          <enddate>2016</enddate>
+        </rngdates>
+      </timeinfo>
+      <current>ground condition</current>
+    </timeperd>
+    <status>
+      <progress>In work</progress>
+      <update>As needed</update>
+    </status>
+    <spdom>
+      <descgeog>United States</descgeog>
+      <bounding>
+        <westbc>175.0</westbc>
+        <eastbc>-64.0</eastbc>
+        <northbc>72.0</northbc>
+        <southbc>16.0</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>USGS Thesaurus</themekt>
+        <themekey>Cooper's Hawk</themekey>
+        <themekey>Accipiter cooperii</themekey>
+        <themekey>species distribution</themekey>
+        <themekey>biodiversity</themekey>
+        <themekey>wildlife biology</themekey>
+      </theme>
+      <theme>
+        <themekt>USGS Biocomplexity Thesaurus</themekt>
+        <themekey>conservation</themekey>
+        <themekey>gap analysis</themekey>
+      </theme>
+      <theme>
+        <themekt>ISO 19115 Topic Categories</themekt>
+        <themekey>biota</themekey>
+      </theme>
+      <place>
+        <placekt>Geographic Names Information System (GNIS)</placekt>
+        <placekey>United States</placekey>
+        <placekey>Alabama</placekey>
+        <placekey>Arizona</placekey>
+        <placekey>Arkansas</placekey>
+        <placekey>California</placekey>
+        <placekey>Colorado</placekey>
+        <placekey>Connecticut</placekey>
+        <placekey>Delaware</placekey>
+        <placekey>District of Columbia</placekey>
+        <placekey>Florida</placekey>
+        <placekey>Georgia</placekey>
+        <placekey>Idaho</placekey>
+        <placekey>Illinois</placekey>
+        <placekey>Indiana</placekey>
+        <placekey>Iowa</placekey>
+        <placekey>Kansas</placekey>
+        <placekey>Kentucky</placekey>
+        <placekey>Louisiana</placekey>
+        <placekey>Maine</placekey>
+        <placekey>Maryland</placekey>
+        <placekey>Massachusetts</placekey>
+        <placekey>Michigan</placekey>
+        <placekey>Minnesota</placekey>
+        <placekey>Mississippi</placekey>
+        <placekey>Missouri</placekey>
+        <placekey>Montana</placekey>
+        <placekey>Nebraska</placekey>
+        <placekey>Nevada</placekey>
+        <placekey>New Hampshire</placekey>
+        <placekey>New Jersey</placekey>
+        <placekey>New Mexico</placekey>
+        <placekey>New York</placekey>
+        <placekey>North Carolina</placekey>
+        <placekey>North Dakota</placekey>
+        <placekey>Ohio</placekey>
+        <placekey>Oklahoma</placekey>
+        <placekey>Oregon</placekey>
+        <placekey>Pennsylvania</placekey>
+        <placekey>Rhode Island</placekey>
+        <placekey>South Carolina</placekey>
+        <placekey>South Dakota</placekey>
+        <placekey>Tennessee</placekey>
+        <placekey>Texas</placekey>
+        <placekey>Utah</placekey>
+        <placekey>Vermont</placekey>
+        <placekey>Virginia</placekey>
+        <placekey>Washington</placekey>
+        <placekey>West Virginia</placekey>
+        <placekey>Wisconsin</placekey>
+        <placekey>Wyoming</placekey>
+      </place>
+    </keywords>
+    <taxonomy>
+      <keywtax>
+        <taxonkt>USGS Biocomplexity Thesaurus</taxonkt>
+        <taxonkey>Birds</taxonkey>
+      </keywtax>
+      <taxonsys>
+        <classsys>
+          <classcit>
+            <citeinfo>
+              <origin>Banks, R. C.</origin>
+              <origin>Chesser, R. T.</origin>
+              <origin>Cicero, C.</origin>
+              <origin>Dunn, J L.</origin>
+              <origin>Krattler, A. W.</origin>
+              <origin>Lovette, I. J.</origin>
+              <origin>Rasmussen, P. C.</origin>
+              <origin>Remsen, Jr. J. V.</origin>
+              <origin>Rising, J. D.</origin>
+              <origin>Stotz, D. F.</origin>
+              <origin>Winker, K.</origin>
+              <pubdate>2008</pubdate>
+              <title>Forty-ninth supplement to the American Ornithologists Union Check-list of North American Birds</title>
+              <geoform>ONLINE_REFERENCE</geoform>
+              <pubinfo>
+                <pubplace>online</pubplace>
+                <publish>American Ornithologists Union</publish>
+              </pubinfo>
+              <onlink>http://dx.doi.org/10.1525/auk.2008.9708</onlink>
+            </citeinfo>
+          </classcit>
+        </classsys>
+        <ider>
+          <cntinfo>
+            <cntperp>
+              <cntper>Nathan Tarr</cntper>
+              <cntorg>Department of Applied Ecology, NCSU</cntorg>
+            </cntperp>
+            <cntaddr>
+              <addrtype>mailing and physical</addrtype>
+              <address>214 David Clark Labs</address>
+              <city>Raleigh</city>
+              <state>North Carolina</state>
+              <postal>27695-7617</postal>
+              <country>USA</country>
+            </cntaddr>
+            <cntvoice>919-513-7280</cntvoice>
+            <cntemail>nmtarr@ncsu.edu</cntemail>
+          </cntinfo>
+        </ider>
+        <ider>
+          <cntinfo>
+            <cntperp>
+              <cntper>Matt Rubino</cntper>
+              <cntorg>Department of Applied Ecology, NCSU</cntorg>
+            </cntperp>
+            <cntaddr>
+              <addrtype>mailing and physical</addrtype>
+              <address>214 David Clark Labs</address>
+              <city>Raleigh</city>
+              <state>North Carolina</state>
+              <postal>27695-7617</postal>
+              <country>USA</country>
+            </cntaddr>
+            <cntvoice>919-513-7280</cntvoice>
+            <cntemail>mjrubino@ncsu.edu</cntemail>
+          </cntinfo>
+        </ider>
+        <taxonpro>None. These data do not include actual, observed occurrences.</taxonpro>
+        <taxoncom>These data do not address actual occurrences requiring identification of species. They are habitat maps creating by applying deductive habitat models, based upon the best available characterizations of a species’ habitat, to remotely sensed data layers within a species’ range.</taxoncom>
+      </taxonsys>
+      <taxongen>All terrestrial vertebrate species in the U.S. were modeled as a part of the National Gap effort.</taxongen>
+      <taxoncl>
+        <taxonrn>Kingdom</taxonrn>
+        <taxonrv>Animalia</taxonrv>
+        <taxoncl>
+          <taxonrn>Subkingdom</taxonrn>
+          <taxonrv>Bilateria</taxonrv>
+          <taxoncl>
+            <taxonrn>Infrakingdom</taxonrn>
+            <taxonrv>Deuterostomia</taxonrv>
+            <taxoncl>
+              <taxonrn>Phylum</taxonrn>
+              <taxonrv>Chordata</taxonrv>
+              <taxoncl>
+                <taxonrn>Subphylum</taxonrn>
+                <taxonrv>Vertebrata</taxonrv>
+                <taxoncl>
+                  <taxonrn>Infraphylum</taxonrn>
+                  <taxonrv>Gnathostomata</taxonrv>
+                  <taxoncl>
+                    <taxonrn>Superclass</taxonrn>
+                    <taxonrv>Tetrapoda</taxonrv>
+                    <taxoncl>
+                      <taxonrn>Class</taxonrn>
+                      <taxonrv>Aves</taxonrv>
+                      <taxoncl>
+                        <taxonrn>Order</taxonrn>
+                        <taxonrv>Accipitriformes</taxonrv>
+                        <taxoncl>
+                          <taxonrn>Family</taxonrn>
+                          <taxonrv>Accipitridae</taxonrv>
+                          <taxoncl>
+                            <taxonrn>Genus</taxonrn>
+                            <taxonrv>Accipiter</taxonrv>
+                            <taxoncl>
+                              <taxonrn>Species</taxonrn>
+                              <taxonrv>Accipiter cooperii</taxonrv>
+                              <common>Gavilán de Cooper</common>
+                              <common>Cooper's Hawk</common>
+                              <common>epervier de Cooper</common>
+                              <common>Épervier de Cooper</common>
+                            </taxoncl>
+                          </taxoncl>
+                        </taxoncl>
+                      </taxoncl>
+                    </taxoncl>
+                  </taxoncl>
+                </taxoncl>
+              </taxoncl>
+            </taxoncl>
+          </taxoncl>
+        </taxoncl>
+      </taxoncl>
+    </taxonomy>
+    <accconst>none</accconst>
+    <useconst>It is strongly recommended that these data are directly acquired from the U.S. Geological Survey and not indirectly through other sources, which may have modified the data in some way. It is also strongly recommended that careful attention be paid to the contents of the metadata file associated with these data. The U.S. Geological Survey shall not be held liable for improper or incorrect use of the data described and/or contained herein.&#xD;
+&#xD;
+All information is created with a specific end use or uses in mind. This is especially true for GIS data, which is expensive to produce and must be directed to meet the immediate program needs. However, these data were created with the expectation that they would be used for other applications; therefore, we list below both appropriate and inappropriate uses. This list is in no way exhaustive but should serve as a guide to assess whether a proposed use can or cannot be supported by these data. For many uses, it is unlikely that this dataset will provide the only data needed, and for uses with a regulatory outcome, field surveys should verify the result. In the end, it will be the responsibility of each data user to determine if these data can answer the question being asked, and if they are the best tool to answer that question. While it is impossible to predict all the uses of these data we have listed several possible appropriate and inappropriate uses from the USGS, Gap Analysis Program's perspective.&#xD;
+	&#xD;
+All data are provided as is without warranty as to its currency, completeness, or accuracy of any specific data.&#xD;
+&#xD;
+The data provided are for planning, assessment, and informational purposes. The information provided is not a survey quality dataset.&#xD;
+&#xD;
+This disclaimer applies both to individual use of the data and aggregate use with other data.&#xD;
+&#xD;
+Appropriate uses of the data: primarily as a coarse map for a large area such as a county or to provide context for finer-level maps. A general list of possible applications include:&#xD;
+-National, regional or statewide biodiversity planning&#xD;
+-National, Regional or state habitat conservation planning&#xD;
+-County comprehensive planning&#xD;
+-Large-area resource management planning&#xD;
+-Coarse-filter evaluation of potential impacts or benefits of major projects or plan initiatives on biodiversity, such as utility or transportation corridors, wilderness proposals, habitat connectivity proposals, climate change adaption proposals, regional open space and recreation proposals, etc.&#xD;
+-Determining relative amounts of management responsibility for specific biological resources among land stewards to facilitate cooperative management and planning&#xD;
+-Basic research on regional distributions of plants and animals and to help target both specific species and geographic areas for needed research&#xD;
+-Environmental impact assessment for large projects or military activities&#xD;
+-Estimation of potential economic impacts from loss of biological resource-based activities&#xD;
+-Education at all levels and for both students and citizens&#xD;
+Inappropriate Uses:&#xD;
+It is far easier to identify appropriate uses than inappropriate ones, however, there is a "fuzzy line" that is eventually crossed when the differences in resolution of the data, size of geographic area being analyzed, and precision of the answer required for the question are no longer compatible. Examples include:&#xD;
+-Using the data to map small areas (less than thousands of hectares), typically requiring mapping resolution at 1:24,000 scale and using aerial photographs or ground surveys&#xD;
+-Combining these data with other data finer than 1:100,000 scale to produce new hybrid maps or answer queries&#xD;
+-Generating specific areal measurements from the data finer than the nearest thousand hectares&#xD;
+-Establishing exact boundaries for regulation or acquisition&#xD;
+-Establishing definite occurrence or non-occurrence of any feature for an exact geographic area&#xD;
+-Determining abundance, health, or condition of any feature&#xD;
+-Establishing a measure of accuracy of any other data by comparison with Gap Analysis Program data&#xD;
+-Using the data without acquiring and reviewing the metadata and this report</useconst>
+    <ptcontac>
+      <cntinfo>
+        <cntperp>
+          <cntper>Dr. Alexa McKerrow</cntper>
+          <cntorg>U.S. Geological Survey/Core Science Analytics, Synthesis, and Libraries</cntorg>
+        </cntperp>
+        <cntaddr>
+          <addrtype>mailing and physical</addrtype>
+          <address>North Carolina State University, Campus Box 7617</address>
+          <city>Raleigh</city>
+          <state>NC</state>
+          <postal>27695-7617</postal>
+          <country>United States</country>
+        </cntaddr>
+        <cntvoice>571-218-5474</cntvoice>
+        <cntemail>amckerrow@usgs.gov</cntemail>
+      </cntinfo>
+    </ptcontac>
+    <native>Environment as of Metadata Creation: Microsoft Windows 7 Version 6.1 (Build 7601) Service Pack 1; ESRI ArcCatalog 10.2 (Build 3348) Service Pack [N/A] (Build [N/A])</native>
+  </idinfo>
+  <dataqual>
+    <attracc>
+      <attraccr>No formal attribute accuracy tests were conducted</attraccr>
+    </attracc>
+    <logic>No formal logical accuracy tests were conducted</logic>
+    <complete>Data set is considered complete for the information presented, as described in the abstract. Users are advised to read the rest of the metadata record carefully for additional details.</complete>
+    <posacc>
+      <horizpa>
+        <horizpar>No formal positional accuracy tests were conducted</horizpar>
+      </horizpa>
+      <vertacc>
+        <vertaccr>A formal accuracy assessment of the vertical positional information in the data set has either not been conducted, or is not applicable.</vertaccr>
+      </vertacc>
+    </posacc>
+    <lineage>
+      <method>
+        <methtype>Lab</methtype>
+        <methdesc>The deductive modeling process involves 7 general steps.&#xD;
+&#xD;
+1.	Species List &#xD;
+We start with a species list for each of the four taxa (i.e. mammals, amphibians, reptiles, birds).  The list is compiled from three standard checklists including:&#xD;
+&#xD;
+Banks, R. C., R. T. Chesser, C. Cicero, J. L. Dunn, A. W. Kratter, I. J. Lovette, P. C. Rasmussen, J. V. Remsen, Jr., J. D. Rising, D. F. Stotz, and K. Winker. 2008. Forty-ninth supplement to the American Ornithologists Union Check-list of North American Birds. The Auk 125:758-768. DOI: 10.1525/auk.2008.9708&#xD;
+Crother, B. I. 2008. Scientific and standard English names of amphibians and reptiles of North America north of Mexico, with comments regarding confidence in our understanding. 6th edition. Herpetological Circular No. 37, Society for the Study of Amphibians and Reptiles.&#xD;
+Wilson, D. E., and D. M. Reeder. 2005. Mammal Species of the World. A Taxonomic and Geographic Reference, 3rd edition. Johns Hopkins University Press.&#xD;
+&#xD;
+2.	Review of the literature&#xD;
+For each taxon, a common list of references is consulted including:&#xD;
+•	Birds of North America &lt;bna.birds.cornell.edu/bna&gt;,&#xD;
+•	American Society of Mammalogists Species Accounts &lt;http://www.mammalsociety.org&gt;,&#xD;
+•	NatureServe Explorer &lt;explorer.natureserve.org&gt;,&#xD;
+•	California Wildlife Habitat Relationships Database &lt;http://www.dfg.ca.gov/biogeodata/cwhr/&gt;,&#xD;
+•	Amphibian declines: the Conservation status of United States Species 2005 Editor Micheal Lannoo.&#xD;
+&#xD;
+In addition to those sources, a number of other sources are examined depending on individual species’ conservation importance, and complexity of taxonomy, range, and habitat knowledge. Based on this research, the taxonomic status of the species is resolved with respect to new data. For species where sufficient information exists in the literature, a determination is made as to whether subspecies level range and model development is necessary. Specifically are the ranges between subspecies spatially distinct and are there unique habitat relationships that warrant a separate model?&#xD;
+&#xD;
+3.	Compile a national range map&#xD;
+A vector based range map is compiled for each species and subspecies. The range is a course representation of the areal extent occupied by a species. For a full description of the range mapping process see Species Range Metadata &lt;https://cms.geoplatform.gov/node/243/dc9cd4ca-7061-4e7f-944e-c93277e99ad3&gt;.&#xD;
+&#xD;
+4.	Enter habitat relationships into the Wildlife Habitat Relationship Database (WHRdb)&#xD;
+Based on the literature accounts for each species, the habitat affinities (which habitats depicted in the GAP Land Cover map would be used by that species) are documented. In other words every map unit in the database is populated with a value attribute to indicate that the species would occupy this habitat or the species would not occupy this habitat in a given season. Following is a list of Values and the associated Domain Value Definitions for the National Gap Analysis Program’s Habitat Maps.  Value 1 =Known or probable occurrence, summer; Value 2=Known or probable occurrence, winter; Value 3=Known or probable occurrence, year-round (both winter and summer).&#xD;
+&#xD;
+In addition to the habitat affinity, ancillary datasets are used to document additional constraints on the models. The ancillary datasets used in the modeling process are summarized in the Lineage section of this metadata record.&#xD;
+&#xD;
+5.	Run ArcGIS model&#xD;
+Once the WHRDB is populated, a spatial model is generated using a Python script. The script accesses information within the WHRdb, selecting map unit and ancillary criteria ultimately applying these selections to spatial datasets limited to the species’ range.&#xD;
+&#xD;
+6.	Internal review of model output&#xD;
+The habitat distribution map is reviewed first by the biologist who developed the model, and then by a second biologist before being finalized. Edits based on the review are incorporated in the database and the script rerun to generate the final model.&#xD;
+&#xD;
+7.	Publish to online viewer&#xD;
+The final range and model are then published and made available online. Publication involves generating a species specific metadata report, the attributed vector file for the range, and the final habitat distribution model (i.e. a raster with a value between 1 and X representing suitable habitat).</methdesc>
+        <methcite>
+          <citeinfo>
+            <origin>Scott, J. M., F. Davis, B. Csuti, R. Noss, B. Butterfield, C. Groves, H. Anderson, S. Caicco, F. D'Erchia, T. C. Edwards Jr., J. Ulliman, and G. Wright</origin>
+            <pubdate>1993</pubdate>
+            <title>Gap Analysis: A geographic approach to protection of biodiversity. Wildlife Monographs. 123. 1-41.</title>
+            <geoform>Monograph</geoform>
+            <onlink>None</onlink>
+          </citeinfo>
+        </methcite>
+      </method>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20130401</pubdate>
+            <title>U.S. Geological Survey Gap Analysis Program Species Ranges</title>
+            <geoform>Vector Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>http://gapanalysis.usgs.gov/species/data/download/</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>20010101</begdate>
+              <enddate>20130401</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Species Ranges</srccitea>
+        <srccontr>Species range boundaries</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Elevation</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540e111e4b0a658d79395d9</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>19990101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Elevation</srccitea>
+        <srccontr>Elevation for the United States</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – National Gap Land Cover Ver 1.0 (2001)</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540e2d7e4b0a658d79395db</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>19990101</begdate>
+              <enddate>20011231</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Land Cover V1.0</srccitea>
+        <srccontr>The Land Cover Data - Version 1.0 represents a highly thematically detailed land cover map of the U.S. This version of the land cover data was used to support the National Gap Analysis Program's Vertebrate Species Modeling efforts.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Hydrography</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540eb44e4b0a658d7939624</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>20010101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Hydrography</srccitea>
+        <srccontr>Water and its location on the landscape are important aspects of a species distribution. A number of water related data layers were used to refine these species models. These include water type (i.e. flowing, open/standing), distance to and from water, and stream flow and underlying gradient.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Aspect</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540ec40e4b0a658d7939628</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>19990101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Aspect</srccitea>
+        <srccontr>Aspect for the United States</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Canopy Cover</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540eca9e4b0a658d793962b</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>20010101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Canopy Cover</srccitea>
+        <srccontr>Some species respond to the amount of canopy cover within a habitat type.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Forest Edge</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540e3fce4b0a658d79395fe</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>20010101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Forest Edge</srccitea>
+        <srccontr>The ecotone (i.e., edge) between forested and non-forested environments can be a critical aspect of habitat. This dataset portrays distance to or from a forest edge.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Forest/Open + Woodland/Shrubland</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540e48fe4b0a658d7939600</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>20010101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Forest/Open + Woodland/Shrubland</srccitea>
+        <srccontr>The ecotone (i.e., edge) between forested and non-forested environments can be a critical aspect of habitat. This dataset portrays distance to or from a forest or shrubland ecotone..</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Human Impact Avoidance</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540e099e4b0a658d79395d6</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>20010101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Human Impact Avoidance</srccitea>
+        <srccontr>Environments dominated by human disturbance such as roads, cities, and the constructed materials that support human habitation have profound effects on species.  For most species, this data layer was used to exclude species from a portion of the landscape. However, some species respond favorably to human habitats, therefore this data layer was used in an inclusionary manner.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Hydrologic Units Used for Ranges</title>
+            <geoform>Shapefile</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/56d496eee4b015c306f17a42</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>20080101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Hydrologic Units Used for Ranges</srccitea>
+        <srccontr>This modified 12-digit code HUC dataset was used to delineate species ranges as part of the USGS Gap Analysis Program's species range and distribution modeling effort. In order to include areas of large water bodies and ocean shorelines, an iterative process was used to expand polygons boundaries 5 kilometers extending from landward edges.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Geological Survey Gap Analysis Program</origin>
+            <pubdate>20110222</pubdate>
+            <title>USGS National Gap Analysis Program Additional Data – Slope</title>
+            <geoform>Raster Digital Data</geoform>
+            <pubinfo>
+              <pubplace>Boise, ID</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://www.sciencebase.gov/catalog/item/5540ebe2e4b0a658d7939626</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy Resources</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>19990101</begdate>
+              <enddate>20110222</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>ground condition</srccurr>
+        </srctime>
+        <srccitea>GAP Slope</srccitea>
+        <srccontr>The slope dataset was derived from the National Elevation Dataset and resulted in a slope dataset that is of the same resolution as the 30 m land cover dataset.</srccontr>
+      </srcinfo>
+      <procstep>
+        <procdesc>Development of the dataset by the USGS Gap Analysis Program is described in the Methodology section under Lineage in this metadata record.</procdesc>
+        <procdate>20161231</procdate>
+      </procstep>
+    </lineage>
+  </dataqual>
+  <spdoinfo>
+    <direct>Raster</direct>
+  </spdoinfo>
+  <spref>
+    <horizsys>
+      <geograph>
+        <latres>0.0196</latres>
+        <longres>0.0196</longres>
+        <geogunit>Decimal degrees</geogunit>
+      </geograph>
+      <geodetic>
+        <horizdn>North American Datum of 1983</horizdn>
+        <ellips>Geodetic Reference System 80</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257222</denflat>
+      </geodetic>
+    </horizsys>
+  </spref>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>bCOHAx</enttypl>
+        <enttypd>Habitat map. We defined a species distribution as the spatial arrangement of environments suitable for occupation by a species. In other words, a species habitat map is created using a deductive model to predict areas suitable for occupation within a species range.</enttypd>
+        <enttypds>Producer defined</enttypds>
+      </enttyp>
+      <attr>
+        <attrlabl>Rowid</attrlabl>
+        <attrdef>Internal feature number.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Sequential unique whole numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>VALUE</attrlabl>
+        <attrdef>Integer that represents seasonality of distribution.Sequential unique whole numbers that are automatically generated.</attrdef>
+        <attrdefs>Producer defined</attrdefs>
+        <attrdomv>
+          <edom>
+            <edomv>1</edomv>
+            <edomvd>Known or probable occurrence, summer</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+          <edom>
+            <edomv>2</edomv>
+            <edomvd>Known or probable occurrence, winter</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+          <edom>
+            <edomv>3</edomv>
+            <edomvd>Known or probable occurrence, year-round (both winter and summer)</edomvd>
+            <edomvds>Producer defined</edomvds>
+          </edom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>COUNT</attrlabl>
+        <attrdef>The count (total number) of pixels with the listed value.</attrdef>
+        <attrdefs>ESRI/Producer Defined</attrdefs>
+        <attrdomv>
+          <udom>The count (total number) of pixels with the listed value.</udom>
+        </attrdomv>
+      </attr>
+    </detailed>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntperp>
+          <cntper>ScienceBase Data Release Team</cntper>
+          <cntorg>U.S. Geological Survey - ScienceBase</cntorg>
+        </cntperp>
+        <cntaddr>
+          <addrtype>mailing and physical</addrtype>
+          <address>Denver Federal Center, Building 810, Mail Stop 302</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80225</postal>
+          <country>United States</country>
+        </cntaddr>
+        <cntvoice>888-275-8747</cntvoice>
+        <cntemail>sciencebase@usgs.gov</cntemail>
+      </cntinfo>
+    </distrib>
+    <distliab>Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>ArcGIS Grid, DBF table</formname>
+          <formvern>none</formvern>
+        </digtinfo>
+        <digtopt>
+          <onlinopt>
+            <computer>
+              <networka>
+                <networkr>http://gapanalysis.usgs.gov/species/data/download</networkr>
+              </networka>
+            </computer>
+          </onlinopt>
+        </digtopt>
+      </digform>
+      <fees>No direct fees are associated with obtaining these data.</fees>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20161114</metd>
+    <metc>
+      <cntinfo>
+        <cntperp>
+          <cntper>Julie Prior-Magee</cntper>
+          <cntorg>U.S. Geological Survey - Core Science Analytics, Synthesis, and Libraries</cntorg>
+        </cntperp>
+        <cntpos>Technical Information Specialist</cntpos>
+        <cntaddr>
+          <addrtype>mailing and physical</addrtype>
+          <address>Denver Federal Center, West 6th Avenue &amp; Kipling, Bldg. 810, MS 302</address>
+          <city>Lakewood</city>
+          <state>CO</state>
+          <postal>80225</postal>
+          <country>United States</country>
+        </cntaddr>
+        <cntvoice>575-557-1566</cntvoice>
+        <cntemail>jpmagee@usgs.gov</cntemail>
+      </cntinfo>
+    </metc>
+    <metstdn>FGDC Biological Data Profile of the Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001.1-1999</metstdv>
+  </metainfo>
+</metadata>
+
