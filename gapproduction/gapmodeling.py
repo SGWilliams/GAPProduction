@@ -58,29 +58,35 @@ import gapdb, dictionaries
 
 #######################################
 ##### Dictionary of data layers used in 2001
-layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/????????",
-             'strForIntBuffer': "https://doi.org/10.5066/????????",
-             'intIntoBuffOW': "https://doi.org/10.5066/????????",
-             'intElevMax' : "https://doi.org/10.5066/????????",
-             'PrimEcoSys': "https://doi.org/10.5066/????????",
-             'AuxEcoSys': "https://doi.org/10.5066/????????",
-             'intIntoBuffWV': "https://doi.org/10.5066/????????",
-             'intFromBuffFW': "https://doi.org/10.5066/????????",
-             'intElevMin': "https://doi.org/10.5066/????????",
-             'ysnHydroOW': "https://doi.org/10.5066/????????",
-             'Region': "https://doi.org/10.5066/????????",
-             'ysnUrbanInclude': "https://doi.org/10.5066/????????",
-             'strUseForInt': "https://doi.org/10.5066/????????",
-             'intEdgeEcoWidth': "https://doi.org/10.5066/????????",
-             'intFromBuffWV': "https://doi.org/10.5066/????????",
-             'strStreamVel': "https://doi.org/10.5066/????????",
-             'strSalinity': "https://doi.org/10.5066/????????",
-             'strEdgeType': "https://doi.org/10.5066/????????",
-             'ysnHydroFW': "https://doi.org/10.5066/????????",
-             'ysnUrbanExclude': "https://doi.org/10.5066/????????",
-             'strAvoid': "https://doi.org/10.5066/????????",
-             'intFromBuffOW': "https://doi.org/10.5066/????????"}
-
+layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/F7JM28J1",
+             'strForIntBuffer': "https://doi.org/10.5066/F7XW4HPN",
+             'intIntoBuffOW': "https://doi.org/10.5066/F7JM28J1",
+             'intElevMax' : "https://doi.org/10.5066/F72N515B",
+             'PrimEcoSys': "https://doi.org/10.5066/F7959GF5",
+             'AuxEcoSys': "https://doi.org/10.5066/F7959GF5",
+             'intIntoBuffWV': "https://doi.org/10.5066/F7JM28J1",
+             'intFromBuffFW': "https://doi.org/10.5066/F7JM28J1",
+             'intElevMin': "https://doi.org/10.5066/F72N515B",
+             'ysnHydroOW': "https://doi.org/10.5066/F7JM28J1",
+             'ysnUrbanInclude': "https://doi.org/10.5066/F7PC318R",
+             'strUseForInt': "https://doi.org/10.5066/F7XW4HPN",
+             'intEdgeEcoWidth': {"Forest/Open Ecotone Only": "https://doi.org/10.5066/F7XW4HPN", 
+                             "F/O + Shrubland/Woodland": "https://doi.org/10.5066/F7T43RZ7"},
+             'intFromBuffWV': "https://doi.org/10.5066/F7JM28J1",
+             'strStreamVel': "https://doi.org/10.5066/F7JM28J1",
+             'strSalinity': "https://doi.org/10.5066/F7JM28J1",
+             'strEdgeType': {"Forest/Open Ecotone Only": "https://doi.org/10.5066/F7XW4HPN", 
+                             "F/O + Shrubland/Woodland": "https://doi.org/10.5066/F7T43RZ7"},
+             'ysnHydroFW': "https://doi.org/10.5066/F7JM28J1",
+             'ysnUrbanExclude': "https://doi.org/10.5066/F7PC318R",
+             'strAvoid': "https://doi.org/10.5066/F7PC318R",
+             'intFromBuffOW': "https://doi.org/10.5066/F7JM28J1",
+             'Region': "https://doi.org/10.5066/F77H1HGT",
+             
+             'intSlopeMin': "https://doi.org/10.5066/F75D8QQF",
+             'intSlopeMax': "https://doi.org/10.5066/F75D8QQF",
+             'hucs': "https://doi.org/10.5066/F7DZ0754",
+             'intPercentCanopy': "https://doi.org/10.5066/F7DZ0754"}
 
 ########################################
 ##### Function to get the habitat description text for a species.
@@ -792,23 +798,47 @@ def ModelAsDictionary(model, ecolSystem="codes"):
     modelDict["SubspeciesName"] = Sub
     
     # Who worked on the model
-    modelDict["Modeler"] = gapdb.Who(model, action="edited")
-    modelDict["Reviewer"] = gapdb.Who(model, action="reviewed")
+    modelDict["Modeler"] = gapdb.Who(SpeciesCode, action="edited")
+    modelDict["Reviewer"] = gapdb.Who(SpeciesCode, action="reviewed")
     
     # Land Cover Map Units
     if ecolSystem == "codes":
-        primary, auxiliary = ModelEcoSystems(model)
-        modelDict["PrimEcoSys"] = gapdb.MUNamesToCodes(primary)
-        modelDict["AuxEcoSys"] = gapdb.MUNamesToCodes(auxiliary)
+        cursor, conn = gapdb.ConnectWHR()
+        PrimEcoSys = cursor.execute("""SELECT j.intLSGapMapCode
+                                  FROM dbo.tblSppMapUnitPres as j 
+                                  WHERE j.strSpeciesModelCode = ? 
+                                  """, model).fetchall()
+        modelDict["PrimEcoSys"] =[x[0] for x in PrimEcoSys]
+        AuxEcoSys = cursor.execute("""SELECT j.intLSGapMapCode
+                                  FROM dbo.tblSppMapUnitPres as j 
+                                  WHERE j.strSpeciesModelCode = ? 
+                                  """, model).fetchall()
+        modelDict["AuxEcoSys"] =[x[0] for x in AuxEcoSys]
     elif ecolSystem == "names":
         primary, auxiliary = ModelEcoSystems(model)
         modelDict["PrimEcoSys"] = primary
         modelDict["AuxEcoSys"] = auxiliary
     elif ecolSystem == "both":
-        primary, auxiliary = ModelEcoSystems(model)
-        modelDict["PrimEcoSys"] = zip(gapdb.MUNamesToCodes(primary), primary)
-        modelDict["AuxEcoSys"] = zip(gapdb.MUNamesToCodes(auxiliary), auxiliary)
+        cursor, conn = gapdb.ConnectWHR()
+        qry1 = cursor.execute("""SELECT j.intLSGapMapCode, 
+                                                           d.strLSGapName
+                                  FROM dbo.tblSppMapUnitPres as j 
+                                  INNER JOIN dbo.tblMapUnitDesc as d 
+                                  ON d.intLSGapMapCode = j.intLSGapMapCode
+                                  WHERE (j.strSpeciesModelCode = ?) 
+                                  AND (j.ysnPres = 1)""", model).fetchall()
+        modelDict["PrimEcoSys"] = [(x[0], x[1].strip()) for x in qry1]
 
+
+        qry2 =  cursor.execute("""SELECT j.intLSGapMapCode, 
+                                                          d.strLSGapName
+                                 FROM dbo.tblSppMapUnitPres as j
+                                 INNER JOIN dbo.tblMapUnitDesc as d 
+                                 ON d.intLSGapMapCode = j.intLSGapMapCode
+                                 WHERE (j.strSpeciesModelCode = ?) 
+                                 AND (j.ysnPresAuxiliary = 1)""", model).fetchall()
+        modelDict["AuxEcoSys"] = [(x[0], x[1].strip()) for x in qry2]
+       
     # Hand Model
     ysnHandModel = __getVariable(model, "ysnHandModel")
     modelDict["ysnHandModel"] = ysnHandModel
@@ -892,6 +922,17 @@ def ModelAsDictionary(model, ecolSystem="codes"):
 
     intElevMax = __getVariable(model, "intElevMax")
     modelDict["intElevMax"] = intElevMax
+    
+    # Slope variables
+    intSlopeMin = __getVariable(model, "intSlopeMin")
+    modelDict["intSlopeMin"] = intSlopeMin
+
+    intSlopeMax = __getVariable(model, "intSlopeMax")
+    modelDict["intSlopeMax"] = intSlopeMax
+    
+    # Slope variables
+    intPercentCanopy = __getVariable(model, "intPercentCanopy")
+    modelDict["intPercentCanopy"] = intPercentCanopy
 
     return modelDict
 

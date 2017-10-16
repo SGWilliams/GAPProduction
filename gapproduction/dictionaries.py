@@ -169,7 +169,8 @@ RangeCodesDict = {"Presence": {1: "Known/extant", 2: "Possibly present", 3: "Pot
                 
 staffDict = {"mjr": "Matthew Rubino", "nmt": "Nathan Tarr", "jjl": "Jeff Lonneker",
              "tl": "Thomas Laxon", "rta": "Robert Adair", "mjb": "Matthew Rubino",
-             "mbr": "Matthew Rubino", "kb": "Ken Boykin"}     
+             "mbr": "Matthew Rubino", "kb": "Ken Boykin", "jla": "Jocelyn Aycrigg", 
+             "ar": "Rob Adair", "": "Unknown", " ": "Unknown"}     
                 
 ##################################
 #### Function to reverse the keys and values in a dictionary
