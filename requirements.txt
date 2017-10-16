@@ -1,0 +1,20 @@
+# arcpy 10.2.1
+pandas >= 0.20.1
+scipy >= 0.19.0
+pyodbc >=4.0.17
+urllib >=1.17
+openpyxl >=2.4.8
+csv >=1.0
+pysb
+zipfile
+gzip
+re >= 2.2.1
+collections
+statsmodels >=0.8.0
+email >= 4.0.3
+smtplib >=8.8.4
+
+
+
+
+

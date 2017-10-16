@@ -1,0 +1,333 @@
+08/28/2013,gapmodeling.ModelMuDiscrepancies()
+
+08/28/2013,gapmodeling.ResolveMuDiscrepancies()
+
+08/28/2013,gapmodeling.ModelExists()
+
+08/28/2013,gapdb.UniqueMUs()
+
+09/05/2013,dictionaries -- Added stateDict...CONUS, for easy iterating over CONUS states only.
+
+09/16/2013,tables.WriteSppTable() -- added species' download code to the table
+
+09/19/2013,docs.SearchDirectoryNames()
+
+09/19/2013,spatial.HaversineDistance() -- calculates the spherical distance between two set of coordinates
+
+09/20/2013,featureclasses.ListValues() -- list the unique values for a given attribute
+
+09/20/2013,featureclasses.CountOccurrencesOfValue()
+
+09/20/2013,featureclasses.CountOccurrencesOfAllValues()
+
+09/20/2013,featureclasses.FindDuplicateValues()
+
+09/20/2013,featureclasses.DeleteDuplicateValues()
+
+09/26/2013,zipping.UnzipAll() -- unzips all the zip files in the passed directory
+
+09/27/2013,gaprasters.SpModel() -- get the path to the species' model on clownfish
+
+09/27/2013,conversion.AsNumber() -- cast the input as a number
+
+09/27/2013,conversion.CellsToHectares() -- converts cell count (30m only) to hectares
+
+10/01/2013,spatial.PlanarDistance() -- Calculates the planar distance between two points.
+
+10/02/2013,paths.Newest() -- Identifies the most recently modified of the passed files.
+
+10/02/2013,paths.Oldest() -- Identifies the oldest of the passed files.
+
+10/04/2013,featureclasses.FieldsDictionary() -- Creates a dictionary from the attribute
+	table.
+
+10/21/2013,featureclasses -- All relevant functions now check for 
+	ArcGIS 10.1 or above to determine whether to use da cursors
+	(for far superior speed). They are still compatible with earlier
+	versions of ArcGIS.
+
+10/21/2013,paths.ArcGISVersion() -- identifies the ArcGIS version number on the
+	current computer.
+
+10/21/2013,gapmodeling.SetMUs() -- Selects the passed map units in the given model.
+
+10/21/2013,gapdb.MUName() -- no longer fails if passed a string that cannot be cast
+	as an integer; instead, it just returns the passed string, assuming that it
+	is already the map unit name
+
+10/21/2013,gapdb.MUCodesToNames -- see immediately above
+
+10/21/2013,gapdb.MUCode() -- no longer fails if passed a string that can be cast
+	as an integer; instead, it just returns the passed argument, assuming that it
+	is already the map unit code
+
+10/21/2013,gapdb.MUNamesToCodes() -- see immediately above
+
+10/24/2013,gapdb.ConservationConcern() -- returns the species' conservation description,
+	or False, if the species is not SCC
+
+10/31/2013,gapdb.featureclasses.FieldsDictionary() -- updated to accept multiple value fields
+	as a list or tuple, in addition to still accepting a string of a single field's name.
+	If multiple value fields are submitted, will return a dictionary in which each value
+	is a list.
+
+10/31/2013,featureclasses.FieldsDictionary_Inverse() -- Essentially the inverse of the 
+	FieldsDictionary() function. For this function, the key values need not be unique
+	identifiers, and the returned dictionary's values will be lists of all the associated
+	values (meaning they can be, but are not required to be, unique identifiers).
+
+11/11/2013,featureclasses.UseDACursor() -- Boolean that indicates whether the current
+	system can support data access module cursors; ideal for optimizing code
+	that may be run on multiple machines, some of which run a version of ArcGIS
+	< 10.1 and some	of which run >= 10.1
+
+11/14/2013,conversions -- Added many new area conversions; now contains functions to
+	convert every combination of hectares, cells (30 m raster cells), acres,
+	square meters, and square miles
+
+11/14/2013,conversions -- Added some length/distance conversions for kilometers/meters
+	to/from miles
+
+12/18/2013,gapdb.ListAllSpecies() -- ...lists all species codes in the species database's
+	AllSpecies table
+
+12/18/2013,gapdb.Dict_SciNameToCode() -- Creates a dictionary of all species, with the key
+	being the full scientific name and the value being the species code.
+
+12/20/2013,gapdb.SpInfoCombined() -- Modified the function to make the completion statuses
+	optional. They are returned by default.
+
+12/20/2013,gapdb.SpInfoCombinedHeaders() -- Returns a list of headers that match the
+	corresponding indices from the SpInfoCombined() returned list. Likewise, has an
+	optional parameter to include completion statuses (included by default).
+
+12/20/2013,dictionaries.StateFIPSDict() -- returns a dictionary in which the keys are state
+	FIPS codes and the values are state names
+
+01/21/2013,gapemail -- email module created
+
+01/21/2013,gapemail.Email() -- function to send an email; can take variable number of
+	recipients and optional attachment(s)
+
+01/28/2013,gapdb.AllMUs() -- included a new boolean argument 'conus', to return only map
+	units that occur within CONUS. Defaults to True.
+
+03/13/2013,gapdb.ProcessDate() -- altered the function so that requests for edit date will
+	return creation date if no edit date exists; also added optional parameter to
+	return the date expressed as seconds since the epoch instead of as a datetime
+	object.
+
+03/18/2013,gaprasters.GetSnapGrid() -- gets the path to a valid snap raster
+
+03/19/2013,gapmetadata -- updated module to work on .tif rasters as well
+
+03/20/2014,NEW MODULE: states
+	GetStatesLayer() -- Returns an arcpy layer object for the state of interest.
+	GetStatesShp() -- Returns the path to the shapefile of U.S. state and
+	   territory boundaries.
+	GetStateLayer() -- Returns an arcpy layer object for the state boundary.
+	CreateStateFC() -- Creates a feature class of the boundaries for the passed
+	   state.
+
+03/20/2014,gaprange.RangeShp() -- added a new, boolean argument 'HUCs', which is only
+	effective when the 'state' parameter is not False. It indicates whether you
+	wish to clip the range to the HUCs that intersect the passed state (True) or
+	to the administrative boundaries of the state (False). By default, it is set
+	to True (for compatibility with existing scripts).
+
+03/21/2014,gaprange.GetRangeFile() -- get the path to the species' existing range
+	shapefile from Clownfish. Includes parameter to find the dissolved range.
+
+03/27/2014,tables.ListFromTable() -- creates a list of lists from the passed table.
+
+04/22/2014,tables.WriteDictToTable() -- writes the passed dictionary to a table, in which
+	the first column contains the dictionary's keys and the second column contains
+	the dictionary's values.
+	
+05/01/2014,zipping.Unzip() -- added ability to unzip .gz files. Content of .gz will
+	be written to a single file, given the name of the passed .gz file, sans extension,
+	in the passed output directory.
+
+05/01/2014,zipping.UnzipAll() -- added ability to unzip .gz files. All files with extension
+	.zip or .gz in the passed file will be unzipped to the passed directory. Refer
+	to zipping.Unzip() for details on how output files will be named.
+
+05/01/2014,zipping.Unzip() -- added ability to unzip .tar files. Behavior is identical to
+	that for .zip files.
+
+05/01/2014,zipping.UnzipAll() -- added ability to unzip .tar files. Behavior is identical
+	to that for .zip files. Function will now scan for all .tar, .zip, and .gz files
+	in the passed directory.
+
+05/12/2014,tables.ListValues() -- handles csv, txt, Excel files, and ArcGIS-compatible
+	tables/feature classes (including shapefiles); returns a list of all values that
+	occur in the given field. Note that to run Excel files, you must have the
+	openpyxl library on your machine.
+
+05/12/2014,tables.ListHeaders() -- handles csv, txt, Excel files, and ArcGIS-compatible
+	tables/feature classes (including shapefiles); returns a list of the table's
+	field headings. Note that to run Excel files, you must have the openpyxl
+	library on your machine.
+
+05/12/2014,tables.DictionaryFromColumns() -- handles csv, txt, Excel files, and ArcGIS-
+	compatible tables/feature classes (including shapefiles); returns a dictionary
+	of all the paired values from the given columns. Note that to run Excel files,
+	you must have the openpyxl library on your machine.
+
+05/12/2014,tables.ListFromTable() -- handles csv, txt, Excel files, and ArcGIS-compatible
+	tables/feature classes (including shapefiles); returns a list of lists containing
+	all the records from the passed table. The column headings will be included if
+	they are included in the content of the passed (csv, txt, or Excel) table. Note
+	that to pass Excel files, you must have the openpyxl library on your machine.
+
+06/06/2014,gapmath -- new module to run basic arithmetic operations, for which Python
+	does not have functions in its standard library -- Median(), Mean(), Range().
+
+08/06/2014,gaprange.ListIntroducedSpp() -- lists any species/subspecies that have any
+	introduced range.
+
+08/27/2014,gaprichness -- A new module for creating species richness rasters
+
+08/27/2014,gaprichness.ProcessRichness() -- Creates a richness raster for the passed species
+
+11/04/2014,gaprasters.SubtractRasters() -- Subtracts rasters but accounts for the extent/
+	NoData issues encountered with the raster calculator
+
+11/04/2014,gaprasters.RasterType() -- Gets the name of the raster's file type
+
+11/04/2014,gaprasters.ValueField() -- Gets the name of the raster's value field
+
+11/21/2014,paths.CheckGDB() -- Creates the passed geodatabase if it does not yet exist
+
+12/01/2014,gapmath.Quantiles() -- Identifies the quantiles (according to the passed number)
+	of the passed list of values.
+
+12/01/2014,gapmath.Quartiles() -- Beware the subtle difference between these three new functions:
+	This function identifies the quartiles of the passed list of values.
+
+12/01/2014,gapmath.Quintiles() -- Beware the subtle difference between these three new functions:
+	This function identifies the quintiles of the passed list of values.
+
+12/08/2014,paths.GetStateBoundaries() -- Gets the path to the states' boundaries shapefile,
+	with options to include/exclude non-CONUS states, marine administrative
+	boundaries, and/or dissolved state boundaries
+
+12/08/2014,paths.GetSnapRaster() -- Gets the path to the GAP snap raster, for setting 
+	snapping and cell size environments
+
+12/08/2014,paths.GetModelingRegionsShp() -- Gets the paths to the modeling regions shapefile
+
+12/08/2014,paths.GetLCDir() -- Gets the path to the directory containing the modeling regions
+	land cover rasters
+
+12/08/2014,paths.dataDir -- A public variable containing the path to the gappackage data
+	directory
+
+12/08/2014,paths.clownfish -- A public variable containing the path to the clownfish drive
+
+12/08/2014,paths.HUCs -- A public variable containing the path to the HUCs shapefile
+
+12/08/2014,match_and_filter.RemoveRepeats() -- Returns the string with all adjacent,
+	duplicate occurrences of the given search string reduced a single occurrence.
+	(e.g., if you wish to remove all double, triple, etc. dashes and replace them with
+	a single dash)
+
+12/11/2014,featureclasses.SetNulls() -- In the given attribute field(s), sets all Null values
+	to match the passed value.
+
+12/11/2014,featureclasses.ReplaceValue() -- In the given attribute field(s), sets all 
+	occurrences of the given value/string to match the new value/string
+
+12/11/2014,featureclasses.ReplaceValues() -- In the given attribute field(s), sets all 
+	occurrences of any of the given values/strings to match the new value/string
+
+12/11/2014,featureclasses.ReplaceValuesFromDict() -- In the given attribute field, updates
+	occurrences of any of the dictionary's keys to match the key's corresponding value
+
+12/11/2014,tables.AttributeTableToCsv() -- Exports the attribute table from the passed 
+	shapefile, feature class, raster, or geodatabase table to a csv.
+
+12/11/2014,featureclasses.AttributeTableToCsv() -- Exports the attribute table from the 
+	passed shapefile, feature class, raster, or geodatabase table to a csv.
+
+12/12/2014,featureclasses.DomainAsDictionary() -- Returns the field's coded attribute domain
+	as a dictionary
+
+12/15/2014,featureclasses.RenameField() -- Renames the passed attribute field.
+
+12/15/2014,featureclasses.CopyValues() -- For each feature in the feature class, copies the
+	values from one field to another.
+
+12/15/2014,featureclasses.ChangeFieldLength() -- Change the length property of a text field in 
+	the attribute table.
+
+12/22/2014,featureclasses.SummarizeXByY_Area() -- Writes to a csv a summary of the area and 
+	proportion area of each value in rowField by each value in the columnField. That is, 
+	say that the row field is PAD-US Owner Type and the column field is GAP Status. The 
+	resulting csv table would list owner types as the row headings (column A) and the four
+	possible GAP statuses as the column headings (row 1). The first row in the output table
+	would look like:
+		Owner_Type, Total_Area_in_Square_Meters, 1, 2, 3, 4, Proportion_1, Proportion_2, Proportion_3, Proportion_4
+	An example row might look like:
+		Private, 200500, 0, 10500, 140000, 50000, 0, 0.052, 0.698, 0.249
+
+12/22/2014,featureclasses.GetLinearUnit() -- Returns the name of the linear unit used by the 
+	input feature class' spatial reference.
+
+01/06/2015,gaprasters.SetNullAsValue() -- Change a raster's NoData cells to the user's passed
+	value, so that you don't have to figure out that pesky Con/IsNull construct again.
+	You would think that ESRI would incorporate this function directly.
+
+01/08/2015,tables.DictionaryOfCells() - Creates a dictionary in which the keys are tuples of 
+	the row header and the column header and the value is the value found at the cell
+	identified by that row/column intersection.
+
+01/13/2015,featureclasses.GetMaxLength() - Get the number of characters in the longest  
+	value from the passed field. If multiple fields are passed, returns the number of 
+	characters in the longest concatenated string of values. This number can be used, for 
+	example, to shorten the length of a text field (to save space) or to identify the field 
+	length that you wish to use for a new field that will store concatenations of values
+	from other fields.
+
+01/13/2015,featureclasses.ConcatenateFields() - For each feature/row, concatenates the values
+	in the passed fields to the output field, optionally adding a user-defined separator
+	between each value.
+
+01/19/2015,paths.ArcGISVersion() - Updated function to return the text of the version, which 
+	resolved issues with sub-sub versions (e.g., 10.2.1). This tweak reverberated
+	throughout other modules and functions, most notably via featureclasses.UseDACursor,
+	which--in turn--resulted in da cursors being used more frequently. Not only did this
+	change improve the speed performance of many functions in the featureclasses module
+	but it also enabled the use of token attributes (e.g., 'SHAPE@WKT') in many functions.
+
+01/20/2015,dictionaries.InvertDictionary() - Returns a dictionary in which the keys are the 
+	values from the input dictionary, and the values are a list of keys that had that 
+	value in the input dictionary. Note that this differs from ReverseDictionary() in 
+	that this retains all information from the input dictionary (given that all input
+	values are hashable) and in that the output values here are always lists.
+
+01/20/2015,pdf - Updated many of the functions to work with PyPDF2 as opposed to pypdf.
+
+09/23/2015,gapdb.ModelCodes() - I changed code to include winter models in the returned list,
+	and added an option for excluding migratory models.  For some reason winter 
+	models were being left out.
+
+09/24/2015,gapmodeling.HandModels() - I added this function to fetch a list of models that
+	require hand modeling.
+
+6/15/2016,gapmodeling.EcoSystemModels() - I added this function to return lists of models 			associated with an ecological system.
+
+6/15/2016,gapmodeling.EcoSystemSpecies() - Added this function to return lists of species 		associated with an ecological system.
+
+7/5/2016,gappack.beta - I added a module for functions that are still in a testing phase.
+
+7/5/2016,gappack.arcmap - A new module for storing functions to use while doing modeling tasks 		in arcmap.
+
+
+******************  UPDATES ABOVE THIS LINE WERE TO THE ORIGINAL "GAPPACK"  ******************
+
+7/14/2016  - Many edits made in order to create a new version of the package.  Among them, the 
+	addspecies module was placed in gapdb; gapanalysis was ommitted because the Gap Analysis 	database that it hit is no longer in place; paths module replaced with config file; pdfs 	not included; sqlite not included; checks put in place so that when USGS VPN is blocking 	the NCSU arcpy license, functions that do not rely upon arcpy are available; upon 	initialization,the script asks for a username and password.  N. Tarr.
+
+7/18/2016,gapage.gapmodeling - A function to retrieve a tuple of model codes that are marked for 	EXCLUSION in the WHRDb.tblAllspecies.ysnInclude. N. Tarr.
+

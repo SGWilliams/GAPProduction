@@ -1,0 +1,211 @@
+Python Library Documentation: module gapproduction.gapmath in gapproduction
+
+NAME
+    gapproduction.gapmath
+
+FILE
+    t:\scripts\gapproduction\gapproduction\gapmath.py
+
+DESCRIPTION
+    # This module facilitates standard math operations for which there is no simple,
+    # single function in Python's standard library.
+    #
+    # Public Functions:
+    #
+    # Mean() -- Returns the arithmetic mean of the values in the passed list/tuple.
+    #
+    # Median() -- Returns the median of the values in the passed list/tuple.
+    #
+    # Range() -- Returns the range of values in the passed list/tuple.
+    #
+    # Quantiles() -- Identifies the given quantiles of the values in the passed
+    #    list/tuple
+    #
+    # Quartiles() -- Identifies the quartiles of the values in the passed list/tuple
+    #
+    # Quintiles() -- Identifies the quintiles of the values in the passed list/tuple
+    #
+    # PartialCorrelation() -- Returns the correlation coefficient of X and Y,
+    #    after controlling for Z
+    #
+    # PartialCorrelation_Reg() -- Returns the correlation coefficient of X and Y,
+    #    after controlling for Z, based on using the residuals of an OLS regression
+    #
+    #
+
+FUNCTIONS
+    Average(values)
+        (list/tuple) -> float/int
+        
+        Returns the mean of the values in the passed list.
+    
+    Mean(values)
+        (list/tuple) -> float/int
+        
+        Returns the mean of the values in the passed list.
+        
+        Example:
+        >>> Mean([4, 6, 7, 3])
+        5
+    
+    Median(values, valueInList=False)
+        (list/tuple) -> float/int
+        
+        Returns the median of the values in the passed list. If the number of values
+            is odd, returns the average of the two middle values.
+        
+        Parameters:
+        values -- The list of values for which you wish to calculate the median
+        valueInList -- An optional, boolean parameter indicating whether you wish
+            for the median to be a value from the input list. That is, if False, the
+            median can be the average of the two middle values from a list
+            containing an even number of values.
+            For example, if False, the median of [1, 2, 3, 4] is 2.5; if True, the
+            median is 3.
+            By default, it is set to False.
+        
+        Examples:
+        >>> Median([3, 5, 4, 6, 8, 1])
+        4.5
+        >>> Median([4, 7, 8, 9, 2])
+        7
+        >>> Median([3, 5, 4, 6, 8, 1], True)
+        5
+    
+    PartialCorrelation(X, Y, Z, method='pearson')
+        (list, list, list, [str]) -> float
+        
+        Calculate the partial correlation coefficient controlled for a third
+            variable.
+            NOTE: The scipy package must be installed for the function to execute
+               properly.
+        
+        Formulas derived from:
+          http://www.unc.edu/courses/2008spring/psyc/270/001/partials.html
+          http://vassarstats.net/textbook/index.html - section 3a
+        
+        Arguments:
+        X - A list or tuple of numbers
+        Y - A list or tuple of numbers
+        Z - A list or tuple of numbers, representing the variable for which you
+            wish to control
+        method - The correlation method you wish to use. Accepted values: pearson,
+            spearman, kendall, tau. 'Kendall' and 'tau' both refer to kendall's tau
+            correlation. Capitalization is irrelevant.
+        
+        Returns:
+        The correlation coefficient of X and Y after controlling for Z
+    
+    PartialCorrelation_Reg(X, Y, Z)
+        Partial correlation calculated by the residuals of an OLS regression.
+    
+    Quantiles(values, groupCount, valuesInList=False, includeMinMax=False)
+        (list/tuple, int, [boolean]) -> list
+        
+        Find the values in the passed list representing the quantile thresholds, or
+            boundaries between equally-sized subsets of the ordered values.
+        
+        Beware the subtle difference between these function names in this module:
+          Quartiles() as in 4
+            vs.
+          Quintiles() as in 5
+            vs.
+          Quantiles() like quantum/quanta or quantitative
+        
+        The first and second are merely shortcuts to the latter, employing the
+        common 4-group and 5-group splits, respectively.
+        
+        Note that there are many ways to identify (or even to define) quantiles.
+        While optional parameters here provide options to specify your desired
+        method, additional methods exist, so the results here may not be identical
+        to those derived from another package or software.
+        
+        Arguments:
+        values -- A list or tuple of the values for which you wish to calculate the
+            quantiles
+        groupCount -- The number of groups into which you wish to split the list;
+            Note that the returned numbers represent the boundaries between the
+            evenly-sized groups. This can lead to one or both of two confusing
+            results:
+               1) If a given value occurs many times, it may be the treshold for
+                   more than a single group.
+               2) The number of values returned is one less than the passed
+                   groupCount. This is because splitting a set into, e.g., three
+                   equally-sized groups only requires three threshold values.
+                   E.g., taking all the integers from 1 to 100, and splitting them
+                   into three equally-sized groups, the quantiles would be ~33 and
+                   ~67.
+        valuesInList -- An optional, boolean parameter indicating whether you wish
+            for the returned values to be restricted to values occurring in the
+            input list, as opposed to accepting averages of values, where the
+            number of elements in the input list is not a multiple of the
+            passed groupCount.
+            By default, it is set to False, meaning that if the number of values in
+            the passed list is evenly divisible by the groupCount, then the average
+            of the two nearest values will be returned for each quantile threshold.
+            For example, the median (or the quantile with a groupCount of 2) of
+            the values [1, 2, 3, 4] will be 2.5.
+            When set to True, the median of [1, 2, 3, 4] will be 3.
+        includeMinMax -- An optional, boolean parameter, indicating whether you
+            wish for the passed list's minimum and maximum values to be included in
+            the returned list. By default, it is set to False, meaning that they
+            will not be returned. If set to true, the first value in the returned
+            list will be the minimum value from the input list, or the lower bound
+            of the first quantile group, and the last value in the returned list
+            will be the maximum value from the input list, or the upper bound of the
+            last quantile group.
+        
+        Examples:
+        >>> l = [1, 2, 3, 4, 5, 6, 7, 8]
+        >>> Quantiles(l, 4)
+        [2.5, 4.5, 6.5]
+        >>> Quantiles(l, 3)
+        [3, 5]
+        >>> l = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        >>> Quantiles(l, 3)
+        [3.5, 6.5]
+        >>> Quantiles(l, 3, False, True)
+        [1, 3.5, 6.5, 9]
+        >>> Quantiles(l, 3, True)
+        [4, 7]
+    
+    Quartiles(values, valuesInList=False, includeMinMax=False)
+        Find the quartiles of the passed list.
+        
+        See Quantiles() for additional information.
+        
+        Beware the subtle difference between these function names in this module:
+          Quartiles() as in 4
+            vs.
+          Quintiles() as in 5
+            vs.
+          Quantiles() like quantum/quanta or quantitative
+        
+        The first and second are merely shortcuts to the latter, employing the
+        common 4-group and 5-group splits, respectively.
+    
+    Quintiles(values, valuesInList=False, includeMinMax=False)
+        Find the quartiles of the passed list.
+        
+        See Quantiles() for additional information.
+        
+        Beware the subtle difference between these function names in this module:
+          Quartiles() as in 4
+            vs.
+          Quintiles() as in 5
+            vs.
+          Quantiles() like quantum/quanta or quantitative
+        
+        The first and second are merely shortcuts to the latter, employing the
+        common 4-group and 5-group splits, respectively.
+    
+    Range(values)
+        (list/tuple) -> float
+        
+        Returns a value of the numeric range of the values in the given iterable.
+        
+        Example:
+        >>> Range([2, 1, 5, 3])
+        4
+
+

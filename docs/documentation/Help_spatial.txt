@@ -1,0 +1,80 @@
+Python Library Documentation: module gapproduction.spatial in gapproduction
+
+NAME
+    gapproduction.spatial
+
+FILE
+    t:\scripts\gapproduction\gapproduction\spatial.py
+
+DESCRIPTION
+    ## Module to process and calculate explicitly spatial data.
+    ##
+    ## Functions:
+    ##
+    ## PlanarDistance() -- Returns the planar distance between two sets of
+    ##      coordinates.
+    ##
+    ## HaversineDistance() -- Returns the geographic distance between two sets of
+    ##      geographic coordinates.
+    ##
+    ## Angle() -- Returns the straight-line (i.e., not great circle) angle/bearing
+    ##      from one point to another.
+    ##
+    ##
+
+FUNCTIONS
+    Angle(point1, point2)
+        (tuple, tuple) -> float
+        
+        Returns the straigt-line angle (i.e., not the great circle bearing) in
+            degrees between point1 and point2.
+        
+        Arguments:
+        point1 -- The geographic coordinates of a point, as a tuple. Latitude must
+            be the first item in the tuple.
+        point2 -- The geographic coordinates of a point, as a tuple. Latitude must
+            be the first item in the tuple.
+        
+        Examples:
+        >>> Angle((-100, 25), (-50, 30))
+        5.710593137499642
+        Angle((25,100), (30,50))
+        -84.28940686250037
+    
+    HaversineDistance(point1, point2, unit='coordinates')
+        (tuple, tuple) -> float
+        
+        Calculates the great-circle distance between two geographic coordinates;
+            result is in meters.
+        
+        Arguments:
+        point1 -- The geographic coordinates of a point, as a tuple. The order of
+            latitude and longitude must match that of point2.
+        point2 -- The geographic coordinates of a point, as a tuple. The order of
+            latitude and longitude must match that of point1.
+        
+        Example:
+        >>> print HaversineDistance((46.732434,-117.040306), (46.732581,-117.019181))
+        1609.83972203
+        >>> print HaversineDistance((0,0), (1,0))
+        111317.099692
+    
+    PlanarDistance(point1, point2)
+        (tuple/list, tuple/list) -> float
+        
+        Returns the planar distance between the two points, in the same unit as the
+            coordinates. Note that this function returns erroneous values when
+            passed geographic coordinates. Please pass projected coordinates only.
+            See HaversineDistance() for geographic coordinates.
+        
+        Arguments:
+        point1 -- The x and y coordinates of a point.
+        point2 -- The x and y coordinates of a point.
+        
+        Example:
+        >>> PlanarDistance((0,0),(1,1))
+        1.4142136
+        >>> PlanarDistance((43517,25234),(12651,16548))
+        32064.8803522
+
+

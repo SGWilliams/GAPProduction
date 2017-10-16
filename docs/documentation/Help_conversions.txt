@@ -1,0 +1,244 @@
+Python Library Documentation: module gapproduction.conversions in gapproduction
+
+NAME
+    gapproduction.conversions
+
+FILE
+    t:\scripts\gapproduction\gapproduction\conversions.py
+
+DESCRIPTION
+    ## Module for converting between measurement units.
+    ##
+    ## Public Functions:
+    ##
+    ## AsNumber() -- Casts the input as a number, if possible
+    ##
+    ##
+    ######################
+    #### Area Conversions:
+    ##
+    ## CellsToHectares() -- Converts a 30m raster cell count to hectares
+    ##
+    ## CellsToAcres() -- Converts a 30m raster cell count to acres
+    ##
+    ## CellsToSqMeters() -- Converts a 30m raster cell count to square meters
+    ##
+    ## CellsToSqMiles() -- Converts a 30m raster cell count to square miles
+    ##
+    ## SqMetersToHectares() -- Converts square meters to hectares
+    ##
+    ## SqMetersToAcres() -- Converts square meters to acres
+    ##
+    ## SqMetersToSqMiles() -- Converts square meters to square miles
+    ##
+    ## SqMilesToHectares() -- Converts square miles to hectares
+    ##
+    ## SqMilesToAcres() -- Converts square miles to acres
+    ##
+    ## SqMilesToSqMeters() -- Converts square miles to square meters
+    ##
+    ## HectaresToAcres() -- Converts hectares to acres
+    ##
+    ## HectaresToSqMeters() -- Converts hectares to square meters
+    ##
+    ## HectaresToSqMiles() -- Converts hectares to square miles
+    ##
+    ## AcresToHectares() -- Converts acres to hectares
+    ##
+    ## AcresToSqMeters() -- Converts acres to square meters
+    ##
+    ## AcresToSqMiles() -- Converts acres to square miles
+    ##
+    ##
+    #################################
+    #### Length/Distance Conversions:
+    ##
+    ## MilesToMeters() -- Converts miles to meters
+    ##
+    ## MetersToMiles() -- Converts meters to miles
+    ##
+    ## MilesToKilometers() -- Converts miles to kilometers
+    ##
+    ## KilometersToMiles() -- Converts kilometers to miles
+    ##
+    ##
+    ##
+
+FUNCTIONS
+    AcresToHectares(acres)
+        (number) -> number
+        
+        Returns the area, in hectares.
+        
+        Argument:
+        acres -- any number, representing acres
+    
+    AcresToSqMeters(acres)
+        (number) -> number
+        
+        Returns the area, in square meters.
+        
+        Argument:
+        acres -- any number, representing acres
+    
+    AcresToSqMiles(acres)
+        (number) -> number
+        
+        Returns the area, in square miles.
+        
+        Argument:
+        acres -- any number, representing acres
+    
+    AsNumber(i)
+        (any) -> number/boolean
+        
+        Casts the input as a number, if possible, and returns the numeric version.
+            If the input is boolean, then 1 will be returned for True and 0 will be
+              returned for False
+            If the input cannot be cast as a number, False will be returned.
+    
+    CellsToAcres(cellCount)
+        (number) -> number
+        
+        Returns the area, in acres, of the passed cell count.
+        
+        NOTE: this is only applies to 30 meter * 30 meter cells.
+        
+        Argument:
+        cellCount -- The number of 30 meter by 30 meter raster cells.
+    
+    CellsToHectares(cellCount)
+        (number) -> number
+        
+        Returns the area, in hectares, of the passed cell count.
+        
+        NOTE: this is only applies to 30 meter * 30 meter cells.
+        
+        Argument:
+        cellCount -- The number of 30 meter by 30 meter raster cells.
+    
+    CellsToSqMeters(cellCount)
+        (number) -> number
+        
+        Returns the area, in square meters, of the passed cell count.
+        
+        NOTE: this is only applies to 30 meter * 30 meter cells.
+        
+        Argument:
+        cellCount -- The number of 30 meter by 30 meter raster cells.
+    
+    CellsToSqMiles(cellCount)
+        (number) -> number
+        
+        Returns the area, in square miles, of the passed cell count.
+        
+        NOTE: this is only applies to 30 meter * 30 meter cells.
+        
+        Argument:
+        cellCount -- The number of 30 meter by 30 meter raster cells.
+    
+    HectaresToAcres(hectares)
+        (number) -> number
+        
+        Returns the area, in acres.
+        
+        Argument:
+        hectares -- any number, representing hectares
+    
+    HectaresToSqMeters(hectares)
+        (number) -> number
+        
+        Returns the area, in square meters.
+        
+        Argument:
+        hectares -- any number, representing hectares
+    
+    HectaresToSqMiles(hectares)
+        (number) -> number
+        
+        Returns the area, in square miles.
+        
+        Argument:
+        hectares -- any number, representing hectares
+    
+    KilometersToMiles(kilometers)
+        (number) -> number
+        
+        Returns the length/distance, in miles
+        
+        Argument:
+        kilometers -- any number, representing kilometers
+    
+    MetersToMiles(meters)
+        (number) -> number
+        
+        Returns the length/distance, in miles
+        
+        Argument:
+        meters -- any number, representing meters
+    
+    MilesToKilometers(miles)
+        (number) -> number
+        
+        Returns the length/distance, in kilometers
+        
+        Argument:
+        miles -- any number, representing miles
+    
+    MilesToMeters(miles)
+        (number) -> number
+        
+        Returns the length/distance, in meters
+        
+        Argument:
+        miles -- any number, representing miles
+    
+    SqMetersToAcres(sqMeters)
+        (number) -> number
+        
+        Returns the area, in acres.
+        
+        Argument:
+        sqMeters -- any number, representing square meters
+    
+    SqMetersToHectares(sqMeters)
+        (number) -> number
+        
+        Returns the area, in hectares.
+        
+        Argument:
+        sqMeters -- any number, representing square meters
+    
+    SqMetersToSqMiles(sqMeters)
+        (number) -> number
+        
+        Returns the area, in square miles.
+        
+        Argument:
+        sqMeters -- any number, representing square meters
+    
+    SqMilesToAcres(sqMiles)
+        (number) -> number
+        
+        Returns the area, in acres.
+        
+        Argument:
+        sqMiles -- any number, representing square miles
+    
+    SqMilesToHectares(sqMiles)
+        (number) -> number
+        
+        Returns the area, in hectares.
+        
+        Argument:
+        sqMiles -- any number, representing square miles
+    
+    SqMilesToSqMeters(sqMiles)
+        (number) -> number
+        
+        Returns the area, in square meters.
+        
+        Argument:
+        sqMiles -- any number, representing square miles
+
+

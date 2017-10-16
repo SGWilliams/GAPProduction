@@ -1,0 +1,491 @@
+Python Library Documentation: module gapproduction.gapmodeling in gapproduction
+
+NAME
+    gapproduction.gapmodeling
+
+FILE
+    t:\scripts\gapproduction\gapproduction\gapmodeling.py
+
+DESCRIPTION
+    ## Module to query/manipulate model parameters within the WHRdb.
+    ##
+    ## Public Functions:
+    ##
+    ## ModelExists() -- Returns a boolean, indicating whether the passed string is
+    ##      a valid, existing GAP model code.
+    ##
+    ## ModelCodes() -- Get a tuple of included model codes for the species.
+    ##
+    ## ModelEcoSystems() -- Returns lists of the selected primary and auxiliary
+    ##      map units for the model.
+    ##
+    ## SpEcoSystems() -- Returns lists of primary and auxiliary map units that are
+    ##      selected within any models for the given species.
+    ##
+    ## SpMuDiscrepancies() -- Returns a list of ecological systems that are selected
+    ##      inconsistently among models (for regions within which each given system
+    ##      occurs).
+    ##
+    ## ModelMuDiscrepancies() -- Identifies specific inconsistencies in the map unit
+    ##      selection between the two input models.
+    ##
+    ## ResolveMuDiscrepancies() -- Resolves inconsistencies in the map unit
+    ##      selection between the two input models by setting the change model to
+    ##      match the selections of the template model. Note: This function is not
+    ##      only intended to address regional differences for a given taxon, but
+    ##      could also be used to address differences within a region between
+    ##      subspecies or between other similar models.
+    ##
+    ## SetMUs() -- Selects the passed map units for the given model.
+    ##
+    ## HandModels() -- Returns a list of model codes for models that must be
+    ##      modeled by hand.
+    ##
+    ## EcoSystemModels() -- Returns a list of models with primary assocation with the
+    ##      ecological system and also a list of models with a secondary association.
+    ##
+    ## EcoSystemSpecies() -- Returns a list of species with a primary association with
+    ##      the ecological system and another list of species with secondary assocations
+    ##
+    ## RemoveAlienMUs() -- Goes through each model in a list and unselects primary
+    ##     and auxiliary map units which are not found within the model's region.
+    ##
+    ## ExcludeModels() -- Returns a list of models that exist in the WHRDb but are designated
+    ##      for exclusion in the ysnInclude field.
+    ##
+    ## ModelAsDictionary() -- Returns model variables as a dictionary.
+    ##
+
+FUNCTIONS
+    EcoSystemModels(ecologicalSystem, season='all', contiguousOnly=False)
+        (int) -> list, list
+        
+        Returns two lists, the first of which contains the names of species
+            that have a primary association with the ecological system, and
+            the second of which contains a list of species with a secondary
+            association with the ecological system. Only includes models
+            for which ysnInclude is True; omits models with region code 0
+        
+        Arguments:
+        ecologicalSystem -- The 4-digit land cover map unit code.
+        season -- The season for which you wish to return ecological systems. By
+            default, all seasons will be retrieved. You may enter: 's' or 'summer'
+            for summer models; 'w' or 'winter' for winter models; 'y', 'year',
+            'yearround', or 'year-round' for year-round models.
+        contiguousOnly -- An optional, boolean parameter, indicating whether you
+            wish to return codes only for models within the contiguous U.S. By
+            default, it is set to False, which means that all model codes will be
+            returned, regardless of their region.
+    
+    EcoSystemSpecies(ecologicalSystem, season='all', contiguousOnly=False)
+        (int) -> list, list
+        
+        Returns two lists, the first of which contains the names of species
+            that have a model with a primary association with the ecological system, and
+            the second of which contains a list of species with a model
+            with secondary association with the ecological system. Only includes species
+            witha model for which ysnInclude is True; omits models with region code 0.
+        
+        Argument:
+        ecologicalSystem -- The 4-digit land cover map unit code.
+        season -- The season for which you wish to return ecological systems. By
+            default, all seasons will be retrieved. You may enter: 's' or 'summer'
+            for summer models; 'w' or 'winter' for winter models; 'y', 'year',
+            'yearround', or 'year-round' for year-round models.
+        contiguousOnly -- An optional, boolean parameter, indicating whether you
+            wish to return codes only for models within the contiguous U.S. By
+            default, it is set to False, which means that all model codes will be
+            returned, regardless of their region.
+    
+    EndEdit_2(modelCode, initials)
+        (string, string) -> changes to WHRdb
+        
+        Changes status of model to "editing complete" in WHRdb.
+        
+        Arguments:
+        modelCode -- Species-region-season code.
+        initials -- Your initials.  
+        
+        Example:
+        >>> EndEdit_2("mSEWEx-y4", "NMT")
+    
+    EndReview_6(strUC, initials, mosaicDir, regionalDir, modelerInitials, suitable=True)
+        (string, string, [boolean], string, string, string) -> changes to WHRdb
+        
+        Changes status of model to "review complete" in WHRdb, records initials.
+        
+        Arguments:
+        strUC -- strUC for species that was mosaiced.
+        initials -- Your initials.
+        suitable -- True/False whether the mosaic is correct.
+        mosaicDir -- Directory where the mosaic is saved.
+        regionalDir -- Directory where the regional outputs are saved.
+        modelerInitial -- Initials of the person who edited the model
+            
+        Example:
+        >>> EndReview_6("mSEWEx", "NMT", True, mosaicDir="P:/Proj3/Output/Mosaics/",
+                        regionalDir="P:/Proj3/Output/Regional/", "MJR")
+    
+    ExcludeModels()
+        (None) -> tuple
+        
+        Retrieves tuple of models that are designated for exclusion in 
+        tblAllSpecies.ysnInclude in the WHRDb.
+    
+    HandModels()
+        (None) -> tuple
+        
+        Retrieves list of models that require hand modeling. Only includes models
+        for which ysnInclude is True; omits models with region code 0
+    
+    LoadSpeciesMUs(UC, Range=True)
+        (string, boolean) -> dictionary
+        
+        Returns a dictionary with python sets containing map units that are selected
+            as primary (prim) in any of the species' models, auxiliary (aux) in any of the
+            species' models, map units within the species' range (inRangeMU), map units
+            not in the species' range (outRangeMU), and prim and aux converted to names
+            instead of codes (primNames and auxNames).  A set of all map unit codes is
+            returned as well (allMU).
+        
+        Arguments:
+        UC -- a strUC code (e.g, mSEWEn)
+        Range -- Defaults to True. Setting to True will run processes that extract a
+        list of map units that occur within a species' range.
+        
+        Example:
+        speciesMUs = loadSpeciesMapUnits("mSEWEn", Range=False)
+    
+    ModelAsDictionary(model, muCodes=True)
+        (string, boolean) -> dictionary
+        
+        Returns a dictionary that includes a key for each of a regional model's variables.
+            NOTE: Only works for conus models.
+        
+        Arguments:
+        model -- a model code (e.g., "bcoyex-s6")
+        muCodes -- specifies whether to return ecological system names or codes. Defaults
+            to true, which returns codes and takes a little longer to run.
+        
+        Dictionary keys -- ['intIntoBuffFW', 'ScientificName', 'ysnHydroWV', 'intAuxBuff',
+                            'strForIntBuffer', 'ysnHandModel', 'intIntoBuffOW', 'Season',
+                            'intElevMax', 'PrimEcoSys', 'AuxEcoSys', 'SpeciesCode',
+                            'intIntoBuffWV', 'cbxContPatch', 'ysnUrbanExclude', 'intFromBuffFW',
+                            'intElevMin', 'ysnHydroOW', 'Region', 'CommonName',
+                            'ysnUrbanInclude', 'strUseForInt', 'intEdgeEcoWidth',
+                            'intFromBuffWV', 'strStreamVel', 'strSalinity', 'strEdgeType',
+                            'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW']
+        
+        Example:
+        modelDictionary = ModelAsDictionary(model="mSEWEx-y1", muCodes=False)
+    
+    ModelCodes(spCode, season='all', publishedOnly=False, conusOnly=True, migratory=False)
+        (string, string, [boolean], [boolean], [boolean]) -> tuple
+        
+        Retrieves list of models for the given species. Only includes models
+        for which ysnInclude is True; omits models with region code 0
+        
+        Notes:
+        This is pulling from two different tables in WHRdb.  The code could probably be 
+            a little more succinct if a join were specified in the sql query passed.
+        
+        Arguments:
+        spCode -- The species' unique GAP ID
+        season -- The season for which you wish to return models. By default, all
+            seasons will be retrieved. You may enter: 's' or 'summer' for summer
+            models; 'w' or 'winter' for winter models; 'y', 'year', 'yearround', or
+            'year-round' for year-round models.
+        publishedOnly -- Optional boolean parameter to include only published models.
+            By default, it is set as False, which returns all models.
+        conusOnly -- Optional boolean parameter to include only models within CONUS.
+            By default, it is set as True, which returns only CONUS models.
+        migratory -- Optional boolean parameter to include migratory models.
+            By default, it is set as False, which excludes migratory models.
+        
+        Example:
+        >>> ModelCodes('rGLSNx')
+        (u'rGLSNx-y5', u'rGLSNx-y6', u'rGLSNx-y4')
+        >>> gp.gapdb.ModelCodes('bbaeax', 's', True)
+        ['bBAEAx-s1', 'bBAEAx-s2', 'bBAEAx-s3', 'bBAEAx-s4', 'bBAEAx-s5', 'bBAEAx-s6']
+        >>> gp.gapdb.ModelCodes('bbaeax', 'winter')
+        ['bBAEAx-w1', 'bBAEAx-w2', 'bBAEAx-w3', 'bBAEAx-w4', 'bBAEAx-w5', 'bBAEAx-w6']
+    
+    ModelEcoSystems(modelCode)
+        (str) -> list, list
+        
+        Returns two lists, the first of which contains the names of ecological
+            systems that have been selected as primary habitat for the model, and
+            the second of which contains those ecological systems selected as
+            auxiliary habitat.
+        
+        Argument:
+        modelCode -- The 9-character GAP model code.
+    
+    ModelExists(modelCode)
+        (string) -> boolean
+        
+        Checks a model code to verify that it is in the database. ...mostly used
+            internally, but could have some validity as public function.
+        
+        Argument:
+        modelCode -- Any string, but the purpose of the function is to verify that
+            this is a valid, nine-character, GAP model code.
+        
+        Examples:
+        >>> ModelExists('mbishx-y4')
+        True
+        >>> ModelExists('flurbington')
+        False
+        >>> ModelExists('mBISHx-y9')
+        False
+    
+    ModelMuDiscrepancies(templateModel, compareModel)
+        (string, string) -> list, list, list, list
+        
+        Identifies specific inconsistencies in the map unit selection between the
+            two input models. This function is used internally by the
+            ResolveMuDiscrepancies() function, but it can also be used to preview
+            the changes that that function will make to the database.
+        
+            Returns four lists, which contain:
+                1) The primary map units that occur in both regions and are
+                    selected for the template model but not selected for the compare
+                    model.
+                2) The primary map units that occur in both regions and are not
+                    selected for the template model but are selected for the compare
+                    model.
+                3) The auxiliary map units that occur in both regions and are
+                    selected for the template model but not selected for the compare
+                    model.
+                4) The auxiliary map units that occur in both regions and are not
+                    selected for the template model but are selected for the compare
+                    model.
+        
+        Arguments:
+        templateModel -- The nine-character GAP model code for the model you wish to
+            treat as the template (or the correct model)
+        compareModel -- The nine-character GAP model code for the model you wish to
+            compare to the template model.
+        
+        Example:
+        >>> ModelMuDiscrepancies('mbishx-y1', 'mbishx-y4')
+        (['Barren Land', 'California Montane Woodland and Chaparral', 'California Xeric Serpentine Chaparral', 'Central California Coast Ranges Cliff and Canyon'],
+        ['California Central Valley and Southern Coastal Grassland', 'Mediterranean California Subalpine-Montane Fen'],
+        ['California Lower Montane Blue Oak-Foothill Pine Woodland and Savanna', 'California Montane Jeffrey Pine-(Ponderosa Pine) Woodland'],
+        ['California Central Valley and Southern Coastal Grassland', 'Mediterranean California Subalpine-Montane Fen'])
+    
+    Mosaic_3(rasters, initials, mosaicDir, overwrite=True)
+        (list, string, string, [Boolean]) -> raster object, saved raster
+        
+        Changes status of model to "mosaicing started" in WHRdb.
+        
+        Arguments:
+        modelCodes -- List of species-region-season codes to mosaic.
+        initials -- Your initials.
+        mosaicDir -- Where to save the mosaiced models.
+        overwrite -- True/False whether to overwrite any existing mosaic.
+        
+        Example:
+        >>> Mosaic_3(["T:/Output/mSEWEx-y4", "T:/Output/mSEWEx-y1"], "NMT",
+                    "T:/Output/Mosaics/")
+    
+    Publish_7(strUC, initials, regionalDir, mosaicDir, storageDir, outputDir)
+        (string, string, string, string, string, string) -> multiple processes.
+        
+        Changes status of model to "publishing started" in WHRdb, records initials,
+            and .......
+        
+        Arguments:
+        strUC -- The path name of the file to publish.
+        initials -- Your initials.
+        regionalDir -- Directory with regional outputs.
+        mosaicDir -- Directory where mosaiced output is saved.
+        storageDir -- Directory for "deep storage".
+        outputDir -- Directory of the "Null123" outputs.
+        
+        Example:
+        >>> Publish_7("mSEWEx", "NMT", "T:/Output")
+    
+    RemoveAlienMUs(models)
+        (list) -> None
+        
+        Goes through each model in a list and unselects primary and auxiliary map units
+            which are not found within the model's region.
+        
+        Arguments:
+        Models -- A list of model codes (e.g., ["mRESQx-y5", "mRESQx-y4"])
+    
+    ResolveMuDiscrepancies(templateModel, changeModel, uid, pwd)
+        (string, string, string, string) -> None
+        
+        Resolves inconsistencies in the map unit selection between the two input
+            models by setting the change model to match the selections of the
+            template model.
+        
+        Note: This function is not only intended to address regional differences for
+            a given taxon, but could also be used to address differences within a
+            region between subspecies or other similar models.
+        
+        Arguments:
+        templateModel -- The nine-character GAP model code for the model you wish to
+            treat as the template (or the correct model)
+        changeModel -- The nine-character GAP model code for the model you wish to
+            change to match the template model.
+        uid -- A user id to connect to the WHRdb. The user must have editing
+            priveleges; otherwise, the function will fail.
+        pwd -- The password that matches uid.
+    
+    RunModel(modelCode, regionalDir, year=2011)
+        (string, string, string?) -> raster object saved to outDir
+        
+        Runs the model for the passed regional-seasonal model code, using the
+            input data for the year provided and saves output in regionalDir.  Also
+            returns output as a raster object.
+        
+        Arguments:
+        modelCode -- Species-region-season code.
+        regionalDir -- Directory where to save output.
+        year -- Year of input data that you wish to create.
+        
+        Example:
+        >>> RunModel("mSEWEx-y4", "T:/Output/", 2011)
+    
+    SetMUs(modelCode, mapUnits, primary=True, select=True)
+        (str, list/tuple, [boolean]) -> boolean
+        
+        For the given model, selects the passed map units.
+        
+        Arguments:
+        modelCode -- The 9-character, GAP model code to which you wish to apply the
+            map unit selections.
+        mapUnits -- The names/codes of the map units you wish to select for the
+            model.
+        primary -- An optional parameter, indicating whether you wish to apply the
+            map units as primary or auxiliary. By default, this parameter is set to
+            True, meaning that the map units are selected as primary. If False,
+            the map units will be selected as auxiliary.
+        select -- An optional parameter, indicating whether the map units should be
+            selected or unselected. By default, select is set to True, meaning that
+            the passed map units will be selected for the given model. select=False
+            would remove the passed map units from the given model.
+        
+        Example:
+        >>> SetMU('mNAROx-y4', ['Developed, Low Intensity', 1201, 1203, 'Open Water (Fresh)'])
+        True
+    
+    SpEcoSystems(spCode, season='all', contiguousOnly=False)
+        (string) -> list, list
+        
+        Returns two lists, the first of which contains the names of ecological
+            systems that have been selected as primary habitat in any or all of the
+            passed species' models, and the second of which contains those
+            ecological systems selected as auxiliary habitat.
+        
+        Arguments:
+        spCode -- The species' GAP code; you can opt to pass either the 6-character
+            code or to retrieve systems selected by any or all subspecies/species by
+            submitting a shorter code. E.g.: SpEcoSystems('mwtde') would retrieve
+            systems from the mwtdex, mwtdel, mwtden, and mwtdec models, grouping all
+            systems into the two lists.
+        season -- The season for which you wish to return ecological systems. By
+            default, all seasons will be retrieved. You may enter: 's' or 'summer'
+            for summer models; 'w' or 'winter' for winter models; 'y', 'year',
+            'yearround', or 'year-round' for year-round models.
+        contiguousOnly -- An optional, boolean parameter, indicating whether you
+            wish to return codes only for models within the contiguous U.S. By
+            default, it is set to False, which means that all model codes will be
+            returned, regardless of their region.
+    
+    SpMuDiscrepancies(spCode, season='all', contiguousOnly=True)
+        (string, [string], [boolean]) -> list
+        
+        Returns a list of map units that are selected for at least one model but
+            that are not selected for at least one other model, the region of
+            which the map unit occurs within.
+        
+        Arguments:
+        spCode -- The species' GAP code; you can opt to pass either the 6-character
+            code or to retrieve systems selected by any or all subspecies/species by
+            submitting a shorter code. E.g.: SpEcoSystems('mwtde') would retrieve
+            systems from the mwtdex, mwtdel, mwtden, and mwtdec models, grouping all
+            systems into the two lists.
+        season -- The season for which you wish to examine ecological systems. By
+            default, all seasons will be retrieved. You may enter: 's' or 'summer'
+            for summer models; 'w' or 'winter' for winter models; 'y', 'year',
+            'yearround', or 'year-round' for year-round models.
+        contiguousOnly -- An optional, boolean parameter, indicating whether you
+            wish to examine only models within the contiguous U.S. By default, it is
+            set to True, which means that only models within the conterminous U.S.
+            will be examined.
+    
+    SpReferences(sp)
+        (string) -> pandas dataframe
+        
+        Builds and returns a dataframe containing citations/references for the 
+            species that you gave.  It combines references associated with any of
+            the species models' published, conus, and non-migratory models.
+        
+        Argument:
+        sp -- A species code (strUC).
+        
+        Example:
+        >>>df = SpReferences("bAMROx")
+        >>>df.to_csv("R:/RobinRefs.csv")
+    
+    SppHabText(spp)
+        (list) -> pandas dataframe
+        
+        This function queries the WHRDb for a species' habitat
+            description text and populates a table with the
+            text for all species provided in the list.
+            
+        Arguments:
+        spp -- Python list of unique species codes (strUC)
+            
+        Example: 
+        >>>dfHab = SppHabText(spp=["mSEWEx", "bAMROx"])
+    
+    StartEdit_1(modelCode, initials)
+        (string, string) -> changes to WHRdb
+        
+        Changes status of model to "editing started" in WHRdb.
+        
+        Arguments:
+        modelCode -- Species-region-season code.
+        initials -- Your initials.  
+        
+        Example:
+        >>> StartEdit_1("mSEWEx-y4", "NMT")
+    
+    StartReview_5(strUC, initials)
+        (string, string) -> changes to WHRdb
+        
+        Changes status of model to "review started" in WHRdb, records initials.
+        
+        Arguments:
+        strUC -- strUC for species that was mosaiced.
+        initials -- Your initials.
+        
+        Example:
+        >>> StartReview_5("mSEWEx", "NMT")
+    
+    VerifyMosaic_4(strUC, initials, mosaicDir, regionalDir, reviewerInitials, suitable=True)
+        (string, string, [Boolean], string, string, string) -> changes to WHRdb, email 
+                                                                sent to reviewer
+        
+        Changes status of model to "mosaicing complete" in WHRdb and notifies the
+            reviwer that it is complete and ready for review.
+        
+        Arguments:
+        strUC -- strUC for species that was mosaiced.
+        initials -- Your initials.
+        suitable -- True/False whether the mosaic is correct.
+        mosaicDir -- Directory where the mosaic is saved.
+        regionalDir -- Directory where the regional outputs are saved.
+        reviewerInitials -- Used to send email to the reviwer about the species.
+        
+        Example:
+        >>> VerifyMosaic_4("mSEWEx", "NMT", True, mosaicDir="P:/Proj3/Output/Mosaics/",
+                           regionalDir="P:/Proj3/Output/Regional/", "MJR")
+
+

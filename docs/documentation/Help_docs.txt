@@ -1,0 +1,128 @@
+Python Library Documentation: module gapproduction.docs in gapproduction
+
+NAME
+    gapproduction.docs
+
+FILE
+    t:\scripts\gapproduction\gapproduction\docs.py
+
+DESCRIPTION
+    ## This module facilitates common tasks for searching/manipulating text files.
+    ##
+
+FUNCTIONS
+    DocReplace(document, *replacePairs)
+        (string, [tuples/dictionaries/lists]) -> boolean
+        
+        Replaces text within the given document.
+        
+        Returns True if the function ran successfully. Otherwise, returns False.
+        
+        Arguments:
+        document -- The full, absolute path to the file you wish to edit.
+        replacePairs -- Any number of tuples, lists, and/or dictionaries. The first
+            item or key is the text you wish to replace, and the second item or
+            value is the text with which you wish to replace it. All text is
+            case-sensitive.
+            For the sake of simplicity, I would recommend just submitting a single
+            dictionary, but I wanted to make the function flexible enough that
+            as-yet-unseen situations can be handled...Plus it gave me a chance to
+            code my first (and therefore sloppy) recursive function (see private
+            function __Replacement()). So...
+            Technically, the function can handle odd combinations,
+            such as lists containing dictionaries, tuples, and other lists (see
+            the third example, below)...the function will search recursively through
+            each list/tuple until it reaches a pair of strings or a dictionary.
+            Note: The content of dictionary entries is not required to be of type
+            str.
+        
+        Example:
+        >>> DocReplace('test.txt', ('text', 'string'), ('test', 'trial'))
+        True
+        [In the above example, instances of the word 'text' are replaced by the word
+        'string', and instances of 'test' are replaced by 'trial']
+        >>> DocReplace('testDoc.txt', {'text':'string','test':'trial'})
+        True
+        >>> DocReplace('testDoc.txt', [('1', 'ONE'),{'text':'string','test':'trial'},('two', 'DOS')], ['this', 'THAT'], ('4', 'QUATTRO'), {"Test":"TEST"})
+        True
+    
+    GetLines(document, searchText)
+        (string, string) -> list
+        
+        Returns a list of the text from every line that contains the search text.
+        
+        Arguments:
+        document -- The full, absolute path to the document to be searched.
+        searchText -- The text for which you wish to search.
+        
+        Example:
+        >>> GetLines('test.txt', 'zz')
+        [returns a list of strings]
+    
+    SearchDirectoryNames(rootDirectory, searchText)
+        (string, string) -> list
+        
+        Walks a directory, identify directories that contain the search text.
+        
+        Arguments:
+        searchText -- The text for which the function searches.
+        rootDirectory -- The root directory within which all files will be searched.
+        
+        Example:
+        >>> SearchDirectoryNames('C:\temp', 'test')
+        ['C:\Users\tlaxson\Desktop\temp\test', 'C:\Users\tlaxson\Desktop\temp\delete\test', 'C:\Users\tlaxson\Desktop\temp\delete\test\test2']
+    
+    SearchFilenames(rootDirectory, searchText)
+        (string, string) -> list
+        
+        Walks a directory, identifying filenames that contain the search text.
+        
+        Arguments:
+        searchText -- The text for which the function searches.
+        rootDirectory -- The root directory within which all files will be searched.
+        
+        Example:
+        >>> SearchFilenames('C:\temp', 'map')
+        ['C:\temp\rangeMap.mxd', 'C:\temp\myfolder\new_map.mxd']
+    
+    SearchInFiles(rootDirectory, searchText, *extensions)
+        (string, string, [string]) -> list
+        
+        Walks a directory, identifying files that contain the search text.
+        
+        Arguments:
+        rootDirectory -- The root directory within which all files will be searched.
+        searchText -- The text for which the function searches.
+        *extensions -- any number of file extensions to search; if none entered,
+            script will search for all files. The extensions arguments can
+            technically be any combination of lists, tuples, and/or strings, with
+            nesting accepted; the function will flatten any nesting to retrieve
+            only the base strings from within the iterables.
+        
+        Example:
+        >>> SearchInFiles('C:\temp\mine', 'combine', '.py', 'txt')
+        ['C:\temp\notes.txt', 'C:\temp\script_one.py', 'C:\temp\script_four.py']
+    
+    Write(document, text, mode='append')
+        (string, string, [string]) -> boolean
+        
+        Writes text to a document. If necessary, the function will create the
+            directories and the file itself. Ensures closure of the document.
+        
+        Returns True if the function ran successfully. Otherwise, returns False.
+        
+        Arguments:
+        document -- The file to which the text will be added.
+        text -- The text you wish to write to the document.
+        mode -- Indicates whether you wish to append or overwrite the document. The
+            only valid entries are 'Append' or 'Overwrite' (capitalization is
+            irrelevant). 'Append' is the default option.
+            Technically, 'a' or 'o' can be entered instead.
+        
+        Examples:
+        >>> Write('mydoc.txt', 'Write this test')
+        True
+        >>> Write('mydoc.txt', 'Write this test', 'overwrite')
+        True
+
+

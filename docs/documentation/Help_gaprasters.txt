@@ -1,0 +1,239 @@
+Python Library Documentation: module gapproduction.gaprasters in gapproduction
+
+NAME
+    gapproduction.gaprasters
+
+FILE
+    t:\scripts\gapproduction\gapproduction\gaprasters.py
+
+DESCRIPTION
+    ## This module facilitates common tasks for processing rasters.
+    ##
+    ##
+    ## The public functions are:
+    ##
+    ## SpModel() -- Finds the path to the species' model 
+    ##
+    ## RemoveEmptyRasters() -- Deletes empty rasters from the passed directory.
+    ##
+    ## CompareRasterProperties() -- Compares the raster properties in the given
+    ##      workspace to those of the reference raster.
+    ##
+    ## RasterPropertiesDictionaries() -- Returns dictionaries of the raster's
+    ##      properties.
+    ##
+    ## GetSnapGrid() -- Returns the path to the GAP snap raster
+    ##
+    ## SubtractRasters() -- Subtracts one raster from another, but avoids the extent
+    ##      and NoData issues of default raster calculations
+    ##
+    ## ValueField() -- Gets the name of the raster's value field
+    ##
+    ## RasterType() -- Gets the name of the raster's file format
+    ##
+    ## SetNullsToValue() -- Change NoData or Null values in a raster to the passed
+    ##       value. Overwrites the input raster. Returns the input raster's path/name.
+    ##
+    ## CheckModelTable() -- Checks to see that a valid raster attribute table exists
+    ##      and that it has rows.
+    ##
+    ## CheckModelExtents() -- Checks a list of species model ouputs to collect a list of
+    ##      ones with extents that are too large relative to the species' range.
+    ## 
+    ## CheckRasterProperties() -- Checks the properties of species model raster.
+
+FUNCTIONS
+    CheckModelExtents(sp, workDir, threshold, modelDir, hucTable='T:/Scripts/GAPProduction/data/HUC_Extents.txt', saveTables=False)
+        (list, string, int, string, string, boolean) -> dictionary, list
+        
+        Checks the extent of a list of species model raster objects against the extents 
+            of  the hucs that the species occurs or occurred in.  Returns a dictionary
+            and list.  The dictionary is of species for which the raster is too 
+            large compared to the hucs where it occurs and has species names as keys and 
+            tuples of what the extent should ideally be as values.  The tuple is formatted
+            as (XMin, YMin, XMax, YMax) in hopes that it plays nicely with arcpy.env.extent.
+            The list is of species for which there was an error in the process (usually 
+            related to range data in the database for hawaiian species). Runtime can be 
+            hours to check all models.  Extents are deemed "too big" if one of a raster's 
+            corners is more than the threshold distance away from the corner of the corresponding huc.
+        
+        Arguments:
+        sp -- List of species model tifs to check the extent of.  This code assumes 
+            they are geotiffs (name ending in ".tif").
+        workDir -- The directory within which you wish to place the range tables.  
+            Consider a temp location.
+        threshold -- Differences above this value in meters will cause a species to be 
+            included in the dictionary of models that are too big.  Most model's extents 
+            are about 5000 m different from that of the species' range.  
+        modelDir -- The directory containing the geotifs to check.
+        hucTable -- Path to a csv file with the extents for each huc in Albers 
+            projection. Defaults to the table in gapage's data directory.
+        saveTables -- True or False for whether you want to save the range tables 
+            that will be generated during processing.
+        
+        Example:
+        >>> dicto, listt = CheckModelExtents(['aambux.tif', 'bamgox.tif'], 'C:/temp', 
+                              'C:/data/HUCS_Extent.txt', threshold=500000)
+    
+    CheckModelTable(rasterList)
+        (list) -> dict
+        
+        Returns a dictionary of lists, one for each error that the function tests for.
+            It looks for tables with a count of values less than zero, raster values
+            greater than 3, and rasters that have an issue with search cursors.  
+            Designed for testing GAP species model output specifically.
+        
+        Argument:
+        rasterList -- A list of rasters to check.
+        
+        Examples:
+        >>> CheckModelTable(['X:/Name/Name.tif'])
+        {'Negatives': [], 'cursorProblem': [], 'OverThree': []}
+    
+    CheckRasterProperties(rasters)
+        (list) -> dictionary
+        
+        A function to check that the properties of a list of rasters, match the desired 
+            properties species models (TIFF, Albers projection, 8 bit unsigned pixel type, 
+            NoDataValue = 0)
+        
+        Argument:
+        rasters -- A list of rasters to check.
+        
+        Examples:
+        >>> BadProperties = CheckRasterProperties(arcpy.ListRasters())
+        >>> a = BadProperties["WrongNoDataValue"]
+        >>> a
+        ['amwlfx.tif', 'andsax.tif']
+    
+    CompareRasterProperties(directory, referenceRaster='', wildcard='', field='', omitProperties=[])
+        (string, [string], [string], [string], [list]) -> list, list
+        
+        Compares the raster properties in the given workspace to those of the
+            reference raster; prints discrepancies and returns two lists, the first
+            of which contains the names of rasters with properties that match those
+            of the reference file, and the second of which contains names of rasters
+            with properties that do not match those of the reference file.
+        
+        Arguments:
+        directory -- The directory containing the rasters that you wish to compare
+            to the reference raster.
+        referenceRaster -- An optional parameter indicating the raster to which you
+            wish to compare all other rasters. If no raster is entered, then the
+            first raster encountered in the directory will be treated as the
+            reference raster.
+        wildcard -- An optional parameter indicating the search string that each
+            raster name must match in order to be processed. The parameter treats
+            asterisks as any number (including zero) of characters. In this way,
+            it works just like ArcGIS wildcards, in which '*x' would match species-
+            level GAP data, whereas 'x' would only match rasters named exactly 'x'.
+        field -- If you wish to assess the presence or properties of a given raster
+            attribute, you may enter the exact field name.
+        omitProperties -- An optional list indicating the names of properties that
+            you do not wish to examine. For example, in comparing the Gap Analysis
+            results, one would pass ['maximum', 'pixelType'] as this argument,
+            because the rasters all have difference maximum values and they have a
+            range of pixelTypes, and we would not want these known differences to
+            return mismatches of which we are already aware.
+        
+        Examples:
+        >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory)
+        
+        >>> gappack.gaprasters.CompareRasterProperties(myRasterDirectory, myCorrectRaster,
+                                                       'a*', 'count', ['maximum', 
+                                                       'pixelType', 'noDataValue'])
+    
+    GetSnapGrid()
+        () -> str
+        
+        Returns the path to a valid GAP snap raster.
+    
+    RasterPropertiesDictionaries(raster, omitProperties=[], field='')
+        (string, [list], [string]) -> dictionary, dictionary, dictionary
+        
+        Returns three dictionaries:
+            1) Keys represent the raster's describe property names, with values
+                being the actual properties for the given raster
+            2) Keys represent the raster's raster property names, with values
+                being the actual properties for the given raster
+            3) Keys represent the field property names, with values being the actual
+                properties for the given field
+        
+        Arguments:
+        raster -- The raster name or the full path to the raster (if the workspace is not
+            set to the raster's directory).
+        omitProperties -- An optional list of properties to omit from the results.
+        field -- An optional string indicating the field for which you wish to
+            return a dictionary of properties.
+        
+        Example:
+        >>> gap.gaprasters.RasterPropertiesDictionaries(myRaster)
+        
+        >>> gap.gaprasters.RasterPropertiesDictionaries(myRaster, field='count')
+    
+    RasterType(raster)
+        (str) -> str
+        
+        Returns the name of the raster's file type
+    
+    RemoveEmptyRasters(directory=False)
+        (string) -> list, list
+        
+        Searches the passed directory for empty rasters and deletes them; returns
+        a list of the valid rasters remaining in the directory and a list of the
+        deleted rasters.
+        
+        Argument:
+        directory -- An optional parameter indicating the name of the directory or
+            the absolute path to the directory you wish to clean up. If no argument
+            is entered, the process will run on the current arcpy workspace. In
+            either case, the function will reset the workspace to the original arcpy
+            workspace prior to returning to the script that called it.
+    
+    SetNullsToValue(raster, value)
+        (str, int/float) -> str
+        
+        Change NoData or Null values in a raster to the passed value. Overwrites
+          the input raster. Returns the input raster's path/name.
+        
+        Note that zeroes will fill the entire square extent of the raster and may
+          not be restricted to your area of interest. Changing NoData cells to a
+          value can greatly increase the size of your file.
+        
+        Arguments:
+        raster - The name/path of the raster you wish to update.
+        value - The value to which you wish to change NoData cells.
+    
+    SpModel(sp)
+        (str) -> str
+        
+        Return the path to the final, mosaicked distribution raster for the species.
+            Returns False if no model is found.
+        
+        Argument:
+        sp -- The species' 6-character GAP unique ID...capitalization irrelevant.
+        
+        Examples:
+        >>> SpModel('bBAEAx')
+        \QNAPNAS1\Clownfish\NAT_Data\Nat_Models_BirdBAEAx
+        >>> SpModel('flurbx')
+        False
+    
+    SubtractRasters(inRaster, subRaster, outRaster)
+        (str, str, str) -> str
+        
+        Performs a raster subtraction, but avoids the extent/NoData issues that
+            plague the raster calculator.
+        
+        Arguments:
+        inRaster -- The input raster, from which the subRaster will be subtracted
+        subRaster -- The raster containing values to be subtracted from inRaster
+        outRaster -- The path/name of the desired output raster
+    
+    ValueField(raster)
+        (str) -> str
+        
+        Returns the name of the raster's value field (since capitalization varies
+        across raster formats but may be necessary for certain operations)
+
+

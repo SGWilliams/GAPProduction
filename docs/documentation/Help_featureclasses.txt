@@ -1,0 +1,488 @@
+Python Library Documentation: module gapproduction.featureclasses in gapproduction
+
+NAME
+    gapproduction.featureclasses
+
+FILE
+    t:\scripts\gapproduction\gapproduction\featureclasses.py
+
+DESCRIPTION
+    ## This module contains functions to facilitate the processing of feature
+    ## classes (shapefiles and geodatabase feature classes).
+    ##
+    ## Public Functions:
+    ##
+    ## UseDACursor() -- Returns a boolean indicating whether the current system
+    ##      supports the data access module.
+    ##
+    ## ListValues() -- Return a list of all the values that occur in the given field
+    ##      in a feature class.
+    ##
+    ## CountOccurrencesOfValue() -- Counts the number of times that the given value
+    ##      occurs in the given field in the feature class.
+    ##
+    ## CountOccurrencesOfAllValues() -- Returns a dictionary within which the keys
+    ##      represent each unique value found in the field and the values
+    ##      represent the number of times that each value is found in the attribute
+    ##      table.
+    ##
+    ## FindDuplicateValues() -- Returns a list of values that occur multiple times
+    ##      in the given field.
+    ##
+    ## DeleteDuplicates() -- Delete records that share a value with another record.
+    ##      NOTE: This function will delete every matching record, not just the
+    ##      second and subsequent occurrences of the value.
+    ##
+    ## FieldsDictionary() -- Creates a dictionary where the keys and values are
+    ##      the field values from the passed fields for each record in the table/
+    ##      feature class. The key field must be a unique identifier to retain all
+    ##      data.
+    ##
+    ## FieldsDictionary_Inverse() -- Creates a dictionary where the keys and values
+    ##      are the field values from the passed fields for each record in the
+    ##      table/feature class. Differs from FieldsDictionary() in that, here, the
+    ##      keys do not need to be unique identifiers. Also, can only address a
+    ##      single value field. Furthermore, the returned dictionary values are
+    ##      lists.
+    ##
+    ## ListFromTable() -- Creates a list of lists. Each sub-list contains the values
+    ##     for a row in the input table/feature class.
+    ##
+    ## ListFields() -- Creates of a list of field names from the passed layer
+    ##
+    ## SetNulls() -- In the given attribute field(s), sets all Null values
+    ##      to match the passed value.
+    ##
+    ## ReplaceValue() -- In the given attribute field(s), sets all
+    ##      occurrences of the given value/string to match the new value/string
+    ##
+    ## ReplaceValues() -- In the given attribute field(s), sets all
+    ##      occurrences of any of the given values/strings to match the new value/string
+    ##
+    ## ReplaceValuesFromDict() -- In the given attribute field, updates
+    ##      occurrences of any of the dictionary's keys to match the key's corresponding value
+    ##
+    ## AttributeTableToCsv() - Exports the attribute table from the passed
+    ##      shapefile, feature class, raster, or geodatabase table to a csv.
+    ##
+    ## DomainAsDictionary() -- Returns the field's coded attribute domain as a
+    ##      dictionary, in which the keys are the codes and the values are the coded
+    ##      strings.
+    ##
+    ## RenameField() -- Renames the passed attribute field.
+    ##
+    ## CopyValues() -- For each feature in the feature class, copies the values from
+    ##      one field to another.
+    ##
+    ## ChangeFieldLength() -- Change the length property of a text field in the
+    ##      attribute table.
+    ##
+    ## GetMaxLength() -- Get the number of characters in the longest value from the
+    ##      passed field. If multiple fields are passed, returns the number of
+    ##      of characters in the longest concatenated string of values.
+    ##
+    ## ConcatenateFields() -- For each feature/row, concatenates the values in the
+    ##      passed fields to the output field, optionally adding a user-defined
+    ##      separator between each value.
+    ##
+    ## GetLinearUnit() -- Identify the linear unit of the feature class' spatial
+    ##      reference.
+    ##
+    ## SummarizeXByY_Area() -- Summarize the area and proportion area of features
+    ##      in the X column by features in the Y column. Writes output to a csv.
+    ##
+
+FUNCTIONS
+    AttributeTableToCsv(layer, outputFile, keepOID=True, keepShape=False)
+        (str, str, [bool], [bool]) -> str
+        
+        Exports the attribute table from the passed shapefile, feature class, raster,
+            or geodatabase table to a csv. Returns the output csv path.
+        
+        Arguments:
+        layer -- The path to the shapefile, feature class, raster, or geodatabase
+           table, the attribute table of which will be written to a csv
+        outputFile -- The path/name of the csv table you wish to create. Note that
+           if a file already exists at that location, the rows (inclusive of the
+           field names) will be appended to the existing table.
+        keepOID -- An optional, boolean parameter, indicating whether you wish for
+           each record's Object ID to be included in the output table. By default,
+           it is set to True, meaning that the Object ID will be included.
+        keepShape -- An optional, boolean parameter, indicating whether you wish for
+           each record's shape object to be included in the output. By default, it
+           is set to False, meaning that the shape information will not be included.
+           Note that for polygons and/or lines, the shape objects can be quite
+           large, as they contain the coordinates of every vertex.
+    
+    ChangeFieldLength(featureClass, field, newLength)
+        (str, str, int) -> None
+        
+        Change the length of a text field. Note that the function creates a new
+          field and copies the values from the original, so it will be in a
+          different position.
+        
+        Arguments:
+        featureClass -- The name/path of the feature class you wish to update
+        field -- The name of the field to which you wish to apply the new length
+            property
+        newLength -- The number of characters that you want the field will hold
+        
+        Example:
+        >>> ChangeFieldLength('MyFeatureClass', 'Comments', '300')
+    
+    ConcatenateFields(featureClass, fields, outputField, separator='')
+        (str, list/tuple, str, [str]) -> str
+        
+        Concatenate the values from the input fields into a string in the passed
+          output fields, separated by the optional separator.
+        
+        Arguments:
+        featureClass - The path/name of the feature class you wish to update.
+        fields - A string or tuple of field names for the fields from which you wish
+          to concatenate values.
+        outputField - The name of the field to which you wish to write the
+          concatenated values. If the field does not exist, it will be created
+          automatically. If the field exists, but its length is insufficient to
+          store all concatenated values, the field's length will be updated as
+          necessary.
+        separator - An optional parameter of the string that you wish to insert
+          between the concatenated values. By default, it is an empty string, which
+          means that values will be concatenated without even a space or underscore
+          between them.
+        
+        Example:
+        >>> ConcatenateValues('myfeatureclass', ['City', 'State', 'ZipCode'],                'AddressLine2', ', ')
+    
+    CopyValues(featureClass, inputField, outputField, deleteInputField=False)
+        (str, str, str, [bool])
+        
+        For each feature in the feature class, copy the values from one attribute
+          field to another
+        
+        Arguments:
+        featureClass -- The name/path of the layer/feature class you wish to update
+        inputField -- The name of the field from which you wish to copy values
+        outputField -- The name of the field to which you wish to copy values.
+        deleteInputField -- An optional, boolean parameter indicating whether you
+            wish to delete the inputField after the values have been copied. By
+            default, it is set to False, meaning that the field will not be deleted.
+        
+        Example:
+        >>> CopyValues(r'C:     emp\mygdb.gdb\SpeciesRange', 'OldRangeCode', 'NewRangeCode')
+    
+    CountOccurrencesOfAllValues(featureClass, searchField)
+        (str, str) -> dict
+        
+        Returns a dictionary, within which the keys represent each unique value
+            found in the field, and the values represent the number of times that
+            each value is found in the attribute table.
+        
+        Arguments:
+        featureClass -- The path to the feature class.
+        searchField -- The name of the field for which you wish to return the counts.
+        
+        Example:
+        >>> CountOccurrencesOfAllValues('bbaeax.shp', 'season')
+        {1:24009, 3:17859, 4:22347}
+    
+    CountOccurrencesOfValue(featureClass, searchField, value)
+        (str, str, str/number) -> int
+        
+        Counts the number of times that the given value occurs in the given field
+            in the feature class.
+        
+        Arguments:
+        featureClass -- The path to the feature class in which you wish to search.
+        searchField -- The name of the field in which you wish to search.
+        value -- The value for which you wish to generate a count.
+        
+        Examples:
+        >>> CountOccurrencesOfValue('bbaeax_range.shp', 'season', 3)
+        22347
+        >>> CountOccurrencesOfValue('bbsRoutes', 'rtename', 'WHITEHOUSE')
+        6
+    
+    DeleteDuplicates(featureClass, searchField)
+        (str, str) -> None
+        
+        Delete records that share a value with another record.
+        NOTE: This function will delete every matching record, not just the second
+        and subsequent occurrences of the value. To save an arbitrary record, use
+        arcpy.DeleteIdentical_management.
+        
+        Arguments:
+        featureClass -- The path to the feature class from which you wish to delete
+            duplicate records.
+        searchField -- The field in which you wish to search for duplicates.
+    
+    DomainAsDictionary(featureClass, fieldName)
+        (str, str) -> dict
+        
+        Returns the field's coded attribute domain as a dictionary, in which
+            the keys are the codes and the values are the coded strings.
+        
+        Arguments:
+        featureClass -- The path/name of the feature class for which you wish to get
+            the domain
+        fieldName -- The name of the field for which you wish to get the domain
+        
+        Example:
+        >>> DomainAsDictionary('MyFeatureClass', 'Own_Type')
+        {u'02': u'Native American', u'03': u'State', u'01': u'Federal'}
+    
+    FieldsDictionary(featureClass, keyField, valueFields)
+        (str, str, str/list/tuple) -> dict
+        
+        Return a dictionary of the key field and value field(s).
+        
+        Arguments:
+        featureClass -- The path to the feature class you wish to assess.
+        keyField -- The name of the field of which the values will serve as the
+            dictionary's keys.
+        valueFields -- The name of the field of which the values will serve as the
+            dictionary's values; or a list/tuple of fields that will serve as the
+            dictionary's values.
+        
+        Examples:
+        >>> FieldsDictionary(lyr, 'ComID', 'AreaSqKM')
+        {2664067: 3.0059999999999998, 2663939: 1.962, 2664085: 3.6143999999999998, 2665683: 0.027900000000000001}
+        >>> FieldsDictionary(lyr, 'ComID', ['AreaSqKM', 'Hydroseq', 'ToNode','FromNode'])
+        {2664067: [3.0059999999999998, 10089508.0, 10006216.0, 10005836.0], 2663939: [1.962, 10139601.0, 10006156.0, 10093319.0], 2664085: [3.6143999999999998, 10002250.0, 10006218.0, 10093356.0]}
+    
+    FieldsDictionary_Inverse(featureClass, keyField, valueField)
+        (str, str, str) -> dict
+        
+        Returns a dictionary in which the keys are the content found in the key field
+            in the given table and the values are lists of the associated values
+            from the value field.
+        
+        NOTE: This function essentially creates the inverse of the dictionary
+            created by the FieldsDictionary() function (in which the keys' values
+            need to be unique identifiers). In this function, The keys need not be
+            unique identifiers; nor do the values.
+            This function would be applicable in a situation for which you wish to
+            identify all unique ids that have a given value in a particular field.
+            E.g., the keys could be county names, and the values could be
+            all the states that have a county by that name.
+        
+        Arguments:
+        featureClass -- The path to the feature class you wish to assess.
+        keyField -- The name of the field of which the values will serve as the
+            dictionary's keys.
+        valueFields -- The name of the field of which the values will serve as the
+            dictionary's values.
+        
+        Examples:
+        >>> FieldsDictionary_Inverse(lyr, 'StreamOrde', 'ComID')
+        {0: [2665693, 2665681, 2665687, 2665685], 1: [2664003, 2664019, 2663915], 2: [2664005]}
+        >>> FieldsDictionary_Inverse(spRange, 'Season', 'HUC12')
+        {1: [132475896547, 654876214568, 452187954236], 3: [253654856954, 154879645780], 4: [854759412546, 152315478569]}
+    
+    FindDuplicateValues(featureClass, searchField)
+        (str, str) -> list
+        
+        Returns a list of values that occur multiple times in the given field.
+        
+        Arguments:
+        featureClass -- The path to the feature class you wish to search.
+        searchField -- The name of the field in which you wish to search.
+        
+        Example:
+        >>> FindDuplicateValues('bbsRoutes.shp', 'rtename')
+        ['WHITEHOUSE', 'GROVE HILL', 'CLAIBORNE']
+    
+    GetLinearUnit(featureClass)
+        (str) -> str
+        
+        Return the linear unit of the feature class' spatial reference. Can be used,
+          for example, to interpret the length/area attributes of features.
+        
+        Argument:
+        featureClass -- The path to the feature class for which you wish to identify
+          the linear unit.
+        
+        Example:
+        >>> GetLinearUnit('myShapefile.shp')
+        'Meter'
+    
+    GetMaxLength(featureClass, fields)
+        (str, str/list/tuple) -> int
+        
+        Get the number of characters in the longest value from the passed field.
+          If multiple fields are passed, returns the number of characters in the
+          longest concatenated string of values (i.e., of values from the same
+          feature/row). This number can be used, for example, to shorten the length
+          of a text field (to save space) or to set the length of a new field that
+          will store concatenations of values from other fields.
+        
+        Arguments:
+        featureClass - The path/name of the feature class you wish to process
+        fields - The field name of the field you wish to examine or a list/tuple of
+          multiple field names from which you wish to examine concatenations.
+        
+        Example:
+        >>> GetMaxLength('MyFeatureClass', 'State')
+        14
+        >>> # That is, the string 'North Carolina' contains 14 characters
+    
+    ListFields(table)
+        Refer to tables.ListHeaders()
+    
+    ListFromTable(table)
+        Refer to tables.ListFromTable()
+    
+    ListValues(featureClass, field, unique=False)
+        (str, str, [boolean]) -> list
+        
+        Return a list of all the values that occur in the given field in a feature
+            class.
+        
+        Arguments:
+        featureClass -- The path to the feature class you wish to assess.
+        field -- The name of the field within which you want to find values.
+        unique -- An optional boolean, indicating whether you wish to remove repeated
+            values. By default, it is set to False, indicating that duplicates will
+            not be reduced.
+        
+        Example:
+        >>> ListValues('bbaeax_range.shp', 'season', True)
+        [1, 3, 4]
+    
+    RenameField(featureClass, inputField, outputField)
+        (str, str, str) -> None
+        
+        Renames the attribute field. Note that this creates a new field and copies
+          the values and then deletes the original field, so the field will be in a
+          different position in the attribute table. This function applies all
+          properties and domains from the original field.
+        
+        Arguments:
+        featureClass -- The path/name of the feature class within which you wish to
+            make the change
+        inputField -- The full name (not the alias name) of the field that you wish
+            to rename.
+        outputField -- The name that you want to apply to the field.
+    
+    ReplaceValue(table, fields, originalValue, newValue)
+        (str, str/list/tuple, any, any) -> None
+        
+        Sets values matching the originalValue to the newValue.
+        
+        Note that this does not replace text within a given cell's value; rather,
+        it identifies cell values that identically match the originalValue and
+        replaces the entire cell value with the newValue.
+        
+        Arguments:
+        table -- Path of the table to be updated
+        fields -- Name of the field(s) to be updated. Note that you can pass a string
+            of a single field name or a list/tuple of a single or multiple field names.
+        originalValue -- The value (i.e., string, number, etc.) that you wish to
+            update
+        newValue -- The value (i.e., string, number, etc., but it must match the
+            field type) to which you wish to change occurrences of the originalValue.
+            Note that the newValue must match the field type.
+        
+        Examples:
+        >>> ReplaceValue('MyShp.shp', 'My_Field', 999, 1000)
+        
+        >>> ReplaceValue('MyShp.shp', ['My_Field'], 'Flurb', 'Flurbington')
+        
+        >>> ReplaceValue('MyShp.shp', ['Field_1', Field_b'], 'Durf', 'Durfington')
+    
+    ReplaceValues(table, fields, originalValues, newValue)
+        (str, str/list/tuple, list/tuple, any) -> None
+        
+        Sets values matching any of the originalValues to the newValue
+        
+        Arguments:
+        table -- Path of the table to be updated
+        fields -- Name of the field(s) to be updated. Note that you can pass a string
+            of a single field name or a list/tuple of a single or multiple field names.
+        originalValues -- A list of values (i.e., strings, numbers, etc.) that you
+            wish to update
+        newValue -- The value (i.e., string, number, etc., but it must match the
+            field type) to which you wish to change occurrences of the
+            originalValues. Note that the newValue must match the field type.
+        
+        Examples:
+        >>> ReplaceValues('MyShp.shp', 'My_Field', [0, 1, 2], 5)
+        
+        >>> ReplaceValues('MyShp.shp', ['My_Field'], ['Flurb', 'Flurbington'], 'Durf')
+        
+        >>> ReplaceValues('MyShp.shp', ['FirstField', 'FieldNum2', 'Field3'], ['Durfington', 'Durf'], 'Flurb')
+    
+    ReplaceValuesFromDict(table, field, replacementDict)
+        (str, str, dict) -> None
+        
+        Update values in the given field by changing occurrences of the dictionary's
+            keys to their corresponding values
+        
+        Arguments:
+        table -- Path of the table to be updated
+        field -- Name of the field to be updated
+        replacementDict -- A dictionary from which values will be updated.
+            In the given field, occurrences of a key will be replaced by the key's
+            corresponding value. Note that the values must match the field type.
+        
+        Examples:
+        >>> ReplaceValuesFromDict('myPoints.shp', 'MyField', {0:10, 100:1000}
+        
+        >>> ReplaceValuesFromDict('myPoints.shp', 'ParkName', {'YNP':'Yellowstone',             GCNP:'Grand Canyon'}
+    
+    SetNulls(table, fields, value=0)
+        (str, str/list/tuple, [any]) -> None
+        
+        Sets null values to the passed value
+        
+        Arguments:
+        table -- Path of the table to be updated
+        fields -- Name of the field(s) to be updated. Note that you can pass a string
+            of a single field name or a list/tuple of a single or multiple field names.
+        value -- An optional parameter indicating the value with which you wish to
+            replace nulls. By default it is set to zero. Note that the passed value
+            must match the field type(s).
+        
+        Example:
+        >>> SetNulls('MyShp.shp', 'My_Field')
+        
+        >>> SetNulls('MyShp.shp', ['My_Field'], -9999)
+        
+        >>> SetNulls('MyShp.shp', 'My_Field', 'No comment')
+        
+        >>> SetNulls('MyShp.shp', ['MyFirstField', 'MySecondField'], -9999)
+    
+    SummarizeXByY_Area(featureClass, rowField, columnField, outputPath)
+        (str, str, str, str) -> str
+        
+        Writes to a csv a summary of the area and proportion area of each value in
+          rowField by each value in the columnField. That is, say that the row field
+          is PAD-US Owner Type and the column field is GAP Status. The resulting csv
+          table would list owner types as the row headings (column A) and the four
+          possible GAP statuses as the column headings (row 1). The first row in the
+          output table would look like:
+        
+          Owner_Type, Total_Area_in_Square_Meters, 1, 2, 3, 4, Proportion_1, Proportion_2, Proportion_3, Proportion_4
+        
+          An example row might look like:
+          Private, 200500, 0, 10500, 140000, 50000, 0, 0.052, 0.698, 0.249
+        
+          Returns the outputPath
+        
+        Arguments:
+        featureClass -- The path of the feature class from which you wish to derive
+          the numbers
+        rowField -- The name of the field from which you wish to use the values as
+          row headings in the output table
+        columnField -- The name of the field from which you wish to use the values
+          as column headings in the output table
+        outputPath -- The path and filename to where you wish to write the output
+          table
+        
+        Example:
+        >>> SummarizeXByY_Area('PADUS_13', 'OwnerType', 'GAP_Status_code', r'C: emp\OT_by_GS.csv')
+    
+    UseDACursor()
+        Returns a boolean, indicating whether the current system can support data
+        access cursors
+
+
