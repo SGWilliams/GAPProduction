@@ -71,7 +71,7 @@ def SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True,
     return list(sp_inputs)
 
 
-def ScienceBaseCSV(species, publicationDate, csvName):
+def ScienceBaseHabMapCSV(species, publicationDate, csvName):
     '''
     (list, integer, string) -> pandas DataFrame and saved CSV file.
     
@@ -93,7 +93,7 @@ def ScienceBaseCSV(species, publicationDate, csvName):
     >>>DF = MakeScienceBaseCSV(["aAMBUx", "bCOHAx", "bAMROx", "bCOMEx"], 
                                publicationDate = 2017, csvName="T:/temp/SBTable.csv")    
     '''
-    import pandas as pd, gapdb
+    import pandas as pd, gapdb, sciencebase
     # Intialize a dataframe
     DF0 = pd.DataFrame()
     DF0.index.name = "GAP_code"
@@ -115,16 +115,15 @@ def ScienceBaseCSV(species, publicationDate, csvName):
         except:
             DF0.loc[sp, "end_date"] = 2013
         DF0.loc[sp, "publication_date"] = publicationDate
-        DF0.loc[sp, "citation"] = citation_text.format(nameCom, nameSci, publicationDate,
-                                                        "TOBEDETERMINED")
+        DF0.loc[sp, "citation"] = citation_text.format(nameCom, nameSci, publicationDate, "???")
+                                                        #sciencebase.GetHabMapDOI(sp))
         DF0.loc[sp, "place_keywords"] = "United States" 
         DF0.loc[sp, "theme_keywords"] = "{1}, {0}".format(nameCom, nameSci)
         DF0.loc[sp, "editor"] = gapdb.Who(sp, "edited")
         DF0.loc[sp, "reviewer"] = gapdb.Who(sp, "reviewed")
         DF0.loc[sp, "NatureServe_element_code"] = gapdb.Crosswalk(sp)[1]
         DF0.loc[sp, "TSN_code"] = gapdb.Crosswalk(sp)[2]
-        DF0.loc[sp, "EGT_ID"] = gapdb.Crosswalk(sp)[3]
-        DF0.loc[sp, "Global_SEQ_ID"] = gapdb.Crosswalk(sp)[4]
+        DF0.loc[sp, "Global_SEQ_ID"] = gapdb.Crosswalk(sp)[3]
         DF0.loc[sp, "input_data"] = str(SpeciesInputs(sp))
         DF0.loc[sp, "IPDS"] = "IP-082267"
         DF0.loc[sp, "abstract"] = abstract_text.format(nameCom)
