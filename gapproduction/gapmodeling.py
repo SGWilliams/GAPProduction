@@ -1,63 +1,10 @@
-## Module to query/manipulate model parameters within the WHRdb.
-##
-## Public Functions:
-##
-## ModelExists() -- Returns a boolean, indicating whether the passed string is
-##      a valid, existing GAP model code.
-##
-## ModelCodes() -- Get a tuple of included model codes for the species.
-##
-## ModelEcoSystems() -- Returns lists of the selected primary and auxiliary
-##      map units for the model.
-##
-## SpEcoSystems() -- Returns lists of primary and auxiliary map units that are
-##      selected within any models for the given species.
-##
-## SpMuDiscrepancies() -- Returns a list of ecological systems that are selected
-##      inconsistently among models (for regions within which each given system
-##      occurs).
-##
-## ModelMuDiscrepancies() -- Identifies specific inconsistencies in the map unit
-##      selection between the two input models.
-##
-## ResolveMuDiscrepancies() -- Resolves inconsistencies in the map unit
-##      selection between the two input models by setting the change model to
-##      match the selections of the template model. Note: This function is not
-##      only intended to address regional differences for a given taxon, but
-##      could also be used to address differences within a region between
-##      subspecies or between other similar models.
-##
-## SetMUs() -- Selects the passed map units for the given model.
-##
-## HandModels() -- Returns a list of model codes for models that must be
-##      modeled by hand.
-##
-## EcoSystemModels() -- Returns a list of models with primary assocation with the
-##      ecological system and also a list of models with a secondary association.
-##
-## EcoSystemSpecies() -- Returns a list of species with a primary association with
-##      the ecological system and another list of species with secondary assocations
-##
-## RemoveAlienMUs() -- Goes through each model in a list and unselects primary
-##     and auxiliary map units which are not found within the model's region.
-##
-## ExcludeModels() -- Returns a list of models that exist in the WHRDb but are designated
-##      for exclusion in the ysnInclude field.
-##
-## ModelAsDictionary() -- Returns model variables as a dictionary.
-##
-## getHabitatDescription() -- Returns species' habitat description
-##
-## getModelComments() -- Returns species' model comments
-##
-## layers_2001 -- Dictionary of the 2001 data layers and locations on ScienceBase
-##
-## SpReferences() -- Get a table of references for a species. 
-
+'''
+Module for tasks related to GAP deductive habitat modeling.
+'''
 import gapdb, dictionaries
 
-#######################################
-##### Dictionary of data layers used in 2001
+
+### Dictionary of data layers used in 2001
 layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/F7JM28J1",
              'strForIntBuffer': "https://doi.org/10.5066/F7XW4HPN",
              'intIntoBuffOW': "https://doi.org/10.5066/F7JM28J1",
@@ -88,8 +35,7 @@ layers_2001 = {'ysnHydroWV': "https://doi.org/10.5066/F7JM28J1",
              'hucs': "https://doi.org/10.5066/F7DZ0754",
              'intPercentCanopy': "https://doi.org/10.5066/F7DZ0754"}
 
-########################################
-##### Function to get the habitat description text for a species.
+
 def getHabitatDescription(strUC):
     '''
     (string) -> string
@@ -106,8 +52,7 @@ def getHabitatDescription(strUC):
     desc = desc[0][0]
     return desc
 
-########################################
-##### Function to get the model comments text for a species.
+
 def getModelComments(strUC):
     '''
     (string) -> string
@@ -124,8 +69,7 @@ def getModelComments(strUC):
     desc = desc[0][0]
     return desc
 
-######################################
-##### Function to get a tuple of "exclude models".
+
 def ExcludeModels():
     '''
     (None) -> tuple
@@ -152,8 +96,7 @@ def ExcludeModels():
     # Return the list of matching model codes
     return tuple(hm)
 
-#######################################
-##### Function to get species habitat descriptions.
+
 def SppHabText(spp):
     '''
     (list) -> pandas dataframe
@@ -189,8 +132,7 @@ def SppHabText(spp):
         dfHabitat.loc[sp, "SciName"] = gapdb.NameSci(sp)
     return dfHabitat
 
-#######################################
-##### Function to get species citations.
+
 def SpReferences(sp):
     '''
     (string) -> pandas dataframe
@@ -242,8 +184,8 @@ def SpReferences(sp):
     # Return the resulting DataFrame
     return dfReferences
 
-#######################################
-##### Function to get a dictionaries of map units used by species.
+
+#### Function to get a dictionaries of map units used by species.
 try:
     def LoadSpeciesMUs(UC, Range=True):
         '''
@@ -493,8 +435,7 @@ def ModelExists(modelCode):
 
 
 
-#######################################
-##### Function to get a list of all included, valid region models for a species
+
 def ModelCodes(spCode, season='all', publishedOnly=False, conusOnly=True,
                migratory=False):
     '''
@@ -591,8 +532,6 @@ def ModelCodes(spCode, season='all', publishedOnly=False, conusOnly=True,
     return mcs
 
 
-#######################################
-##### Function to get a list of all included, valid region models for a species
 def HandModels():
     '''
     (None) -> tuple
@@ -624,9 +563,6 @@ def HandModels():
     return tuple(hm)
 
 
-#######################################
-##### Get a list of the ecological systems that are selected in the WHRdb for
-##### the passed model code
 def ModelEcoSystems(modelCode):
     '''
     (str) -> list, list
@@ -669,9 +605,6 @@ def ModelEcoSystems(modelCode):
         return False, False
 
 
-#######################################
-##### Get a list of the ecological systems that are selected in the WHRdb for
-##### any models that match the passed species code
 def SpEcoSystems(spCode, season='all', contiguousOnly=True, 
                  publishedOnly=False, migratory=False):
     '''
@@ -732,9 +665,7 @@ def SpEcoSystems(spCode, season='all', contiguousOnly=True,
     except:
         return False, False
 
-############################################
-## Get a dictionary version of a model
-##
+
 def ModelAsDictionary(model, ecolSystem="codes"):
     '''
     (string, boolean) -> dictionary
@@ -1012,7 +943,6 @@ def SetMUs(modelCode, mapUnits, primary=True, select=True):
         return False
 
 
-## List the map units with inconsistent selection among models
 def SpMuDiscrepancies(spCode, season='all', contiguousOnly=True):
     '''
     (string, [string], [boolean]) -> list
@@ -1170,8 +1100,6 @@ def ModelMuDiscrepancies(templateModel, compareModel):
 
     # Return all four lists
     return primMissing, primExtra, auxMissing, auxExtra
-
-
 
 
 def ResolveMuDiscrepancies(templateModel, changeModel, uid, pwd):
