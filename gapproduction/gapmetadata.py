@@ -1,10 +1,6 @@
-## Module to create species-specific metadata for a range table or model raster.
-##
-## Public Function:
-##
-## SpeciesInputs() -- Gives a list of input data layers used by a species
-##
-## ScienceBaseCSV() -- Creates a csv file for use in uploading metadata to ScienceBase
+'''
+Module to create species-specific metadata for a range table or model raster.
+'''
 
 def SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True,
                   migratory=False):
@@ -93,7 +89,7 @@ def ScienceBaseHabMapCSV(species, publicationDate, csvName):
     >>>DF = MakeScienceBaseCSV(["aAMBUx", "bCOHAx", "bAMROx", "bCOMEx"], 
                                publicationDate = 2017, csvName="T:/temp/SBTable.csv")    
     '''
-    import pandas as pd, gapdb, sciencebase
+    import pandas as pd, gapdb, gapmodeling
     # Intialize a dataframe
     DF0 = pd.DataFrame()
     DF0.index.name = "GAP_code"
