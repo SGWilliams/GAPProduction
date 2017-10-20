@@ -190,7 +190,7 @@ def SaveModelJSON(species, saveDir, year=2001, version=1):
     '''
     import gapdb, gapmodeling, json
     
-    fileName="{0}_CONUS_HabModel_(1)v{2}.json"
+    fileName="{0}_CONUS_HabModel_{1}v{2}.json"
     try:
         # Make an empty dictionary to collect model dictionaries
         if year==2001:
@@ -242,7 +242,47 @@ def SaveModelJSON(species, saveDir, year=2001, version=1):
         # Save species model dictionary as json object
         with open(fileName, "w") as outfile:
             json.dump(speciesDict, outfile)
-        return speciesDict
+        return speciesDict, fileName
+    except Exception as e:
+        print(e)
+        return False
+    
+    
+def AttachFile(strUC, filePath, action="replace"):
+    '''
+    (string, string, string, string) -> string 
+    
+    Uploads a file to a species' habitat map ScienceBase item. Returns the
+        ID of the item that it attached to.
+    
+    NOTE: This currently only works for habmaps but will be revised offer a 
+        range option.
+    
+    Arguments:
+    strUC -- gap species code
+    filePath -- path to the file
+    action -- choose "replace" or "create". Create will add the file in addition
+        to whatever is already attached, even if a file has the same name.  
+        Replace will replace any existing attachements of the same name as your
+        file.  
+    
+    Example:
+    >>
+    '''
+    try:
+        # Connect to ScienceBase
+        sb = gp.sciencebase.ConnectToSB()
+        # Get the species SB ID
+        ID = gp.sciencebase.GetHabMapID(strUC)
+        # Get the species item
+        item = sb.get_item(ID)
+        # Upload the file
+        if action == "replace":
+            sb.replace_file(filePath, item)
+        elif action == "create":
+            sb.upload_file_to_item(item, filePath)
+        # Return the ID
+        return ID
     except Exception as e:
         print(e)
         return False
