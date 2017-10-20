@@ -168,3 +168,81 @@ def HabMapItemCSV(species, publicationDate, csvName):
     
     DF0.to_csv(csvName)
     return DF0
+
+
+def SaveModelJSON(species, saveDir, year=2001, version=1):
+    '''
+    (string, string, integer, integer) -> dictionary
+    
+    Builds a species or subspecies-level dictionary of all the relevant 
+        information for a habitat modeling.  The dictionary format is for
+        ScienceBase.  Returns the dictionary and saves a copy as a json file
+        in the directory you provide.
+    
+    Arguments:
+    species -- gap species code
+    saveDir -- a directory to save json files in
+    year -- the year of the data used in modeling (2001 or 2011)
+    version -- the version number of the model (at the species level)
+    
+    Example:
+    >>test = SaveModelJSON("bAMROx", saveDIR="C:/Temp", year=2001, version=1)
+    '''
+    import gapdb, gapmodeling, json
+    
+    fileName="{0}_CONUS_HabModel_(1)v{2}.json"
+    try:
+        # Make an empty dictionary to collect model dictionaries
+        if year==2001:
+            speciesDict = {"input_layers":gapmodeling.layers_2001}
+        elif year==2011:
+            speciesDict = {"input_layers":gapmodeling.layers_2011}
+        
+        # List taxanomic information
+        taxonomic = {"common_name":gapdb.NameCommon(species), 
+                     "scientific_name":gapdb.NameSci(species),
+                     "gap_code": gapdb.Crosswalk(species)[0],
+                     "ELCode": gapdb.Crosswalk(species)[1],
+                     "ITIS_TSN": gapdb.Crosswalk(species)[2],
+                     "Global_SEQ_ID": gapdb.Crosswalk(species)[3]}
+        speciesDict["taxonomic"] = taxonomic
+        
+        # Add DOI
+        speciesDict["doi"] = GetHabMapDOI(species)
+        
+        # Add ID
+        speciesDict["sb_url"] = GetHabMapURL(species)
+        
+        # Add the species' habitat description
+        description = gapmodeling.getHabitatDescription(species)
+        speciesDict["habitat_description"] = description
+        
+        # Add species' references/citations
+        referencesDF = gapmodeling.SpReferences(species)
+        references = dict(referencesDF["memCitation"])
+        speciesDict["references"] = references
+        
+        # Establish a file name for speciesDict
+        fileName = str(saveDir + fileName.format(species, year, version))
+        
+        # Get python tuple (like a list) of regional model codes
+        modelCodes = [x for x in gapmodeling.ModelCodes(species, 
+                                                     publishedOnly=True, 
+                                                     conusOnly=True, 
+                                                     migratory=False) if int(x[-1:]) in [1,2,3,4,5,6]]
+        
+        # Get the models as dictionaries, add to a dictionary of models, then add that
+        # to the species-level dictionary
+        models = {}
+        for model in modelCodes:
+            modelDict = gapmodeling.ModelAsDictionary(model, ecolSystem="both")
+            models[model] = modelDict
+        speciesDict["models"] = models
+        
+        # Save species model dictionary as json object
+        with open(fileName, "w") as outfile:
+            json.dump(speciesDict, outfile)
+        return speciesDict
+    except Exception as e:
+        print(e)
+        return False
