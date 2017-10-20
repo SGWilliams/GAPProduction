@@ -1,5 +1,6 @@
-## Functions to use for connecting to and interacting with ScienceBase
-##
+'''
+Functions to use for connecting to and interacting with ScienceBase
+'''
 
 import gapconfig
 import gapdb
@@ -8,7 +9,6 @@ import gapdb
 habMapCollectionItem = "527d0a83e4b0850ea0518326"
 
 
-#### Function to establish a connection to ScienceBase
 def ConnectToSB(username=gapconfig.sbUserName, password=gapconfig.sbWord):
     """
     (string) -> connection to ScienceBase
