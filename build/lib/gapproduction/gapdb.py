@@ -1,192 +1,11 @@
-## This module facilitates common tasks for querying the GAP Species Database
-## and WHRdb.
-##
-## Due to the scope of this module, and since the functions are automatically
-## alphabetized in the full help document, I have inserted, for reference, a
-## thematic arrangement of the public functions...
-##
-## CONNECTING TO THE DATABASES:
-##    ConnectGAdb(uid='xxxx', pwd='xxxx')
-##        Returns a cursor and a connection within the gap analysis database.
-##
-##    ConnectSppDB(uid='xxxx', pwd='xxxx')
-##        Returns a cursor and connection within the GAP species database.
-##
-##    ConnectWHR(uid='xxxx', pwd='xxxx')
-##        Returns a cursor and connection within the GAP WHRdb.
-##
-##
-##
-## SPECIES COMPLETION STATUS:
-##
-##    ListAllSpecies(completedModels=False)
-##        Lists all species
-##
-##    RangeCompleted(spCode)
-##        Checks whether the species has a published range
-##
-##    ModelCompleted(spCode)
-##        Checks whether the species has a published model
-##
-##    SppModelCompleted(state=False)
-##        Gets a list of all species with published models
-##
-##    SppRangeCompleted(state=False)
-##        Gets a list of all species with published range
-##
-##
-##
-## STATE INFORMATION:
-##    SppInState(state, breedingOnly=False)
-##        Gets a list of all the species that occur in the given state. Requires
-##            that the species have a published range in order to make the list.
-##
-##    States(spCode, abbr=False, migratory=False)
-##        Returns a list of the states in which the species has range.
-##
-##    BreedingStates(spCode, abbr=False)
-##        Returns a list of the states in which the species has breeding range.
-##
-##    States_SGCN(spCode, abbr=False)
-##        Returns a list of the states in which the species is a SGCN
-##
-##
-##
-## SPECIES TAXONOMY/NAMES/CROSSWALKS:
-##    Taxonomy(spCode)
-##        Returns a tuple of 8 items: GAP species code, class, order, family,
-##        genus, species, subspecies, full scientific name, and common name.
-##
-##    NameClass(spCode)
-##        Returns the species' class
-##
-##    NameCommon(spCode)
-##        Returns the species' common name
-##
-##    NameFamily(spCode)
-##        Returns the species' family
-##
-##    NameGenus(spCode)
-##        Returns the species' genus
-##
-##    NameOrder(spCode)
-##        Returns the species' order
-##
-##    NameSci(spCode)
-##        Returns the species' scientific name (Genus species [subspecies])
-##
-##    NameSpecies(spCode)
-##        Returns the species' scientific species name
-##
-##    NameSubspecies(spCode)
-##        Returns the subspecies name, if applicable; otherwise, returns
-##        an empty string
-##
-##    NameDownload(spCode)
-##        Gets the download filename
-##
-##    Crosswalk(spCode)
-##        Returns a tuple of 4 items: GAP species code, ELCode, ITIS TSN, and
-##            Global_SEQ_ID
-##
-##    SpInfoCombined(spCode)
-##        Returns the full info for the the species, including taxonomy, crosswalk,
-##            and range/model completion status.
-##
-##    Dict_SciNameToCode()
-##        Returns a dictionary within which the keys are species scientific names and
-##            the keys are GAP codes
-##
-##
-## SPECIES INFO - MISCELLANEOUS:
-##    ESA_Status(spCode)
-##        Returns the species' ESA status
-##
-##    GapCase(spCode)
-##        Returns an input string in the Gap Code capitalization
-##
-##    ProcessDate(spCode, x='Model', y='Edited')
-##        Gets the date that the species' range or model was created
-##        or last edited. Returns the date as a date data type.
-##
-##    Who(spCode, action="reviewed")
-##        Returns the name of a person who worked on a species.
-##
-##    Related(code)
-##        Gets a list of species/subspecies that share the code root (i.e.
-##        the first 5 characters of the code). If your argument exceeds five
-##        characters, the function will ignore all but the first five. If you submit
-##        an argument with fewer than five characters, the function will return all
-##        codes that begin with whatever argument you submitted.
-##
-##
-## MAP UNITS:
-##
-##    AllMUs()
-##        Get a list of all possible map units.
-##
-##    MUCodesToNames(muCodeList)
-##        Translates a list of map unit codes into a list of ecological system names.
-##            The passed codes can be either strings or integers.
-##
-##    MUName(muCode)
-##        Returns the name of the ecological system that matches the passed map unit
-##            code.
-##
-##    MUCode(muName)
-##        Returns the map unit code of the ecological system that matches the passed
-##            name.
-##
-##    MUNamesToCodes(muNameList)
-##        Translates a list of ecological system names to map unit codes.
-##
-##    MuInRegion(mu, region)
-##        Returns a boolean indicating whether the map unit occurs within the region.
-##
-##    MuRegions(mu)
-##        Returns a list of the GAP modeling regions (by numeric code) in which the
-##            map unit occurs.
-##
-##    UniqueMUs(inRegion, absentRegions=range(1,7))
-##       Get a list of map units unique to the region of interest.
-##
-##    MUsWithKeyword(keyword)
-##       Returns a list of map units (as integers) that contain the keyword
-##      in their name or description.
-##
-##
-##
-## DUPLICATE RECORDS:   !!!REMOVED July 2016 because not sure what the utility
-##     would be and it's dangerous. See older versions for the code.
-##
-##    RemoveDuplicateRecords(db, uid, pwd, table, ignoreFields=[])
-##        Deletes duplicate records from the passed table in the passed database.
-##            Returns the number of deleted records as well as the initial/total
-##            number of records in the table.
-##
-##
-##    RemoveDuplicateRecordsPreview(db, uid, pwd, table, ignoreFields=[])
-##        Returns a list of the records that will be deleted if the RemoveDuplicateRecords()
-##            function is called. Also returns the number of records to be deleted and
-##            the initial/total number of records in the table.
-##
-## ADD SPECIES:
-##      AddSpecies(inTable, username, pwd)
-##          Code for adding a new species to the databases.
-##
-
-
-#######################################
-##### Importing other modules and setting global variables
+"""
+This module facilitates common tasks for querying the GAP Species Database
+and WHRdb.
+"""
 
 import pyodbc, gapconfig, tables, sys
 from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict, staffDict
 
-
-#######################################################################
-##########################################################
-#############################################
-## Database Connections
 
 def ConnectToDB(connectionStr):
     '''
@@ -216,8 +35,6 @@ def ConnectToDB(connectionStr):
     return con.cursor(), con
 
 
-#######################################
-##### Connect to the Species Database
 def ConnectSppDB(uid=gapconfig.uid, pwd=gapconfig.password,
                  server=gapconfig.server, trusted=gapconfig.trusted):
     '''
@@ -236,8 +53,6 @@ def ConnectSppDB(uid=gapconfig.uid, pwd=gapconfig.password,
     return ConnectToDB(sppConStr)
 
 
-#######################################
-##### Function to connect to the WHRDB
 def ConnectWHR(uid=gapconfig.uid, pwd=gapconfig.password,
                server=gapconfig.server, trusted=gapconfig.trusted):
     '''
@@ -256,8 +71,6 @@ def ConnectWHR(uid=gapconfig.uid, pwd=gapconfig.password,
     return ConnectToDB(whrConStr)
     
     
-#######################################
-##### Function to connect to the WHRDB
 def ConnectAnalyticDB(uid=gapconfig.uid, pwd=gapconfig.password,
                server=gapconfig.server, trusted=gapconfig.trusted):
     '''
@@ -276,13 +89,6 @@ def ConnectAnalyticDB(uid=gapconfig.uid, pwd=gapconfig.password,
     return ConnectToDB(analysisConStr)
 
 
-#######################################################################
-##########################################################
-#############################################
-## General
-
-
-# Returns a list of all species (by GAP code) in the GAP species database
 def ListAllSpecies(completedModels=False, CONUSOnly=False):
     '''
     [boolean] -> list
@@ -314,8 +120,6 @@ def ListAllSpecies(completedModels=False, CONUSOnly=False):
     return sppList
 
 
-# Returns a dictionary within which the keys are species scientific names and
-# the keys are GAP codes
 def Dict_SciNameToCode():
     '''
     () -> dict
@@ -343,14 +147,6 @@ def Dict_SciNameToCode():
     return d
 
 
-
-#######################################################################
-##########################################################
-#############################################
-## Completion Status
-
-#######################################
-##### Function to check if the range is complete
 def RangeCompleted(spCode):
     '''
     (string) -> boolean
@@ -379,8 +175,6 @@ def RangeCompleted(spCode):
     return False
 
 
-#######################################
-##### Function to check if the species' model is complete
 def ModelCompleted(spCode):
     '''
     (string) -> boolean
@@ -412,8 +206,6 @@ def ModelCompleted(spCode):
     return False
 
 
-#######################################
-##### Function to get a list of all species with completed ranges
 def SppRangeCompleted(state=False):
     '''
     () -> list
@@ -452,8 +244,6 @@ def SppRangeCompleted(state=False):
     return sppList
 
 
-#######################################
-##### Function to get a list of all species with completed ranges
 def SppModelCompleted(state=False):
     '''
     ([state]) -> list
@@ -492,15 +282,6 @@ def SppModelCompleted(state=False):
     return sppList
 
 
-
-
-#######################################################################
-##########################################################
-#############################################
-## State Info
-
-#######################################
-##### Function to get a list of all species that occur in the given state
 def SppInState(state, breedingOnly=False):
     '''
     !!!!!!!!!!!!!!!!!!!!!!  May not be working correctly.
@@ -585,8 +366,6 @@ def SppInState(state, breedingOnly=False):
         return []
 
 
-#######################################
-##### Function to get a list of states in which the species occurs:
 def States(spCode, abbr=False, migratory=False):
     '''
     (string) -> list
@@ -640,8 +419,6 @@ def States(spCode, abbr=False, migratory=False):
     return stList
 
 
-#######################################
-##### Function to get a list of states in which the species is an SGCN:
 def States_SGCN(spCode, abbr = False):
     '''
     (string) -> list
@@ -682,8 +459,6 @@ def States_SGCN(spCode, abbr = False):
     return stList
 
 
-#######################################
-##### Function to get a list of states in which species breeds:
 def BreedingStates(spCode, abbr = False):
     '''
     (string) -> list
@@ -740,13 +515,9 @@ def BreedingStates(spCode, abbr = False):
 
 
 
-#######################################################################
-##########################################################
-#############################################
-## Species Taxonomy/Names/Crosswalks
-
-#######################################
-##### Function to get the species' full taxonomy
+###################################################3### MOVE BELOW TO TAXONOMUY
+###############################################################################
+###############################################################################
 def Taxonomy(spCode):
     '''
     (string) -> tuple
@@ -923,39 +694,8 @@ def NameSubspecies(spCode):
         return x[6]
     else:
         return None
-
-
-#######################################
-##### Function to get the species' download file name
-def NameDownload(spCode):
-    '''
-    (string) -> string
-
-    Gets the download filename
-
-    Argument:
-    spCode -- the species' unique GAP ID
-
-    Example:
-    >>> NameDownload('mNAROx')
-    Lon_can_NAROx
-    '''
-
-    sppCursor, sppCon = ConnectSppDB()
-    dlfn = sppCursor.execute("""SELECT al.strDownloadFileName
-                    FROM dbo.tblAllSpecies AS al
-                    WHERE al.strUniqueID = ?""", spCode).fetchone()
-
-    del sppCursor
-    sppCon.close()
-
-    dlfn = dlfn[0]
-
-    return dlfn
-
-
-#######################################
-##### Function to get the codes to crosswalk the GAP code to ELCode, etc.
+    
+    
 def Crosswalk(spCode):
     '''
     (string) -> tuple
@@ -1063,91 +803,10 @@ def SpInfoCombinedHeaders(completionStatus = True):
 
     return heads
 
-
-
-#######################################################################
-##########################################################
-#############################################
-## Species Info - misc.
-
-
+###################################################3### MOVE ABOVE TO TAXONOMUY
+###############################################################################
+###############################################################################
 #######################################
-##### Function to get a list of models for the species
-def ModelCodes(code, publishedOnly=False, conusOnly=False, migratory=True):
-    '''
-    (string, [boolean], [boolean], [boolean]) -> list
-
-    Gets a list of the species' regional model codes from tblModelStatus in WHRDb.
-
-    Arguments:
-    code -- the species' unique GAP ID or the beginning of the GAP ID
-    publishedOnly -- Optional boolean parameter to include only published models.
-        By default, it is set as False, which returns all models.
-    conusOnly -- Optional boolean parameter to include only models within CONUS.
-        By default, it is set as False, which returns all models.
-    migratory -- Optional boolean parameter to include migratory models.
-        By default, it is set as True, which includes migratory models.
-
-    Examples:
-    >>> ModelCodes("aHOTOx")
-    [u'aHOTOx-y0', u'aHOTOx-y5', u'aHOTOx-y6']
-    >>> ModelCodes("aHOTOx", True)
-    [u'aHOTOx-y0', u'aHOTOx-y5', u'aHOTOx-y6']
-    >>> ModelCodes("aHOTOx", True, True)
-    [u'aHOTOx-y5', u'aHOTOx-y6']
-
-    '''
-    print("gapdb.ModelCodes() was decommissioned.  Use gapmodeling.ModelCodes() instead")
-
-#    import gapmodeling
-#    sppCursor, sppCon = ConnectWHR()
-#    qry = """SELECT strSpeciesModelCode
-#            FROM dbo.tblModelStatus
-#            WHERE strSpeciesModelCode LIKE '{0}%'""".format(code)
-#
-#    if publishedOnly:
-#        qry = qry + '\nAND strModelStatusAll = \'Publishing Completed\''
-#
-#    qryResult = sppCursor.execute(qry).fetchall()
-#
-#    del sppCursor
-#    sppCon.close()
-#
-#    spCodes = [item[0] for item in qryResult]
-#    
-#    # Filter out models in the excluded model list
-#    spCodes = [x for x in spCodes if x not in gapmodeling.ExcludeModels()]
-#
-#    # Get list of migratory models
-#    migs = [x for x in spCodes if x[-2] == "m"]
-#
-#    # Filter out migratory models
-#    spCodes = [x for x in spCodes if x[-2] != "m"]
-#
-#    # If the user wishes to view only models for CONUS
-#    if conusOnly:
-#        # Copy the spCodes list
-#        codes = spCodes
-#        spCodes = [x for x in codes if x[-1] in [str(y) for y in range(1,7)]]
-#        '''# !!!!! This old code leaves in migratory but not winter models ->
-#        # Initialize an empty list
-#        spCodes = list()
-#        # For each number from 1-6 (i.e., CONUS region codes)
-#        for i in range(1,7):
-#            # For each model code
-#            for code in codes:
-#                # If the conus region code is in the model name
-#                if str(i) in code:
-#                    # Add the code to the list
-#                    spCodes.append(code)
-#                    break'''
-#
-#     # If the user wishes to include migratory models.
-#    if migratory:
-#        spCodes=spCodes + migs
-#
-#    return spCodes
-    return
 
 def SpInCONUS(code, publishedOnly=False):
     '''
@@ -1165,51 +824,13 @@ def SpInCONUS(code, publishedOnly=False):
       default, it is set to False, meaning that all models, regardless of
       publishing status, will be considered.
     '''
-    models = ModelCodes(code, publishedOnly, True)
+    import gapmodeling
+    models = gapmodeling.ModelCodes(code, publishedOnly, True)
     modelsLower = [x for x in models if x[-1] != "A" and x[-1] != "T" and x[-1] != "H"]
     if len(modelsLower) > 0:
         return True
     else:
         return False
-
-
-#######################################
-##### Function to get a list of related taxa; for example, if
-##### you'd like to know what subspecies exist for a species
-def Related(code):
-    '''
-    (string) -> list
-
-    Gets a list of species/subspecies that share the code root (i.e.
-    the first 5 characters of the code). If your argument exceeds five
-    characters, the function will ignore all but the first five. If you submit
-    an argument with fewer than five characters, the function will return all
-    GAP codes that begin with whatever argument you submitted.
-
-    Argument:
-    code -- the species' unique GAP ID or the beginning of the GAP ID
-
-    Examples:
-    >>> Related("aBAFR")
-    [u'aBAFRc', u'aBAFRl', u'aBAFRx']
-    >>> Related("aBAFRc")
-    [u'aBAFRc', u'aBAFRl', u'aBAFRx']
-    >>> Related("aBA")
-    [u'aBAFRc', u'aBAFRl', u'aBAFRx', u'aBATRx']
-    '''
-    code = code[0:5]
-    sppCursor, sppCon = ConnectSppDB()
-    qryResult = sppCursor.execute("""SELECT strUniqueID
-                                FROM dbo.tblAllSpecies
-                                WHERE strUniqueID LIKE '""" + code + """%'
-                                """).fetchall()
-
-    del sppCursor
-    sppCon.close()
-
-    spCodes =[item[0] for item in qryResult]
-
-    return spCodes
 
 
 #######################################
@@ -1343,8 +964,7 @@ def ProcessDate(spCode, x = 'Model', y = 'Edited', seconds=False):
 
     return d
 
-#######################################
-##### Function to return the name of a person who worked on a species.
+
 def Who(spCode, action="edited"):
     '''
     (string, action) -> string
@@ -1369,7 +989,6 @@ def Who(spCode, action="edited"):
     # Dictionaries
     actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
               "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
-    staff = staffDict
     # Build a query             
     field = actions[action]
     qry = """SELECT """ + field + """
@@ -1391,9 +1010,7 @@ def Who(spCode, action="edited"):
     
     return name
 
-#######################################
-##### Function to return an input string with the capitalization
-##### pattern of GAP species codes
+
 def GapCase(spCode):
     '''
     (string) -> string
@@ -1417,15 +1034,7 @@ def GapCase(spCode):
     return spCode
 
 
-
-
-#######################################################################
-##########################################################
-#############################################
-## Map Units
-
-#######################################
-##### Get the map unit's ecological system name
+################################ MOVED TO LANDCOVER ###########################
 def MUName(muCode):
     '''
     (int) -> str
@@ -1440,6 +1049,7 @@ def MUName(muCode):
     >>> MUName(2812)
     'Dry noncalcareous woodland'
     '''
+    print("Beginning accessing this function from the land cover module.")
     # Check if the user passed an integer
     try:
         # If the user passed a code, continue
@@ -1488,6 +1098,7 @@ def MUCode(muName):
     >>> MUCode('Dry noncalcareous woodland')
     2812
     '''
+    print("Beginning accessing this function from the land cover module.")
     # Check whether the passed argument can be cast as an integer
     try:
         # If it can be cast as an integer, just return the integer.
@@ -1538,6 +1149,7 @@ def MUCodesToNames(muCodeList):
     >>> [2503, 2505, 2512]
     ['Bog Vegetation', 'Closed Hala Forest', 'Closed Kukui Forest']
     '''
+    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store the map units
     muNameList = []
 
@@ -1568,6 +1180,7 @@ def MUNamesToCodes(muNameList):
     >>> ['Bog Vegetation', 'Closed Hala Forest', 'Closed Kukui Forest']
     [2503, 2505, 2512]
     '''
+    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store the map units
     muCodeList = []
 
@@ -1614,6 +1227,7 @@ def MuInRegion(mu, region):
     >>> gp.gapdb.MuInRegion('Atlantic Coastal Plain Northern Sandy Beach', 1)
     False
     '''
+    print("Beginning accessing this function from the land cover module.")
     # If the function parameters are stringified integers, cast them as integers.
     try:
         mu = int(mu)
@@ -1702,6 +1316,7 @@ def MuRegions(mu):
     >>> gp.gapdb.MuRegions("2103")
     ['1', '3', '4', '5', '6']
     '''
+    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store the regions
     muList = []
 
@@ -1735,6 +1350,7 @@ def AllMUs(name=True, conus=True):
     conus -- Optional boolean parameter indicating whether you wish to return
         only the map units that occur within CONUS or all map units.
     '''
+    print("Beginning accessing this function from the land cover module.")
     # Connect to the database
     cur, conn = ConnectWHR()
 
@@ -1779,6 +1395,7 @@ def AllMUs(name=True, conus=True):
 
 
 def __ConusMUs(mus):
+    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store map units to omit
     musRemove = []
     # For each map unit
@@ -1816,6 +1433,7 @@ def UniqueMUs(inRegion, absentRegions=range(1,7)):
         list), meaning that only map units that are unique to the inRegion will
         be returned.
     '''
+    print("Beginning accessing this function from the land cover module.")
     # If the inRegion is in the absent regions list...if the user takes the
     # default absentRegions, this could occur:
     if inRegion in absentRegions:
@@ -1868,6 +1486,7 @@ def MUsWithKeyword(keyword):
     Returns a list of map units (as integers) that contain the keyword in their
     name or description
     '''
+    print("Beginning accessing this function from the land cover module.")
     # Get a cursor and connection to WHR database
     whrCursor, whrCon = ConnectWHR()
     # Execute the query to select model codes that match the passed species code
@@ -1891,17 +1510,11 @@ def MUsWithKeyword(keyword):
     # Return the list of matching model codes
     return m
 
-
-def __main():
-    pass
-
-if __name__ == "__main__":
-    __main()
+########################  MOVE THE ABOVE TO LANDCOVER    ######################
+###############################################################################
+    
 
 
-
-#########################################################################
-########################################################
 #################################
 ## Add a new species to the databases
 # Class to store the species' taxonomic info, codes, etc.

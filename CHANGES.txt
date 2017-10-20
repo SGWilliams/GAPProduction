@@ -1,1 +1,2 @@
 1.2, 10/16/2017 -- Initial packaging for distribution.
+1.4, 10/20/2017 -- Created some new modules (sciencebase, taxonomy, landcover) to move toward reducing gapdb and deprecating gapmetadata.

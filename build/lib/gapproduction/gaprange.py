@@ -1,29 +1,6 @@
-## This module facilitates common tasks involving GAP ranges.
-##
-## Public variables:
-##
-## HUCs -- The path to the CONUS HUCs shapefile
-##
-## Public functions:
-##
-## RangeTable() -- Create a comma-delimited table of the species' range, with
-##      fields for HUC12 code, presence, origin, season, and reproductive use.
-##
-## RangeShp() -- Create a shapefile of the species' range
-##
-## EcoSysInRange() -- Gets a list of ecological systems that occur within the
-##      species' range
-##
-## ListIntroducedSpp() -- Gets a list of species that have any introduced range
-##
-## PublishRanges() -- Publish ranges for a list of species
-##
-## GetEndemics() -- Get a list (table) of species endemic to a polygon (shapefile)
-##
-## SppInAOI() -- Get a list of species occuring in an area of interest (shapefile)
-##
-##
-
+'''
+This module facilitates common tasks involving GAP ranges.
+'''
 
 import os, gapconfig, gapdb, dictionaries, docs
 import arcpy
@@ -34,8 +11,7 @@ arcpy.env.qualifiedFieldNames = False
 __headingsList = ['Origin', 'Presence', 'Repro', 'Season']
 HUCs = gapconfig.hucs
 
-#######################################
-##### Function for publishing ranges within the species database
+
 def PublishRanges(spp):
     '''
     (list) -> insertion of records into table
@@ -116,8 +92,6 @@ def PublishRanges(spp):
             print "Completed publishing for: " + i + "\n"
 
 
-#######################################
-##### Private function for verifying/creating a directory
 def __CheckDir(outDir):
     '''
     A private function that should be called only by other functions
@@ -134,9 +108,6 @@ def __CheckDir(outDir):
         return
 
 
-
-#######################################
-##### Private function for creating the table of the species' range
 def __CreateText(sp, rangeAtts, outDir):
     '''
     A private function that should be called only by other functions
@@ -180,8 +151,7 @@ def __CreateText(sp, rangeAtts, outDir):
         print 'Error in gaprange.__CreateText()'
         print e
 
-#######################################
-##### Query class to be used by RangeTable() function
+
 class __RangeQuery:
     try:
         def __init__(self, sp, state=False, includeMigratory=True, includeHistoric=True):
@@ -230,9 +200,6 @@ class __RangeQuery:
         print e
 
 
-#######################################
-##### Function for creating the species' range table in comma-delimited
-##### text format.
 def RangeTable(sp, outDir, state=False, includeMigratory=True, includeHistoric=True):
     '''
     (string, string, [boolean], [boolean], [boolean]) -> string
@@ -293,8 +260,6 @@ def __RunQuery(qry):
         print e
 
 
-#######################################
-##### Private function for creating the range shapefile from the table
 def __CreateRange(sp, rTable, outDir):
     '''
     A private function that should be called only by other functions
@@ -338,8 +303,6 @@ def __CreateRange(sp, rTable, outDir):
         print("Couldn't load arcpy")
 
 
-#######################################
-##### Private function for deleting extraneous fields from the shapefile
 def __DelFields(shp):
     '''
     A private function that should be called only by other functions
@@ -361,8 +324,7 @@ def __DelFields(shp):
     except:
         print("Couldn't load arcpy")
 
-#######################################
-##### Function for creating a species' range shapefile
+
 def RangeShp(sp, outDir=os.getcwd(), dissolve=False, state=False, includeMigratory=True, 
              includeHistoric=True, HUCs=True):
     '''
@@ -493,9 +455,6 @@ def __AdministrativeBoundary(inShp, state):
         print("May not have been able to load arcpy")
 
 
-#######################################
-##### Public function to get a list of ecological systems that occur within
-##### the species' range.
 def EcoSysInRange(sp, season=1, regions=[]):
     '''
     (str, [int], [list]) -> list
@@ -580,9 +539,7 @@ def __ListESS(lcsExtracted):
     except:
         print("May not have been able to import arcpy")
 
-############################
-##### Private function for getting the list of regions in which the species
-##### occurs.
+
 def __SpRegions(spShp, season, regions):
     '''
     Private function to be called only by other scripts within this module
@@ -659,7 +616,8 @@ def ListCONUSEndemics():
     Conn.close()
 
     return sppEnd
-    
+   
+
 def ListIntroducedSpp(anyIntroducedHUCs=True):
     '''
     () -> list
@@ -748,6 +706,7 @@ def ListIntroducedSpp(anyIntroducedHUCs=True):
     sppConn.close()
 
     return sppInt
+
 
 def GetEndemics(extentShapefile, shpHucs, workDir, keyword):
     """
@@ -958,7 +917,7 @@ def GetEndemics(extentShapefile, shpHucs, workDir, keyword):
     print "+"*35
     print("!!!  BE SURE TO READ THE NOTES IN THE DOCUMENTATION  !!!")
     
-    
+
 def SppInAOI(AOIShp, hucShp, workDir, origin, season, reproduction,
                  presence):
     '''

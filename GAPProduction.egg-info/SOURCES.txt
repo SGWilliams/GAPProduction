@@ -22,10 +22,13 @@ docs/documentation/Help_gapmodeling.txt
 docs/documentation/Help_gaprange.txt
 docs/documentation/Help_gaprasters.txt
 docs/documentation/Help_gaprichness.txt
+docs/documentation/Help_landcover.txt
 docs/documentation/Help_match_and_filter.txt
+docs/documentation/Help_sciencebase.txt
 docs/documentation/Help_spatial.txt
 docs/documentation/Help_states.txt
 docs/documentation/Help_tables.txt
+docs/documentation/Help_taxonomy.txt
 docs/documentation/Help_webservices.txt
 docs/documentation/Help_wildclass.txt
 docs/documentation/Help_zipping.txt
@@ -45,11 +48,13 @@ gapproduction/gapmodeling.py
 gapproduction/gaprange.py
 gapproduction/gaprasters.py
 gapproduction/gaprichness.py
+gapproduction/landcover.py
 gapproduction/match_and_filter.py
 gapproduction/sciencebase.py
 gapproduction/spatial.py
 gapproduction/states.py
 gapproduction/tables.py
+gapproduction/taxonomy.py
 gapproduction/webservices.py
 gapproduction/wildclass.py
 gapproduction/zipping.py
