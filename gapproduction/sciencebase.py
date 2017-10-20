@@ -134,7 +134,7 @@ def HabMapItemCSV(species, publicationDate, csvName):
     
     abstract_text = """This dataset represents a species habitat distribution model for {0}.  These habitat maps are created by applying a <a href="https://www.sciencebase.gov/catalog/item/527d0a83e4b0850ea0518326">deductive habitat model</a> to remotely-sensed data layers within a species' range.""" 
     
-    citation_text = """U.S. Geological Survey - Gap Analysis Program, {2}, {0} ({1}) Habitat Map, U.S. Geological Survey data release, https://doi.org/10.5066/{3}."""
+    citation_text = """U.S. Geological Survey - Gap Analysis Program, {2}, {0} ({1}) Habitat Map, U.S. Geological Survey data release, {3}."""
     
     # Fill out desired columns
     for sp in species:
