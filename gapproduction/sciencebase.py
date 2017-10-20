@@ -7,6 +7,7 @@ import gapdb
 # The top level ScienceBase Item ID for the GAP habitat maps
 habMapCollectionItem = "527d0a83e4b0850ea0518326"
 
+
 #### Function to establish a connection to ScienceBase
 def ConnectToSB(username=gapconfig.sbUserName, password=gapconfig.sbWord):
     """
