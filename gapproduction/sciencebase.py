@@ -243,6 +243,7 @@ def SaveModelJSON(species, saveDir, year=2001, version=1):
         with open(fileName, "w") as outfile:
             json.dump(speciesDict, outfile)
         return speciesDict, fileName
+    
     except Exception as e:
         print(e)
         return False
@@ -271,18 +272,23 @@ def AttachFile(strUC, filePath, action="replace"):
     '''
     try:
         # Connect to ScienceBase
-        sb = gp.sciencebase.ConnectToSB()
+        sb = ConnectToSB()
+        
         # Get the species SB ID
-        ID = gp.sciencebase.GetHabMapID(strUC)
+        ID = GetHabMapID(strUC)
+        
         # Get the species item
         item = sb.get_item(ID)
+        
         # Upload the file
         if action == "replace":
             sb.replace_file(filePath, item)
         elif action == "create":
             sb.upload_file_to_item(item, filePath)
+            
         # Return the ID
         return ID
+    
     except Exception as e:
         print(e)
         return False
