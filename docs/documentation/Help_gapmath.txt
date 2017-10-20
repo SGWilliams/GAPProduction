@@ -4,7 +4,7 @@ NAME
     gapproduction.gapmath
 
 FILE
-    t:\scripts\gapproduction\gapproduction\gapmath.py
+    c:\python27\packages\gapproduction\gapproduction\gapmath.py
 
 DESCRIPTION
     # This module facilitates standard math operations for which there is no simple,

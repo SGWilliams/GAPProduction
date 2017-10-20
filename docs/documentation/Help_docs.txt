@@ -4,7 +4,7 @@ NAME
     gapproduction.docs
 
 FILE
-    t:\scripts\gapproduction\gapproduction\docs.py
+    c:\python27\packages\gapproduction\gapproduction\docs.py
 
 DESCRIPTION
     ## This module facilitates common tasks for searching/manipulating text files.

@@ -1,0 +1,145 @@
+Python Library Documentation: module gapproduction.landcover in gapproduction
+
+NAME
+    gapproduction.landcover
+
+FILE
+    c:\python27\packages\gapproduction\gapproduction\landcover.py
+
+DESCRIPTION
+    Functions related to GAP Land Cover tasks and data.
+    NOTE: This content was originally in gapdb, and old versions still exist there.
+    They will need to be deleted and deprecated.
+
+FUNCTIONS
+    AllMUs(name=True, conus=True)
+        ([boolean]) -> list
+        
+        Returns a list of all map units in the database.
+        
+        Arguments:
+        name -- Optional boolean parameter indicating whether you wish to return
+            a list of the ecological system names or of the map unit codes. By
+            default, it is set to True, which means that the list will contain
+            ecological system names. False will return map unit codes as integers.
+        conus -- Optional boolean parameter indicating whether you wish to return
+            only the map units that occur within CONUS or all map units.
+    
+    MUCode(muName)
+        (str) -> int
+        
+        Returns the map unit code that matches the passed ecological system name.
+        
+        Argument:
+        muName -- The map unit's code, as found in tblMapUnitDesc.strLSGapName.
+        
+        Example:
+        >>> MUCode('Dry noncalcareous woodland')
+        2812
+    
+    MUCodesToNames(muCodeList)
+        (list) -> list
+        
+        Translates a list of map unit codes into a list of ecological system names.
+            The passed codes can be either strings or integers.
+        
+        Argument:
+        muCodeList -- A list of 4-digit map unit codes
+        
+        Example:
+        >>> [2503, 2505, 2512]
+        ['Bog Vegetation', 'Closed Hala Forest', 'Closed Kukui Forest']
+    
+    MUName(muCode)
+        (int) -> str
+        
+        Returns the name of the ecological system that matches the passed map unit
+            code.
+        
+        Argument:
+        muCode -- The map unit's 4-digit code.
+        
+        Example:
+        >>> MUName(2812)
+        'Dry noncalcareous woodland'
+    
+    MUNamesToCodes(muNameList)
+        (list) -> list
+        
+        Translates a list of map unit names into a list of ecological system codes.
+        
+        Argument:
+        muCodeList -- A list of map unit names
+        
+        Example:
+        >>> ['Bog Vegetation', 'Closed Hala Forest', 'Closed Kukui Forest']
+        [2503, 2505, 2512]
+    
+    MUsWithKeyword(keyword)
+        (str) -> list
+        
+        Returns a list of map units (as integers) that contain the keyword in their
+        name or description
+    
+    MuInRegion(mu, region)
+        (string/int, string/int) -> boolean
+        
+        Returns a boolean indicating whether the map unit occurs within the region.
+        
+        Arguments:
+        mu -- The GAP map unit code (as either an int or a string) or the map unit
+            name.
+        
+        region -- The GAP region code (as either an int or a string) of interest.
+            The function will also accept the region's two character abbreviation or
+            its full name, as long as it matches those in the region dictionaries
+            found within the dictionaries module.
+        
+        Examples:
+        >>> gp.gapdb.MuInRegion("1402", "4")
+        True
+        >>> gp.gapdb.MuInRegion(1402, "4")
+        True
+        >>> gp.gapdb.MuInRegion(1402, "sw")
+        True
+        >>> gp.gapdb.MuInRegion(1402, "SOUTHWEST")
+        True
+        >>> gp.gapdb.MuInRegion('Atlantic Coastal Plain Northern Sandy Beach', 1)
+        False
+    
+    MuRegions(mu)
+        (string/int) -> list
+        
+        Returns a list of the GAP modeling regions (by numeric code) in which the
+            map unit occurs.
+        
+        Argument:
+        mu -- The GAP map unit code (as either an int or string) or the map unit
+            name.
+        
+        Examples:
+        >>> gp.gapdb.MuRegions('Open Water (Aquaculture)')
+        ['6']
+        >>> gp.gapdb.MuRegions(2103)
+        ['1', '3', '4', '5', '6']
+        >>> gp.gapdb.MuRegions("2103")
+        ['1', '3', '4', '5', '6']
+    
+    UniqueMUs(inRegion, absentRegions=[1, 2, 3, 4, 5, 6])
+        (string/integer, [list]) -> list
+        
+        Returns a list of ecological systems that occur within the region of
+            interest but that do not occur in any of the indicated regions
+            (i.e., those indicated in absentRegions).
+        
+        Arguments:
+        inRegion -- Either a string or integer, indicating the numeric GAP modeling
+            region code of the region of interest.
+        absentRegions -- A list containing either strings or integers, indicating
+            the numeric GAP modeling region code(s) of any region(s) from which
+            the map unit must be absent to be included in the output. By default,
+            the list includes all regions (though the inRegion is removed from the
+            list), meaning that only map units that are unique to the inRegion will
+            be returned.
+
+

@@ -4,7 +4,7 @@ NAME
     gapproduction.beta - This a place to put functions that are in development.
 
 FILE
-    t:\scripts\gapproduction\gapproduction\beta.py
+    c:\python27\packages\gapproduction\gapproduction\beta.py
 
 FUNCTIONS
     MakeRemapList(mapUnitCodes, reclassValue)

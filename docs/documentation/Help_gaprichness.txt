@@ -4,7 +4,7 @@ NAME
     gapproduction.gaprichness
 
 FILE
-    t:\scripts\gapproduction\gapproduction\gaprichness.py
+    c:\python27\packages\gapproduction\gapproduction\gaprichness.py
 
 DESCRIPTION
     # Create a species richness raster for the given species

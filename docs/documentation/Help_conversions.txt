@@ -4,7 +4,7 @@ NAME
     gapproduction.conversions
 
 FILE
-    t:\scripts\gapproduction\gapproduction\conversions.py
+    c:\python27\packages\gapproduction\gapproduction\conversions.py
 
 DESCRIPTION
     ## Module for converting between measurement units.

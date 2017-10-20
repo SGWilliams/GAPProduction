@@ -4,7 +4,7 @@ NAME
     gapproduction.spatial
 
 FILE
-    t:\scripts\gapproduction\gapproduction\spatial.py
+    c:\python27\packages\gapproduction\gapproduction\spatial.py
 
 DESCRIPTION
     ## Module to process and calculate explicitly spatial data.

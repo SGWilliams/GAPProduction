@@ -4,7 +4,7 @@ NAME
     gapproduction.zipping
 
 FILE
-    t:\scripts\gapproduction\gapproduction\zipping.py
+    c:\python27\packages\gapproduction\gapproduction\zipping.py
 
 DESCRIPTION
     ## This module facilitates common tasks for archiving with the zipfile module,

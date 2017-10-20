@@ -4,7 +4,7 @@ NAME
     gapproduction.webservices
 
 FILE
-    t:\scripts\gapproduction\gapproduction\webservices.py
+    c:\python27\packages\gapproduction\gapproduction\webservices.py
 
 DESCRIPTION
     ## Module for retrieving information about ArcGIS web services

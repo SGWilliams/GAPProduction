@@ -1,37 +1,10 @@
 Python Library Documentation: module gapproduction.gaprange in gapproduction
 
 NAME
-    gapproduction.gaprange
+    gapproduction.gaprange - This module facilitates common tasks involving GAP ranges.
 
 FILE
-    t:\scripts\gapproduction\gapproduction\gaprange.py
-
-DESCRIPTION
-    ## This module facilitates common tasks involving GAP ranges.
-    ##
-    ## Public variables:
-    ##
-    ## HUCs -- The path to the CONUS HUCs shapefile
-    ##
-    ## Public functions:
-    ##
-    ## RangeTable() -- Create a comma-delimited table of the species' range, with
-    ##      fields for HUC12 code, presence, origin, season, and reproductive use.
-    ##
-    ## RangeShp() -- Create a shapefile of the species' range
-    ##
-    ## EcoSysInRange() -- Gets a list of ecological systems that occur within the
-    ##      species' range
-    ##
-    ## ListIntroducedSpp() -- Gets a list of species that have any introduced range
-    ##
-    ## PublishRanges() -- Publish ranges for a list of species
-    ##
-    ## GetEndemics() -- Get a list (table) of species endemic to a polygon (shapefile)
-    ##
-    ## SppInAOI() -- Get a list of species occuring in an area of interest (shapefile)
-    ##
-    ##
+    c:\python27\packages\gapproduction\gapproduction\gaprange.py
 
 FUNCTIONS
     EcoSysInRange(sp, season=1, regions=[])

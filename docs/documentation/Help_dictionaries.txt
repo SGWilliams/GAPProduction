@@ -4,7 +4,7 @@ NAME
     gapproduction.dictionaries
 
 FILE
-    t:\scripts\gapproduction\gapproduction\dictionaries.py
+    c:\python27\packages\gapproduction\gapproduction\dictionaries.py
 
 DESCRIPTION
     ## This module stores dictionaries commonly used in processing GAP data as well
@@ -67,6 +67,8 @@ DESCRIPTION
     ##
     ## rangeCodesDict = A dictionary of dictionaries with a key for each GAP range map 
     ##      attribute and a value that's a dictionary of definitions.
+    ##
+    ## staffDict = A dictionary of staff's initials.
 
 FUNCTIONS
     InvertDictionary(d, listsToTuples=False)
@@ -154,6 +156,7 @@ DATA
     regionsDict_Name_To_Num = {'Great Plains': 5, 'Northeast': 3, 'Northwe...
     regionsDict_Num_To_Abbr = {1: 'NW', 2: 'UM', 3: 'NE', 4: 'SW', 5: 'GP'...
     regionsDict_Num_To_Name = {1: 'Northwest', 2: 'Upper Midwest', 3: 'Nor...
+    staffDict = {'': 'Unknown', ' ': 'Unknown', 'ar': 'Rob Adair', 'jjl': ...
     stateDict_From_Abbr = {'AK': 'Alaska', 'AL': 'Alabama', 'AR': 'Arkansa...
     stateDict_From_Abbr_CONUS = {'AL': 'Alabama', 'AR': 'Arkansas', 'AZ': ...
     stateDict_To_Abbr = {'Alabama': 'AL', 'Alaska': 'AK', 'American Somoa'...

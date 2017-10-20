@@ -4,7 +4,7 @@ NAME
     gapproduction.gapemail
 
 FILE
-    t:\scripts\gapproduction\gapproduction\gapemail.py
+    c:\python27\packages\gapproduction\gapproduction\gapemail.py
 
 DESCRIPTION
     ## This module facilitates the sending of email messages.

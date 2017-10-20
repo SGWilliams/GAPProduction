@@ -4,7 +4,7 @@ NAME
     gapproduction.states
 
 FILE
-    t:\scripts\gapproduction\gapproduction\states.py
+    c:\python27\packages\gapproduction\gapproduction\states.py
 
 DESCRIPTION
     # A module for accessing state boundaries datasets.

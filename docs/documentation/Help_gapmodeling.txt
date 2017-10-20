@@ -1,60 +1,10 @@
 Python Library Documentation: module gapproduction.gapmodeling in gapproduction
 
 NAME
-    gapproduction.gapmodeling
+    gapproduction.gapmodeling - Module for tasks related to GAP deductive habitat modeling.
 
 FILE
-    t:\scripts\gapproduction\gapproduction\gapmodeling.py
-
-DESCRIPTION
-    ## Module to query/manipulate model parameters within the WHRdb.
-    ##
-    ## Public Functions:
-    ##
-    ## ModelExists() -- Returns a boolean, indicating whether the passed string is
-    ##      a valid, existing GAP model code.
-    ##
-    ## ModelCodes() -- Get a tuple of included model codes for the species.
-    ##
-    ## ModelEcoSystems() -- Returns lists of the selected primary and auxiliary
-    ##      map units for the model.
-    ##
-    ## SpEcoSystems() -- Returns lists of primary and auxiliary map units that are
-    ##      selected within any models for the given species.
-    ##
-    ## SpMuDiscrepancies() -- Returns a list of ecological systems that are selected
-    ##      inconsistently among models (for regions within which each given system
-    ##      occurs).
-    ##
-    ## ModelMuDiscrepancies() -- Identifies specific inconsistencies in the map unit
-    ##      selection between the two input models.
-    ##
-    ## ResolveMuDiscrepancies() -- Resolves inconsistencies in the map unit
-    ##      selection between the two input models by setting the change model to
-    ##      match the selections of the template model. Note: This function is not
-    ##      only intended to address regional differences for a given taxon, but
-    ##      could also be used to address differences within a region between
-    ##      subspecies or between other similar models.
-    ##
-    ## SetMUs() -- Selects the passed map units for the given model.
-    ##
-    ## HandModels() -- Returns a list of model codes for models that must be
-    ##      modeled by hand.
-    ##
-    ## EcoSystemModels() -- Returns a list of models with primary assocation with the
-    ##      ecological system and also a list of models with a secondary association.
-    ##
-    ## EcoSystemSpecies() -- Returns a list of species with a primary association with
-    ##      the ecological system and another list of species with secondary assocations
-    ##
-    ## RemoveAlienMUs() -- Goes through each model in a list and unselects primary
-    ##     and auxiliary map units which are not found within the model's region.
-    ##
-    ## ExcludeModels() -- Returns a list of models that exist in the WHRDb but are designated
-    ##      for exclusion in the ysnInclude field.
-    ##
-    ## ModelAsDictionary() -- Returns model variables as a dictionary.
-    ##
+    c:\python27\packages\gapproduction\gapproduction\gapmodeling.py
 
 FUNCTIONS
     EcoSystemModels(ecologicalSystem, season='all', contiguousOnly=False)
@@ -156,7 +106,7 @@ FUNCTIONS
         Example:
         speciesMUs = loadSpeciesMapUnits("mSEWEn", Range=False)
     
-    ModelAsDictionary(model, muCodes=True)
+    ModelAsDictionary(model, ecolSystem='codes')
         (string, boolean) -> dictionary
         
         Returns a dictionary that includes a key for each of a regional model's variables.
@@ -164,8 +114,9 @@ FUNCTIONS
         
         Arguments:
         model -- a model code (e.g., "bcoyex-s6")
-        muCodes -- specifies whether to return ecological system names or codes. Defaults
-            to true, which returns codes and takes a little longer to run.
+        ecolSystem -- specifies whether to return ecological system names, codes, or both.
+            Defaults codes, which returns codes and takes a little longer to run.  Choosing
+            "both" will return a list of tuples (code, name).
         
         Dictionary keys -- ['intIntoBuffFW', 'ScientificName', 'ysnHydroWV', 'intAuxBuff',
                             'strForIntBuffer', 'ysnHandModel', 'intIntoBuffOW', 'Season',
@@ -174,10 +125,11 @@ FUNCTIONS
                             'intElevMin', 'ysnHydroOW', 'Region', 'CommonName',
                             'ysnUrbanInclude', 'strUseForInt', 'intEdgeEcoWidth',
                             'intFromBuffWV', 'strStreamVel', 'strSalinity', 'strEdgeType',
-                            'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW']
+                            'ysnHydroFW', 'intContPatchSize', 'strAvoid', 'intFromBuffOW',
+                            'memHMNotes']
         
         Example:
-        modelDictionary = ModelAsDictionary(model="mSEWEx-y1", muCodes=False)
+        modelDictionary = ModelAsDictionary(model="mSEWEx-y1", ecolSystem="both")
     
     ModelCodes(spCode, season='all', publishedOnly=False, conusOnly=True, migratory=False)
         (string, string, [boolean], [boolean], [boolean]) -> tuple
@@ -373,7 +325,7 @@ FUNCTIONS
         >>> SetMU('mNAROx-y4', ['Developed, Low Intensity', 1201, 1203, 'Open Water (Fresh)'])
         True
     
-    SpEcoSystems(spCode, season='all', contiguousOnly=False)
+    SpEcoSystems(spCode, season='all', contiguousOnly=True, publishedOnly=False, migratory=False)
         (string) -> list, list
         
         Returns two lists, the first of which contains the names of ecological
@@ -395,6 +347,10 @@ FUNCTIONS
             wish to return codes only for models within the contiguous U.S. By
             default, it is set to False, which means that all model codes will be
             returned, regardless of their region.
+        publishedOnly -- Optional boolean parameter to include only published models.
+            By default, it is set as False, which returns all models.
+        migratory -- Optional boolean parameter to include migratory models.
+            By default, it is set as False, which excludes migratory models.
     
     SpMuDiscrepancies(spCode, season='all', contiguousOnly=True)
         (string, [string], [boolean]) -> list
@@ -431,6 +387,29 @@ FUNCTIONS
         Example:
         >>>df = SpReferences("bAMROx")
         >>>df.to_csv("R:/RobinRefs.csv")
+    
+    SpeciesInputs(strUC, season='all', publishedOnly=True, conusOnly=True, migratory=False)
+        (string) -> list
+        
+        Returns a list of input layers used by one of a species' regional-seasonal models.
+            Developed for use with updating metadata on ScienceBase.
+        
+        Arguments:
+        strUC -- A gap species code like "bAMROx".
+        season -- The season for which you wish to return models. By default, all
+            seasons will be assessed. You may enter: 's' or 'summer' for summer
+            models; 'w' or 'winter' for winter models; 'y', 'year', 'yearround', or
+            'year-round' for year-round models.
+        publishedOnly -- Optional boolean parameter to include only published models.
+            By default, it is set as False, which assesses models in all stages.
+        conusOnly -- Optional boolean parameter to include only models within CONUS.
+            By default, it is set as True, which assesses only CONUS models.
+        migratory -- Optional boolean parameter to include migratory models.
+            By default, it is set as False, which skips migratory models.
+        
+        Example:
+        >>>inputs = SpeciesInputs("bAMREx")
+        ['hydrology', 'elevation']
     
     SppHabText(spp)
         (list) -> pandas dataframe
@@ -487,5 +466,24 @@ FUNCTIONS
         Example:
         >>> VerifyMosaic_4("mSEWEx", "NMT", True, mosaicDir="P:/Proj3/Output/Mosaics/",
                            regionalDir="P:/Proj3/Output/Regional/", "MJR")
+    
+    getHabitatDescription(strUC)
+        (string) -> string
+        
+        Returns the habitat description text for a species.
+        
+        Arguments:
+        strUC -- Gap species code
+    
+    getModelComments(strUC)
+        (string) -> string
+        
+        Returns the modeling comments text for a species.
+        
+        Arguments:
+        strUC -- Gap species code
+
+DATA
+    layers_2001 = {'AuxEcoSys': 'https://doi.org/10.5066/F7959GF5', 'PrimE...
 
 

@@ -4,7 +4,7 @@ NAME
     gapproduction.gaprasters
 
 FILE
-    t:\scripts\gapproduction\gapproduction\gaprasters.py
+    c:\python27\packages\gapproduction\gapproduction\gaprasters.py
 
 DESCRIPTION
     ## This module facilitates common tasks for processing rasters.
@@ -43,7 +43,7 @@ DESCRIPTION
     ## CheckRasterProperties() -- Checks the properties of species model raster.
 
 FUNCTIONS
-    CheckModelExtents(sp, workDir, threshold, modelDir, hucTable='T:/Scripts/GAPProduction/data/HUC_Extents.txt', saveTables=False)
+    CheckModelExtents(sp, workDir, threshold, modelDir, hucTable='C:/Python27/Packages/GAPProduction/data/HUC_Extents.txt', saveTables=False)
         (list, string, int, string, string, boolean) -> dictionary, list
         
         Checks the extent of a list of species model raster objects against the extents 

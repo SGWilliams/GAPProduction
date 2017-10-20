@@ -4,7 +4,7 @@ NAME
     gapproduction.tables
 
 FILE
-    t:\scripts\gapproduction\gapproduction\tables.py
+    c:\python27\packages\gapproduction\gapproduction\tables.py
 
 DESCRIPTION
     ## This module facilitates common tasks for searching/manipulating plain text

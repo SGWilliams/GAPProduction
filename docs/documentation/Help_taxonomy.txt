@@ -1,0 +1,146 @@
+Python Library Documentation: module gapproduction.taxonomy in gapproduction
+
+NAME
+    gapproduction.taxonomy - Functions related to querying and editing the GAP species concepts/taxonomy.
+
+FILE
+    c:\python27\packages\gapproduction\gapproduction\taxonomy.py
+
+FUNCTIONS
+    Crosswalk(spCode)
+        (string) -> tuple
+        
+        Returns a tuple of 4 items: GAP species code, ELCode, ITIS TSN, and
+            Global_SEQ_ID
+        
+        Argument:
+        spCode -- the species' unique GAP ID
+        
+        Example:
+        >>> Crosswalk('mNAROx')
+        (u'mNAROx', u'AMAJF10010', u'180549', 102243)
+    
+    NameClass(spCode)
+        (string) -> string
+        
+        Returns the species' class
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    NameCommon(spCode)
+        (string) -> string
+        
+        Returns the species' common name
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    NameFamily(spCode)
+        (string) -> string
+        
+        Returns the species' family
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    NameGenus(spCode)
+        (string) -> string
+        
+        Returns the species' genus
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    NameOrder(spCode)
+        (string) -> string
+        
+        Returns the species' order
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    NameSci(spCode)
+        (string) -> string
+        
+        Returns the species' scientific name (Genus species [subspecies])
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    NameSpecies(spCode)
+        (string) -> string
+        
+        Returns the species' scientific species name
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    NameSubspecies(spCode)
+        (string) -> string
+        
+        Returns the subspecies name, if applicable; otherwise, returns
+        an empty string
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+    
+    Related(code)
+        (string) -> list
+        
+        Gets a list of species/subspecies that share the code root (i.e.
+        the first 5 characters of the code). If your argument exceeds five
+        characters, the function will ignore all but the first five. If you submit
+        an argument with fewer than five characters, the function will return all
+        GAP codes that begin with whatever argument you submitted.
+        
+        Argument:
+        code -- the species' unique GAP ID or the beginning of the GAP ID
+        
+        Examples:
+        >>> Related("aBAFR")
+        [u'aBAFRc', u'aBAFRl', u'aBAFRx']
+        >>> Related("aBAFRc")
+        [u'aBAFRc', u'aBAFRl', u'aBAFRx']
+        >>> Related("aBA")
+        [u'aBAFRc', u'aBAFRl', u'aBAFRx', u'aBATRx']
+    
+    SpInfoCombined(spCode, completionStatus=True)
+        (string, [boolean]) -> tuple
+        
+        Returns the full info for the the species, including taxonomy, crosswalk,
+            and range/model completion status.
+        
+        Refer to SpInfoCombinedHeaders() to get a list of the appropriate field
+            headings
+        
+        Argument:
+        spCode -- the species' unique GAP ID
+        completionStatus -- an optional, boolean argument, indicating whether to
+            include the range/model completion status in the output. By default, it
+            is set to true, meaning that the status fields will be included.
+        
+        Example:
+        >>> SpInfoCombined('abotox')
+        ('aBOTOx', 'Amphibia', 'Anura', 'Bufonidae', 'Anaxyrus', 'boreas', '',
+        'Anaxyrus boreas', 'Western Toad', 'AAABB01030', '773513', '102714', 'True', 'True')
+    
+    SpInfoCombinedHeaders(completionStatus=True)
+        Returns a list of the fields names from the SpInfoCombined() function,
+            in the proper order.
+    
+    Taxonomy(spCode)
+        (string) -> tuple
+        
+        Returns a tuple of 8 items: GAP species code, class, order, family,
+        genus, species, subspecies, full scientific name, and common name.
+        
+        Argument:
+        spCode -- the species' unique GAP ID.
+        
+        Example:
+        >>> Taxonomy("abafrc")
+        (u'aBAFRc', u'Amphibia', u'Anura', u'Craugastoridae', u'Craugastor',
+        u'augusti', u'cactorum', u'Craugastor augusti cactorum', u'Western Barking Frog')
+
+

@@ -4,7 +4,7 @@ NAME
     gapproduction.featureclasses
 
 FILE
-    t:\scripts\gapproduction\gapproduction\featureclasses.py
+    c:\python27\packages\gapproduction\gapproduction\featureclasses.py
 
 DESCRIPTION
     ## This module contains functions to facilitate the processing of feature
