@@ -989,11 +989,13 @@ def Who(spCode, action="edited"):
     # Dictionaries
     actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
               "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
+    
     # Build a query             
     field = actions[action]
     qry = """SELECT """ + field + """
             FROM dbo.tblModelStatus
             WHERE strUC = ?"""
+    
     # Connect to database
     sppCursor, sppCon = ConnectWHR()
     result = sppCursor.execute(qry, spCode).fetchone()
