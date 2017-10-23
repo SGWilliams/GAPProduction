@@ -1,13 +1,10 @@
 '''
 Functions to use for connecting to and interacting with ScienceBase
 '''
-
 import gapconfig
-import gapdb
 
 # The top level ScienceBase Item ID for the GAP habitat maps
 habMapCollectionItem = "527d0a83e4b0850ea0518326"
-
 
 def ConnectToSB(username=gapconfig.sbUserName, password=gapconfig.sbWord):
     """
@@ -56,6 +53,7 @@ def GetHabMapDOI(strUC):
     Example:
     >> id = GetHabMapDOI("bAMROx")
     """
+    import gapdb
     cursor, connect = gapdb.ConnectAnalyticDB()
     sql = """SELECT tblTaxa.strDoiHM
              FROM tblTaxa
@@ -79,6 +77,7 @@ def GetHabMapURL(strUC):
     Example:
     >> url = GetHabMapURL("bAMROx")
     """
+    import gapdb
     cursor, connect = gapdb.ConnectAnalyticDB()
     sql = """SELECT tblTaxa.strSbUrlHM
              FROM tblTaxa
@@ -292,3 +291,39 @@ def AttachFile(strUC, filePath, action="replace"):
     except Exception as e:
         print(e)
         return False
+
+
+def RangeItemCSV(species, publicationDate, csvName):
+    '''
+    (list, integer, string) -> pandas DataFrame and saved CSV file.
+    
+    Creates a dataframe and csv file with rows for species in your list and columns for
+        each of the pieces of information needed when updating metadata records on 
+        ScienceBase for range maps.
+    
+    Arguments:
+    species -- Python list of GAP species codes to process
+    publicationDate -- A year to use as the publication date
+    csvName -- Path and name of where to save csv file
+    
+    Example:
+    >>>DF = MakeScienceBaseCSV(["aAMBUx", "bCOHAx", "bAMROx", "bCOMEx"], 
+                               publicationDate = 2017,
+                               csvName="T:/temp/SBTable.csv")    
+    '''
+    import gapdb
+    import pandas as pd
+    
+    # Intialize a dataframe
+    DF0 = pd.DataFrame()
+    DF0.index.name = "GAP_code"
+    
+    # Fill out desired columns
+    for sp in species:
+        print sp
+        DF0.loc[sp, "reviewer"] = gapdb.Who(sp, "reviewed_range")
+        DF0.loc[sp, "editors"] = gapdb.Who(sp, "edited_range")
+
+    # Save
+    DF0.to_csv(csvName)
+    return DF0
