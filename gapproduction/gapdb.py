@@ -1074,7 +1074,7 @@ def Who(spCode, action="edited_model"):
         qry = [x[0] for x in qry]
         
         # Handle initials
-        nameFix = {'': "",
+        nameFix = {'': "Adam Radel",
                'K Boykin': "Ken Boykin",
                'Thomas Laxon': 'Thomas Laxson',
                'Steven G Williams': 'Steven Williams',
@@ -1092,10 +1092,12 @@ def Who(spCode, action="edited_model"):
                "Matthew Rubino": "Matthew Rubino",
                "Nathan Tarr" : "Nathan Tarr",
                "Jocelyn Aycrigg": "Jocelyn Aycrigg",
-               "Unknown":""}
+               "Unknown":"Adam Radel"}
         editors = [dictionaries.staffDict[x.lower()] if len(x) < 4 else str(x) for x in qry ]
         name = [nameFix[x] if x not in nameFix.values() else str(x) for x in editors]
-             
+        if len(name) <1:
+            name.append("Adam Radel")
+        
         # Delete cursor
         del cursor
         sppCon.close()
