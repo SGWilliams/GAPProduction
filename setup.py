@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='GAPProduction',
     
-    version='1.4',
+    version='1.4.1',
     
     packages=['gapproduction',],
     
