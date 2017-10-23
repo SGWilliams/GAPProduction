@@ -1011,6 +1011,117 @@ def Who(spCode, action="edited"):
     return name
 
 
+def Who2(spCode, action="edited_model"):
+    '''
+    (string, action) -> string
+    
+    Gets the name of the staff member who completed an action of interest.
+    
+    Notes:
+    This function queries the WHRdb tblModelStatus table, which has rows for each region-
+        season model, not strUC.  It grabs (I believe) the first record of the query
+        result.  It would ideally query the species database, but the table there is not 
+        up to date.
+    
+    Arguments:
+    spCode -- the species' unique GAP ID
+    action -- The action of interest.  Choose from "edited", "mosaiced", "reviewed", 
+        "published".
+    
+    Example:
+    >>> print WhoReviewed("bBAEAx", action="reviewed")
+    "Jeff Lonneker"
+    '''
+    import dictionaries
+    # Dictionaries
+    actions = {"reviewed_model": "strWhoReviewUC", "edited_model": "strWhoEditorUC",
+              "mosaiced_model": "whoMosaicingComplete", "published_model": "whoPublishingComplete",
+              "edited_range": "strReviewer", "reviewed_range": "strWhoReviewUC"}
+    field = actions[action]
+    
+    if action in ["edited_model", "reviewed_range", "reviewed_model"]:
+        # Build a query
+        qry = """SELECT """ + field + """
+              FROM dbo.tblWhoUC
+              WHERE strUC = ?"""
+              
+        # Connect to database
+        sppCursor, sppCon = ConnectWHR()
+        result = sppCursor.execute(qry, spCode).fetchone()
+        
+        # Format result of query
+        if result and result[0] != None:
+            name = result[0]
+        else:
+            name = ""
+        
+        # Delete cursor
+        del sppCursor
+        sppCon.close()
+    
+    elif action == "edited_range":
+        # Connect to database
+        cursor, sppCon = ConnectSppDB()
+                
+        # Dictionary for cleaning up names"
+        nameFix = {'': "",
+               'K Boykin': "Ken Boykin",
+               'Thomas Laxon': 'Thomas Laxson',
+               'Steven G Williams': 'Steven Williams',
+               'R. Adair': 'Robert Adair',
+               'Thomas': 'Thomas Laxson',
+               'test32': 'test',
+               'Rob Adair': 'Robert Adair',
+               'Jeff': 'Jeff Lonneker',
+               'Test': 'test',
+               'K boykin': "Ken Boykin",
+               'K Boykin ': "Ken Boykin",
+               'kboykin': "Ken Boykin",
+               'Kboykin': "Ken Boykin",
+               'KBoykin': "Ken Boykin",
+               "Matthew Rubino": "Matthew Rubino",
+               "Nathan Tarr" : "Nathan Tarr",
+               "Jocelyn Aycrigg": "Jocelyn Aycrigg",
+               "Unknown":""}
+        
+        qry = cursor.execute("""SELECT DISTINCT c.strReviewer
+                FROM tblRangeReviewComments as c
+                WHERE c.strUC = '{0}'""".format(spCode)).fetchall()
+        
+        # Strip empty space in tuple
+        qry = [x[0] for x in qry]
+        
+        # Handle initials
+        editors = [dictionaries.staffDict[x.lower()] if len(x) < 4 else str(x) for x in qry ]
+        name = [nameFix[x] if x not in nameFix.values() else str(x) for x in editors]
+             
+        # Delete cursor
+        del cursor
+        sppCon.close()
+                    
+    else:     
+        # Build a query             
+        qry = """SELECT """ + field + """
+                FROM dbo.tblModelStatus
+                WHERE strUC = ?"""
+        
+        # Connect to database
+        sppCursor, sppCon = ConnectWHR()
+        result = sppCursor.execute(qry, spCode).fetchone()
+        
+        # Format result of query
+        if result and result[0] != None:
+            name = result[0]
+        else:
+            name = ""
+        
+        # Delete cursor
+        del sppCursor
+        sppCon.close()
+    
+    return name
+
+
 def GapCase(spCode):
     '''
     (string) -> string
