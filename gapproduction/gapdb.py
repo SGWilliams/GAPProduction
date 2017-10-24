@@ -2,7 +2,6 @@
 This module facilitates common tasks for querying the GAP Species Database
 and WHRdb.
 """
-
 import pyodbc, gapconfig, tables, sys
 from dictionaries import stateDict_From_Abbr, stateDict_To_Abbr, taxaDict, staffDict
 
@@ -1163,7 +1162,6 @@ def MUName(muCode):
     >>> MUName(2812)
     'Dry noncalcareous woodland'
     '''
-    print("Beginning accessing this function from the land cover module.")
     # Check if the user passed an integer
     try:
         # If the user passed a code, continue
@@ -1211,7 +1209,6 @@ def MUCode(muName):
     >>> MUCode('Dry noncalcareous woodland')
     2812
     '''
-    print("Beginning accessing this function from the land cover module.")
     # Check whether the passed argument can be cast as an integer
     try:
         # If it can be cast as an integer, just return the integer.
@@ -1259,7 +1256,6 @@ def MUCodesToNames(muCodeList):
     >>> [2503, 2505, 2512]
     ['Bog Vegetation', 'Closed Hala Forest', 'Closed Kukui Forest']
     '''
-    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store the map units
     muNameList = []
 
@@ -1287,7 +1283,6 @@ def MUNamesToCodes(muNameList):
     >>> ['Bog Vegetation', 'Closed Hala Forest', 'Closed Kukui Forest']
     [2503, 2505, 2512]
     '''
-    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store the map units
     muCodeList = []
 
@@ -1333,7 +1328,6 @@ def MuInRegion(mu, region):
     >>> gp.gapdb.MuInRegion('Atlantic Coastal Plain Northern Sandy Beach', 1)
     False
     '''
-    print("Beginning accessing this function from the land cover module.")
     # If the function parameters are stringified integers, cast them as integers.
     try:
         mu = int(mu)
@@ -1421,7 +1415,6 @@ def MuRegions(mu):
     >>> gp.gapdb.MuRegions("2103")
     ['1', '3', '4', '5', '6']
     '''
-    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store the regions
     muList = []
 
@@ -1454,7 +1447,6 @@ def AllMUs(name=True, conus=True):
     conus -- Optional boolean parameter indicating whether you wish to return
         only the map units that occur within CONUS or all map units.
     '''
-    print("Beginning accessing this function from the land cover module.")
     # Connect to the database
     cur, conn = ConnectWHR()
 
@@ -1499,7 +1491,6 @@ def AllMUs(name=True, conus=True):
 
 
 def __ConusMUs(mus):
-    print("Beginning accessing this function from the land cover module.")
     # Initialize an empty list to store map units to omit
     musRemove = []
     # For each map unit
@@ -1536,7 +1527,6 @@ def UniqueMUs(inRegion, absentRegions=range(1,7)):
         list), meaning that only map units that are unique to the inRegion will
         be returned.
     '''
-    print("Beginning accessing this function from the land cover module.")
     # If the inRegion is in the absent regions list...if the user takes the
     # default absentRegions, this could occur:
     if inRegion in absentRegions:
@@ -1584,7 +1574,6 @@ def MUsWithKeyword(keyword):
     Returns a list of map units (as integers) that contain the keyword in their
     name or description
     '''
-    print("Beginning accessing this function from the land cover module.")
     # Get a cursor and connection to WHR database
     whrCursor, whrCon = ConnectWHR()
     # Execute the query to select model codes that match the passed species code
