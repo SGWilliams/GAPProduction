@@ -965,49 +965,162 @@ def ProcessDate(spCode, x = 'Model', y = 'Edited', seconds=False):
     return d
 
 
-def Who(spCode, action="edited"):
+#def Who(spCode, action="edited"):
+#    '''
+#    (string, action) -> string
+#    
+#    Gets the name of the staff member who completed an action of interest.
+#    
+#    Notes:
+#    This function queries the WHRdb tblModelStatus table, which has rows for each region-
+#        season model, not strUC.  It grabs (I believe) the first record of the query
+#        result.  It would ideally query the species database, but the table there is not 
+#        up to date.
+#    
+#    Arguments:
+#    spCode -- the species' unique GAP ID
+#    action -- The action of interest.  Choose from "edited", "mosaiced", "reviewed", 
+#        "published".
+#    
+#    Example:
+#    >>> print WhoReviewed("bBAEAx", action="reviewed")
+#    "Jeff Lonneker"
+#    '''
+#    # Dictionaries
+#    actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
+#              "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
+#    # Build a query             
+#    field = actions[action]
+#    qry = """SELECT """ + field + """
+#            FROM dbo.tblModelStatus
+#            WHERE strUC = ?"""
+#    # Connect to database
+#    sppCursor, sppCon = ConnectWHR()
+#    result = sppCursor.execute(qry, spCode).fetchone()
+#    
+#    # Format result of query
+#    if result and result[0] != None:
+#        name = result[0]
+#    else:
+#        name = ""
+#    
+#    # Delete cursor
+#    del sppCursor
+#    sppCon.close()
+#    
+#    return name
+
+
+def Who(spCode, action="edited_model"):
     '''
-    (string, action) -> string
+    (string, action) -> string or list
     
     Gets the name of the staff member who completed an action of interest.
     
     Notes:
-    This function queries the WHRdb tblModelStatus table, which has rows for each region-
-        season model, not strUC.  It grabs (I believe) the first record of the query
-        result.  It would ideally query the species database, but the table there is not 
-        up to date.
+    These queries come from one of three tables.  Queries of model editor, 
+        range reviewer, and model reviwer come from a table in the WHRDB that
+        Steve put together at the strUC level.  Queries of range editor come 
+        from the SppDB.tblRangeReviewComments.  The rest come from 
+        WHRDB.tblModelStatus.
     
     Arguments:
     spCode -- the species' unique GAP ID
-    action -- The action of interest.  Choose from "edited", "mosaiced", "reviewed", 
-        "published".
+    action -- The action of interest.  Choose from "reviewed_model", 
+                "edited_model", "mosaiced_model", "published_model",
+                "edited_range", "reviewed_range".
     
     Example:
-    >>> print WhoReviewed("bBAEAx", action="reviewed")
-    "Jeff Lonneker"
+    >>> print WhoReviewed("bBAEAx", action="reviewed_range")
+    "Joe Lonneker"
     '''
-    # Dictionaries
-    actions = {"reviewed": "whoInternalReviewComplete", "edited": "whoEditingComplete",
-              "mosaiced": "whoMosaicingComplete", "published": "whoPublishingComplete"}
-    # Build a query             
+    import dictionaries
+   
+    # Find the field to use in query
+    actions = {"reviewed_model": "strWhoReviewUC", "edited_model": "strWhoEditorUC",
+              "mosaiced_model": "whoMosaicingComplete", "published_model": "whoPublishingComplete",
+              "edited_range": "strReviewer", "reviewed_range": "strWhoReviewUC"}
     field = actions[action]
-    qry = """SELECT """ + field + """
-            FROM dbo.tblModelStatus
-            WHERE strUC = ?"""
-    # Connect to database
-    sppCursor, sppCon = ConnectWHR()
-    result = sppCursor.execute(qry, spCode).fetchone()
     
-    # Format result of query
-    if result and result[0] != None:
-        name = result[0]
-    else:
-        name = ""
+    if action in ["edited_model", "reviewed_range", "reviewed_model"]:
+        # Connect to database
+        sppCursor, sppCon = ConnectWHR()
+                
+        # Build a query
+        qry = """SELECT """ + field + """
+              FROM dbo.tblWhoUC
+              WHERE strUC = ?"""
+                      
+        # Format result of query
+        result = sppCursor.execute(qry, spCode).fetchone()
+        if result and result[0] != None:
+            name = result[0]
+        else:
+            name = ""
+        
+        # Delete cursor
+        del sppCursor
+        sppCon.close()
     
-    # Delete cursor
-    del sppCursor
-    sppCon.close()
-    
+    elif action == "edited_range":
+        # Connect to database
+        cursor, sppCon = ConnectSppDB()
+                
+        qry = cursor.execute("""SELECT DISTINCT c.strReviewer
+                FROM tblRangeReviewComments as c
+                WHERE c.strUC = '{0}'""".format(spCode)).fetchall()
+        
+        # Strip empty space in tuple
+        qry = [x[0] for x in qry]
+        
+        # Handle initials
+        nameFix = {'': "Adam Radel",
+               'K Boykin': "Ken Boykin",
+               'Thomas Laxon': 'Thomas Laxson',
+               'Steven G Williams': 'Steven Williams',
+               'R. Adair': 'Robert Adair',
+               'Thomas': 'Thomas Laxson',
+               'test32': 'test',
+               'Rob Adair': 'Robert Adair',
+               'Jeff': 'Jeff Lonneker',
+               'Test': 'test',
+               'K boykin': "Ken Boykin",
+               'K Boykin ': "Ken Boykin",
+               'kboykin': "Ken Boykin",
+               'Kboykin': "Ken Boykin",
+               'KBoykin': "Ken Boykin",
+               "Matthew Rubino": "Matthew Rubino",
+               "Nathan Tarr" : "Nathan Tarr",
+               "Jocelyn Aycrigg": "Jocelyn Aycrigg",
+               "Unknown":"Adam Radel"}
+        editors = [dictionaries.staffDict[x.lower()] if len(x) < 4 else str(x) for x in qry ]
+        name = [nameFix[x] if x not in nameFix.values() else str(x) for x in editors]
+        if len(name) <1:
+            name.append("Adam Radel")
+        
+        # Delete cursor
+        del cursor
+        sppCon.close()
+                    
+    else:     
+        # Connect to database
+        sppCursor, sppCon = ConnectWHR()
+        
+        # Build a query             
+        qry = """SELECT """ + field + """
+                FROM dbo.tblModelStatus
+                WHERE strUC = ?"""
+              
+        # Format result of query
+        result = sppCursor.execute(qry, spCode).fetchone()
+        if result and result[0] != None:
+            name = result[0]
+        else:
+            name = ""
+        
+        # Delete cursor
+        del sppCursor
+        sppCon.close()
     return name
 
 
@@ -1035,6 +1148,7 @@ def GapCase(spCode):
 
 
 ################################ MOVED TO LANDCOVER ###########################
+###############################################################################
 def MUName(muCode):
     '''
     (int) -> str
@@ -1084,7 +1198,6 @@ def MUName(muCode):
     except:
         pass
 
-
 def MUCode(muName):
     '''
     (str) -> int
@@ -1132,9 +1245,6 @@ def MUCode(muName):
         pass
 
 
-#######################################
-##### Translate a list of map unit codes to a list of the ecological system
-##### names
 def MUCodesToNames(muCodeList):
     '''
     (list) -> list
@@ -1164,9 +1274,6 @@ def MUCodesToNames(muCodeList):
     return muNameList
 
 
-#######################################
-##### Translate a list of map unit codes to a list of the ecological system
-##### names
 def MUNamesToCodes(muNameList):
     '''
     (list) -> list
@@ -1199,7 +1306,6 @@ def MUNamesToCodes(muNameList):
     return muCodeList
 
 
-## Determine whether the map unit occurs in the region
 def MuInRegion(mu, region):
     '''
     (string/int, string/int) -> boolean
@@ -1296,7 +1402,6 @@ def MuInRegion(mu, region):
     return res[0]
 
 
-## Get a list of the regions in which the map unit occurs
 def MuRegions(mu):
     '''
     (string/int) -> list
@@ -1335,7 +1440,6 @@ def MuRegions(mu):
     return muList
 
 
-## Get a list of all map units
 def AllMUs(name=True, conus=True):
     '''
     ([boolean]) -> list
@@ -1414,7 +1518,6 @@ def __ConusMUs(mus):
     return mus
 
 
-## Get a list of map units unique to the region of interest
 def UniqueMUs(inRegion, absentRegions=range(1,7)):
     '''
     (string/integer, [list]) -> list
@@ -1474,11 +1577,6 @@ def UniqueMUs(inRegion, absentRegions=range(1,7)):
     # Return the list
     return outMus
 
-
-
-################################################################
-####################################################
-################ Search for map units with a keyword in name or description.
 def MUsWithKeyword(keyword):
     '''
     (str) -> list

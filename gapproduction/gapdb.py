@@ -1035,7 +1035,7 @@ def Who(spCode, action="edited_model"):
     "Joe Lonneker"
     '''
     import dictionaries
-    
+   
     # Find the field to use in query
     actions = {"reviewed_model": "strWhoReviewUC", "edited_model": "strWhoEditorUC",
               "mosaiced_model": "whoMosaicingComplete", "published_model": "whoPublishingComplete",

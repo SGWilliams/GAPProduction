@@ -7,6 +7,26 @@ FILE
     c:\python27\packages\gapproduction\gapproduction\sciencebase.py
 
 FUNCTIONS
+    AttachFile(strUC, filePath, action='replace')
+        (string, string, string, string) -> string 
+        
+        Uploads a file to a species' habitat map ScienceBase item. Returns the
+            ID of the item that it attached to.
+        
+        NOTE: This currently only works for habmaps but will be revised offer a 
+            range option.
+        
+        Arguments:
+        strUC -- gap species code
+        filePath -- path to the file
+        action -- choose "replace" or "create". Create will add the file in addition
+            to whatever is already attached, even if a file has the same name.  
+            Replace will replace any existing attachements of the same name as your
+            file.  
+        
+        Example:
+        >>
+    
     ConnectToSB(username='nmtarr@ncsu.edu', password='Aa%6g$efjvvv')
         (string) -> connection to ScienceBase
         
@@ -83,6 +103,23 @@ FUNCTIONS
         
         Example:
         >> mapIDs = HabitatMapIDs()
+    
+    SaveModelJSON(species, saveDir, year=2001, version=1)
+        (string, string, integer, integer) -> dictionary
+        
+        Builds a species or subspecies-level dictionary of all the relevant 
+            information for a habitat modeling.  The dictionary format is for
+            ScienceBase.  Returns the dictionary and saves a copy as a json file
+            in the directory you provide.
+        
+        Arguments:
+        species -- gap species code
+        saveDir -- a directory to save json files in
+        year -- the year of the data used in modeling (2001 or 2011)
+        version -- the version number of the model (at the species level)
+        
+        Example:
+        >>test = SaveModelJSON("bAMROx", saveDIR="C:/Temp", year=2001, version=1)
 
 DATA
     habMapCollectionItem = '527d0a83e4b0850ea0518326'
