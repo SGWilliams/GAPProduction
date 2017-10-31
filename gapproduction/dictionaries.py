@@ -160,12 +160,12 @@ RangeCodesDict = {"Presence": {1: "Known/extant", 2: "Possibly present", 3: "Pot
                                 6: "Occurs on indicated island chain", 7: "Unknown"},
                 "Origin": {1: "Native", 2: "Introduced", 3: "Either introducted or native", 
                            4: "Reintroduced", 5: "Either introduced or reintroduced",
-                           6: "Vagrant", 7: "Unkown"},
+                           6: "Vagrant", 7: "Unknown"},
                 "Reproduction": {1: "Breeding", 2: "Nonbreeding", 
-                                 3: "Both breeding and nonbreeding", 4: "Unkown"},
+                                 3: "Both breeding and nonbreeding", 7: "Unknown"},
                  "Season": {1: "Year-round", 2: "Migratory", 3: "Winter", 4: "Summer", 
                             5: "Passage migrant or wanderer", 6: "Seasonal permanence uncertain", 
-                            7: "Unkown", 8: "Vagrant"}}
+                            7: "Unknown", 8: "Vagrant"}}
                 
 staffDict = {"mjr": "Matthew Rubino", "nmt": "Nathan Tarr", "jjl": "Jeff Lonneker",
              "tl": "Thomas Laxon", "rta": "Robert Adair", "mjb": "Matthew Rubino",
