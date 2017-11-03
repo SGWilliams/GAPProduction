@@ -229,15 +229,16 @@ def SpReferences(sp):
         refCodes = sprefCodes | refCodes
     # Retrieve the text for each code and add to a dictionary
     for code in refCodes:
-        print code
-        qry2 = cursor.execute("""SELECT r.memCitation
+        qry2 = """SELECT r.memCitation
                               FROM dbo.tblCitations as r
-                              WHERE r.strRefCode = ?""",code).fetchall()
+                              WHERE r.strRefCode = ?""".decode("utf-8")
+        qry3 = cursor.execute(qry2,code).fetchall()
         try:
-            references[code] = qry2[0][0].encode('ascii', "ignore")
+            references[code] = qry3[0][0].encode('utf-8', "ignore")
         except Exception as e:
-            pass
             print(e)
+            print(qry3[0][0])
+            
     # Build a dataframe with strUC, SciName, and Reference text
     dfReferences = pd.DataFrame(index=references.keys(), 
                                 columns=["memCitation"])
