@@ -103,7 +103,71 @@ def GetHabMapID(strUC):
     """
     return GetHabMapURL(strUC)[-24:]
 
+ 
+def GetRngMapDOI(strUC):
+    """
+    (string) -> string
     
+    Returns the ScienceBase DOI for the range map of the passed
+    species/strUC.
+    
+    Arguments:
+    strUC -- A gap species code ("mSEWEx")
+    
+    Example:
+    >> id = GetRngMapDOI("bAMROx")
+    """
+    import gapdb
+    cursor, connect = gapdb.ConnectAnalyticDB()
+    sql = """SELECT tblTaxa.strDoiRM
+             FROM tblTaxa
+             WHERE tblTaxa.strUC = ?"""
+    doi = cursor.execute(sql, strUC).fetchone()[0]  
+    del cursor
+    connect.close()
+    return str(doi)
+
+
+def GetRngMapURL(strUC):
+    """
+    (string) -> string
+    
+    Returns the ScienceBase URL for the range map of the passed
+    species/strUC.
+    
+    Arguments:
+    strUC -- A gap species code ("mSEWEx")
+    
+    Example:
+    >> url = GetRngMapURL("bAMROx")
+    """
+    import gapdb
+    cursor, connect = gapdb.ConnectAnalyticDB()
+    sql = """SELECT tblTaxa.strSbUrlRM
+             FROM tblTaxa
+             WHERE tblTaxa.strUC = ?"""
+    url = cursor.execute(sql, strUC).fetchone()[0]  
+    del cursor
+    connect.close()
+    return str(url)
+
+
+def GetRngMapID(strUC):
+    """
+    (string) -> string
+    
+    Returns the ScienceBase Item ID for the range map of the passed
+    species/strUC.
+    
+    Arguments:
+    strUC -- A gap species code ("mSEWEx")
+    
+    Example:
+    >> id = GetRngMapID("bAMROx")
+    """
+    return GetRngMapURL(strUC)[-24:]
+
+       
 def HabMapItemCSV(species, publicationDate, csvName):
     '''
     (list, integer, string) -> pandas DataFrame and saved CSV file.
@@ -218,8 +282,12 @@ def SaveModelJSON(species, saveDir, year=2001, version=1):
         
         # Add species' references/citations
         referencesDF = gapmodeling.SpReferences(species)
+        # This returns a dictionary where the key is reference code
+        # and the value is the reference text
         references = dict(referencesDF["memCitation"])
-        speciesDict["references"] = references
+        # Get just the reference text string and not the reference code
+        refText = references.values()
+        speciesDict["references"] = refText
         
         # Establish a file name for speciesDict
         fileName = str(saveDir + fileName.format(species, year, version))
