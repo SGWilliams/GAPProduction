@@ -11,5 +11,5 @@ Help files are available in the "/docs/documentation" folder that list and docum
 
 Contributors
 ==========
-Nathan M. Tarr, Thomas Laxson, Matthew Rubino
+Nathan M. Tarr, Thomas Laxson, Matthew Rubino, Steve Williams
 
