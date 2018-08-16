@@ -5,6 +5,9 @@ import gapconfig
 
 # The top level ScienceBase Item ID for the GAP habitat maps
 habMapCollectionItem = "527d0a83e4b0850ea0518326"
+# The top level ScienceBase Item ID for the GAP range maps
+rngMapCollectionItem = "5951527de4b062508e3b1e79"
+
 
 def ConnectToSB(username=gapconfig.sbUserName, password=gapconfig.sbWord):
     """
@@ -32,7 +35,7 @@ def ListHabitatMapIDs():
     level ScienceBase item for the GAP habitat maps.
     
     Example:
-    >> mapIDs = HabitatMapIDs()
+    >> mapIDs = habitatMapIDs()
     """
     sb = ConnectToSB()
     global habMapCollectionItem
@@ -103,71 +106,7 @@ def GetHabMapID(strUC):
     """
     return GetHabMapURL(strUC)[-24:]
 
- 
-def GetRngMapDOI(strUC):
-    """
-    (string) -> string
-    
-    Returns the ScienceBase DOI for the range map of the passed
-    species/strUC.
-    
-    Arguments:
-    strUC -- A gap species code ("mSEWEx")
-    
-    Example:
-    >> id = GetRngMapDOI("bAMROx")
-    """
-    import gapdb
-    cursor, connect = gapdb.ConnectAnalyticDB()
-    sql = """SELECT tblTaxa.strDoiRM
-             FROM tblTaxa
-             WHERE tblTaxa.strUC = ?"""
-    doi = cursor.execute(sql, strUC).fetchone()[0]  
-    del cursor
-    connect.close()
-    return str(doi)
 
-
-def GetRngMapURL(strUC):
-    """
-    (string) -> string
-    
-    Returns the ScienceBase URL for the range map of the passed
-    species/strUC.
-    
-    Arguments:
-    strUC -- A gap species code ("mSEWEx")
-    
-    Example:
-    >> url = GetRngMapURL("bAMROx")
-    """
-    import gapdb
-    cursor, connect = gapdb.ConnectAnalyticDB()
-    sql = """SELECT tblTaxa.strSbUrlRM
-             FROM tblTaxa
-             WHERE tblTaxa.strUC = ?"""
-    url = cursor.execute(sql, strUC).fetchone()[0]  
-    del cursor
-    connect.close()
-    return str(url)
-
-
-def GetRngMapID(strUC):
-    """
-    (string) -> string
-    
-    Returns the ScienceBase Item ID for the range map of the passed
-    species/strUC.
-    
-    Arguments:
-    strUC -- A gap species code ("mSEWEx")
-    
-    Example:
-    >> id = GetRngMapID("bAMROx")
-    """
-    return GetRngMapURL(strUC)[-24:]
-
-       
 def HabMapItemCSV(species, publicationDate, csvName):
     '''
     (list, integer, string) -> pandas DataFrame and saved CSV file.
@@ -232,7 +171,7 @@ def HabMapItemCSV(species, publicationDate, csvName):
     DF0.to_csv(csvName)
     return DF0
 
-
+ 
 def SaveModelJSON(species, saveDir, year=2001, version=1):
     '''
     (string, string, integer, integer) -> dictionary
@@ -316,6 +255,122 @@ def SaveModelJSON(species, saveDir, year=2001, version=1):
         return False
     
     
+def ListRangeMapIDs():
+    """
+    () -> list
+    
+    Returns a list of range map IDs by listing child items of the top
+    level ScienceBase item for the GAP range maps.
+    
+    Example:
+    >> mapIDs = rangeMapIDs()
+    """
+    sb = ConnectToSB()
+    global rngMapCollectionItem
+    rangeMapIDs = sb.get_child_ids(rngMapCollectionItem)
+    return rangeMapIDs
+
+
+def GetRngMapDOI(strUC):
+    """
+    (string) -> string
+    
+    Returns the ScienceBase DOI for the range map of the passed
+    species/strUC.
+    
+    Arguments:
+    strUC -- A gap species code ("mSEWEx")
+    
+    Example:
+    >> id = GetRngMapDOI("bAMROx")
+    """
+    import gapdb
+    cursor, connect = gapdb.ConnectAnalyticDB()
+    sql = """SELECT tblTaxa.strDoiRM
+             FROM tblTaxa
+             WHERE tblTaxa.strUC = ?"""
+    doi = cursor.execute(sql, strUC).fetchone()[0]  
+    del cursor
+    connect.close()
+    return str(doi)
+
+
+def GetRngMapURL(strUC):
+    """
+    (string) -> string
+    
+    Returns the ScienceBase URL for the range map of the passed
+    species/strUC.
+    
+    Arguments:
+    strUC -- A gap species code ("mSEWEx")
+    
+    Example:
+    >> url = GetRngMapURL("bAMROx")
+    """
+    import gapdb
+    cursor, connect = gapdb.ConnectAnalyticDB()
+    sql = """SELECT tblTaxa.strSbUrlRM
+             FROM tblTaxa
+             WHERE tblTaxa.strUC = ?"""
+    url = cursor.execute(sql, strUC).fetchone()[0]  
+    del cursor
+    connect.close()
+    return str(url)
+
+
+def GetRngMapID(strUC):
+    """
+    (string) -> string
+    
+    Returns the ScienceBase Item ID for the range map of the passed
+    species/strUC.
+    
+    Arguments:
+    strUC -- A gap species code ("mSEWEx")
+    
+    Example:
+    >> id = GetRngMapID("bAMROx")
+    """
+    return GetRngMapURL(strUC)[-24:]
+
+       
+def RangeItemCSV(species, publicationDate, csvName):
+    '''
+    (list, integer, string) -> pandas DataFrame and saved CSV file.
+    
+    Creates a dataframe and csv file with rows for species in your list and columns for
+        each of the pieces of information needed when updating metadata records on 
+        ScienceBase for range maps.
+    
+    Arguments:
+    species -- Python list of GAP species codes to process
+    publicationDate -- A year to use as the publication date
+    csvName -- Path and name of where to save csv file
+    
+    Example:
+    >>>DF = MakeScienceBaseCSV(["aAMBUx", "bCOHAx", "bAMROx", "bCOMEx"], 
+                               publicationDate = 2017,
+                               csvName="T:/temp/SBTable.csv")    
+    '''
+    import gapdb
+    import pandas as pd
+    
+    # Intialize a dataframe
+    DF0 = pd.DataFrame()
+    DF0.index.name = "GAP_code"
+    
+    # Fill out desired columns
+    for sp in species:
+        print sp
+        DF0.loc[sp, "reviewer"] = gapdb.Who(sp, "reviewed_range")
+        DF0.loc[sp, "editors"] = gapdb.Who(sp, "edited_range")
+
+    # Save
+    DF0.to_csv(csvName)
+    return DF0
+
+
 def AttachFile(strUC, filePath, action="replace"):
     '''
     (string, string, string, string) -> string 
@@ -323,7 +378,7 @@ def AttachFile(strUC, filePath, action="replace"):
     Uploads a file to a species' habitat map ScienceBase item. Returns the
         ID of the item that it attached to.
     
-    NOTE: This currently only works for habmaps but will be revised offer a 
+    NOTE: This currently only works for habmaps but will be revised to offer a 
         range option.
     
     Arguments:
@@ -361,37 +416,3 @@ def AttachFile(strUC, filePath, action="replace"):
         return False
 
 
-def RangeItemCSV(species, publicationDate, csvName):
-    '''
-    (list, integer, string) -> pandas DataFrame and saved CSV file.
-    
-    Creates a dataframe and csv file with rows for species in your list and columns for
-        each of the pieces of information needed when updating metadata records on 
-        ScienceBase for range maps.
-    
-    Arguments:
-    species -- Python list of GAP species codes to process
-    publicationDate -- A year to use as the publication date
-    csvName -- Path and name of where to save csv file
-    
-    Example:
-    >>>DF = MakeScienceBaseCSV(["aAMBUx", "bCOHAx", "bAMROx", "bCOMEx"], 
-                               publicationDate = 2017,
-                               csvName="T:/temp/SBTable.csv")    
-    '''
-    import gapdb
-    import pandas as pd
-    
-    # Intialize a dataframe
-    DF0 = pd.DataFrame()
-    DF0.index.name = "GAP_code"
-    
-    # Fill out desired columns
-    for sp in species:
-        print sp
-        DF0.loc[sp, "reviewer"] = gapdb.Who(sp, "reviewed_range")
-        DF0.loc[sp, "editors"] = gapdb.Who(sp, "edited_range")
-
-    # Save
-    DF0.to_csv(csvName)
-    return DF0
