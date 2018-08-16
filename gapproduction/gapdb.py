@@ -26,7 +26,7 @@ def ConnectToDB(connectionStr):
 
     '''
     try:
-        con = pyodbc.connect(connectionStr)
+        con = pyodbc.connect(connectionStr)        
     except:
         connectionStr = connectionStr.replace('11.0', '10.0')
         con = pyodbc.connect(connectionStr)
