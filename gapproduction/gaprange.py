@@ -953,7 +953,7 @@ def SppInAOI(AOIShp, hucShp, workDir, origin, season, reproduction,
     
     ##############################################  Get list of hucs within polygon
     ###############################################################################
-    print("\nSelecting HUCs completely within the AOI shapefile\n")
+    print("\nSelecting HUCs that intersect with the AOI shapefile\n")
     arcpy.management.MakeFeatureLayer(hucShp, 'HUCs_lyr')
     arcpy.management.MakeFeatureLayer(AOIShp, 'shp_lyr')
     arcpy.management.SelectLayerByLocation('HUCs_lyr', 'INTERSECT', 'shp_lyr')
@@ -1022,7 +1022,6 @@ def SppInAOI(AOIShp, hucShp, workDir, origin, season, reproduction,
         
         # Compare the species and AOI huc sets to see if there's any overlap.
         if len(selHUCsSet & SpeciesSet) > 0:
-            print(gapdb.NameCommon(SC))
             masterList.append(SC)
         else:
             pass 
