@@ -1,59 +1,4 @@
 ## Module for converting between measurement units.
-##
-## Public Functions:
-##
-## AsNumber() -- Casts the input as a number, if possible
-##
-##
-######################
-#### Area Conversions:
-##
-## CellsToHectares() -- Converts a 30m raster cell count to hectares
-##
-## CellsToAcres() -- Converts a 30m raster cell count to acres
-##
-## CellsToSqMeters() -- Converts a 30m raster cell count to square meters
-##
-## CellsToSqMiles() -- Converts a 30m raster cell count to square miles
-##
-## SqMetersToHectares() -- Converts square meters to hectares
-##
-## SqMetersToAcres() -- Converts square meters to acres
-##
-## SqMetersToSqMiles() -- Converts square meters to square miles
-##
-## SqMilesToHectares() -- Converts square miles to hectares
-##
-## SqMilesToAcres() -- Converts square miles to acres
-##
-## SqMilesToSqMeters() -- Converts square miles to square meters
-##
-## HectaresToAcres() -- Converts hectares to acres
-##
-## HectaresToSqMeters() -- Converts hectares to square meters
-##
-## HectaresToSqMiles() -- Converts hectares to square miles
-##
-## AcresToHectares() -- Converts acres to hectares
-##
-## AcresToSqMeters() -- Converts acres to square meters
-##
-## AcresToSqMiles() -- Converts acres to square miles
-##
-##
-#################################
-#### Length/Distance Conversions:
-##
-## MilesToMeters() -- Converts miles to meters
-##
-## MetersToMiles() -- Converts meters to miles
-##
-## MilesToKilometers() -- Converts miles to kilometers
-##
-## KilometersToMiles() -- Converts kilometers to miles
-##
-##
-##
 
 
 def AsNumber(i):
@@ -88,13 +33,6 @@ def AsNumber(i):
             # Return False
             return False
 
-
-
-
-########################################################
-##############################################
-##################################
-## Area Conversions:
 
 def CellsToHectares(cellCount):
     '''
@@ -440,13 +378,6 @@ def SqMetersToSqMiles(sqMeters):
         return 0
 
 
-
-
-########################################################
-##############################################
-##################################
-## Length Conversions:
-
 def MetersToMiles(meters):
     '''
     (number) -> number
@@ -529,3 +460,12 @@ def KilometersToMiles(kilometers):
     else:
         # Return False
         return 0
+    
+
+    
+def __main():
+    pass
+
+
+if __name__ == '__main__':
+    __main()
