@@ -1,9 +1,0 @@
-Python Library Documentation: module gapproduction.gapmetadata in gapproduction
-
-NAME
-    gapproduction.gapmetadata - Module to create species-specific metadata for a range table or model raster.
-
-FILE
-    c:\python27\packages\gapproduction\gapproduction\gapmetadata.py
-
-

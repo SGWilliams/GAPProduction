@@ -2,7 +2,7 @@
 '''
 This a place to put functions that are in development.
 '''
-import gapconfig, gapdb
+
 
 
 

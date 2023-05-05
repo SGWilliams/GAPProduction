@@ -142,7 +142,7 @@ def InvertDictionary(d, listsToTuples=False):
     {1: ['uno', 'one'], 2: ['dos', 'two'], 3: ['three']}
     '''
     if type(d) is not dict:
-        print "The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned."
+        print("The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned.")
         return dict()
 
     outDict = dict()
@@ -199,7 +199,7 @@ def ReverseDictionary(d):
     {1: 'one', 2: 'two', 3: 'three'}
     '''
     if type(d) is not dict:
-        print "The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned."
+        print("The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned.")
         return {}
 
     # Initialize empty lists to temporarily store the dictionary's keys and values
