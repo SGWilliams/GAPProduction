@@ -2,55 +2,15 @@
 Code used for producing and managing GAP wildlife range maps and habitat models.  This package includes handy functions to save time performing many tedious tasks and it facilitates convenient interaction with the internal GAP database with Python.  It is for internal use and data development and is not usable to those without permission to access GAP databases.
 
 # Functions
+Functions are listed by module below.  Consult version 1 for many more 
+that could be updated and added to version 2.
+
+## Beta 
+* 
 
 ## Database
 * ConnectToDB() - Provides a cursor within and a connection to the database
 * GapCase() - Returns an input string in the Gap Code capitalization ('mAMROx')
-
-## Taxonomy
-
-## Ranges
-
-## Conversions
-Performs common area and length unit conversions
-
-* CellsToHectares() -- Converts a 30m raster cell count to hectares
-    
-* CellsToAcres() -- Converts a 30m raster cell count to acres
-    
-* CellsToSqMeters() -- Converts a 30m raster cell count to square meters
-    
-* CellsToSqMiles() -- Converts a 30m raster cell count to square miles
-    
-* SqMetersToHectares() -- Converts square meters to hectares
-    
-* *SqMetersToSqMiles() -- Converts square meters to square miles
-    
-* SqMilesToHectares() -- Converts square miles to hectares
-    
-* SqMilesToAcres() -- Converts square miles to acres
-    
-* SqMilesToSqMeters() -- Converts square miles to square meters
-    
-* HectaresToAcres() -- Converts hectares to acres
-    
-* HectaresToSqMeters() -- Converts hectares to square meters
-    
-* HectaresToSqMiles() -- Converts hectares to square miles
-    
-* AcresToHectares() -- Converts acres to hectares
-    
-* AcresToSqMeters() -- Converts acres to square meters
-    
-* AcresToSqMiles() -- Converts acres to square miles
-    
-* MilesToMeters() -- Converts miles to meters
-    
-* MetersToMiles() -- Converts meters to miles
-    
-* MilesToKilometers() -- Converts miles to kilometers
-    
-* KilometersToMiles() -- Converts kilometers to miles
 
 ## Dictionaries
 This module stores dictionaries commonly used in processing GAP data as well
@@ -112,7 +72,7 @@ as general functions for manipulating dictionaries.
 * staffDict = A dictionary of staff's initials.
 
 
-## Docs
+## Documents
 This module facilitates common tasks for searching/manipulating text files.
 
 * Write() - appends to (default) or overwrites a file with the text of the second
@@ -134,7 +94,7 @@ This module facilitates common tasks for searching/manipulating text files.
       given root directory, including all subdirectories
 
 
-## Text Strings
+## Strings
 Facilitates common tasks for searching and filtering lists, strings, etc.
 
 * FilterList() -- Returns a list containing items from the input list that
