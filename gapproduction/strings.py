@@ -1,6 +1,30 @@
 import re
 import collections
 
+def GapCase(spCode : str) -> str:
+    '''
+    Returns an input string in the Gap Code capitalization
+
+    Parameters
+    ----------
+    spCode : the species' unique GAP ID
+
+    Returns
+    -------
+    spCode : the GAP ID in the Gap Code capitalization
+
+    Example:
+    >>> GapCase('bbaeax')
+    bBAEAx
+    >>> GapCase('BbAEax')
+    bBAEAx
+    >>> GapCase('BBAEAX')
+    bBAEAx
+    '''
+
+    spCode = spCode[0].lower() + spCode[1:5].upper() + spCode[5].lower()
+
+    return spCode
 
 def LegalChars(inText):
     '''
