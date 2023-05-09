@@ -1,3 +1,4 @@
-from gapproduction import database, dictionaries, documents, strings, taxonomy
+from gapproduction import database, dictionaries, documents, strings, taxonomy, citations
 
-all = ['database', 'dictionaries', 'documents', 'strings', 'taxonomy']
+all = ['database', 'dictionaries', 'documents', 'strings', 'taxonomy',
+       'citations']

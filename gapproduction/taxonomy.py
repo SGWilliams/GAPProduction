@@ -72,3 +72,10 @@ def get_taxon_info(db : str, species_code : str = None,
 
     except Exception as e:
         print(e)
+
+# -----------------------------------------------------------------------------
+def __main():
+    pass
+
+if __name__ == '__main__':
+    __main()

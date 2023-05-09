@@ -28,12 +28,12 @@ def ConnectDB(db : str,
         import pyodbc
         con = pyodbc.connect(driver=driver, server=server, 
                              trusted_connection='yes', database=db)
-        print("-- Connected to " + db)
+        #print("-- Connected to " + db)
         return con.cursor(), con
     except Exception as e:
         print(e)
 
-
+# -----------------------------------------------------------------------------
 def __main():
     pass
 
