@@ -7,7 +7,7 @@ Functions are listed by module below.  Consult version 1 for many more that coul
 ## Database
 Functions that facilitate interactions with the GAP databases.
 
-* ConnectToDB() - Provides a cursor within and a connection to the database.
+* ConnectDB() - Provides a cursor within and a connection to the database.
 
 ## Citations
 Functions that facilitate management and addition of citations to the GAP databases.
@@ -16,6 +16,11 @@ Functions that facilitate management and addition of citations to the GAP databa
 * Availability() - Check if a reference code is available for use. 
 * BuildStrRefCode() - Build a reference code (strRefCode) from a reference string.
 * AddReference() - Add a reference to the database if the reference code doesn't exit.
+
+## Taxonomy
+Functions that do things related to taxon concepts and lists.
+
+* GetTaxonInfo() - Returns a dictionary of : GAP species code, full scientific name, common name, and ITIS TSN.  The function will try to lookup the species by GAP species code, then scientific name, then common name.
 
 ## Strings
 Functions that facilitate common tasks for searching and filtering lists, strings, etc.

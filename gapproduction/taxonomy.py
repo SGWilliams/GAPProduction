@@ -4,9 +4,9 @@ This module facilitates common tasks for querying the GAP species taxonomies.
 from gapproduction import database
 
 # Get taxonomic information from the GAP database
-def get_taxon_info(db : str, species_code : str = None, 
-                   scientific_name : str = None, 
-                   common_name : str = None) -> dict:
+def GetTaxonInfo(db : str, species_code : str = None, 
+                 scientific_name : str = None, 
+                 common_name : str = None) -> dict:
     '''
     Returns a dictionary of : GAP species code, full scientific name, 
     common name, and ITIS TSN.  The function will try to lookup the species
@@ -30,8 +30,7 @@ def get_taxon_info(db : str, species_code : str = None,
     '''
     try:
         import pandas as pd
-        from gapproduction import database
-        from gapproduction import strings
+        from gapproduction import database, strings
 
         # Connect to GAP database
         cursor, connection = database.ConnectDB(db)
