@@ -54,3 +54,9 @@ Dictionaries commonly used in processing GAP data as well as general functions f
 * regionsDict_Abbr_To_Name = A dictionary in which the keys are the GAP modeling region abbreviations and the vlaues are the modeling region names.
 * rangeCodesDict = A dictionary of dictionaries with a key for each GAP range map attribute and a value that's a dictionary of definitions.
 * staffDict = A dictionary of staff's initials.
+
+## Package Dependencies
+python 3.x
+sqlalchemy
+pyodbc
+pandas

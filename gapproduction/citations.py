@@ -211,13 +211,10 @@ def AddReference(reference : str, reference_code : str, db : str) -> None:
                     (SELECT * FROM dbo.tblCitations WHERE strRefCode = ?);"""
 
     # Execute the query
-    cursor.execute(sql, reference_code, reference, reference_code)
+    connection.execute(sql, reference_code, reference, reference_code)
 
     # Commit the changes
-    connection.commit()
-
-    # Close the connection
-    connection.close()
+    #connection.commit()
 
     # Print a message
     print(f"{reference_code} added to database: \n" + reference)
