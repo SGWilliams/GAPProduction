@@ -4,14 +4,15 @@ databases.
 """
 from gapproduction import database
 import pandas as pd
+pd.options.display.max_colwidth = 1000
 import re
 
 # Function to check if a reference already exists -----------------------------
 def CitationExists(citation : str, db : str) -> (bool, pd.DataFrame):
     '''
     Looks for a citation in the database.  Matches would unlikely be exact, so
-    the function uses a regular expression to match the citation to the
-    database and prints protential matches.
+    the function uses wildcards to match the citation to the database and 
+    prints protential matches.
 
     Parameters
     ----------
@@ -26,15 +27,17 @@ def CitationExists(citation : str, db : str) -> (bool, pd.DataFrame):
     # Connect to database
     cursor, connection = database.ConnectDB(db)
 
+    print("Your reference: \n" + citation + "\n")
     # Use regex to find the year in the reference
-    YY = re.findall(r'\d{4}', citation)[0][-2:]
+    full_year = re.findall(r'\d{4}', citation)[0]
+    YY = full_year[-2:]
 
     # Get the first 3 characters of the reference
     auth = citation[:3]
 
     # Build a wildcard string to find potential matches knowning that similar
     # citations would start with auth and contain YY followed by a period.
-    wc = auth + '%' + YY + '.' + '%'
+    wc = auth + '%' + full_year + '.' + '%'
 
     # Query the database for similar citations
     sql = """SELECT * FROM dbo.tblCitations WHERE memCitation LIKE ?;"""
@@ -47,7 +50,7 @@ def CitationExists(citation : str, db : str) -> (bool, pd.DataFrame):
         return exists, matches
     else:
         exists = True
-        print("The citation provided may already be in the database")
+        print("The reference provided may already be in the database.  The following matched:")
         print(matches)
         return exists, matches
     
@@ -157,7 +160,7 @@ def BuildStrRefCode(reference : str, reference_type : str,
     reference_code = reference_type + YY + ZZZ + seq + source
 
     # See if the code is available
-    free = availability(reference_code, db)
+    free = Availability(reference_code, db)
 
     # If free, return code
     if free:
@@ -172,7 +175,7 @@ def BuildStrRefCode(reference : str, reference_type : str,
             reference_code = __seq(reference_code)
 
             # Check if the code is free
-            free = availability(reference_code, db)
+            free = Availability(reference_code, db)
 
             # Break if too many iterations
             i += 1
@@ -185,8 +188,7 @@ def BuildStrRefCode(reference : str, reference_type : str,
     return reference_code
 
 # Function to add a reference to the database ---------------------------------
-def AddReference(reference : str, reference_code : str, 
-                  db : str) -> None:
+def AddReference(reference : str, reference_code : str, db : str) -> None:
     '''
     Add a reference to the database if the reference code doesn't exit.
 
@@ -216,6 +218,9 @@ def AddReference(reference : str, reference_code : str,
 
     # Close the connection
     connection.close()
+
+    # Print a message
+    print(f"{reference_code} added to database: \n" + reference)
 
     return None 
 

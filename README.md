@@ -10,10 +10,9 @@ Functions that facilitate interactions with the GAP databases.
 * ConnectToDB() - Provides a cursor within and a connection to the database.
 
 ## Citations
-Functions that facilitate management and addition of citations to the GAP
-databases
+Functions that facilitate management and addition of citations to the GAP databases.
 
-* CitationExists() - Looks for a citation in the database.  Matches would unlikely be exact, so the function uses a regular expression to match the citation to the database and prints protential matches.
+* CitationExists() - Looks for a citation in the database.  Matches would unlikely be exact, so the function uses a wildcard expression to match the citation to the database and prints protential matches.
 * Availability() - Check if a reference code is available for use. 
 * BuildStrRefCode() - Build a reference code (strRefCode) from a reference string.
 * AddReference() - Add a reference to the database if the reference code doesn't exit.
