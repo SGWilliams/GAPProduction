@@ -1,2 +1,5 @@
 *pyc
 *lock
+.vscode
+/_pycache_
+gapconfig.py

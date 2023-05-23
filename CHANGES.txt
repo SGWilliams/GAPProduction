@@ -1,3 +1,0 @@
-1.2, 10/16/2017 -- Initial packaging for distribution.
-1.4, 10/20/2017 -- Created some new modules (sciencebase, taxonomy, landcover) to move toward reducing gapdb and deprecating gapmetadata.
-1.4.1, 10/23/2017 -- Edits to gapdb.Who function in reaction to new table being added to WHRdb.

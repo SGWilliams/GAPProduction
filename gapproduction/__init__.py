@@ -1,8 +1,4 @@
-import gapemail, docs, gapmath, gapdb, gapmodeling, dictionaries, conversions, gaprange, \
-        beta, gaprasters, match_and_filter, states, tables, featureclasses, zipping, gaprichness, \
-        spatial, gapmetadata, webservices, gapconfig, landcover, wildclass, sciencebase, taxonomy
+from gapproduction import database, dictionaries, documents, strings, taxonomy, citations
 
-__all__ = ['gapemail', 'docs', 'gapmath', 'gapdb', 'gapmodeling', 'dictionaries', 'conversions', 
-           'gaprange', 'beta', 'gaprasters', 'match_and_filter', 'states', 'tables', 
-           'featureclasses', 'zipping', 'gaprichness', 'spatial', 'gapmetadata', 'webservices',
-           'wildclass', 'sciencebase', 'taxonomy', 'landcover']
+all = ['database', 'dictionaries', 'documents', 'strings', 'taxonomy',
+       'citations']

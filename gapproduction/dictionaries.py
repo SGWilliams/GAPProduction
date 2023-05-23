@@ -1,65 +1,5 @@
 ## This module stores dictionaries commonly used in processing GAP data as well
 ## as general functions for manipulating dictionaries.
-##
-##
-## Public functions:
-##
-## InvertDictionary() -- Returns a dictionary in which the keys are the values
-##      from the input dictionary, and the values are a list of keys that had
-##      that value in the input dictionary
-##
-## ReverseDictionary() -- Returns a dictionary in which the keys and values have
-##      been swapped.
-##
-## IterableOfIterablesToDictionary() - Converts a list/tuple of lists/tuples to a
-##      dictionary
-##
-##
-## Public variables:
-##
-## stateDict_To_Abbr -- A dictionary in which the keys are state/territory names
-##      and the values are the states' two-character postal code abbreviations.
-##
-## stateDict_From_Abbr -- A dictionary in which the keys are the states' two-
-##      character postal code abbreviations, and the values are the state names.
-##
-## taxaDict -- A dictionary in which the keys are the class letter, used as the
-##      the first character in the six-character GAP unique IDs for species, and
-##      the values are the class common name
-##
-## taxaDict_Latin -- A dictionary in which the keys are the class letter, used
-##      as the the first character in the six-character GAP unique IDs for
-##      species, and the values are the class scientific name
-##
-## stateFIPS_Code_to_Name -- A dictionary in which the keys are the state FIPS
-##      codes (as int) and the values are the state names
-##
-## stateFIPS_Name_to_Code -- A dictionary in which the keys are the state names
-##      and the values are the state FIPS codes (as int)
-##
-## regionsDict_Num_To_Name = A dictionary in which the keys are the GAP modeling
-##      regions by numerical code (as int) and the values are the names of the
-##      modeling regions
-##
-## regionsDict_Num_To_Abbr = A dictionary in which the keys are the GAP modeling
-##      regions by numerical code (as int) and the values are the abbreviations
-##      of the modeling regions
-##
-## regionsDict_Abbr_To_Num = A dictionary in which the keys are the GAP modeling
-##      region abbreviations and the values are the modeling region codes (as
-##      int)
-##
-## regionsDict_Name_To_Num = A dictionary in which the keys are the GAP modeling
-##      region names and the values are the modeling region codes (as int)
-##
-## regionsDict_Abbr_To_Name = A dictionary in which the keys are the GAP
-##      modeling region abbreviations and the vlaues are the modeling region
-##      names
-##
-## rangeCodesDict = A dictionary of dictionaries with a key for each GAP range map 
-##      attribute and a value that's a dictionary of definitions.
-##
-## staffDict = A dictionary of staff's initials.
 
 stateDict_To_Abbr = {'Alabama':'AL','Alaska':'AK','American Somoa':'AS','Arizona':'AZ',
                      'Arkansas':'AR','California':'CA','Colorado':'CO','Connecticut':'CT',
@@ -172,8 +112,7 @@ staffDict = {"mjr": "Matthew Rubino", "nmt": "Nathan Tarr", "jjl": "Jeff Lonneke
              "mbr": "Matthew Rubino", "kb": "Ken Boykin", "jla": "Jocelyn Aycrigg", 
              "ar": "Adam Radel", "": "Unknown", " ": "Unknown"}     
                 
-##################################
-#### Function to reverse the keys and values in a dictionary
+
 def InvertDictionary(d, listsToTuples=False):
     '''
     (dict) -> dict
@@ -203,7 +142,7 @@ def InvertDictionary(d, listsToTuples=False):
     {1: ['uno', 'one'], 2: ['dos', 'two'], 3: ['three']}
     '''
     if type(d) is not dict:
-        print "The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned."
+        print("The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned.")
         return dict()
 
     outDict = dict()
@@ -238,8 +177,6 @@ def InvertDictionary(d, listsToTuples=False):
     return outDict
 
 
-##################################
-#### Function to reverse the keys and values in a dictionary
 def ReverseDictionary(d):
     '''
     (dict) -> dict
@@ -262,7 +199,7 @@ def ReverseDictionary(d):
     {1: 'one', 2: 'two', 3: 'three'}
     '''
     if type(d) is not dict:
-        print "The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned."
+        print("The variable that you entered into the ReverseDictionary function is not of type 'dict'; an empty dictionary will be returned.")
         return {}
 
     # Initialize empty lists to temporarily store the dictionary's keys and values
@@ -352,4 +289,12 @@ def StateFIPSDict(stateKeys=False):
         return stateFIPS_Name_To_Code
     else:
         return stateFIPS_Code_To_Name
+    
 
+    
+def __main():
+    pass
+
+
+if __name__ == '__main__':
+    __main()
