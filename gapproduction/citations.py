@@ -37,11 +37,12 @@ def CitationExists(citation : str, db : str) -> (bool, pd.DataFrame):
 
     # Build a wildcard string to find potential matches knowning that similar
     # citations would start with auth and contain YY followed by a period.
-    wc = auth + '%' + full_year + '.' + '%'
+    wc = auth + '%' + full_year + '%'
 
     # Query the database for similar citations
-    sql = """SELECT * FROM dbo.tblCitations WHERE memCitation LIKE ?;"""
-    matches = pd.read_sql(sql, connection, params=[wc])
+    sql = """SELECT * FROM dbo.tblCitations WHERE memCitation LIKE ?
+                                            ;"""
+    matches = pd.read_sql(sql, connection, params=[wc,])
 
     # If there are no matches, the citation is new
     if matches.empty:
