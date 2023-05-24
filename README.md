@@ -25,7 +25,8 @@ Functions that do things related to taxon concepts and lists.
 ## Ranges
 Functions to support GAP range map production and management.
 
-* V2As2016() - Reads a v2 range output database and returns a dataframe that fits the 2016 GAP database ranges table format.
+* V2FortblRanges() - Reads a v2 range output database and returns a dataframe that fits the 2016 GAP database ranges table format.
+* V2FortblRangeEdit() - Reads a compilation info table from a v2 output database and returns a dataframe suitable for tblRangeEdit.
 
 ## Strings
 Functions that facilitate common tasks for searching and filtering lists, strings, etc.
