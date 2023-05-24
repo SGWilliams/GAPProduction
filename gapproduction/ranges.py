@@ -3,7 +3,7 @@ This module supports GAP range map production and management.
 """
 import pandas as pd
 
-def V2As2016(v2_database : str) -> pd.DataFrame:
+def V2FortblRanges(v2_database : str) -> pd.DataFrame:
     '''
     Reads the simple results table from a range output database and creates a
     GAP database style range table with columns "intGAPPres" and "intGAPSeas" that
@@ -80,10 +80,68 @@ def V2As2016(v2_database : str) -> pd.DataFrame:
     # Reset the index so that strHUC12RNG is a column
     df2.reset_index(inplace=True)
 
+    # Add a column for strUC
+    gap_id = conn.execute("SELECT species_id FROM compilation_info;").fetchone()[0]
+    df2["strUC"] = gap_id
+
+    # Add a column for strCompSrc
+    who = conn.execute("SELECT who_ran FROM compilation_info;").fetchone()[0]
+    initials = "".join([x[0] for x in who.split()])
+    df2["strCompSrc"] = f"USGAP ({initials})"
+
     # Close the database connection
     conn.close()
 
-    return df2
+    return df2[["strUC", "strHUC12RNG", "intGAPPres", "intGAPSeas", 
+                "strCompSrc"]] 
+
+
+def V2FortblRangeEdit(db : str) -> pd.DataFrame:
+    """
+    Reads the compilation info table from a range output database and 
+    creates a dataframe that can be used to document the origin of changes
+    to the 2016 range database (tblRangeEdit).
+
+    Parameters
+    ----------
+    db : A string containing the name of the database to query.
+
+    Returns
+    -------
+    df : A dataframe with columns "strUC", "strEditor", "dtmEditDate", 
+        "memEditSource", "memEditComments"
+
+    N. Tarr 5/24/2023
+    """
+    import sqlite3
+    import pandas as pd
+    from datetime import datetime
+
+    # Connect to the database
+    conn = sqlite3.connect(db)
+
+    # Read in the compilation info table as a dataframe
+    sql = """SELECT * FROM compilation_info;"""
+    df = pd.read_sql(sql, conn)
+
+    # Pull out only the columns we want
+    df = df[["species_id", "notes", "who_ran"]]
+
+    # Reformat the dataframe to match GAP database naming conventions
+    df.rename(columns={"species_id": "strUC", 
+                       "notes": "memEditComments", 
+                       "who_ran": "strEditor", 
+                       }, inplace=True)
+
+    # Add a column with the database name
+    df["memEditSource"] = db
+
+    # Add a date column
+    df["dtmEditDate"] = datetime.now().strftime("%Y-%m-%d")
+
+    # Return the dataframe
+    return df[["strUC", "strEditor", "dtmEditDate", "memEditSource",
+               "memEditComments"]]
 
 
 # -----------------------------------------------------------------------------
