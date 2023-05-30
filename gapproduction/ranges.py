@@ -89,11 +89,17 @@ def V2FortblRanges(v2_database : str) -> pd.DataFrame:
     initials = "".join([x[0] for x in who.split()])
     df2["strCompSrc"] = f"USGAP ({initials})"
 
+    # Add a column for intGAPOrigin and set it to 7
+    df2["intGAPOrigin"] = 7
+
+    # Add a column for intGAPRepro and set it to 7
+    df2["intGAPRepro"] = 7
+
     # Close the database connection
     conn.close()
 
-    return df2[["strUC", "strHUC12RNG", "intGAPPres", "intGAPSeas", 
-                "strCompSrc"]] 
+    return df2[["strUC", "strHUC12RNG", "intGAPOrigin", "intGAPPres", 
+                "intGAPRepro", "intGAPSeas", "strCompSrc"]] 
 
 
 def V2FortblRangeEdit(db : str) -> pd.DataFrame:
@@ -132,6 +138,13 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
                        "notes": "memEditComments", 
                        "who_ran": "strEditor", 
                        }, inplace=True)
+
+    # Replace memEditComments with a string that is the concatenation of 
+    # distinct justification text strings from the table named opinions.
+    sql = """SELECT DISTINCT justification FROM opinions;"""
+    df["memEditComments"] = (pd.read_sql(sql, conn)["justification"]
+                             .str
+                             .cat(sep="; "))
 
     # Add a column with the database name
     df["memEditSource"] = db
