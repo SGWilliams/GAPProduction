@@ -134,11 +134,10 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
     df = pd.read_sql(sql, conn)
 
     # Pull out only the columns we want
-    df = df[["species_id", "notes", "who_ran"]]
+    df = df[["species_id", "who_ran"]]
 
     # Reformat the dataframe to match GAP database naming conventions
     df.rename(columns={"species_id": "strUC", 
-                       "task_notes": "memEditComments", 
                        "who_ran": "strEditor", 
                        }, inplace=True)
 
