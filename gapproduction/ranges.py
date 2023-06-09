@@ -6,10 +6,12 @@ import pandas as pd
 def V2FortblRanges(v2_database : str) -> pd.DataFrame:
     '''
     Reads the simple results table from a range output database and creates a
-    GAP database style range table with columns "intGAPPres" and "intGAPSeas" that
-    has a 1 in intGAPPres where presence_2015v2 is 1.  intGAPSeas gets value of 1, 3, 
-    or 4 where 1 = year_round, 3 = winter, and 4 = summer.  All other values are
-    NULL, but NULLs are converted to 7 ('UNKNOWN') where intGAPPres is 1.
+    GAP database style range table with columns "intGAPPres", "intGAPSeas",
+    "intGAPOrigin", and "intGAPRepro" that has a 1 in intGAPPres where 
+    presence_2015v2 is 1.  intGAPSeas gets value of 1, 3, or 4 where 
+    1 = year_round, 3 = winter, and 4 = summer.  All other values are
+    NULL, but NULLs are converted to 7 ('UNKNOWN') where intGAPPres is 1. 
+    intGAPRepro and intGAPOrigin are set to 7 ('UNKNOWN') for all rows.
 
     Additional steps are needed to insert the output dataframe into the 2016 
     database: this function does not write to the GAP databases.
@@ -20,9 +22,10 @@ def V2FortblRanges(v2_database : str) -> pd.DataFrame:
 
     Returns
     -------
-    df2 : A dataframe with columns "strHUC12RNG", "intGAPPres", and "intGAPSeas".
+    df2 : A dataframe with columns "strHUC12RNG", "intGAPPres", 
+        "intGAPSeas", "intGAPOrigin", and "intGAPRepro"
 
-    N. Tarr 5/24/2023
+    N. Tarr 6/9/2023
     '''
     import sqlite3
     import pandas as pd
@@ -135,7 +138,7 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
 
     # Reformat the dataframe to match GAP database naming conventions
     df.rename(columns={"species_id": "strUC", 
-                       "notes": "memEditComments", 
+                       "task_notes": "memEditComments", 
                        "who_ran": "strEditor", 
                        }, inplace=True)
 
