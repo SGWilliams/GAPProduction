@@ -124,7 +124,6 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
     """
     import sqlite3
     import pandas as pd
-    from datetime import datetime
 
     # Connect to the database
     conn = sqlite3.connect(db)
@@ -134,11 +133,12 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
     df = pd.read_sql(sql, conn)
 
     # Pull out only the columns we want
-    df = df[["species_id", "who_ran"]]
+    df = df[["species_id", "who_ran", "date"]]
 
     # Reformat the dataframe to match GAP database naming conventions
     df.rename(columns={"species_id": "strUC", 
-                       "who_ran": "strEditor", 
+                       "who_ran": "strEditor",
+                       "date": "dtmEditDate"
                        }, inplace=True)
 
     # Replace memEditComments with a string that is the concatenation of 
@@ -150,9 +150,6 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
 
     # Add a column with the database name
     df["memEditSource"] = db
-
-    # Add a date column
-    df["dtmEditDate"] = datetime.now().strftime("%Y-%m-%d")
 
     # Return the dataframe
     return df[["strUC", "strEditor", "dtmEditDate", "memEditSource",
