@@ -180,7 +180,7 @@ def BuildStrRefCode(reference : str, reference_type : str,
 
             # Break if too many iterations
             i += 1
-            if i > 10:
+            if i > 99:
                 print("Too many iterations")
                 break
 
