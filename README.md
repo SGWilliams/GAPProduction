@@ -71,3 +71,6 @@ python 3.x
 sqlalchemy
 pyodbc
 pandas
+
+# Git Workflow
+sqwilliams is the upstream repo and all other users should fork it and treat it as such.  Use the github interface to manage pull requests/syncing or create an upstream remote locally and pull commits via that remote.  For development, create a feature branch and push it to your github repo and submit a pull request to sgwilliams for him to review and accept.
