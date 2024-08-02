@@ -124,6 +124,7 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
     """
     import sqlite3
     import pandas as pd
+    import datetime as dt
 
     # Connect to the database
     conn = sqlite3.connect(db)
@@ -133,13 +134,17 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
     df = pd.read_sql(sql, conn)
 
     # Pull out only the columns we want
-    df = df[["species_id", "who_ran", "date"]]
+    df = df[["species_id", "who_ran", "run_date"]]
 
     # Reformat the dataframe to match GAP database naming conventions
     df.rename(columns={"species_id": "strUC", 
                        "who_ran": "strEditor",
-                       "date": "dtmEditDate"
+                       "run_date": "dtmEditDate"
                        }, inplace=True)
+
+    # Reformat the dtmEditDate values so that they don't have the time 
+    # component.  For example, 2023-05-24 00:00:00 becomes 2023-05-24
+    df["dtmEditDate"] = pd.to_datetime(df["dtmEditDate"]).dt.strftime("%Y-%m-%d")
 
     # Replace memEditComments with a string that is the concatenation of 
     # distinct justification text strings from the table named opinions.
