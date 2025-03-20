@@ -1,7 +1,7 @@
 """
 This module supports GAP habitat map production and management.
 """
-from gapproduction import database, dictionaries, taxonomy
+from gapproduction import database, dictionaries, taxonomy, ranges
 
 def ModelEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
     '''
@@ -184,9 +184,9 @@ def ModelAsDictionary(model : str, db : str) -> dict:
     ysnHandModel = __getVariable(model, "ysnHandModel")
     modelDict["ysnHandModel"] = ysnHandModel
 
-    # Hand Model Comments
-    #memHandModelNotes = __getVariable(model, "memHMNotes")
-    #modelDict["memHandModelNotes"] = memHandModelNotes
+    # Range edit notes
+    range_edits = ranges.range_edits_dict(species_code=species_code, db=db)
+    modelDict["range_edit_notes"] = range_edits
 
     # Hydrography variables
     ysnHydroFW = __getVariable(model, "ysnHydroFW")
