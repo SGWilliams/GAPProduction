@@ -2,6 +2,7 @@
 This module supports GAP range map production and management.
 """
 import pandas as pd
+from gapproduction import database
 
 def V2FortblRanges(v2_database : str) -> pd.DataFrame:
     '''
@@ -160,6 +161,40 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
     return df[["strUC", "strEditor", "dtmEditDate", "memEditSource",
                "memEditComments"]]
 
+
+def range_edits_dict(species_code : str, db : str = "GapVert_48_2016") -> dict: 
+    '''
+    Returns a dictionary of range edits for a given species code.
+    
+    Parameters
+    ----------
+    species_code -- The species' unique GAP ID ("strUC").
+    
+    Returns
+    -------
+    range_edits -- A dictionary of the species' range edits.
+    '''
+    # Connect to the GAP database
+    cursor, connection = database.ConnectDB(db)
+
+    # Query the primary map units
+    sql = f"""SELECT memEditComments AS range_edit_comment, 
+                    dtmEditDate AS edit_date, 
+                    strEditor AS editor
+            FROM tblRangeEdit
+            WHERE strUC = '{species_code}'
+            ORDER BY strUC, dtmEditDate"""
+    range_edits = cursor.execute(sql).fetchall()
+
+    # Convert tuple items into a list of dictionaries
+    range_edits = [dict(zip(["range_edit_comment", "edit_date", "editor"], x)) 
+                for x in range_edits]
+
+    # Reformat dtmEditDate values to remove the time component
+    for edit in range_edits:
+        edit["edit_date"] = edit["edit_date"].strftime("%Y-%m-%d")
+
+    return range_edits
 
 # -----------------------------------------------------------------------------
 def __main():
