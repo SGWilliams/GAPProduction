@@ -162,7 +162,7 @@ def V2FortblRangeEdit(db : str) -> pd.DataFrame:
                "memEditComments"]]
 
 
-def range_edits_dict(species_code : str, db : str = "GapVert_48_2016") -> dict: 
+def RangeEditsDict(species_code : str, db : str = "GapVert_48_2016") -> dict: 
     '''
     Returns a dictionary of range edits for a given species code.
     

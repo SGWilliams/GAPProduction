@@ -3,6 +3,43 @@ This module supports GAP habitat map production and management.
 """
 from gapproduction import database, dictionaries, taxonomy, ranges
 
+def ProcessingNotesDict(species_code : str, db : str = "GapVert_48_2016") -> dict: 
+    '''
+    Returns a dictionary of processing notes for a given species code.
+    
+    Parameters
+    ----------
+    species_code -- The species' unique GAP ID ("strUC").
+    db -- The database to connect to.  Default is "GapVert_48_2016".
+    
+    Returns
+    -------
+    processing_notes -- A dictionary of the species' processing notes.
+    '''
+    # Connect to the GAP database
+    cursor, connection = database.ConnectDB(db)
+
+    # Query the processing notes
+    sql = f"""SELECT strNULLraster AS null123_filename, 
+                     dtmNULLdate AS processing_date, 
+                     strNULLuser AS who_created,
+                     strNULLcode AS script_name
+            FROM tblProcessingUC
+            WHERE strUC = '{species_code}'"""
+    processing_notes = cursor.execute(sql).fetchall()
+
+    # Convert tuple items into a list of dictionaries
+    processing_notes = [dict(zip(["null123_filename", "processing_date", 
+                                  "who_created", "script_name"], x))
+                for x in processing_notes]
+
+    # Reformat dtmNoteDate values to remove the time component
+    for note in processing_notes:
+        note["processing_date"] = note["processing_date"].strftime("%Y-%m-%d")
+
+    return processing_notes
+
+
 def ModelEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
     '''
     Returns two lists, the first of which contains the names of ecological
@@ -82,7 +119,7 @@ def ModelEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
                     ON t.intEVT_Code = s.intEVT_Code
                     WHERE s.ysnPres='True' 
                     AND s.strSpeciesModelCode = '{modelCode}'"""
-            prim = cursor.execute(sql).fetchall()
+            prim = list(cursor.execute(sql).fetchall())
 
             # Query the auxiliary map units
             sql = f"""SELECT t.intEVT_Code, t.strEVT_Name
@@ -91,11 +128,17 @@ def ModelEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
                     ON t.intEVT_Code = s.intEVT_Code
                     WHERE s.ysnPresAuxiliary='True'
                     AND s.strSpeciesModelCode = '{modelCode}'"""
-            aux = cursor.execute(sql).fetchall()
+            aux = list(cursor.execute(sql).fetchall())
+
+            # Combine codes and names in a way that can be serialized by JSON
+            prim = [{'code': i[0], 'name': i[1]} for i in prim]
+            aux = [{'code': i[0], 'name': i[1]} for i in aux]
 
         # Delete the WHRdb cursor and close the connection
         cursor.close()
         WHRConnection.close()
+
+        # Combine primary and auxiliary lists
 
         # Return the lists of primary and auxiliary map units
         return prim, aux
@@ -170,23 +213,15 @@ def ModelAsDictionary(model : str, db : str) -> dict:
     else:
         modelDict["SubspeciesName"] = None
 
-    # # Who worked on the model
-    # modelDict["Modeler"] = gapdb.Who(SpeciesCode, action="edited_model")
-    # modelDict["Reviewer"] = gapdb.Who(SpeciesCode, action="reviewed_model")
-
     # Land Cover Associations
     PrimEVTs, AuxEVTs = ModelEVTs(modelCode=model, db=db,
-                                EVT_format="both")
+                                  EVT_format="both")
     modelDict["PrimEVTs"] =[PrimEVTs][0]
     modelDict["AuxEVTs"] =[AuxEVTs][0]
 
     # Hand Model
     ysnHandModel = __getVariable(model, "ysnHandModel")
     modelDict["ysnHandModel"] = ysnHandModel
-
-    # Range edit notes
-    range_edits = ranges.range_edits_dict(species_code=species_code, db=db)
-    modelDict["range_edit_notes"] = range_edits
 
     # Hydrography variables
     ysnHydroFW = __getVariable(model, "ysnHydroFW")
@@ -276,3 +311,78 @@ def ModelAsDictionary(model : str, db : str) -> dict:
     modelDict["intPercentCanopy"] = intPercentCanopy
 
     return modelDict
+
+
+def ReviewNotesDict(species_code : str, db : str = "GapVert_48_2016") -> dict: 
+    '''
+    Returns a dictionary of review notes for a given species code.
+    
+    Parameters
+    ----------
+    species_code -- The species' unique GAP ID ("strUC").
+    db -- The database to connect to. Default is "GapVert_48_2016".
+    
+    Returns
+    -------
+    review_notes -- A dictionary of the species' review notes.
+    '''
+    # Connect to the GAP database
+    cursor, connection = database.ConnectDB(db)
+
+    # Query the primary map units
+    sql = f"""SELECT strEvent AS event, 
+                    dtmReviewDate AS event_date, 
+                    whoReviewer AS reviewer,
+                    memReviewText AS event_description
+            FROM tblSppReview
+            WHERE strUC = '{species_code}'
+            ORDER BY event_date"""
+    review_notes = cursor.execute(sql).fetchall()
+
+    # Convert tuple items into a list of dictionaries
+    review_notes = [dict(zip(["event", "event_date", "reviewer", 
+                              "event_description"], x))
+                    for x in review_notes]
+
+    # Reformat dtmReviewDate values to remove the time component
+    for note in review_notes:
+        note["event_date"] = note["event_date"].strftime("%Y-%m-%d")
+
+    return review_notes
+
+
+def SpeciesModelList(species_code : str, db : str = "GAPVert_48_2016") -> list:
+    '''
+    Returns a list of species-region models for a given species code.
+    
+    Parameters
+    ----------
+    species_code -- The species' unique GAP ID ("strUC").
+    db -- The database name.
+    
+    Returns
+    -------
+    model_list -- A list of species-region models.
+    '''
+    # Connect to the GAP database
+    cursor, connection = database.ConnectDB(db)
+
+    # Query the primary map units
+    sql = f"""SELECT strSpeciesModelCode FROM tblTaxa AS t
+              INNER JOIN tblModelInfo AS mi
+              ON t.strUC = mi.strUC
+              WHERE ysnIncludeSpp = 1 and ysnIncludeSubmodel = 1
+              AND t.strUC = '{species_code}';"""
+    model_list = cursor.execute(sql).fetchall()
+
+    # Convert tuple items into a list of dictionaries
+    model_list = [x[0] for x in model_list]
+
+    return model_list
+
+# -----------------------------------------------------------------------------
+def __main():
+    pass
+
+if __name__ == '__main__':
+    __main()

@@ -3,6 +3,33 @@ This module facilitates common tasks for querying the GAP species taxonomies.
 """
 from gapproduction import database
 
+# Get a complete list of valid species codes.
+def AllSpeciesList(db : str = "GAPVert_48_2016") -> list:
+    '''
+    Returns a list of valid species; ysnIncludeSpp = 0 are excluded.
+    
+    Parameters
+    ----------
+    db -- The database name.
+    
+    Returns
+    -------
+    species_list -- A list of species-region models.
+    '''
+    # Connect to the GAP database
+    cursor, connection = database.ConnectDB(db)
+
+    # Query the primary map units
+    sql = f"""SELECT strUC FROM tblTaxa
+              WHERE ysnIncludeSpp = 1;"""
+    species_list = cursor.execute(sql).fetchall()
+
+    # Convert tuple items into a list of dictionaries
+    species_list = [x[0] for x in species_list]
+
+    return species_list
+
+
 # Get taxonomic information from the GAP database
 def GetTaxonInfo(db : str, species_code : str = None, 
                  scientific_name : str = None, 
@@ -71,6 +98,7 @@ def GetTaxonInfo(db : str, species_code : str = None,
 
     except Exception as e:
         print(e)
+
 
 # -----------------------------------------------------------------------------
 def __main():
