@@ -21,12 +21,14 @@ Functions that facilitate management and addition of citations to the GAP databa
 Functions that do things related to taxon concepts and lists.
 
 * GetTaxonInfo() - Returns a dictionary of : GAP species code, full scientific name, common name, and ITIS TSN.  The function will try to lookup the species by GAP species code, then scientific name, then common name.
+* AllSpeciesList() - Returns a list of codes for all the currently valid GAP species concepts.
 
 ## Ranges
 Functions to support GAP range map production and management.
 
 * V2FortblRanges() - Reads a v2 range output database and returns a dataframe that fits the 2016 GAP database ranges table format.
 * V2FortblRangeEdit() - Reads a compilation info table from a v2 output database and returns a dataframe suitable for tblRangeEdit.
+* RangeEditsDict() - Returns a dictionary of range edits for a given species code.
 
 ## Strings
 Functions that facilitate common tasks for searching and filtering lists, strings, etc.
@@ -45,6 +47,15 @@ Functions that facilitate common tasks for searching and manipulating text files
 * SearchInFiles() - searches for the given text in the files of the given root directory, including all subdirectories.
 * SearchFilenames() - searches for the given text in the filenames of a given root directory, including all subdirectories.
 * SearchDirectoryNames() -- searches the given text in the directory names of given root directory, including all subdirectories.
+
+## Habitat
+Functions related to GAP habitat models.
+
+* ProcessingNotesDict() - Returns a dictionary of processing notes for a given species code.
+* ModelEVTs() -  Returns two lists, primary and secondary EVT selections for a model.
+* ModelAsDictionary() - Returns model parameters as a dictionary.
+* ReviewNotesDict() - Returns a dictionary of model review notes.
+* SpeciesModelList() - Returns a list of all the region season models for a species, excludes ysnInclude = 0 models.
 
 ## Dictionaries
 Dictionaries commonly used in processing GAP data as well as general functions for manipulating dictionaries.
