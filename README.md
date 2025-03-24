@@ -26,6 +26,7 @@ Functions that do things related to taxon concepts and lists.
 ## Ranges
 Functions to support GAP range map production and management.
 
+* RangeEVTs_season() - Returns a list of EVTs occuring within a speicies' seasonal range.
 * RangeShapefile() - Creates a shapefile and geodataframe of the range of a species based on the species code and season list.
 * V2FortblRanges() - Reads a v2 range output database and returns a dataframe that fits the 2016 GAP database ranges table format.
 * V2FortblRangeEdit() - Reads a compilation info table from a v2 output database and returns a dataframe suitable for tblRangeEdit.
@@ -54,6 +55,7 @@ Functions related to GAP habitat models.
 
 * ProcessingNotesDict() - Returns a dictionary of processing notes for a given species code.
 * ModelEVTs() -  Returns two lists, primary and secondary EVT selections for a model.
+* EVTsInRegion() - Returns a list of EVTs occurring in a list of regions.
 * ModelAsDictionary() - Returns model parameters as a dictionary.
 * ReviewNotesDict() - Returns a dictionary of model review notes.
 * SpeciesModelList() - Returns a list of all the region season models for a species, excludes ysnInclude = 0 models.
