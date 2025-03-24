@@ -2,7 +2,187 @@
 This module supports GAP range map production and management.
 """
 import pandas as pd
-from gapproduction import database
+from gapproduction import database, dictionaries
+import geopandas as gpd
+
+def RangeShapefile(species_code : str,
+                   seasons : list = ['summer', 'winter', 'year_round'],
+                   output_directory : str = None,
+                   dissolve : bool = False,
+                   huc12_shapefile : str = "P:/Proj3/USGap/Vert/Model/data2016/Range/Hucs.shp",
+                   db : str = 'GapVert_48_2016') -> gpd.geodataframe:
+    '''
+    Creates a shapefile of the range of a species based on the species code and
+    season list.  The shapefile is created by joining the species' range data 
+    to the HUC12 shapefile.  The shapefile can be dissolved by setting the
+    dissolve parameter to True.
+
+    Parameters
+    ----------
+    species_code : The species code for the species to create a range shapefile for
+    seasons : A list of seasons to include in the range shapefile.  Options are
+        'summer', 'winter', and 'year_round'.  Default is all three. If the
+        season is not in the list, it will not be included in the shapefile.
+        Some cleanup is provided for season names, such as capitalizing the
+        first letter and changing 'year_round' to 'year-round'. If summer
+        or winter are included, 'year-round' will be added to the list.
+    output_directory : The directory to save the shapefile to.  If None, the
+        shapefile will not be saved.  Default is None.
+    dissolve : A boolean to determine if the shapefile should be dissolved.
+        Default is False.
+    huc12_shapefile : The path to the HUC12 shapefile.  Default is the 2016
+        HUC12 shapefile.
+    db : The database to connect to.  Default is 'GapVert_48_2016'.
+
+    Returns
+    -------
+    result : A geodataframe of the species' range
+    '''
+    # CONNECT TO DATA SOURCES -------------------------------------------------
+    # Connect to the database
+    cursor, conn = database.ConnectDB(db)
+
+    # CLEAN UP SEASONS --------------------------------------------------------
+    # Get the Season code dictionary, and swap keys and values
+    season_dict = dictionaries.RangeCodesDict["Season"]
+    season_dict = {v: k for k, v in season_dict.items()}
+
+    # Convert season strings to codes
+    if all(isinstance(x, str) for x in seasons): 
+        # Make first letter of seasons capitalized if they are not already, 
+        # and if not codes
+        seasons = [x.lower() for x in seasons]
+        seasons = [x.capitalize() for x in seasons]
+
+        # If 'year_round' is in the season list, change to 'year-round'
+        if 'Year_round' in seasons:
+            seasons[seasons.index('Year_round')] = 'Year-round'
+
+        # Convert to codes
+        seasons = [season_dict[x] for x in seasons]
+
+    # Make the season codes a list of strings
+    seasons = [str(x) for x in seasons]
+
+    # Add year-round to the list if summer or winter are included
+    if '3' in seasons or '4' in seasons:
+        seasons.append
+        seasons.append('1')
+
+    # GET THE RANGE -----------------------------------------------------------
+    # Get the species' range where season is in the list of seasons
+    sql = f"""SELECT strHUC12RNG, intGapSeas 
+            FROM dbo.tblRanges 
+            WHERE strUC = '{species_code}'
+            AND intGapSeas IN ({', '.join(seasons)});"""
+    range_df = pd.read_sql(sql, conn)
+
+    # JOIN TO HUC12 SHAPEFILE -------------------------------------------------
+    # Read in the huc12 shapefile as a geodataframe
+    huc12_gdf = gpd.read_file(huc12_shapefile)
+
+    # Join the range data to the huc12 shapefile
+    joined = huc12_gdf.merge(range_df, left_on="HUC12RNG", right_on="strHUC12RNG",
+                            how="inner")
+
+    # DISSOLVE THE GEODATAFRAME -----------------------------------------------
+    if dissolve:
+        # Dissolve the geodataframe
+        result = joined.dissolve()  
+    else:
+        result = joined
+
+    # SAVE AND RETURN THE FINAL GEODATAFRAME ----------------------------------
+    # Save the result as a shapefile, if output_directory is not None
+    if output_directory:
+        result.to_file(f"{output_directory}{species_code}_range.shp")
+
+    return result
+
+
+def RangeEVTs_season(species_code : str, seasons : str, db : str, 
+                     EVT_format : str = 'names') -> list:
+    '''
+    Returns a list of EVTs within a taxon's seasonal range.
+
+    Parameters
+    ----------
+    species_code -- The 9-character GAP model code.
+    seasons : list = ['summer', 'winter', 'year-round'],
+    EVT_format -- Specifies whether to return EVT names or codes.
+    db -- The name of the GAP database to query.
+
+    Returns
+    -------
+    EVTs -- A list of LandFire existing vegetation types.
+    '''
+    # Connect to the desired model database
+    cursor, conn = database.ConnectDB(db)
+
+    # CLEAN UP SEASONS --------------------------------------------------------
+    # Get the Season code dictionary, and swap keys and values
+    season_dict = dictionaries.RangeCodesDict["Season"]
+    season_dict = {v: k for k, v in season_dict.items()}
+
+    # Convert season strings to codes
+    if all(isinstance(x, str) for x in seasons): 
+        # Make first letter of seasons capitalized if they are not already, 
+        # and if not codes
+        seasons = [x.lower() for x in seasons]
+        seasons = [x.capitalize() for x in seasons]
+
+        # If 'year_round' is in the season list, change to 'year-round'
+        if 'Year_round' in seasons:
+            seasons[seasons.index('Year_round')] = 'Year-round'
+
+        # Convert to codes
+        seasons = [season_dict[x] for x in seasons]
+
+    # Make the season codes a list of strings
+    seasons = [str(x) for x in seasons]
+
+    # Add year-round to the list if summer or winter are included
+    if '3' in seasons or '4' in seasons:
+        seasons.append
+        seasons.append('1')
+
+    # GET THE EVTS -----------------------------------------------------------
+    if EVT_format == 'codes':
+        # Query the EVTs
+        sql = f"""SELECT DISTINCT intEVT_Code
+                FROM dbo.tblMapUnitHucRange
+                WHERE strHUC12RNG IN (
+                    SELECT strHUC12RNG
+                    FROM dbo.tblRanges
+                    WHERE strUC = '{species_code}'
+                    AND intGapSeas IN ({', '.join(seasons)})
+                )"""
+        EVTs = pd.read_sql(sql, conn)
+        EVTs = EVTs['intEVT_Code'].tolist()
+
+    elif EVT_format == 'names':
+        # Query the EVTs
+        sql = f"""SELECT DISTINCT t.strEVT_Name
+                FROM dbo.tblMapUnitDesc AS t
+                INNER JOIN dbo.tblMapUnitHucRange AS s
+                ON t.intEVT_Code = s.intEVT_Code
+                WHERE s.strHUC12RNG IN (
+                    SELECT strHUC12RNG
+                    FROM dbo.tblRanges
+                    WHERE strUC = '{species_code}'
+                    AND intGapSeas IN ({', '.join(seasons)})
+                )"""
+        EVTs = pd.read_sql(sql, conn)
+        EVTs = EVTs['strEVT_Name'].tolist()
+        EVTs.sort()
+
+    # Delete the WHRdb cursor and close the connection
+    cursor.close()
+    conn.close()
+
+    # Return EVT list
+    return EVTs
+
 
 def V2FortblRanges(v2_database : str) -> pd.DataFrame:
     '''

@@ -148,6 +148,67 @@ def ModelEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
         return False, False
 
 
+def EVTsInRegion(regions: list, db : str, EVT_format : str = 'names') -> list:
+    """
+    Returns a list of EVTs within a modeling region or regions. Data is pulled
+    from tblMapUnitGapRegion.
+
+    Parameters
+    ----------
+    regions : list
+        A list of modeling regions to query. Use abbreviations or region codes.
+    db : str
+        The name of the database to query.
+    EVT_format : str
+        Specifies whether to return EVT names or codes.
+
+    Returns
+    -------
+    EVTs : list
+        A list of LandFire existing vegetation types.
+    """
+    # Connect to the desired model database
+    cursor, conn = database.ConnectDB(db)
+
+    # REGION CODES -----------------------------------------------------------
+    # Get the region codes, if a list of abbreviations was provided (e.g., NW)
+    region_dict = dictionaries.regionsDict_Abbr_To_Num
+
+    # Convert region abbreviations to codes
+    if all(isinstance(x, str) for x in regions):
+        regions = [region_dict[x] for x in regions]
+
+    # Make the region codes a list of strings
+    regions = [str(x) for x in regions]
+
+    # GET THE EVTS -----------------------------------------------------------
+    if EVT_format == 'codes':
+        # Query the EVTs
+        sql = f"""SELECT DISTINCT intEVT_Code
+                FROM dbo.tblMapUnitGapRegion
+                WHERE intRegionCode IN ({', '.join(regions)})"""
+        EVTs = pd.read_sql(sql, conn)
+        EVTs = EVTs['intEVT_Code'].tolist()
+
+    elif EVT_format == 'names':
+        # Query the EVTs
+        sql = f"""SELECT DISTINCT t.strEVT_Name
+                FROM dbo.tblMapUnitDesc AS t
+                INNER JOIN dbo.tblMapUnitGapRegion AS s
+                ON t.intEVT_Code = s.intEVT_Code
+                WHERE s.intRegionCode IN ({', '.join(regions)})"""
+        EVTs = pd.read_sql(sql, conn)
+        EVTs = EVTs['strEVT_Name'].tolist()
+        EVTs.sort()
+
+    # Delete the WHRdb cursor and close the connection
+    cursor.close()
+    conn.close()
+
+    # Return EVT list
+    return EVTs
+
+
 def ModelAsDictionary(model : str, db : str) -> dict:
     '''
     Returns a dictionary that includes a key for each of a regional model's 
