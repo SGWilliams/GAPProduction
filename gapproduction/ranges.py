@@ -56,7 +56,7 @@ def RangeShapefile(species_code : str,
 
         # If 'year_round' is in the season list, change to 'year-round'
         if 'Year_round' in seasons:
-            seasons[seasons.index('year_round')] = 'Year-round'
+            seasons[seasons.index('Year_round')] = 'Year-round'
 
         # Convert to codes
         seasons = [season_dict[x] for x in seasons]
@@ -68,7 +68,6 @@ def RangeShapefile(species_code : str,
     if '3' in seasons or '4' in seasons:
         seasons.append
         seasons.append('1')
-
 
     # GET THE RANGE -----------------------------------------------------------
     # Get the species' range where season is in the list of seasons
@@ -100,14 +99,16 @@ def RangeShapefile(species_code : str,
 
     return result
 
-def RangeEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
+
+def RangeEVTs_season(species_code : str, seasons : str, db : str, 
+                     EVT_format : str = 'names') -> list:
     '''
-    Returns a list of EVTs within a taxon's range for a region-season 
-    combination.
+    Returns a list of EVTs within a taxon's seasonal range.
 
     Parameters
     ----------
-    modelCode -- The 9-character GAP model code.
+    species_code -- The 9-character GAP model code.
+    seasons : list = ['summer', 'winter', 'year-round'],
     EVT_format -- Specifies whether to return EVT names or codes.
     db -- The name of the GAP database to query.
 
@@ -118,20 +119,32 @@ def RangeEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
     # Connect to the desired model database
     cursor, conn = database.ConnectDB(db)
 
-    # Interpret the model code
-    species_code = modelCode[:6]
-    region = modelCode[8:]
+    # CLEAN UP SEASONS --------------------------------------------------------
+    # Get the Season code dictionary, and swap keys and values
+    season_dict = dictionaries.RangeCodesDict["Season"]
+    season_dict = {v: k for k, v in season_dict.items()}
 
-    seasonDict = {'y': '1', 'w': '3', 's': '4'}
-    season = seasonDict[modelCode[7:8]]
-    
+    # Convert season strings to codes
+    if all(isinstance(x, str) for x in seasons): 
+        # Make first letter of seasons capitalized if they are not already, 
+        # and if not codes
+        seasons = [x.lower() for x in seasons]
+        seasons = [x.capitalize() for x in seasons]
+
+        # If 'year_round' is in the season list, change to 'year-round'
+        if 'Year_round' in seasons:
+            seasons[seasons.index('Year_round')] = 'Year-round'
+
+        # Convert to codes
+        seasons = [season_dict[x] for x in seasons]
+
+    # Make the season codes a list of strings
+    seasons = [str(x) for x in seasons]
+
     # Add year-round to the list if summer or winter are included
-    if season == '3':
-        seasons = ['1', '3']
-    elif season == '4':
-        seasons = ['1', '4']
-    else:
-        seasons = [season]
+    if '3' in seasons or '4' in seasons:
+        seasons.append
+        seasons.append('1')
 
     # GET THE EVTS -----------------------------------------------------------
     if EVT_format == 'codes':
@@ -169,6 +182,7 @@ def RangeEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
 
     # Return EVT list
     return EVTs
+
 
 def V2FortblRanges(v2_database : str) -> pd.DataFrame:
     '''
