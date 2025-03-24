@@ -26,6 +26,7 @@ Functions that do things related to taxon concepts and lists.
 ## Ranges
 Functions to support GAP range map production and management.
 
+* RangeShapefile() - Creates a shapefile and geodataframe of the range of a species based on the species code and season list.
 * V2FortblRanges() - Reads a v2 range output database and returns a dataframe that fits the 2016 GAP database ranges table format.
 * V2FortblRangeEdit() - Reads a compilation info table from a v2 output database and returns a dataframe suitable for tblRangeEdit.
 * RangeEditsDict() - Returns a dictionary of range edits for a given species code.
