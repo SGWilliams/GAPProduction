@@ -100,6 +100,75 @@ def RangeShapefile(species_code : str,
 
     return result
 
+def RangeEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
+    '''
+    Returns a list of EVTs within a taxon's range for a region-season 
+    combination.
+
+    Parameters
+    ----------
+    modelCode -- The 9-character GAP model code.
+    EVT_format -- Specifies whether to return EVT names or codes.
+    db -- The name of the GAP database to query.
+
+    Returns
+    -------
+    EVTs -- A list of LandFire existing vegetation types.
+    '''
+    # Connect to the desired model database
+    cursor, conn = database.ConnectDB(db)
+
+    # Interpret the model code
+    species_code = modelCode[:6]
+    region = modelCode[8:]
+
+    seasonDict = {'y': '1', 'w': '3', 's': '4'}
+    season = seasonDict[modelCode[7:8]]
+    
+    # Add year-round to the list if summer or winter are included
+    if season == '3':
+        seasons = ['1', '3']
+    elif season == '4':
+        seasons = ['1', '4']
+    else:
+        seasons = [season]
+
+    # GET THE EVTS -----------------------------------------------------------
+    if EVT_format == 'codes':
+        # Query the EVTs
+        sql = f"""SELECT DISTINCT intEVT_Code
+                FROM dbo.tblMapUnitHucRange
+                WHERE strHUC12RNG IN (
+                    SELECT strHUC12RNG
+                    FROM dbo.tblRanges
+                    WHERE strUC = '{species_code}'
+                    AND intGapSeas IN ({', '.join(seasons)})
+                )"""
+        EVTs = pd.read_sql(sql, conn)
+        EVTs = EVTs['intEVT_Code'].tolist()
+
+    elif EVT_format == 'names':
+        # Query the EVTs
+        sql = f"""SELECT DISTINCT t.strEVT_Name
+                FROM dbo.tblMapUnitDesc AS t
+                INNER JOIN dbo.tblMapUnitHucRange AS s
+                ON t.intEVT_Code = s.intEVT_Code
+                WHERE s.strHUC12RNG IN (
+                    SELECT strHUC12RNG
+                    FROM dbo.tblRanges
+                    WHERE strUC = '{species_code}'
+                    AND intGapSeas IN ({', '.join(seasons)})
+                )"""
+        EVTs = pd.read_sql(sql, conn)
+        EVTs = EVTs['strEVT_Name'].tolist()
+        EVTs.sort()
+
+    # Delete the WHRdb cursor and close the connection
+    cursor.close()
+    conn.close()
+
+    # Return EVT list
+    return EVTs
 
 def V2FortblRanges(v2_database : str) -> pd.DataFrame:
     '''
