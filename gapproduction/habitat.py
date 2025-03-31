@@ -2,6 +2,7 @@
 This module supports GAP habitat map production and management.
 """
 from gapproduction import database, dictionaries, taxonomy, ranges
+import pandas as pd
 
 def ProcessingNotesDict(species_code : str, db : str = "GapVert_48_2016") -> dict: 
     '''
