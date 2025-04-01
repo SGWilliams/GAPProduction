@@ -88,10 +88,26 @@ def GetTaxonInfo(db : str, species_code : str = None,
             connection.close()
 
         taxon_dict = {}
-        taxon_dict['gap_code'] = df.loc[0,'strUC']
-        taxon_dict['common_name'] = df.loc[0,'strComName']
-        taxon_dict['scientific_name'] = df.loc[0,'strSciName']
+        taxon_dict['GAP_SppCode'] = df.loc[0,'strUC']
+        taxon_dict['GAP_ComName'] = df.loc[0,'strComName']
+        taxon_dict['GAP_SciName'] = df.loc[0,'strSciName']
+        
         taxon_dict['ITIS_TSN'] = df.loc[0,'intITIScode']
+        taxon_dict['ITIS_SciName'] = df.loc[0,'strITIS_SciName']
+        taxon_dict['ITIS_ComName'] = df.loc[0,'strITIS_ComName']
+
+        taxon_dict['GAP_ITIS_Match'] = df.loc[0,'strGapITISmatch']
+
+        taxon_dict['NatureServe_GlobalID'] = df.loc[0,'intNSglobal']
+        taxon_dict['NatureServe_SciName'] = df.loc[0,'strNS_SciName']
+        taxon_dict['NatureServe_ComName'] = df.loc[0,'strNS_ComName']
+
+        taxon_dict['GAP_NatureServe_Match'] = df.loc[0,'strGapNSmatch']
+
+        taxon_dict['GBIF_Key'] = df.loc[0,'intGBIFkey']
+        taxon_dict['GBIF_SciName'] = df.loc[0,'strGBIF_SciName']
+        taxon_dict['GAP_GBIF_Match'] = df.loc[0,'strGapGBIFmatch']
+
         taxon_dict['database'] = db
 
         return taxon_dict

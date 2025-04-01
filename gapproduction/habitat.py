@@ -38,7 +38,7 @@ def ProcessingNotesDict(species_code : str, db : str = "GapVert_48_2016") -> dic
     for note in processing_notes:
         note["processing_date"] = note["processing_date"].strftime("%Y-%m-%d")
 
-    return processing_notes
+    return processing_notes[0]
 
 
 def ModelEVTs(modelCode : str, db : str, EVT_format : str = 'names') -> list:
@@ -263,14 +263,14 @@ def ModelAsDictionary(model : str, db : str) -> dict:
     season = model[7]
     modelDict["Season"] = season
                                                     
-    # Species names
-    species_code = model[:6]
+    # Taxonomic information
+    species_code = model[0:6]
     modelDict["SpeciesCode"] = species_code
     taxon_info = taxonomy.GetTaxonInfo(db=db, species_code=species_code)
-    modelDict["CommonName"] = taxon_info["common_name"]
-    modelDict["ScientificName"] = taxon_info["scientific_name"]
-    if len(str.split(taxon_info["scientific_name"], " ")) == 3:
-        modelDict["SubspeciesName"] = str.split(taxon_info["scientific_name"], 
+    modelDict["CommonName"] = taxon_info["GAP_ComName"]
+    modelDict["ScientificName"] = taxon_info["GAP_SciName"]
+    if len(str.split(taxon_info["GAP_SciName"], " ")) == 3:
+        modelDict["SubspeciesName"] = str.split(taxon_info["GAP_SciName"], 
                                                 " ")[2]
     else:
         modelDict["SubspeciesName"] = None
@@ -318,6 +318,15 @@ def ModelAsDictionary(model : str, db : str) -> dict:
 
     strStreamVel = __getVariable(model, "strStreamVel")
     modelDict["strStreamVel"] = strStreamVel
+
+    strOSMWuse = __getVariable(model, "strOSMWuse")
+    modelDict["strOSMWuse"] = strOSMWuse
+
+    strOSMWbuff = __getVariable(model, "strOSMWbuff")
+    modelDict["strOSMWbuff"] = strOSMWbuff
+
+    ysnOSMWbig = __getVariable(model, "ysnOSMWbig")
+    modelDict["ysnOSMWbig"] = ysnOSMWbig
 
     # Edge variables
     strEdgeType = __getVariable(model, "strEdgeType")
